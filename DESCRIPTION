@@ -1,8 +1,8 @@
 Package: RRatepol
 Type: Package
-Title: What the Package Does (Title Case)
+Title: R-ratepol: estimating Rate of change in temporal sequences
 Version: 0.1.0
-Author: Who wrote it
+Author: Ondřej Mottl
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
@@ -12,6 +12,7 @@ LazyData: true
 Imports:
         dplyr,
         tidyr,
+        mgcv,
         tibble,
         magrittr,
         ggplot2,
@@ -20,5 +21,5 @@ Imports:
         snow,
         utils,
         foreach,
-        stats,
-        mgcv
+        stats
+RoxygenNote: 7.1.1
