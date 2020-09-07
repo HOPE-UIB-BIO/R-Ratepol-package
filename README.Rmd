@@ -2,9 +2,7 @@
 title: "RRatepol"
 author: "Ondrej Mottl"
 date: "07/09/2020"
-output:
-  html_document:
-    keep_md: true
+output: md_document
 ---
 
 ```{r setup, include=FALSE}
