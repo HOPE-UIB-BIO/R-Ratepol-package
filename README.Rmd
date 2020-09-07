@@ -14,16 +14,27 @@ knitr::opts_chunk$set(echo = TRUE)
 R-Ratepol is an R package for estimating rate of change (RoC) from community data in time series.
 
 Estimation is following several steps:
-1.	Smoothing of pollen data (smooth each taxon using one of five selected smoothing methods: none, moving average, Grimm’s smoothing, age-weighted average, or Shepard's 5-term filter.
-2.	Creation of template for all bin brackets in all window movements. 
-3.	Processes in each single run (an individual loop):
+
+1. Smoothing of pollen data (smooth each taxon using one of five selected smoothing methods: none, moving average, Grimm’s smoothing, age-weighted average, or Shepard's 5-term filter.
+
+2. Creation of template for all bin brackets in all window movements. 
+
+3. Processes in each single run (an individual loop):
     +	Randomly selection of single age sequence from age uncertainties to all levels
+    
     + Creation of working units (WUs) (i.e. subsetting levels in each bin)
+    
     + (optional) Data standardisation (subsampling pollen data in each WU to a total number of 150 pollen grains).
+    
     + Calculation of the RoC as dissimilarity coefficient (DC) between adjacent WUs (four different dissimilarity coefficients: Euclidean distance, standardised Euclidean distance, Chord distance, Chi-squared coefficient) standardised by age differences between WUs.
+    
     + Summary of RoC results from all moving windows 
+
 4.	Repeated the run multiple times (default = 10,000)
+
 5.	Validation and summary of results from all runs; exclude data from beyond the selected time period (i.e. 8000   cal yr BP in this study).
+
+
 6.	Detection and validation of significant peak points (three ways of testing the significance of individual RoC points: Threshold, Generalized Additive Model (GAM), and Signal-to-Noise index (SNI).
 
 ![](README_files/figure-source/Fig_Scheme.png)
