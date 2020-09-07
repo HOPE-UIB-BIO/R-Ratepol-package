@@ -1,6 +1,6 @@
 fc_estimate_RoC <- function (data_source_pollen,
                              data_source_age,
-                             smooth_method = "shep",
+                             smooth_method = "age.w",
                              smooth_N_points = 5,
                              smooth_age_range = 500,
                              smooth_N_max = 9,
