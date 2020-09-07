@@ -18,7 +18,7 @@ fc_subset_samples <- function(data_subset, BINS)
   {
     selected.BIN <- BINS$NAME[i] #select the bin
 
-    # subset age data so it selected all samples whcih has higher values than the BIN itself but
+    # subset age data so it selected all samples which has higher values than the BIN itself but
     # still small then selected bin + calculated BIN size
     subset.w <- data_subset$Age[data_subset$Age$newage < BINS$NAME[i]+BIN.size &
                                   data_subset$Age$newage > BINS$NAME[i],]

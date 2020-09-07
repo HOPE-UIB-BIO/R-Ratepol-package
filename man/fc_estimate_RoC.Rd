@@ -2,11 +2,11 @@
 \alias{fc_estimate_RoC}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-RRatepol
+RRatepol: Estimate Rate of change
 %%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+A function to estimate Rate of change in community data in time series 
 }
 \usage{
 fc_estimate_RoC(data_source_pollen,
@@ -31,14 +31,17 @@ fc_estimate_RoC(data_source_pollen,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data_source_pollen}{
-pollen data with species as collumns and levels as rows, level ID as row names
+Community data with species as collumns and levels (samples) as rows. First column should be ID (row names)
 }
   \item{data_source_age}{
+Data of age of each level (sample)
 list of 2:
-[1] ages dataframe:
+
+[1] ages dataframe with two columns:
 sample.id = unique ID of each level
 age = age of level
-[2] age_position = matrix with number of collumns as number of levels. Each column is one level each row is one age sequence from bchron
+
+[2] age_position ("NOT REQUIRED" ) = matrix with number of collumns as number of levels. Each column is one level each row is one age sequence from bchron 
 }
  \item{smooth_method}{
 type of smoothing applied for the each of the pollen type
@@ -81,13 +84,13 @@ T = automaticly selected number of cores
 F = does not use parallel computation
 }
  \item{age_uncertainty}{
-Usage of age uncertainty form Age-depth models. If T, ne age sequence is randomly sampled from age-depth model uncertainties at the begining of each run.
+Usage of age uncertainty form Age-depth models. If T, age sequence is randomly sampled from age-depth model uncertainties at the begining of each run.
 }
  \item{standardise}{
 T = standardise each Working Unit to cetrain number of pollen grains (using random resampling without repetition)
 }
  \item{N_pollen_grains}{
-N_pollen_grains = Number of grain to perform standardisation to. The N_pollen_grains is automatically adjusted to the smallest  number of pollen grains in sequence. 
+Number of grain to perform standardisation to. The N_pollen_grains is automatically adjusted to the smallest  number of pollen grains in sequence. 
 }
  \item{DC}{
 Disimilarity coeficient. Type of calculation of differences between Working Units

@@ -1,7 +1,7 @@
 Package: RRatepol
 Type: Package
-Title: R-ratepol: estimating Rate of change in temporal sequences
-Version: 0.1.0
+Title: R-ratepol: Estimating Rate of change in temporal sequences
+Version: 0.2.0
 Author: Ondřej Mottl
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)

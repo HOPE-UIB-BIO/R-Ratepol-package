@@ -1,8 +1,8 @@
 fc_smooth_pollen_data <- function(data.source,
-                            smooth_method="none",
-                            smooth_N_points = 3,
+                            smooth_method="age.w",
+                            smooth_N_points = 5,
                             smooth_N_max = 9,
-                            smooth_age_range = 300,
+                            smooth_age_range = 500,
                             round_results = T,
                             Debug = F)
 {
