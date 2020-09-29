@@ -26,7 +26,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F)
     {
       df.work<- data_source_DC$Pollen[c(i,i+1),] # select only 2 samples (observed + 1 after)
 
-      df.work<-df.work[,colSums(df.work)>0] # get rid of "empty species"
+      df.work<-as.data.frame(df.work[,colSums(df.work)>0]) # get rid of "empty species"
 
       vector.work <- vector(mode="numeric", length = ncol(df.work)) # vector for result for each species
 
@@ -66,7 +66,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F)
 
       # get rid of "empty species" in data & in sp.std
       df.sp.supp.work<- df.sp.supp[colSums(df.work)>0]
-      df.work<-df.work[,colSums(df.work)>0]
+      df.work<-as.data.frame(df.work[,colSums(df.work)>0])
 
       vector.work <- vector(mode="numeric", length = ncol(df.work)) # vector for result for each species
 
@@ -101,7 +101,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F)
     {
       df.work<- data_source_DC$Pollen[c(i,i+1),] # select only 2 samples (observed + 1 after)
 
-      df.work<-df.work[,colSums(df.work)>0] # get rid of "empty species"
+      df.work<-as.data.frame(df.work[,colSums(df.work)>0]) # get rid of "empty species"
 
       vector.work <- vector(mode="numeric", length = ncol(df.work)) # vector for result for each species
 
@@ -131,7 +131,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F)
     {
       df.work<- data_source_DC$Pollen[c(i,i+1),] # select only 2 samples (observed + 1 after)
 
-      df.work<-df.work[,colSums(df.work)>0] # get rid of "empty species"
+      df.work<-as.data.frame(df.work[,colSums(df.work)>0]) # get rid of "empty species"
 
       vector.work <- vector(mode="numeric", length = ncol(df.work)) # vector for result for each species
 
