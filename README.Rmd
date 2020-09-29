@@ -65,7 +65,7 @@ library(tidyverse)
 
 
 ```{r data, results = T}
-example_data = readRDS("example_data/ex_data.rda")
+example_data = data("example_data")
 
 glimpse(example_data)
 
