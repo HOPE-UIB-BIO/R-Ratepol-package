@@ -4,6 +4,9 @@ R-Ratepol package
 R-Ratepol is an R package for estimating rate of change (RoC) from
 community data in time series.
 
+Reference: Mottl, O., Grytnes, J.A., Seddon, A.W.R., Steinbauer, M.J., Bhatta, K.P., Felde, V.A., Flantua, S.G.A., Birks, H.J.B. Evaluating rates of change in palaeoecological sequences. Methods in Ecology and Evolution (in review)
+
+
 Estimation is following several steps:
 
 1.  Smoothing of pollen data (smooth each taxon using one of five
