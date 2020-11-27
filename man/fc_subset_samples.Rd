@@ -5,17 +5,17 @@
 Subsample data in selected time bins
 }
 \description{
-Select a single levels (sample) from each time bin that is the closest to the start of the time bin.
+Select a single sample from each time bin that is the closest to the start of the time bin.
 }
 \usage{
-fc_subset_samples(data_subset, BINS)
+fc_subset_samples(data_subset, bins)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data_subset}{
 Data in the RRatepolList class list
 }
-  \item{BINS}{
+  \item{bins}{
 Vector with selected time bins
 }
 }

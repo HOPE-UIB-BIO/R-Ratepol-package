@@ -8,14 +8,14 @@ Extract results
 Extract results for a single variable from all randomisation
 }
 \usage{
-fc_extract_result(x, sel.var, rand)
+fc_extract_result(x, sel_var, rand)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
 Tibble with all the results from all randomisation and window shifts 
 }
-  \item{sel.var}{
+  \item{sel_var}{
 Selected varibale that should been evaluated
 }
   \item{rand}{

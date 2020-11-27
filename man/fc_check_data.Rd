@@ -5,18 +5,18 @@
 Excluding empty rows and columns
 }
 \description{
-Exclude empty collumns (species) and rows (levels/samples)
+Exclude empty collumns (taxa/species) and rows (samples)
 }
 \usage{
-fc_check_data(data.source.check, proportion = F, Species = T, Samples = T, Debug = F)
+fc_check_data(data_source_check, proportion = F, Species = T, Samples = T, Debug = F)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{data.source.check}{
+  \item{data_source_check}{
 Data in the RRatepolList class list
 }
   \item{proportion}{
-Transform counts into proportion in each level (sample)
+Transform counts into proportion in each sample
 }
   \item{Species}{
 Exclude  columns (species)

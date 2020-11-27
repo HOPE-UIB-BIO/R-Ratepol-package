@@ -1,5 +1,5 @@
-\name{fc_create_BINs}
-\alias{fc_create_BINs}
+\name{fc_create_bins}
+\alias{fc_create_bins}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Crete a vector with time bins 
@@ -8,7 +8,7 @@ Crete a vector with time bins
 Function for pre-alocation of space for time bins of various size with a posibility of mowing window shift
 }
 \usage{
-fc_create_BINs(data_source_bin, shift_value, Number_of_shifts)
+fc_create_bins(data_source_bin, shift_value, Number_of_shifts)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

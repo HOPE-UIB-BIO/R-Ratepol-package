@@ -25,6 +25,8 @@ Disimilarity coeficient. Type of calculation of differences between Working Unit
 "chord"   = 	Chord distance
 
 "chisq    = 	Chi-squared coefficient
+
+"gower"   =   Gower's distance
 }
   \item{Debug}{
 Show messages from internal processes
@@ -42,6 +44,10 @@ Show messages from internal processes
 
 	Chi-squared coefficient:
 √(∑_(i=1)^m▒〖(A_i-B_i)〗^2/((A_i+B_i))), where A_i and B_i are pollen values for WUs A and B of taxon i , and there are m taxa.
+
+  Gower's disatnce:
+Usabe for data with NA's and also community data in difefrent units
+
 }
 \value{
 %%  ~Describe the value returned
