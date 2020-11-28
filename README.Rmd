@@ -1,7 +1,7 @@
 ---
 title: "RRatepol"
 author: "Ondrej Mottl"
-date: "07/09/2020"
+date: "28/11/2020"
 output: md_document
 ---
 
@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 # R-Ratepol package
 
 R-Ratepol is an R package for estimating rate of change (RoC) from community data in time series.
+
+Reference: Mottl, O., Grytnes, J.A., Seddon, A.W.R., Steinbauer, M.J., Bhatta, K.P., Felde, V.A., Flantua, S.G.A., Birks, H.J.B. Evaluating rates of change in palaeoecological sequences. Methods in Ecology and Evolution (in review)
 
 Estimation is following several steps:
 

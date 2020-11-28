@@ -4,8 +4,10 @@ R-Ratepol package
 R-Ratepol is an R package for estimating rate of change (RoC) from
 community data in time series.
 
-Reference: Mottl, O., Grytnes, J.A., Seddon, A.W.R., Steinbauer, M.J., Bhatta, K.P., Felde, V.A., Flantua, S.G.A., Birks, H.J.B. Evaluating rates of change in palaeoecological sequences. Methods in Ecology and Evolution (in review)
-
+Reference: Mottl, O., Grytnes, J.A., Seddon, A.W.R., Steinbauer, M.J.,
+Bhatta, K.P., Felde, V.A., Flantua, S.G.A., Birks, H.J.B. Evaluating
+rates of change in palaeoecological sequences. Methods in Ecology and
+Evolution (in review)
 
 Estimation is following several steps:
 
@@ -89,7 +91,7 @@ to focus on the period of most substantial human impact.
     library(RRatepol)
     library(tidyverse)
 
-    example_data = readRDS("example_data/ex_data.rda")
+    example_data <-  RRatepol::example_data
 
     glimpse(example_data)
 
@@ -103,7 +105,7 @@ to focus on the period of most substantial human impact.
     ## $ filtered.counts   <list> [<tbl_df[63 x 51]>, <tbl_df[273 x 104]>, <tbl_df...
 
     example_data %>%
-    ggplot(aes(x=long, y=lat))+
+      ggplot(aes(x=long, y=lat))+
       borders(fill = "gray90", colour = NA)+
       geom_point(shape = 0, size = 2)+
       geom_point(shape = 20, size = 2)+
@@ -120,38 +122,42 @@ smoothing* of the data and *Chord dissimilarity* coefficient. Pollen
 data will not standardised to a certain pollen count and age
 uncertainties from *Bchron* will not be used.
 
-    sequence_01 = fc_estimate_RoC(example_data$filtered.counts[[1]],
-                                  example_data$list_ages[[1]],
-                                  smooth_method = "age.w",
-                                  DC = "chord",
-                                  Working_Units = "levels",
-                                  age_uncertainty = F,
-                                  standardise = F,
-                                  rand = 1)
+    sequence_01 <- 
+      fc_estimate_RoC(
+        data_source_community = example_data$filtered.counts[[1]],
+        data_source_age = example_data$list_ages[[1]]$ages,
+        age_uncertainty = F,
+        smooth_method = "age.w",
+        DC = "chord",
+        Working_Units = "levels",
+        standardise = F,
+        rand = 1)
 
-    fc_plot_RoC_sequence(sequence_01, age_treshold= 8e3, Roc_threshold = 0.5, Peaks = F)
+    fc_plot_RoC_sequence(sequence_01, age_treshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
 
 ![](README_files/figure-markdown_strict/plot%201-1.png)
 
 ### Example 2
 
-Now try to standardise pollen data maximum of 150 pollen grains and use
-age uncertainties from *Bchron*. Process will be repeated 1000 times on
-multiple cores using *parallel package*. This will produce error
-*wrapper* showing 95th percent quantile.
+Now try to standardise pollen data in each sampele to a maximum of 150
+pollen grains and use age uncertainties from *age-depth model*. Process
+will be repeated 1000 times on multiple cores using *parallel package*.
+This will produce error *wrapper* showing 95th percent quantile.
 
-    sequence_02 = fc_estimate_RoC(example_data$filtered.counts[[1]],
-                                  example_data$list_ages[[1]],
-                                  smooth_method = "age.w",
-                                  DC = "chord",
-                                  Working_Units = "levels",
-                                  age_uncertainty = T,
-                                  standardise = T,
-                                  N_pollen_grains = 150,
-                                  rand = 1000,
-                                  treads = T)
+    sequence_02 <-
+      fc_estimate_RoC(
+        data_source_community = example_data$filtered.counts[[1]],
+        data_source_age = example_data$list_ages[[1]]$ages,
+        age_uncertainty = example_data$list_ages[[1]]$age_position,
+        smooth_method = "age.w",
+        DC = "chord",
+        Working_Units = "levels",
+        standardise = T,
+        N_individuals = 150,
+        rand = 1000,
+        treads = T)
 
-    fc_plot_RoC_sequence(sequence_02, age_treshold= 8e3, Roc_threshold = 2.5, Peaks = F)
+    fc_plot_RoC_sequence(sequence_02, age_treshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
 
 ![](README_files/figure-markdown_strict/plot%202-1.png)
 
@@ -160,45 +166,32 @@ multiple cores using *parallel package*. This will produce error
 Use *Binning with the mowing window* approach with `bin_size` = 500 and
 `Number_of_shifts` = 5.
 
-    sequence_03 = fc_estimate_RoC(example_data$filtered.counts[[1]],
-                                  example_data$list_ages[[1]],
-                                  smooth_method = "age.w",
-                                  DC = "chord",
-                                  Working_Units = "MW",
-                                  bin_size = 500,
-                                  Number_of_shifts  = 5,
-                                  age_uncertainty = T,
-                                  standardise = T,
-                                  N_pollen_grains = 150,
-                                  rand = 1000,
-                                  treads = T)
+    sequence_03 <-
+        fc_estimate_RoC(
+        data_source_community = example_data$filtered.counts[[1]],
+        data_source_age = example_data$list_ages[[1]]$ages,
+        age_uncertainty = example_data$list_ages[[1]]$age_position,
+        smooth_method = "age.w",
+        DC = "chord",
+        Working_Units = "MW",
+        bin_size = 500,
+        Number_of_shifts  = 5,
+        standardise = T,
+        N_individuals = 150,
+        rand = 1000,
+        treads = T)
 
-    fc_plot_RoC_sequence(sequence_03, age_treshold= 8e3, Roc_threshold = 1.5, Peaks = F)
+    fc_plot_RoC_sequence(sequence_03, age_treshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
 
 ![](README_files/figure-markdown_strict/plot%203-1.png)
 
 ### Example 4
 
-Estimate RoC for Glendalough, site with detection op *peak points* using
-*GAM* method in the last 8000 yr BP.
+Detect the *peak points* using *trend\_non\_linear* method.
 
-    age_threshold = 8e3
+    sequence_03_peaks <-
+      fc_detect_peak_points(sequence_03, method = "trend_non_linear")
 
-    sequence_04 = fc_estimate_RoC(example_data$filtered.counts[[4]],
-                                  example_data$list_ages[[4]],
-                                  smooth_method = "age.w",
-                                  DC = "chord",
-                                  Working_Units = "MW",
-                                  bin_size = 500,
-                                  Number_of_shifts  = 5,
-                                  age_uncertainty = T,
-                                  standardise = T,
-                                  N_pollen_grains = 150,
-                                  rand = 1000,
-                                  Peak_detection = "GAM",
-                                  interest_threshold = age_threshold,
-                                  treads = T)
-
-    fc_plot_RoC_sequence(sequence_04, age_treshold= age_threshold, Roc_threshold = 1, Peaks = T, method = "GAM")
+    fc_plot_RoC_sequence(sequence_03_peaks, age_treshold= 8e3, Roc_threshold = 1, Peaks = T, trend = "trend_non_linear")
 
 ![](README_files/figure-markdown_strict/plot%204-1.png)
