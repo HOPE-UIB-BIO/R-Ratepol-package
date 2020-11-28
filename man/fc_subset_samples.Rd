@@ -5,18 +5,21 @@
 Subsample data in selected time bins
 }
 \description{
-Select a single levels (sample) from each time bin that is the closest to the start of the time bin.
+Select a single sample from each time bin either a) randomly (WU="bins"), or b) that is the closest to the start of the time bin (WU="MW").
 }
 \usage{
-fc_subset_samples(data_subset, BINS)
+fc_subset_samples(data_subset, bins)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data_subset}{
 Data in the RRatepolList class list
 }
-  \item{BINS}{
+  \item{bins}{
 Vector with selected time bins
+}
+ \item{WU}{
+Working unit selection method
 }
 }
 \details{
@@ -33,7 +36,7 @@ Vector with selected time bins
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Ondřej Mottl
 }
 \note{
 %%  ~~further notes~~

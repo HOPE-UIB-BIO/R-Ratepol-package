@@ -9,40 +9,44 @@ RRatepol: Estimate Rate of change
 A function to estimate Rate of change in community data in time series 
 }
 \usage{
-fc_estimate_RoC(data_source_pollen,
+fc_estimate_RoC(data_source_community,
                 data_source_age,
-                smooth_method = "age.w",
+                age_uncertainty = F,
+                smooth_method = "none",
                 smooth_N_points = 5,
                 smooth_age_range = 500,
                 smooth_N_max = 9,
-                Working_Units = "MW",
+                Working_Units = "levels",
                 bin_size = 500,
-                Number_of_shifts = 5,
-                rand = 10000,
-                treads = T,
-                age_uncertainty = T,
-                standardise = T,
-                N_pollen_grains = 150,
-                DC = "chord",
+                Number_of_shifts = 1,
+                rand = 1,
+                treads = F,
+                standardise = F,
+                N_individuals = 150,
+                tranform_to_proportions = T,
+                DC = "euc",
                 interest_threshold = F,
                 Peak_detection = "GAM",
                 Debug = F)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{data_source_pollen}{
+  \item{data_source_community}{
 Community data with species as collumns and levels (samples) as rows. First column should be ID (row names)
 }
   \item{data_source_age}{
-Data of age of each level (sample)
-list of 2:
-
-[1] ages dataframe with two columns:
+Dataframe with two columns:
 sample.id = unique ID of each level
 age = age of level
-
-[2] age_position ("NOT REQUIRED" ) = matrix with number of collumns as number of levels. Each column is one level each row is one age sequence from bchron 
 }
+ \item{age_uncertainty}{
+Usage of age uncertainty form Age-depth models. Either:
+
+[1] matrix with number of columns as number of samples. Each column is one sample, each row is one age sequence from age-depth model. Age sequence is randomly sampled from age-depth model uncertainties at the begining of each run.
+
+[2] FALSE. Age uncertainties are not available and, therefore, will not be used.
+}
+
  \item{smooth_method}{
 type of smoothing applied for the each of the pollen type
 
@@ -66,7 +70,14 @@ Maximal number of samples to look in Grimm smoothing
 Maximal age range for both Grimm and Age-weight smoothing
 }
  \item{Working_Units}{
-Selection of units that the DC will be calculated between
+Selection of units that the DC will be calculated between.
+
+"levels" = individual levels are ogoing to be used
+
+"bins"   = samples in predifined bins will be pooled together and one random sample will be selected from each time bin as a representation.
+
+"MW"     = Bins of selected size are created, starting from zero. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. Sample, whitch is the closest to the begining of the bin is selected asa representation of the bin.  
+
 }
  \item{bin_size}{
 bin_size = size of the time bin (in years)
@@ -83,14 +94,15 @@ Preference of usage of parallel computation of randomisation
 T = automaticly selected number of cores
 F = does not use parallel computation
 }
- \item{age_uncertainty}{
-Usage of age uncertainty form Age-depth models. If T, age sequence is randomly sampled from age-depth model uncertainties at the begining of each run.
-}
+
  \item{standardise}{
-T = standardise each Working Unit to cetrain number of pollen grains (using random resampling without repetition)
+T = standardise each Working Unit to cetrain number of individuals (using random resampling without repetition)
 }
- \item{N_pollen_grains}{
-Number of grain to perform standardisation to. The N_pollen_grains is automatically adjusted to the smallest  number of pollen grains in sequence. 
+ \item{N_individuals}{
+Number of grain to perform standardisation to. The N_individuals is automatically adjusted to the smallest  number of pollen grains in sequence. 
+}
+ \item{tranform_to_proportions}{
+Should the community data be transformed to a proportion during calculations?
 }
  \item{DC}{
 Disimilarity coeficient. Type of calculation of differences between Working Units
@@ -102,25 +114,12 @@ Disimilarity coeficient. Type of calculation of differences between Working Unit
 "chord"   = 	Chord distance
 
 "chisq    = 	Chi-squared coefficient
+
+"gower"   =   Gower's distance
 }
  \item{interest_threshold}{
 [value] = age, after which all results of RoC are excluded before detection of peak points 
 }
- \item{Peak_detection}{
- method of peak detection:
-  
-"Threshold" = Treshold value is set for whole dataset (after subseting for interest_threshold) as median of all RoC values.                      
-                Peak_detection is  consider significant if 95 percent quantile (gain from randomisation) is higher than treshold
-  
-"GAM" = Gam model is fitted with RoC and Age. Differences between GAM and each point is calculated. SD is calculated from all the differences
-                Peak_detection is considered significat if it is 1.5 SD higher than GAM
-
-"SNI" = Signal-to-Noise Index, following adapted the SNI from Kelly et al. (2011)
-                 written to detect changes in charcoal records. We SNI I calculated for the whole RoC sequence
-                 and point is consider significant if has SNI value higher than 3 (following suggesting
-                 from Kelly et al. (2011)).
-}
-
  \item{Debug}{
 T = show messages from internal processes
 }
@@ -165,6 +164,9 @@ First, the dissimilarity coefficient between adjacent WUs is calculated using on
 	Chi-squared coefficient:
 √(∑_(i=1)^m▒〖(A_i-B_i)〗^2/((A_i+B_i))), where A_i and B_i are pollen values for WUs A and B of taxon i , and there are m taxa.
 
+ Gower's disatnce:
+Usabe for data with NA's and also community data in difefrent units
+
 Next, the age difference between subsequent WUs is calculated. Finally, the RoC score between WUs is calculated as:
 〖RoC〗_(A-B)=(〖DC〗_(A-B)*〖Age.diff〗_mean)/〖Age.diff〗_(A-B)  , where 〖DC〗_(A-B) is the dissimilarity between WUs A and B, 〖Age.diff〗_mean is the average age difference between WUs in the whole sequence, and 〖Age.diff〗_(A-B) is the age difference between WUs A and B. 
 
@@ -178,11 +180,6 @@ Results from all randomisations are merged while keeping the identity of each wo
 
 5) Data beyond the selected age are excluded (8000 cal yr BP in this study)
 
-6) Detection of significant peak points
-R-Ratepol detects peak points using one of three methods: 
-	Threshold method: Each point in the RoC sequence is compared to a median of all RoC scores from the whole (i.e. threshold value). The point is considered significant if the 95th quantile of the RoC scores from all calculations is higher than the threshold value. 
-	GAM method: A GAM is fitted through the RoC scores and time positions (GAM= RoC ~ s(time,k=3). The distance between each point and the fitted value is calculated. A peak point is considered significant if the distance between the point and the fitted GAM is greater than 1.5 * the standard deviation of all differences. 
-Signal-to-Noise Index (SNI) method: We adapted SNI from Kelly et al. (2011) developed to detect changes in charcoal records. The SNI is calculated for the whole RoC sequence and a peak point is considered significant if it has an SNI value higher than 3 with the GAM set as a reference value and with a time window of 500 yrs.   
 
 }
 \value{
@@ -208,9 +205,12 @@ Ondřej Mottl
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-example_data = readRDS("example_data/ex_data.rda")
 
-sequence_01 = fc_estimate_RoC(example_data$filtered.counts[[1]],example_data$list_ages[[1]], rand = 10000)
+sequence_01 <- 
+  fc_estimate_RoC(
+    example_data$filtered.counts[[1]],
+    example_data$list_ages[[1]]$age,
+    rand = 10000)
 
 fc_plot_RoC_sequence(sequence_01)
 

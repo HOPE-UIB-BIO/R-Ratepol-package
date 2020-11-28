@@ -8,26 +8,26 @@ Extracting data to correct format
 Function to extract data and save it to the prefered format.
 }
 \usage{
-fc_extract_data(data_pollen_extract, data_age_extract, age_uncertainty = F, Debug = F)
+fc_extract_data(data_community_extract, data_age_extract, age_uncertainty = F, Debug = F)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{data_pollen_extract}{
-Community data with species as collumns and levels (samples) as rows. First column should be ID (row names) 
+  \item{data_community_extract}{
+Community data with species as collumns and samples as rows. First column should be ID (row names) 
 }
   \item{data_age_extract}{
-Data of age of each level (sample)
-list of 2:
-
-[1] ages dataframe with two columns:
+Dataframe with two columns:
 sample.id = unique ID of each level
 age = age of level
-
-[2] age_position ("NOT REQUIRED" ) = matrix with number of collumns as number of levels. Each column is one level each row is one age sequence from bchron 
 }
 
   \item{age_uncertainty}{
-Usage of age uncertainty form Age-depth models. If T, age sequence is randomly sampled from age-depth model uncertainties at the begining of each run.
+Usage of age uncertainty form Age-depth models. Either:
+
+[1] matrix with number of columns as number of samples. Each column is one sample, each row is one age sequence from age-depth model. Age sequence is randomly sampled from age-depth model uncertainties at the begining of each run.
+
+[2] FALSE. Age uncertainties are not available and, therefore, will not be used.
+
 }
   \item{Debug}{
 Show messages from internal processes
@@ -47,7 +47,7 @@ Show messages from internal processes
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Ondřej Mottl
 }
 \note{
 %%  ~~further notes~~

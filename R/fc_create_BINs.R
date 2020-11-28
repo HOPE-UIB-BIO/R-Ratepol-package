@@ -1,24 +1,28 @@
-fc_create_BINs <-function(data_source_bin, shift_value, Number_of_shifts)
-{
-  BIN <- shift_value*Number_of_shifts
+fc_create_bins <-function(data_source_bin, shift_value, Number_of_shifts){
+  
+  bin <-  shift_value * Number_of_shifts
 
-  BIN.last <- ceiling(max(data_source_bin$Age$newage))
-  BIN.breaks <- seq(from=0, to=BIN.last, by=BIN)
+  bin_last <-  ceiling(max(data_source_bin$Age$newage))
+  bin_breaks <-  seq(
+    from = 0,
+    to = bin_last,
+    by = bin)
 
-  BIN.breaks.temp <- BIN.breaks
-  BIN.breaks.fin <- vector(mode = "numeric")
+  bin_breaks_temp <-  bin_breaks
+  bin_breaks_fin <-  vector(mode = "numeric")
 
-
-  for (j in 1:Number_of_shifts)
-  {
-    vector.w <- BIN.breaks.temp+shift_value*(j-1)
-    BIN.breaks.fin <-c(BIN.breaks.fin,vector.w)
+  for (j in 1:Number_of_shifts){
+    
+    vector_w <-  bin_breaks_temp + shift_value*(j - 1)
+    bin_breaks_fin <-  c(bin_breaks_fin, vector_w)
   }
 
-  DF.sample.names <- data.frame(NAME = BIN.breaks.fin,
-                                SHIFT = sort(rep(c(1:Number_of_shifts),length(BIN.breaks))))
+  df_sample_names <- 
+    data.frame(
+      name = bin_breaks_fin,
+      shift = sort(rep(c(1:Number_of_shifts), length(bin_breaks))))
 
-  return(DF.sample.names)
+  return(df_sample_names)
 
 }
 

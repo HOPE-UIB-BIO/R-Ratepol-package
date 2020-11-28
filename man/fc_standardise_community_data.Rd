@@ -1,22 +1,22 @@
-\name{fc_standardise_pollen_data}
-\alias{fc_standardise_pollen_data}
+\name{fc_standardise_community_data}
+\alias{fc_standardise_community_data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Standardies pollen data
+Standardies community data
 }
 \description{
-Each Working Unit (sample) is standardised to the same number of pollen grains (default value = 150), using random sampling of pollen grains without replacement. The dataset is reduced by excluding all WUs without any pollen and all pollen taxa without any counts.
+Each Working Unit (sample) is standardised to the same number of individuals (default value = 150), using random sampling of individuals without replacement. The dataset is reduced by excluding all WUs without any individuals and all taxa without any counts.
 }
 \usage{
-fc_standardise_pollen_data(data_source, N_pollen_grains = 150, Debug = F)
+fc_standardise_community_data(data_source, N_individuals = 150, Debug = F)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data_source}{
 Data in the RRatepolList class list
 }
-  \item{N_pollen_grains}{
-Number of grain to perform standardisation to. The N_pollen_grains is automatically adjusted to the smallest  number of pollen grains in sequence. 
+  \item{N_individuals}{
+Number of individuals to perform standardisation to. The N_individuals is automatically adjusted to the smallest  number of individuals in dataset. 
 }
   \item{Debug}{
 Show messages from internal processes
@@ -36,7 +36,7 @@ Show messages from internal processes
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Ondřej Mottl
 }
 \note{
 %%  ~~further notes~~

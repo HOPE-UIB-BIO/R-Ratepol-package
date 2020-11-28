@@ -1,41 +1,71 @@
-fc_subset_samples <- function(data_subset, BINS)
-{
-  # create empty template with length of number of BINS for both age and pollen
-
-  data.res.age <- data.frame(matrix(ncol = ncol(data_subset$Age), nrow = nrow(BINS)))
-  names(data.res.age) <- names(data_subset$Age)
-
-  data.res.pollen <- data.frame(matrix(ncol=ncol(data_subset$Pollen), nrow = nrow(BINS)))
-  names(data.res.pollen) <- names(data_subset$Pollen)
-
-  row.names(data.res.age) <- BINS$NAME
-  row.names(data.res.pollen) <- BINS$NAME
-
+fc_subset_samples <- function(data_subset, bins, WU){
+  
+  # create empty template with length of number of bins for both age and pollen
+  
+  data_result_age <-  
+    data.frame(
+      matrix(
+        ncol = ncol(data_subset$Age),
+        nrow = nrow(bins)))
+  
+  names(data_result_age) <-  names(data_subset$Age)
+  
+  data_result_community <-  
+    data.frame(
+      matrix(
+        ncol = ncol(data_subset$Community),
+        nrow = nrow(bins)))
+  
+  names(data_result_community) <-  names(data_subset$Community)
+  
+  row.names(data_result_age) <-  bins$name
+  row.names(data_result_community) <-  bins$name
+  
   # calculate bin size
-  BIN.size <- BINS$NAME[2]-BINS$NAME[1]
+  bin_size <-  bins$name[2] - bins$name[1]
+  
+  for(i in 1:nrow(bins)){ # for each bin
 
-  for(i in 1:nrow(BINS)) # for each bin
-  {
-    selected.BIN <- BINS$NAME[i] #select the bin
-
+    selected_bin <- bins$name[i] #select the bin
+    
     # subset age data so it selected all samples which has higher values than the BIN itself but
     # still small then selected bin + calculated BIN size
-    subset.w <- data_subset$Age[data_subset$Age$newage < BINS$NAME[i]+BIN.size &
-                                  data_subset$Age$newage > BINS$NAME[i],]
-
-    if (nrow(subset.w)>0) # If selected subset has at least one sample
-    {
-
-      subset.w$diff <- abs(subset.w$newage-selected.BIN)
-      suppressWarnings(data.res.age[i,] <- subset.w[subset.w$diff==min(subset.w$diff),c(1:4)] )
-
-      data.res.pollen[i,]<-  data_subset$Pollen[row.names(data_subset$Pollen) %in% data.res.age$sample.id[i],]
+    subset_w <-  data_subset$Age[data_subset$Age$newage < bins$name[i] + bin_size &
+                                  data_subset$Age$newage > bins$name[i], ]
+    
+    if (nrow(subset_w) > 0){ # If selected subset has at least one sample
+  
+      # for binning
+      if (WU == "bins"){
+        # select one random sample from the bin
+        random_row <- sample(1:nrow(subset_w),1)
+        suppressWarnings(data_result_age[i, ] <-  subset_w[random_row, c(1:4)] )
+        
+        data_result_community[i, ]<-  data_subset$Community[row.names(data_subset$Community) %in% data_result_age$sample.id[i], ]  
+      }
+      
+      # for moving window
+      if (WU == "MW"){
+        # select the sample which is the closest to the beggining of the bin
+        subset_w$diff <-  abs(subset_w$newage - selected_bin)
+        suppressWarnings(data_result_age[i, ] <-  subset_w[subset_w$diff == min(subset_w$diff), c(1:4)] )
+        
+        data_result_community[i, ]<-  data_subset$Community[row.names(data_subset$Community) %in% data_result_age$sample.id[i], ]  
+      }
+      
+      
     }
   }
-
-  list.res <- list(Pollen = data.res.pollen, Age=data.res.age,Dim.val=data_subset$Dim.val )
+  
+  list.res <-
+    list(
+      Community = data_result_community,
+      Age = data_result_age,
+      Dim.val = data_subset$Dim.val )
+  
   list.res <- fc_check_data(list.res, proportion = F, Debug = F)
+  
   class(list.res) <- "RRatepolList"
-
+  
   return(list.res)
 }

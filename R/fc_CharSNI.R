@@ -1,4 +1,9 @@
-CharSNI = function(CharData,BandWidth) {
+fc_CharSNI = function(CharData,BandWidth) {
+  
+  # Code obtained and from 
+  # Kelly RF, Higuera PE, Barrett CM, Feng Sheng H. 2011 A signal-to-noise index to quantify the potential for peak detection 
+  #   in sediment-charcoal records. Quat. Res. 75, 11–17. (doi:10.1016/j.yqres.2010.07.011)
+  
   ## Calculate signal-to-noise index (SNI) for a charcoal record.
   #
   # CharData = Matrix of input data with one row per sample, containing:
@@ -35,9 +40,6 @@ CharSNI = function(CharData,BandWidth) {
   #   $stdN   = standard deviation of the samples in popN
   #   $CF     = the "correction factor" used in computing SNI.  Equal to
   #     (v - 2)/v ,where v is the number of samples in popN
-  
-  # load required library
-  library(stats)
   
   # Data setup
   ages = CharData[,1];
@@ -123,7 +125,7 @@ CharSNI = function(CharData,BandWidth) {
   }
   
   # Smooth raw values to obtain final SNI
-  SNI_output$SNI = lowess(ages,rawSNI,f=(BandWidth/r)/length(ages),iter=0)$y;
+  SNI_output$SNI = stats::lowess(ages,rawSNI,f=(BandWidth/r)/length(ages),iter=0)$y;
   
   return(SNI_output);
   

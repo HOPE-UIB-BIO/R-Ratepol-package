@@ -1,5 +1,5 @@
-\name{fc_smooth_pollen_data}
-\alias{fc_smooth_pollen_data}
+\name{fc_smooth_community_data}
+\alias{fc_smooth_community_data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Smoothing of data
@@ -8,11 +8,11 @@ Smoothing of data
 Function to smooth each taxa in the dataset.
 }
 \usage{
-fc_smooth_pollen_data(data.source, smooth_method = "age.w", smooth_N_points = 5, smooth_N_max = 9, smooth_age_range = 300, round_results = T, Debug = F)
+fc_smooth_community_data(data_source, smooth_method = "age.w", smooth_N_points = 5, smooth_N_max = 9, smooth_age_range = 300, round_results = T, Debug = F)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{data.source}{
+  \item{data_source}{
 Data in the RRatepolList class list
 }
   \item{smooth_method}{
@@ -70,7 +70,7 @@ where V is the focal level value. All result values smaller than zero are saved 
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Ondřej Mottl
 }
 \note{
 %%  ~~further notes~~
