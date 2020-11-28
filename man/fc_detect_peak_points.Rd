@@ -37,11 +37,11 @@ R-Ratepol detects peak points using one of 5 methods:
 	
 	Threshold method: Each point in the RoC sequence is compared to a median of all RoC scores from the whole (i.e. threshold value). The point is considered significant if the 95th quantile of the RoC scores from all calculations is higher than the threshold value. 
 	
-	Linear trend  method: A generalised linear model is fitted through the RoC scores and time positions (GLM = RoC ~ time), family = Gamma). The distance between each point and the fitted value is calculated. A peak point is considered significant if the distance between the point and the fitted GLM is greater than 1.5 * the standard deviation of all differences. 
+	Linear trend  method: A generalised linear model is fitted through the RoC scores and time positions (GLM = RoC ~ time), family = mgcv::Tweedie(p=2)). The distance between each point and the fitted value is calculated. A peak point is considered significant if the distance between the point and the fitted GLM is greater than 1.5 * the standard deviation of all differences. 
 	
-	Non-linear trend  method: A GAM is fitted through the RoC scores and time positions (GAM = RoC ~ s(time, k=3), family = Gamma). The distance between each point and the fitted value is calculated. A peak point is considered significant if the distance between the point and the fitted GAM is greater than 1.5 * the standard deviation of all differences. 
+	Non-linear trend  method: A GAM is fitted through the RoC scores and time positions (GAM = RoC ~ s(time, k=3), family = mgcv::Tweedie(p=2)). The distance between each point and the fitted value is calculated. A peak point is considered significant if the distance between the point and the fitted GAM is greater than 1.5 * the standard deviation of all differences. 
 	
-	First derivative of GAM method: A GAM is fitted through the RoC scores and time positions (GAM = RoC ~ s(time), family = Gamma).First derivative as welll as continuous confidence intervals are calculted from the model. Peak is considered significat if confidence intervals of first derivative is higher than 0. See Simpson 2018 for more information. 
+	First derivative of GAM method: A GAM is fitted through the RoC scores and time positions (GAM = RoC ~ s(time), family = mgcv::Tweedie(p=2)).First derivative as welll as continuous confidence intervals are calculted from the model. Peak is considered significat if confidence intervals of first derivative is higher than 0. See Simpson 2018 for more information. 
 	
   Signal-to-Noise Index (SNI) method: We adapted SNI from Kelly et al. (2011) developed to detect changes in charcoal records. The SNI is calculated for the whole RoC sequence and a peak point is considered significant if it has an SNI value higher than 3 with the GAM set as a reference value and with a time window of 500 yrs.   
 }

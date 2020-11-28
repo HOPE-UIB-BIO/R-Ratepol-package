@@ -27,7 +27,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear"){
       predict.glm(
         glm(ROC ~ Age,
            data = data_source,
-           family = stats::Gamma()),
+           family = mgcv::Tweedie(p=2)),
         type = "response")
     
     data_source$pred_linear_diff <-  data_source$ROC - data_source$pred_linear
@@ -45,7 +45,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear"){
         mgcv::gam(
           ROC ~ s(Age, k = 3),
           data = data_source,
-          family = stats::Gamma(),
+          family = mgcv::Tweedie(p=2),
           method = "REML"),
         type="response")
     
@@ -64,7 +64,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear"){
       mgcv::gam(
         ROC ~ s(Age),
         data = data_source,
-        family = stats::Gamma(),
+        family = mgcv::Tweedie(p=2),
         method = "REML")
     
     new_data  <-
@@ -82,7 +82,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear"){
         ),
         Age = Age
       )) 
-    data_source$Peak <-  gam_deriv_conf$upper < 0
+    data_source$Peak <-  gam_deriv_conf$lower > 0
     
   }
   
@@ -100,7 +100,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear"){
         mgcv::gam(
           ROC ~ s(Age, k = 3),
           data = data_source,
-          family = stats::Gamma(),
+          family = mgcv::Tweedie(p=2),
           method = "REML"),
         type = "response")
     
