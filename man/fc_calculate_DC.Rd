@@ -60,7 +60,7 @@ Usabe for data with NA's and also community data in difefrent units
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Ondřej Mottl
 }
 \note{
 %%  ~~further notes~~

@@ -1,4 +1,4 @@
-fc_plot_RoC_sequence <- function (data_source, age_treshold = 15000, Roc_threshold=2, Peaks = T, method = "GAM"){
+fc_plot_RoC_sequence <- function (data_source, age_treshold = 15000, Roc_threshold = 2, Peaks = F, trend = F){
   
   data_source_filter <-  dplyr::filter(data_source, Age <= age_treshold)
   
@@ -21,30 +21,51 @@ fc_plot_RoC_sequence <- function (data_source, age_treshold = 15000, Roc_thresho
                           color="green",
                           alpha=1,
                           size=1)
+  }
+
+  if (trend != F){
     
-    if (! method %in% c("GAM","Threshold")) 
-      stop("Used method for peak detection have to specified 'GAM' / 'Threshold' ")
+    if (! trend %in% c("threshold","trend_linear","trend_non_linear")) 
+      stop("Used method for peak detection have to specified 'threshold', 'trend_linear','trend_non_linear' ")
     
-    if (method == "GAM"){
-      p.fin <- 
-        p.fin +
-        ggplot2::geom_line(
-          data=data.frame(ROC = mgcv::predict.gam(mgcv::gam(ROC~s(Age, k=3),
-                                                            data = data_source_filter,
-                                                            family = "Gamma()",
-                                                            method = "REML"),
-                                                  type="response"),
-                                         Age = data_source_filter$Age),
-                         color = "blue", size = 1)
-    }
     
-    if (method == "Threshold"){
+    if (trend == "threshold"){
       p.fin <- 
         p.fin+
         ggplot2::geom_hline(yintercept = median(data_source_filter$ROC), color = "blue", size = 1)
     }
     
+    
+    if (trend == "trend_linear"){
+      p.fin <- 
+        p.fin +
+        ggplot2::geom_line(
+          data=data.frame(ROC = predict.glm(glm(ROC~Age,
+                                                            data = data_source_filter,
+                                                            family = stats::Gamma()),
+                                                  type="response"),
+                          Age = data_source_filter$Age),
+          color = "blue", size = 1)
+    }
+    
+    if (trend == "trend_non_linear"){
+      p.fin <- 
+        p.fin +
+        ggplot2::geom_line(
+          data=data.frame(ROC = mgcv::predict.gam(mgcv::gam(ROC~s(Age, k=3),
+                                                            data = data_source_filter,
+                                                            family = stats::Gamma(),
+                                                            method = "REML"),
+                                                  type="response"),
+                          Age = data_source_filter$Age),
+          color = "blue", size = 1)
+    }
+    
+    
   }
-
+  
+  
+  
+  
   return(p.fin)
 }

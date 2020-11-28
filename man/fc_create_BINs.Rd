@@ -36,7 +36,7 @@ Bins of selected size are created, starting from zero. This is repeated many tim
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Ondřej Mottl
 }
 \note{
 %%  ~~further notes~~

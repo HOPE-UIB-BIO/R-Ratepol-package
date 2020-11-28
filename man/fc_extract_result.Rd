@@ -32,7 +32,7 @@ tibble including the median and 95th quantile of the selected variable in each t
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Ondřej Mottl
 }
 \note{
 Because of excluding empty bins in the selective binning with a moving window approach, it is possible that some working-unit combinations will not be present in some calculations. Therefore, R-Ratepol only includes working-unit combinations that are present in at least 10 percent of all calculations.  

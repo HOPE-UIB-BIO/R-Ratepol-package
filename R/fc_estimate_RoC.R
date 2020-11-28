@@ -15,7 +15,6 @@ fc_estimate_RoC <- function(data_source_community,
                             tranform_to_proportions = T,
                             DC = "euc",
                             interest_threshold = F,
-                            Peak_detection = "GAM",
                             Debug = F){
   
   # Start of the code
@@ -68,7 +67,7 @@ fc_estimate_RoC <- function(data_source_community,
     Number_of_shifts <-  1
   }
 
-  if(Working_Units == "selected_bins"){
+  if(Working_Units == "bins"){
     Number_of_shifts <-  1
     
     bin_sizes <- 
@@ -123,7 +122,7 @@ fc_estimate_RoC <- function(data_source_community,
 
   result_tibble <-  
     foreach::`%dopar%`(foreach::foreach(
-      l=1:rand,
+      l = 1:rand,
       .combine = rbind,
       .options.snow=opts), {
 
@@ -150,7 +149,10 @@ fc_estimate_RoC <- function(data_source_community,
         selected_bins <-  bin_sizes[bin_sizes$shift == k, ]
 
         #subset data
-        data_subset <-  fc_subset_samples(data_subset, selected_bins)
+        data_subset <-  fc_subset_samples(data_subset, selected_bins, Working_Units)
+        
+        data_subset <-  fc_check_data(data_subset, proportion = F)
+
       }
 
       #----------------------------------------------------------#
@@ -266,7 +268,7 @@ fc_estimate_RoC <- function(data_source_community,
 
 
   #----------------------------------------------------------#
-  # 5. Results Summary
+  # 5. Results Summary -----
   #----------------------------------------------------------#
 
   # create new dataframe with summary of randomisation results
@@ -302,125 +304,17 @@ fc_estimate_RoC <- function(data_source_community,
   results_full$RoC_05q_sm <-  ifelse(results_full$RoC_05q_sm < 0, 0.0001, results_full$RoC_05q_sm)
 
 
-  #----------------------------------------------------------#
-  # 6. Peak Deetction
-  #----------------------------------------------------------#
-
-  # Median peak threshold
-  if(Peak_detection == "Threshold"){
-    
-    # threshold for RoC peaks is set as median of all RoC in dataset
-    r_threshold <- median(results_full$RoC_sm)
-    
-    # mark peaks which have 95% quantile above the threshold as Peak
-    results_full$Peak <-  results_full$RoC_05q_sm > r_threshold
-  }
-
-  # Median peak threshold
-  if(Peak_detection == "linear"){
-    
-    # mark points that are abowe the linear model (exactly 1.5 SD higher than prediction)
-    results_full$pred_linear <-
-      predict.lm(
-        lm(RoC_sm~age_position,
-          data = results_full),
-        type="response")
-    
-    results_full$pred_linear_diff <-  results_full$RoC_sm - results_full$pred_linear
-    results_full$Peak <-  (results_full$pred_linear_diff) > 1.5 * sd(results_full$pred_linear_diff)
-  }
-  
-  # GAM
-  if(Peak_detection == "GAM"){
-    
-    # mark points that are abowe the GAM model (exactly 1.5 SD higher than GAM prediction)
-    results_full$pred_gam <-  
-      mgcv::predict.gam(
-        mgcv::gam(
-          RoC_sm~s(age_position,k=3),
-          data = results_full,
-          family = "Gamma()",
-          method = "REML"),
-        type="response")
-    
-    results_full$pred_gam_diff <-  results_full$RoC_sm - results_full$pred_gam
-    results_full$Peak <-  (results_full$pred_gam_diff) > 1.5 * sd(results_full$pred_gam_diff)
-
-  }
-  
-  # GAM
-  if(Peak_detection == "GAM_deriv"){
-    
-    # fit gam well smother gam model and use first derivative of the function to detect signifiant increases in the function 
-    gam_model <-  
-        mgcv::gam(
-          RoC_sm~s(age_position),
-          data = results_full,
-          family = "Gamma()",
-          method = "REML")
-    
-    new_data  <-
-      tibble(age_position = results_full$age_position)
-    
-    gam_deriv <-  gratia::fderiv(gam_model, newdata = new_data , n = 1000)
-    
-    gam_deriv_conf <-
-      with(new_data, cbind(
-        confint(
-          gam_deriv,
-          nsim = 1000,
-          type = "simultaneous",
-          transform	= T
-        ),
-        age_position = age_position
-      )) %>%
-      mutate(Peak = upper < 0)
-    
-    results_full$Peak <-  gam_deriv_conf$Peak
-    
-  }
-
-  # SNI
-  if (Peak_detection == "SNI"){
-    
-    # set moving window of 5 times higher than average distance between samples
-    mean_age_window <- 5 * mean( diff(results_full$age_position) )
-    
-    # create GAM
-    pred_gam <-  
-      mgcv::predict.gam(
-        mgcv::gam(
-          RoC_sm~s(age_position, k=3),
-          data = results_full,
-          family = "Gamma()",
-          method = "REML"),
-        type="response")
-    
-    # calculate SNI (singal to noise ratio)
-    SNI_calc <- 
-      fc_CharSNI(
-        data.frame(
-          results_full$age_position,
-          results_full$RoC_sm,
-          pred_gam),
-        mean_age_window)
-    
-    # mark points with SNI higher than 3
-    results_full$Peak <-  SNI_calc$SNI > 3 & results_full$RoC_sm > pred_gam
-  }
-
-  # outro
+  # final tibble
   results_full_fin <- 
     dplyr::select(
       results_full, 
       sample_id,
+      age_position,
       RoC_sm,
       RoC_95q_sm,
-      RoC_05q_sm,
-      age_position,
-      Peak)
+      RoC_05q_sm)
   
-  names(results_full_fin) <-  c("Working_Unit", "ROC", "ROC_up", "ROC_dw", "Age", "Peak")
+  names(results_full_fin) <-  c("Working_Unit","Age", "ROC", "ROC_up", "ROC_dw")
 
   end.time <-  Sys.time()
   time.length <-  end.time - start.time

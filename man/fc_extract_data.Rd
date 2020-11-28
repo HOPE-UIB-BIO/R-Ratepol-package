@@ -47,7 +47,7 @@ Show messages from internal processes
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Ondřej Mottl
 }
 \note{
 %%  ~~further notes~~

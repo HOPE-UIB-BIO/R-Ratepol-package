@@ -97,11 +97,10 @@ sequence_01 <-
     standardise = F,
     rand = 1)
 
-
 ```
 
 ```{r plot 1, echo=T}
-fc_plot_RoC_sequence(sequence_01, age_treshold = 8e3, Roc_threshold = 0.5, Peaks = F)
+fc_plot_RoC_sequence(sequence_01, age_treshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
 ```
 
 ### Example 2
@@ -128,7 +127,7 @@ sequence_02 <-
 ```
 
 ```{r plot 2, echo=T}
-fc_plot_RoC_sequence(sequence_02, age_treshold= 8e3, Roc_threshold = 2.5, Peaks = F)
+fc_plot_RoC_sequence(sequence_02, age_treshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
 ```
 
 ### Example 3
@@ -154,35 +153,17 @@ sequence_03 <-
 ```
 
 ```{r plot 3, echo=T}
-fc_plot_RoC_sequence(sequence_03, age_treshold= 8e3, Roc_threshold = 1.5, Peaks = F)
+fc_plot_RoC_sequence(sequence_03, age_treshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
 ```
 
 ### Example 4
 
-Estimate RoC for Glendalough, site with detection op *peak points* using *GAM* method in the last 8000 yr BP.
+Detect the *peak points* using *trend_non_linear* method.
 
-```{r sequence 4, results = F, warning=F}
-age_threshold <-  8e3
-
-sequence_04 <-
-  fc_estimate_RoC(
-    data_source_community = example_data$filtered.counts[[1]],
-    data_source_age = example_data$list_ages[[1]]$ages,
-    age_uncertainty = example_data$list_ages[[1]]$age_position,
-    smooth_method = "age.w",
-    DC = "chord",
-    Working_Units = "MW",
-    bin_size = 500,
-    Number_of_shifts  = 5,
-    standardise = T,
-    N_individuals = 150,
-    rand = 1000,
-    treads = T,
-    Peak_detection = "GAM",
-    interest_threshold = age_threshold)
-
-```
 
 ```{r plot 4, echo=T}
-fc_plot_RoC_sequence(sequence_04, age_treshold= age_threshold, Roc_threshold = 1, Peaks = T, method = "GAM")
+sequence_03_peaks <-
+  fc_detect_peak_points(sequence_03, method = "trend_non_linear")
+
+fc_plot_RoC_sequence(sequence_03_peaks, age_treshold= 8e3, Roc_threshold = 1, Peaks = T, trend = "trend_non_linear")
 ```

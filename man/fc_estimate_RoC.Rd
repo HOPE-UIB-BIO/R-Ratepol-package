@@ -70,7 +70,14 @@ Maximal number of samples to look in Grimm smoothing
 Maximal age range for both Grimm and Age-weight smoothing
 }
  \item{Working_Units}{
-Selection of units that the DC will be calculated between
+Selection of units that the DC will be calculated between.
+
+"levels" = individual levels are ogoing to be used
+
+"bins"   = samples in predifined bins will be pooled together and one random sample will be selected from each time bin as a representation.
+
+"MW"     = Bins of selected size are created, starting from zero. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. Sample, whitch is the closest to the begining of the bin is selected asa representation of the bin.  
+
 }
  \item{bin_size}{
 bin_size = size of the time bin (in years)
@@ -113,29 +120,6 @@ Disimilarity coeficient. Type of calculation of differences between Working Unit
  \item{interest_threshold}{
 [value] = age, after which all results of RoC are excluded before detection of peak points 
 }
- \item{Peak_detection}{
- method of peak detection:
-  
-"Threshold" = Treshold value is set for whole dataset (after subseting for interest_threshold) as median of all RoC values.                   
-                Peak is  consider significant if 95 percent quantile (gain from randomisation) is higher than treshold
-
-"linear" = linear model is fitted with RoC and Age. Differences between the model and each point is calculated. SD is calculated from all the                differences.
-           Peak is considered significat if it is 1.5 SD higher than the model
-  
-"GAM" = very crude GAM model (k = 3) is fitted with RoC and Age. Differences between GAM and each point is calculated. SD is calculated from               all the differences
-            Peak is considered significat if it is 1.5 SD higher than GAM
-            
-"GAM_deriv" = smooth GAM model is fitted with RoC and Age. First derivative as welll as continuous confidence intervals are calculted from the 
-                model. 
-                Peak is considered significat if confidence intervals of first derivative is higher than 0.
-
-"SNI" = Signal-to-Noise Index, following adapted the SNI from Kelly et al. (2011)
-                 written to detect changes in charcoal records. We SNI I calculated for the whole RoC sequence
-                 and point is consider significant if has SNI value higher than 3 (following suggesting
-                 from Kelly et al. (2011)).
-                 
-}
-
  \item{Debug}{
 T = show messages from internal processes
 }
@@ -196,11 +180,6 @@ Results from all randomisations are merged while keeping the identity of each wo
 
 5) Data beyond the selected age are excluded (8000 cal yr BP in this study)
 
-6) Detection of significant peak points
-R-Ratepol detects peak points using one of 5 methods: 
-	Threshold method: Each point in the RoC sequence is compared to a median of all RoC scores from the whole (i.e. threshold value). The point is considered significant if the 95th quantile of the RoC scores from all calculations is higher than the threshold value. 
-	GAM method: A GAM is fitted through the RoC scores and time positions (GAM= RoC ~ s(time,k=3). The distance between each point and the fitted value is calculated. A peak point is considered significant if the distance between the point and the fitted GAM is greater than 1.5 * the standard deviation of all differences. 
-Signal-to-Noise Index (SNI) method: We adapted SNI from Kelly et al. (2011) developed to detect changes in charcoal records. The SNI is calculated for the whole RoC sequence and a peak point is considered significant if it has an SNI value higher than 3 with the GAM set as a reference value and with a time window of 500 yrs.   
 
 }
 \value{

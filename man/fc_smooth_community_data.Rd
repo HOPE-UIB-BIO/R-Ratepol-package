@@ -70,7 +70,7 @@ where V is the focal level value. All result values smaller than zero are saved 
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Ondřej Mottl
 }
 \note{
 %%  ~~further notes~~
