@@ -28,6 +28,12 @@ fc_extract_data <-  function (data_community_extract,
   
   names(age.un) <- age$sample.id
   
+  if(names(dat_community) %in% "sample.id"){
+    row.names(dat_community) <-  dat_community$sample.id
+  } else {
+    row.names(dat_community) <-  age$sample.id
+  }
+  
   # remove the sample ID
   if (is.numeric(unlist(dat_community[,1]))==F){
     dat_community <- dat_community[,-1]
