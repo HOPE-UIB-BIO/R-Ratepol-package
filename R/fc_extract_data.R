@@ -9,8 +9,8 @@ fc_extract_data <-  function (data_community_extract,
   }
   
   # extract both important tables a) age data, b) community data
-  age <- data_age_extract
-  dat_community <- data_community_extract
+  age <- as.data.frame(data_age_extract)
+  dat_community <- as.data.frame(data_community_extract)
   
   if (all(age_uncertainty == F)){
     age.un <- data.frame(t(matrix(rep(age$age,1000), ncol = 1000)))
@@ -24,6 +24,10 @@ fc_extract_data <-  function (data_community_extract,
         stop("Age uncertainty has to be either FALSE or matrix")
       }
     }
+  }
+  
+  if(! "sample.id" %in% names(age)){
+    age$sample.id <-  as.character(1:nrow(age)) 
   }
   
   names(age.un) <- age$sample.id
