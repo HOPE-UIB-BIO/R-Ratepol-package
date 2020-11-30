@@ -26,11 +26,18 @@ fc_extract_data <-  function (data_community_extract,
     }
   }
   
+  
+  # add sample id if necesery
   if(! "sample.id" %in% names(age)){
     age$sample.id <-  as.character(1:nrow(age)) 
   }
   
+  # subseto only include age and sample id
+  age <-  age[ ,names(age) %in% c("sample.id", "age")]
+  
+  # ad sample id names to the uncertainty dataset
   names(age.un) <- age$sample.id
+  
   
   if("sample.id" %in% names(dat_community)){
     row.names(dat_community) <-  dat_community$sample.id

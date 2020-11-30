@@ -39,7 +39,7 @@ fc_subset_samples <- function(data_subset, bins, WU){
       if (WU == "bins"){
         # select one random sample from the bin
         random_row <- sample(1:nrow(subset_w),1)
-        suppressWarnings(data_result_age[i, ] <-  subset_w[random_row, c(1:4)] )
+        suppressWarnings(data_result_age[i, ] <-  subset_w[random_row, ] )
         
         data_result_community[i, ]<-  data_subset$Community[row.names(data_subset$Community) %in% data_result_age$sample.id[i], ]  
       }
@@ -48,7 +48,7 @@ fc_subset_samples <- function(data_subset, bins, WU){
       if (WU == "MW"){
         # select the sample which is the closest to the beggining of the bin
         subset_w$diff <-  abs(subset_w$newage - selected_bin)
-        suppressWarnings(data_result_age[i, ] <-  subset_w[subset_w$diff == min(subset_w$diff), c(1:4)] )
+        suppressWarnings(data_result_age[i, ] <-  subset_w[subset_w$diff == min(subset_w$diff), ] )
         
         data_result_community[i, ]<-  data_subset$Community[row.names(data_subset$Community) %in% data_result_age$sample.id[i], ]  
       }
