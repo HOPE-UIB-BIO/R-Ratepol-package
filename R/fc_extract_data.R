@@ -130,7 +130,12 @@ fc_extract_data <-  function (data_community_extract,
   names(dim.val) <- c("N Species","N samples community","N samples Age")
   
   # create list  class of 4 variables Ppllen, age, age.un, dim.val
-  dat.merge <- RRatepolList(Community = dat_community, Age=age, Age.un = age.un, Dim.val = dim.val)
+  dat.merge <- 
+    RRatepol:::RRatepolList(
+      Community = dat_community,
+      Age = age,
+      Age.un = age.un,
+      Dim.val = dim.val)
   
   # perform check = round number of species and samples and exclude "empty" ones
   dat.merge <- fc_check_data(dat.merge, proportion = F, Debug = Debug)
