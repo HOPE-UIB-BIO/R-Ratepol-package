@@ -1,17 +1,16 @@
-fc_standardise_community_data <- function (data_source, N_individuals = 150, Debug = F)
-{
+fc_standardise_community_data <- function (data_source, N_individuals = 150, Debug = FALSE){
   
-  if(Debug == T){
-    cat(paste("Data standardization started", Sys.time()), fill = T)}
+  if(Debug == TRUE){
+    cat(paste("Data standardization started", Sys.time()), fill = TRUE)}
   
-  Samples <-  1:nrow(data_source$Community) 
-  Samples <-  Samples[!is.na(data_source$Age$sample.id)]
+  Samples <-  1:nrow(data_source@Community) 
+  Samples <-  Samples[!is.na(data_source@Age$sample.id)]
   
   for(i in Samples){  # for each row(sample)
     
-    select_row <-  data_source$Community[i, ] # selected row
+    select_row <-  data_source@Community[i, ] # selected row
     
-    n1 <-  1:ncol(data_source$Community) #number for each species name in community data
+    n1 <-  1:ncol(data_source@Community) #number for each species name in community data
     ab1 <-  as.vector(select_row) #frequencies of species in each sample
     
     vec1 <-  NULL    #a vector for the species pool
@@ -28,14 +27,14 @@ fc_standardise_community_data <- function (data_source, N_individuals = 150, Deb
     rsample <-  sample(vec1, size = N_individuals, replace = FALSE)
     
     # replace all values in community data by 0
-    data_source$Community[i, ]<-  rep(0,length(select_row))
+    data_source@Community[i, ]<-  rep(0,length(select_row))
     
     # replace individuals by new randomised values
-    data_source$Community[i,as.numeric(names(table(rsample)))] <- as.numeric(table(rsample))
+    data_source@Community[i,as.numeric(names(table(rsample)))] <- as.numeric(table(rsample))
     
   }
   
-  if(Debug == T){cat(paste("Data standardization finished", Sys.time()), fill = T)}
+  if(Debug == TRUE){cat(paste("Data standardization finished", Sys.time()), fill = TRUE)}
   
   return (data_source) 
 }
