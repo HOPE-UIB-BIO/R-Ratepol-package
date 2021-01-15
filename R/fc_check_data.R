@@ -40,7 +40,7 @@ fc_check_data <- function (data_source_check, proportion = F, Species = TRUE, Sa
   
   if (proportion == TRUE)
   {
-    if (Debug =TRUE){
+    if (Debug == TRUE){
       cat("Community data values are being converted to proportions", fill = TRUE)}
     
     # convert the values community data to proportion of sum of each sample
