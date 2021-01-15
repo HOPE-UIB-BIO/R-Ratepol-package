@@ -50,7 +50,7 @@ fc_check_data <- function (data_source_check, proportion = F, Species = TRUE, Sa
       as.data.frame(lapply(data_source_check@Community, function(x) x/p.counts.row.sums))
     
     data_source_check <- 
-      Ratepol:::fc_kill_all(
+      RRatepol:::fc_kill_all(
         data_source_check,
         Species = Species,
         Samples = Samples)
