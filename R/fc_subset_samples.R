@@ -58,9 +58,10 @@ fc_subset_samples <- function(data_subset, bins, WU){
   }
   
   list.res <-
-    RRatepolList(
+    RRatepol:::RRatepolList(
       Community = data_result_community,
       Age = data_result_age,
+      Age.un = data_subset@Age.un,
       Dim.val = data_subset@Dim.val )
   
   list.res <- RRatepol:::fc_check_data(list.res, proportion = F, Debug = F)
