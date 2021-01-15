@@ -251,7 +251,7 @@ fc_smooth_community_data <- function(data_source,
   }
   
   final_list <-  
-    RRatepolList(
+    RRatepol:::RRatepolList(
       Community = dat_community,
       Age = age,
       Age.un = data_source@Age.un,
