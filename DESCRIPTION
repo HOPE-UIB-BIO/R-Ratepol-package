@@ -9,20 +9,21 @@ License: R
 Encoding: UTF-8
 LazyData: true
 Imports:
-        dplyr,
-        tidyr,
-        mgcv,
-        tibble,
-        magrittr,
-        ggplot2,
-        parallel,
-        doSNOW,
-        snow,
-        utils,
-        foreach,
-        stats,
-        StatMatch,
-        gratia
+    dplyr,
+    tidyr,
+    mgcv,
+    tibble,
+    magrittr,
+    ggplot2,
+    parallel,
+    doSNOW,
+    snow,
+    utils,
+    foreach,
+    stats,
+    StatMatch,
+    gratia,
+    assertthat
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 2.10)
