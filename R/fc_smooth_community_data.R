@@ -1,53 +1,80 @@
 fc_smooth_community_data <- function(data_source,
-                                  smooth_method="age.w",
-                                  smooth_N_points = 5,
-                                  smooth_N_max = 9,
-                                  smooth_age_range = 500,
-                                  round_results = T,
-                                  Debug = F){
+                                     smooth_method = "none",
+                                     smooth_N_points = 5,
+                                     smooth_N_max = 9,
+                                     smooth_age_range = 500,
+                                     round_results = TRUE,
+                                     Debug = FALSE){
   
   # ----------------------------------------------
-  #                     SETUP
+  # SETUP -----
   # ----------------------------------------------
   
   if(class(data_source) != "RRatepolList")
     stop("Data is not in RRatepolList format")
   
   # split data into 2 datasets
-  dat_community <-  as.data.frame(data_source$Community)
-  age <- as.data.frame(data_source$Age)
-  focus_par <- matrix(data=NA,nrow=nrow(age),ncol=2)
+  dat_community <-  as.data.frame(data_source@Community)
+  age <- as.data.frame(data_source@Age)
+  focus_par <- matrix(data = NA,nrow = nrow(age), ncol = 2)
   
-  if(any(smooth_method == c("none", "m.avg", "grim", "age.w", "shep")) == F)
-    stop("smooth_method must be one of the following 'none', 'm.avg', 'grim', 'age.w', shep'")
+  
+  assertthat::assert_that(
+    any(smooth_method == c("none", "m.avg", "grim", "age.w", "shep")),
+    msg = "`smooth_method` must be one of the following:
+    `none`, `m.avg`, `grim`, `age.w`, `shep`")
+  
   
   # ----------------------------------------------
-  #               NONE SMOOTHING
+  # NONE SMOOTHING -----
   # ----------------------------------------------
   
-  if (Debug==T & smooth_method == "none"){
-    cat("data will not be smoothed",fill=T)}
+  if (Debug == TRUE & smooth_method == "none"){
+    cat("data will not be smoothed", fill = TRUE)}
   
-  if(smooth_method=="none"){
-    return(list(Community=dat_community, Age=age, Age.un=data_source$Age.un, Dim.val= data_source$Dim.val))
+  if(smooth_method == "none"){
+    return(
+      RRatepolList(
+        Community = dat_community,
+        Age = age, 
+        Age.un = data_source@Age.un,
+        Dim.val = data_source@Dim.val))
   }
   
   
   # ----------------------------------------------
-  #           Additional information  
+  # Additional information -----  
   # ----------------------------------------------
   
- 
-  if(Debug==T & smooth_method == "m.avg"){
-    cat(paste("data will be smoothed by moving average over",smooth_N_points,"points"),fill=T)}
-  if (Debug==T & smooth_method == "grim"){
-    print(cat("data will be smoothed by Grimm method with min samples",smooth_N_points,
-              "max samples",smooth_N_max,"and max age range of",smooth_age_range),fill=T)}
-  if(Debug==T & smooth_method == "age.w"){
-    cat(paste("data will be smoothed by age-weighed average over",smooth_N_points,"points",
-              "with a threshod of",smooth_age_range),fill=T)}
-  if(Debug==T & smooth_method == "shep"){
-    cat(paste("data will be smoothed by Shepard's 5-term filter"),fill=T)}
+  if(Debug == TRUE){
+    
+    if(smooth_method == "m.avg"){
+      cat(paste(
+        "Data will be smoothed by moving average over", smooth_N_points,
+        "points"), fill = TRUE)  
+    }
+    
+    if(smooth_method == "grim"){
+      cat(paste(
+        "Data will be smoothed by Grimm method with min samples", smooth_N_points,
+        "max samples", smooth_N_max, "and max age range of", smooth_age_range),
+        fill = TRUE)  
+    }
+    
+    if(smooth_method == "age.w"){
+      cat(paste(
+        "Data will be smoothed by age-weighed average over",smooth_N_points,"points",
+        "with a threshod of",smooth_age_range),
+        fill = TRUE)  
+    }
+    
+    if(smooth_method == "shep"){
+      cat(paste(
+        "Data will be smoothed by Shepard's 5-term filter"),
+        fill = TRUE)  
+    }
+  }
+  
   
   # crete support fucntion for GRIMM smoothing
   search.parameter <- function(A, B, smooth_age_range){
@@ -62,7 +89,7 @@ fc_smooth_community_data <- function(data_source,
     for (k in 1:(smooth_N_max-smooth_N_points)){
       # create new search parameter that is lower by 1
       A_test <- A - 1
-      if( A_test > 0 &  B-A_test < smooth_N_max){ # i+N.active.test < nrow(dat_community) &
+      if( A_test > 0 &  B - A_test < smooth_N_max){ # i+N.active.test < nrow(dat_community) &
         if (abs(age$newage[A_test] - age$newage[B]) < smooth_age_range){
           A <- A_test}
       }
@@ -74,97 +101,103 @@ fc_smooth_community_data <- function(data_source,
           B <- B_test}
       }
     }
-    return(c(A,B))
+    return(c(A, B))
   }
   
   # ----------------------------------------------
-  #                   CALCULATION
+  # CALCULATION -----
   # ----------------------------------------------
   
   
   for(j in 1:ncol(dat_community)){ # for every species
     
-    col_work <- .subset2(dat_community,j) # select the species
-    col_res <- rep(0,length(col_work)) # create empty vector of same lengt for values to be saved
+    col_work <- .subset2(dat_community, j) # select the species
+    col_res <- rep(0, length(col_work)) # create empty vector of same lengt for values to be saved
     
     for(i in 1:nrow(dat_community)){ # for each sample
       
       # ----------------------------------------------
-      #           MOVING AVERAGE SMOOTHING
+      # MOVING AVERAGE SMOOTHING -----
       # ----------------------------------------------
       if(smooth_method == "m.avg"){
         
         # check if smooth_N_points is and odd number
-        if(smooth_N_points%%2 == 0)
-          stop("smooth_N_points has to be an odd number")
+        assertthat::assert_that(
+          smooth_N_points%%2 != 0,
+          msg = "`smooth_N_points` must be an odd number")
         
-        
-        if( i < round(0.5 * (smooth_N_points))+1 ){  # Samples near beginning (moving window truncated)
+        if( i < round(0.5 * (smooth_N_points)) + 1 ){  # Samples near beginning (moving window truncated)
           focus_par[i, ] = c(1, ( i + round(0.5 * (smooth_N_points)) ))
         } else {
-          if( i > nrow(age)-round(0.5*(smooth_N_points)) ){ # Samples near end
+          if( i > nrow(age)-round(0.5 * (smooth_N_points)) ){ # Samples near end
             focus_par[i, ] = c( (i - round(0.5 * (smooth_N_points))), nrow(age) )
           } else {
             focus_par[i, ] = c( (i - round(0.5 * (smooth_N_points))), (i + round(0.5 * (smooth_N_points))) )
           }
         }
-        col_res[i] <-  mean(col_work[focus_par[i,1]:focus_par[i,2]])
+        col_res[i] <-  mean(col_work[focus_par[i, 1]:focus_par[i, 2]])
       }
       
       
       # ----------------------------------------------
-      #               GRIMm SMOOTHING
+      # GRIMMM SMOOTHING -----
       # ----------------------------------------------
       if(smooth_method == "grim"){
         
         # check if smooth_N_points is and odd number
-        if(smooth_N_points%%2 == 0)
-          stop("smooth_N_points has to be an odd number")
+        assertthat::assert_that(
+          smooth_N_points%%2 != 0,
+          msg = "`smooth_N_points` must be an odd number")
         
         # check if smooth_N_max is an odd numbers
-        if(smooth_N_max%%2 == 0)
-          stop("smooth_N_max has to be an odd number")
+        assertthat::assert_that(
+          smooth_N_max%%2 != 0,
+          msg = "`smooth_N_max` must be an odd number")
         
-        # Check if miminal number of points in not gigger than maximum
-        if(smooth_N_points > smooth_N_max)
-          stop("smooth_N_max has to be same or biger than smooth_N_points")
+        # Check if miminal number of points in not bigger than maximum
+        assertthat::assert_that(
+          smooth_N_points < smooth_N_max,
+          msg = "`smooth_N_max` must be bigger than `smooth_N_points")
         
-        if(is.numeric(smooth_age_range) == F)
-          stop("smooth_age_range has to be a number")
+        assertthat::assert_that(
+          is.numeric(smooth_age_range),
+          msg = "`smooth_age_range` must be `numeric")
         
         if( i < round(0.5 * (smooth_N_max)) + 1 ) {  # Samples near beginning (moving window truncated)
-          focus_par[i,1] <-  1
-          focus_par[i,2] <-  ( i + round(0.5 * (smooth_N_points)) )
-          focus_par[i, ] <-  search.parameter(focus_par[i,1], focus_par[i,2], smooth_age_range)
+          focus_par[i, 1] <-  1
+          focus_par[i, 2] <-  ( i + round(0.5 * (smooth_N_points)) )
+          focus_par[i, ] <-  search.parameter(focus_par[i, 1], focus_par[i, 2], smooth_age_range)
         } else {
           if( i > nrow(age) - round(0.5 *(smooth_N_points)) ) { # Samples near end
-            focus_par[i,1] <-  (i - round(0.5 * (smooth_N_points)))
-            focus_par[i,2] <-  nrow(age)
-            focus_par[i, ] <-  search.parameter(focus_par[i,1], focus_par[i,2], smooth_age_range)
+            focus_par[i, 1] <-  (i - round(0.5 * (smooth_N_points)))
+            focus_par[i, 2] <-  nrow(age)
+            focus_par[i, ] <-  search.parameter(focus_par[i, 1], focus_par[i, 2], smooth_age_range)
             
           } else {
-            focus_par[i,1] <-  (i - round(0.5 * (smooth_N_points)))
-            focus_par[i,2] <-  (i + round(0.5 * (smooth_N_points)))
-            focus_par[i, ] <-  search.parameter(focus_par[i,1], focus_par[i,2], smooth_age_range)
+            focus_par[i, 1] <-  (i - round(0.5 * (smooth_N_points)))
+            focus_par[i, 2] <-  (i + round(0.5 * (smooth_N_points)))
+            focus_par[i, ] <-  search.parameter(focus_par[i, 1], focus_par[i, 2], smooth_age_range)
           }
         }
         col_res[i] <-  mean(col_work[focus_par[i,1]:focus_par[i,2]])
       }
       
       # ----------------------------------------------
-      #           AGE-WEIGHTED SMOOTHING
+      # AGE-WEIGHTED SMOOTHING -----
       # ----------------------------------------------
       if(smooth_method == "age.w"){
         
         # check if smooth_N_points is and odd number
-        if(smooth_N_points%%2 == 0)
-          stop("smooth_N_points has to be an odd number")
+        assertthat::assert_that(
+          smooth_N_points%%2 != 0,
+          msg = "`smooth_N_points` must be an odd number")
         
-        if(is.numeric(smooth_age_range) == F)
-          stop("smooth_age_range has to be a number")
+        assertthat::assert_that(
+          is.numeric(smooth_age_range),
+          msg = "`smooth_age_range` must be `numeric")
         
         if( i < round(0.5 * (smooth_N_points)) + 1 ) {  # Samples near beginning (moving window truncated)
-          focus_par[i,] <-  c(1, ( i + round(0.5 * (smooth_N_points)) ))
+          focus_par[i, ] <-  c(1, ( i + round(0.5 * (smooth_N_points)) ))
         } else {
           if( i > nrow(age) - round(0.5 * (smooth_N_points)) ) { # Samples near end
             focus_par[i, ] <-  c( (i - round(0.5 * (smooth_N_points))), nrow(age) )
@@ -174,9 +207,10 @@ fc_smooth_community_data <- function(data_source,
         }
         
         # create small df with values around observed sample (in range of offset)
-        df_work <-  data.frame(values = col_work[focus_par[i,1]:focus_par[i,2]],
-                               age = age$newage[focus_par[i,1]:focus_par[i,2]],
-                               Weight = 1)
+        df_work <-  
+          data.frame(values = col_work[focus_par[i, 1]:focus_par[i, 2]],
+                     age = age$newage[focus_par[i, 1]:focus_par[i, 2]],
+                     Weight = 1)
         
         # Weith of points is calculated as smooth_age_range / distance bewtween oldest and youngest points.
         # If cannot be smaller than 1. Values very far away from the point
@@ -190,7 +224,7 @@ fc_smooth_community_data <- function(data_source,
       }
       
       # ----------------------------------------------
-      #             Shepard's 5-term filter
+      # Shepard's 5-term filter -----
       # ----------------------------------------------
       if(smooth_method == "shep"){
         
@@ -212,17 +246,16 @@ fc_smooth_community_data <- function(data_source,
     dat_community[ ,j] <-  col_res
   }
   
-  if (round_results == T){
+  if (round_results == TRUE){
     dat_community <-  round(dat_community)
   }
   
-  final_list <-  list(
-    Community = dat_community,
-    Age = age,
-    Age.un = data_source$Age.un,
-    Dim.val = data_source$Dim.val)
-  
-  class(final_list) <-  "RRatepolList"
+  final_list <-  
+    RRatepol:::RRatepolList(
+      Community = dat_community,
+      Age = age,
+      Age.un = data_source@Age.un,
+      Dim.val = data_source@Dim.val)
   
   return(final_list)
 }

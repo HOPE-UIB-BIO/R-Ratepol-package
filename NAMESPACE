@@ -1,3 +1,6 @@
 importFrom(magrittr,"%>%")
-exportPattern("^[[:alpha:]]+")
+export(fc_estimate_RoC)
+export(fc_detect_peak_points)
+export(fc_plot_RoC_sequence)
+
 
