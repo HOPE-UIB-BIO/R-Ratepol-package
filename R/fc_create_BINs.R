@@ -2,7 +2,7 @@ fc_create_bins <-function(data_source_bin, shift_value, Number_of_shifts){
   
   bin <-  shift_value * Number_of_shifts
 
-  bin_last <-  ceiling(max(data_source_bin$Age$newage))
+  bin_last <-  ceiling(max(data_source_bin@Age$newage))
   bin_breaks <-  seq(
     from = 0,
     to = bin_last,

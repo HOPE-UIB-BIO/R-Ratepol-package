@@ -16,8 +16,9 @@
 #'  \item{collection.handle}{Neotoma sequence name abberation} 
 #'  \item{lat}{Latitude}
 #'  \item{long}{Longitude}
-#'  \item{list_ages}{List including estimated ages for each level and all age uncertainties from age-depth model}
-#'  \item{filtered.counts}{Tibble contain pollen counts of taxa in each level}
+#'  \item{pollen_data}{Dataframe contain pollen counts of taxa in each level. }
+#'  \item{sample_age}{Dataframe including estimated ages for each level}
+#'  \item{age_uncertainty}{Matrix with age uncertainties from age-depth model}
 #' }
 #' @examples
 #' \dontrun{
