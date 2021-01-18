@@ -128,9 +128,11 @@ fc_estimate_RoC <- function(data_source_community,
   cl <-  parallel::makeCluster(Ncores)
   doSNOW::registerDoSNOW(cl)
   
+  parallel::clusterEvalQ(cl, library("RRatepol"))
+  
   # add all functions to the cluster
-  envir <-  environment(fc_estimate_RoC)
-  parallel::clusterExport(cl, varlist = c(ls(envir)))
+  # envir <-  environment(RRatepol::fc_estimate_RoC)
+  # parallel::clusterExport(cl, varlist = paste0("RRatepol:::",c(ls(envir))))
   
   # create progress bar based os the number of replication
   pb <-  utils::txtProgressBar(max = rand, style = 3)
@@ -169,9 +171,16 @@ fc_estimate_RoC <- function(data_source_community,
             selected_bins <-  bin_sizes[bin_sizes$shift == k, ]
             
             #subset data
-            data_subset <-  RRatepol:::fc_subset_samples(data_subset, selected_bins, Working_Units)
+            data_subset <-  
+              RRatepol:::fc_subset_samples(
+                data_subset,
+                selected_bins,
+                Working_Units)
             
-            data_subset <-  RRatepol:::fc_check_data(data_subset, proportion = FALSE)
+            data_subset <-  
+              RRatepol:::fc_check_data(
+                data_subset,
+                proportion = FALSE)
             
           }
           
@@ -195,13 +204,28 @@ fc_estimate_RoC <- function(data_source_community,
             N_individuals <-  min(c(rowSums(data_sd@Community), N_individuals) )
             
             # check if all samples has N_individuals of individuals
-            data_sd@Age <-  data_sd@Age[rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals, ]
-            data_sd@Age.un <-  data_sd@Age.un[ ,rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals]
-            data_sd@Community <-  data_sd@Community[rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals, ]
-            data_sd <-  RRatepol:::fc_check_data(data_sd, proportion = FALSE, Samples = TRUE, Debug = Debug)
+            data_sd@Age <-  
+              data_sd@Age[rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals, ]
+            
+            data_sd@Age.un <-  
+              data_sd@Age.un[ ,rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals]
+            
+            data_sd@Community <-  
+              data_sd@Community[rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals, ]
+            
+            data_sd <-  
+              RRatepol:::fc_check_data(
+                data_sd,
+                proportion = FALSE,
+                Samples = TRUE,
+                Debug = Debug)
             
             # standardisation
-            data_sd <-  RRatepol:::fc_standardise_community_data(data_sd, N_individuals, Debug = Debug)
+            data_sd <-  
+              RRatepol:::fc_standardise_community_data(
+                data_sd
+                , N_individuals,
+                Debug = Debug)
             
             assertthat::assert_that(
               any(rowSums(data_sd@Community, na.rm = TRUE) == N_individuals),
@@ -210,47 +234,62 @@ fc_estimate_RoC <- function(data_source_community,
           
           # data check with proportioning
           data_sd_check <-  
-            RRatepol:::fc_check_data(data_sd,
-                                     proportion = tranform_to_proportions,
-                                     Samples = FALSE, Debug = Debug)
+            RRatepol:::fc_check_data(
+              data_sd,
+              proportion = tranform_to_proportions,
+              Samples = FALSE, Debug = Debug)
           
           #----------------------------------------------------------#
           # 4.3 DC Calculation ----- 
           #----------------------------------------------------------#
           
           # calculate DC between each subsequent samples/bins
-          DC_res <-  fc_calculate_DC(data_sd_check, DC = DC, Debug = Debug)
+          DC_res <-  
+            RRatepol:::fc_calculate_DC(
+              data_sd_check,
+              DC = DC,
+              Debug = Debug)
           
           #----------------------------------------------------------#
           # 4.4 Age Standardisation ----- 
           #----------------------------------------------------------#
           
           # create empty vector with size = number of samples-1
-          sample_size_work <-  data_sd_check$Dim.val[2]-1
+          sample_size_work <-  data_sd_check@Dim.val[2]-1
           
           # create empty vectors for age difference calcualtion
-          age_diff <-  vector(mode = "numeric", length = sample_size_work)
-          age_diff_names <-  vector(mode = "character", length = sample_size_work)
+          age_diff <-  
+            vector(
+              mode = "numeric",
+              length = sample_size_work)
+          
+          age_diff_names <-  
+            vector(
+              mode = "character",
+              length = sample_size_work)
+          
           age_mean <-  age_diff
           
           for (i in 1:sample_size_work){ # for each RoC
             
             # calcualte the age difference between subsequesnt samples
-            age_diff[i] <-  data_sd_check$Age$newage[i + 1] - data_sd_check$Age$newage[i]
+            age_diff[i] <-  
+              data_sd_check@Age$newage[i + 1] - data_sd_check@Age$newage[i]
             
-            # Set age difference as 1, if age difference between samples is smaller than 1
+            # Set age difference as 1, if age difference between samples is 
+            #   smaller than 1
             if(age_diff[i] < 1){ age_diff[i] <-  1}
             
             #calculate the average position of RoC
-            age_mean[i] <-  mean(c(data_sd_check$Age$age[i+1],
-                                   data_sd_check$Age$age[i]))
+            age_mean[i] <-  mean(c(data_sd_check@Age$age[i+1],
+                                   data_sd_check@Age$age[i]))
             
-            # create vector with bin names
+            # create vector with WU names
             age_diff_names[i] <-
               paste(
-                row.names(data_sd_check$Age)[i],
+                row.names(data_sd_check@Age)[i],
                 "-",
-                row.names(data_sd_check$Age)[i + 1])
+                row.names(data_sd_check@Age)[i + 1])
           }
           
           if (Debug == TRUE){
@@ -308,11 +347,11 @@ fc_estimate_RoC <- function(data_source_community,
   # extract results and match them by bin
   results_full <- 
     dplyr::right_join(
-      fc_extract_result(
+      RRatepol:::fc_extract_result(
         result_tibble,
         "RoC",
         rand),
-      fc_extract_result(
+      RRatepol:::fc_extract_result(
         result_tibble,
         "age_position",
         rand),
@@ -320,7 +359,11 @@ fc_estimate_RoC <- function(data_source_community,
   
   
   # reduce results by the focus age time
-  if (interest_threshold != FALSE){
+  assertthat::assert_that(
+    is.numeric(interest_threshold) | interest_threshold == FALSE,
+    msg = " `interest_threshold` must be a `numeric` or `FALSE`")
+  
+  if(interest_threshold != FALSE){
     results_full <- 
       dplyr::filter(
         results_full,
@@ -328,12 +371,18 @@ fc_estimate_RoC <- function(data_source_community,
   }
   
   # sort samples by age and add smoothing to avoid "waiving" from different shifts
-  results_full <-  results_full[order(results_full$age_position), ]
-  results_full$RoC_sm <-  stats::lowess(results_full$age_position, results_full$RoC, f = .1, iter = 100)$y
-  results_full$RoC_95q_sm <-  stats::lowess(results_full$age_position, results_full$RoC_95q, f = .1, iter = 100)$y
-  results_full$RoC_05q_sm <-  stats::lowess(results_full$age_position, results_full$RoC_05q, f = .1, iter = 100)$y
-  results_full$RoC_sm <-  ifelse(results_full$RoC_sm <= 0, 0.0001, results_full$RoC_sm)
-  results_full$RoC_05q_sm <-  ifelse(results_full$RoC_05q_sm < 0, 0.0001, results_full$RoC_05q_sm)
+  results_full <-  
+    results_full[order(results_full$age_position), ]
+  results_full$RoC_sm <-  
+    stats::lowess(results_full$age_position, results_full$RoC, f = .1, iter = 100)$y
+  results_full$RoC_95q_sm <-  
+    stats::lowess(results_full$age_position, results_full$RoC_95q, f = .1, iter = 100)$y
+  results_full$RoC_05q_sm <-  
+    stats::lowess(results_full$age_position, results_full$RoC_05q, f = .1, iter = 100)$y
+  results_full$RoC_sm <-  
+    ifelse(results_full$RoC_sm <= 0, 0.0001, results_full$RoC_sm)
+  results_full$RoC_05q_sm <-  
+    ifelse(results_full$RoC_05q_sm < 0, 0.0001, results_full$RoC_05q_sm)
   
   
   # final tibble
@@ -356,7 +405,6 @@ fc_estimate_RoC <- function(data_source_community,
     cat(paste(
       "RATEPOL finished", end.time, "taking", time.length, units(time.length)), fill=TRUE)
   }
-  
   
   return(results_full_fin)
   
