@@ -53,9 +53,15 @@ fc_subset_samples <- function(data_subset, bins, WU){
         data_result_community[i, ]<-  data_subset@Community[row.names(data_subset@Community) %in% data_result_age$sample.id[i], ]  
       }
       
-      
     }
   }
+  
+  # reduce the empty collumns 
+  data_result_community <- 
+    data_result_community[rowSums(data_result_community, na.rm = T) > 0, ] 
+  
+  data_result_age <-
+    data_result_age[rowSums(data_result_age[ ,-1], na.rm = T) > 0, ] 
   
   list.res <-
     RRatepol:::RRatepolList(
