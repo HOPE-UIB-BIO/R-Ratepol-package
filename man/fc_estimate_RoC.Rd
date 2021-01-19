@@ -11,33 +11,32 @@ A function to estimate Rate of change in community data in time series
 \usage{
 fc_estimate_RoC(data_source_community,
                 data_source_age,
-                age_uncertainty = F,
-                smooth_method = "none",
+                age_uncertainty = FALSE,
+                smooth_method = "shep",
                 smooth_N_points = 5,
                 smooth_age_range = 500,
                 smooth_N_max = 9,
-                Working_Units = "levels",
+                Working_Units = "MW",
                 bin_size = 500,
-                Number_of_shifts = 1,
+                Number_of_shifts = 5,
                 rand = 1,
-                treads = F,
-                standardise = F,
+                treads = TRUE,
+                standardise = FALSE,
                 N_individuals = 150,
-                tranform_to_proportions = T,
-                DC = "euc",
-                interest_threshold = F,
-                Peak_detection = "GAM",
-                Debug = F)
+                tranform_to_proportions = TRUE,
+                DC = "chord",
+                interest_threshold = FALSE,
+                Debug = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data_source_community}{
-Community data with species as collumns and levels (samples) as rows. First column should be ID (row names)
+Community data with species as collumns and levels (samples) as rows. First column should be sample.id. (character)
 }
   \item{data_source_age}{
 Dataframe with two columns:
-sample.id = unique ID of each level
-age = age of level
+sample.id = unique ID of each level (character)
+age = age of level (numeric)
 }
  \item{age_uncertainty}{
 Usage of age uncertainty form Age-depth models. Either:
@@ -126,60 +125,101 @@ T = show messages from internal processes
 
 }
 \details{
+The general process of computation RoC in R-Ratepol follow simple
+sequence::
+
+1.  Both community and age data are extracted and compiled together.
+
+2.  (optional) Community data is smoothed. Each taxon is smoothed using
+    one of five in-build smoothing methods: none, Shepard’s 5-term
+    filter (Davis, 1986; Wilkinson, 2005)., moving average, age-weighted
+    average, Grimm’s smoothing (Grimm and Jacobson, 1992).
+
+3.  Working Units (WU) for computation are selected.
+
+4.  Single run (an individual loop) is computed:
+
+    -   (optional) A single age sequence is randomly select from age
+        uncertainties for all levels.
+
+    -   (optional) Community data is standardised, i.e. community data
+        is subsampled in each WU to a selected total count of
+        individuals (e.g. 150 pollen grains).
+
+    -   RoC between adjacent WUs is calculated as the dissimilarity
+        coefficient (DC) standardised by age differences between WUs.
+        Four in-build dissimilarity coefficients: Euclidean distance,
+        standardised Euclidean distance, Chord distance, Chi-squared
+        coefficient (Prentice, 1980), Gower’s distance (Gower, 1971).
+
+5.  Single repetition (a loop) is repeated multiple times (e.g. 10,000
+    times).
+
+6.  Results from all runs are summarised.
+
+7.  Significant peak-points are detected and validated. Five in-build
+    methods of testing for the significance of individual RoC points:
+    Threshold, Linear trend, Non-linear trend, first derivative of
+    generalised additive model (f-deriv GAM; Simpson, 2018), and
+    Signal-to-Noise Index (SNI; Kelly et al., 2011).
+
+Selection of working units
+
+RoC is calculated between consecutive Working Units (WU). Traditionally,
+these WUs represent individual stratigraphical levels. However, changes
+in sedimentation rates and sampling strategies can result in an uneven
+distribution of levels within a time sequence, which in turn makes the
+comparison of RoC between sequences problematic. There are various
+methods that attempt to minimise such problems. The first is
+interpolation of levels to evenly spaced time intervals, and the use of
+the interpolated data as WUs. This can lead to a loss of information
+when the density of levels is high. Second is binning of levels: pollen
+data are pooled into age brackets of various size (bins) and these serve
+as WUs. Here, the issue is a lower resolution of WUs and their uneven
+size in terms of total pollen count (bins with more levels have higher
+pollen counts). Third is selective binning: like classical binning, bins
+of selected size are created, but instead of pooling pollen data
+together, only one level is selected as representative of each bin. This
+results in an even number of WUs in bins with a similar number of pollen
+grains. However, the issue of low resolution remains. We propose a new
+method of binning with a moving window, which is a compromise between
+using individual levels and selective binning. This method follows a
+simple sequence: bins are created, levels are selected as in selective
+binning, and RoC between bins is calculated. However, the brackets of
+the time bin (window) are then moved forward by a selected amount of
+time (Z), levels are selected again, and RoC calculated for the new set
+of WUs. This is repeated X times (where X is the bin size divided by Z)
+while retaining all the results. 
+
 Randomisation
-Due to the inherent statistical errors in a pollen count in each level (Birks & Gordon, 1985) and uncertainties in the age estimates from age-depth models, R-Ratepol is run several times and the results summarised. Each run, one age prediction   is randomly selected from the pool of age sequences, and pollen taxa are standardised to a certain number of pollen grains in each working unit (WU) by rarefaction (using random sampling without replacement to a default of 150 pollen grains). The calculation between two consecutive WUs (i.e. one working-unit combination) results in a RoC score and a time position (calculated as mean age position of the WUs). However, due to random sampling of the age sequence, each WU combination will result in multiple RoC values and age positions. R Ratepol assigns the age position of each WU combination as the median time position from all calculations. The final RoC values are calculated as the median and 95th quantile of the scores from all calculations. In addition, because of excluding empty bins in the selective binning with a moving window approach, it is possible that some working-unit combinations will not be present in some calculations. Therefore, R-Ratepol only includes working-unit combinations that are present in at least 10 percent of all calculations.  
 
-Description of individual steps:
+Due to the inherent statistical errors in a community datasets
+(e.g. pollen count in each level; Birks and Gordon, 1985) and
+uncertainties in the age estimates from age-depth modelling, R-Ratepol
+can be run several times and the results summarised. Therefore, two
+optional settings can be used: usage of age uncertainties and community
+data standardisation.
 
-1) Pollen data smoothing 
-Each pollen taxon is smoothed by one of five smoothing functions in R-Ratepol. 
-	None: Pollen data are not smoothed
-	Moving average (Wilkinson, 2005): Each focus value is calculated as the average over N number of levels (preferably ½ N before and ½ after the focus level; values are adjusted at the beginning and end of the core. N must be odd number). Note that each calculation is done from scratch and results are saved separately in order to avoid cumulative rounding errors. Default N is set to 5.
-	Grimm’s smoothing (Grimm & Jacobson, 1992): Similar to a moving average but N is not fixed. For each level, N is selected as an odd number between N_a and N_b  (N ⊂{N_a,N_b}) while maintaining the maximum age difference from the selected levels as 〖Age〗_MAX. Default values are set as N_a= 5, N_b = 9, 〖Age〗_MAX = 500. 
-	Age-weighted average (Wilkinson, 2005): Similar to the moving average but the average is weighted by the age difference from the focus level and multiplied by 1/CONSTANT (CONSTANT is selected by user). To avoid up-weighting levels, if CONSTANT/AGEDIFF exceeds 1, it is saved as 1. This means that levels closer than the CONSTANT to the target age are given full weighting, but those farther away are downweighed by an amount increasing with age difference. CONSTANT has a default setting of 500 years.
-	Shepard's 5-term filter (Davis, 1986; Wilkinson, 2005): Smoothing over 5 points following the equation below 
-V_NEW=(17*V + 12*(V_((+1) )  + V_((-1) ) )-3*(V_((+2) )  + V_((-2) )))/35 ,
-where V is the focal level value. All result values smaller than zero are saved as zero.
+Community data standardisation
 
-2) Creation of template for all time bins in all window movement
-Bins of selected size are created, starting from zero. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. 
+Taxa in community dataset can standardised to a certain abundance
+(e.g. number of pollen grains in each WU) by rarefaction. Random
+sampling without replacement is used to a draw selected number of
+individuals in each WU (e.g. 150 pollen).
 
-3a) Random time sequence sampling from age-depth model
-One age sequence is randomly selected from the 1000 sequences generated from the Bchron age-depth models. Each of the levels is given one age value and the correct temporal order is checked in the sequence. 
+Age uncertainties
 
-3b) Creation of working units (WUs) and data standardisation
-RoC can be calculated between individual levels or bins. In terms of calculation between levels, each level becomes one working unit. If bins are selected, the level closest to the start of each bin is selected as representative of that bin. All other levels are excluded. Bins with valid levels become the new WUs, and empty bins are excluded. Each WU is standardised to the same number of pollen grains (default value = 150), using random sampling of pollen grains without replacement. The dataset is reduced by excluding all WUs without any pollen and all pollen taxa without any counts.
-
-3c) Calculate RoC between adjacent WUs
-First, the dissimilarity coefficient between adjacent WUs is calculated using one of four dissimilarity coefficients (Prentice, 1980):
-	Euclidean distance: 
-√(∑_(i=1)^m▒〖(A_i-B_i)〗^2 ), where A_i and B_i are pollen values for WUs A and B of taxon i, and there are m taxa.
-
-	Standardised Euclidean distance:
-√(∑_(i=1)^m▒〖((A_i-B_i)/〖SD〗_i )〗^2 ) , where A_i and B_i are pollen values for WUs A and B of taxon i,〖SD〗_i is the standard deviation for taxon i calculated from the whole sequence, and there are m taxa.
-
-	Chord distance:
-√(∑_(i=1)^m▒〖(√(A_i )-√(B_i ))〗^2 ), where A_i and B_i are pollen values for WUs A and B of taxon i, and there are m taxa.
-
-	Chi-squared coefficient:
-√(∑_(i=1)^m▒〖(A_i-B_i)〗^2/((A_i+B_i))), where A_i and B_i are pollen values for WUs A and B of taxon i , and there are m taxa.
-
- Gower's disatnce:
-Usabe for data with NA's and also community data in difefrent units
-
-Next, the age difference between subsequent WUs is calculated. Finally, the RoC score between WUs is calculated as:
-〖RoC〗_(A-B)=(〖DC〗_(A-B)*〖Age.diff〗_mean)/〖Age.diff〗_(A-B)  , where 〖DC〗_(A-B) is the dissimilarity between WUs A and B, 〖Age.diff〗_mean is the average age difference between WUs in the whole sequence, and 〖Age.diff〗_(A-B) is the age difference between WUs A and B. 
-
-3d) Summarisation of results from all moving windows
-Bins (windows) are moved forward by a selected amount of time Z, the steps 3a–3c are repeated for a new set of WUs (age sampling, levels selection, RoC calculation). This is repeated X times, where X=  (BIN size)/Z. Results from all window positions are merged and saved as a single value.
-
-4) Step 3 is repeated X times, with default number of 10.000 repetitions
-
-5) Validation and summary of results from all randomisations
-Results from all randomisations are merged while keeping the identity of each working-unit combination. Due to random selection of the age sequence, each of the working-unit combinations will result in multiple RoC values and time positions. The time position of each working-unit combination is assigned as the median of the time positions from all randomisations. Final RoC values are calculated as the median score of all randomisations. In addition, due to excluding empty bins in selective binning with a moving window, there is a chance that some WU combinations will be present only in some randomisations. Therefore, only working-unit combinations that are present in at least 10 percent of all randomisations are saved.  
-
-5) Data beyond the selected age are excluded (8000 cal yr BP in this study)
-
+For each run, a single age sequence from age uncertainties is randomly
+selected. The calculation between two consecutive WUs (i.e. one
+working-unit combination) results in a RoC score and a time position
+(which is calculated as the mean age position of the two WUs). However,
+due to random sampling of the age sequence, each WU combination will
+result in multiple RoC values and age positions. R Ratepol assigns the
+age position of each WU combination as the median time position from all
+calculations. The final RoC value for a single WU combination is
+calculated as the median of the scores from all randomisations. In
+addition, 95th quantile from all randomisations is calculated as error
+estimate.
 
 }
 \value{
@@ -190,7 +230,20 @@ Results from all randomisations are merged while keeping the identity of each wo
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+Birks, H.J.B., Gordon, A.D., 1985. Numerical Methods in Quaternary Pollen Analysis. Academic Press, London.
+
+Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed. J. Wiley & Sons, New York.
+
+Gower, J.C., 1971. A general coefficient of similarity and some of its properties. Biometrics 27, 857–871.
+
+Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt climate changes during the past 18000 years in eastern North America. Clim. Dyn. 6, 179–184.
+
+Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A signal-to-noise index to quantify the potential for peak detection in sediment-charcoal records. Quat. Res. 75, 11–17. https://doi.org/10.1016/j.yqres.2010.07.011
+
+Prentice, I.C., 1980. Multidimensional scaling as a research tool in Quaternary palynology: A review of theory and methods. Rev. Palaeobot. Palynol. 31, 71–104. https://doi.org/10.1016/0034-6667(80)90023-8
+
+Simpson, G.L., 2018. Modelling palaeoecological time series using generalised additive models. Front. Ecol. Evol. 6, 1–21. https://doi.org/10.3389/fevo.2018.00149
+Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York, USA 37. https://doi.org/10.2307/2669493
 }
 \author{
 Ondřej Mottl
@@ -205,14 +258,15 @@ Ondřej Mottl
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-
 sequence_01 <- 
   fc_estimate_RoC(
-    example_data$filtered.counts[[1]],
-    example_data$list_ages[[1]]$age,
-    rand = 10000)
+    data_source_community = example_data$pollen_data[[1]],
+    data_source_age = example_data$sample_age[[1]])
 
-fc_plot_RoC_sequence(sequence_01)
+fc_plot_RoC_sequence(
+  sequence_01,
+  age_treshold = 8e3,
+  Roc_threshold = 1)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
