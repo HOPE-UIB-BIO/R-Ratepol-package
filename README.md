@@ -10,32 +10,31 @@ Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology
 revisited: a new approach bioRxiv 2020.12.16.422943; doi:
 <a href="https://doi.org/10.1101/2020.12.16.422943" class="uri">https://doi.org/10.1101/2020.12.16.422943</a>
 
-R-Ratepol is written as an R package (R Core Team 2018) and include
-plethora of possible setting including a novel statistical approach to
+R-Ratepol is written as an R package (R Core Team 2018) and offers a
+plethora of possible settings including a novel statistical approach to
 evaluate RoC in a single stratigraphical sequence using community data
 and age uncertainties for each level. There are multiple build-in
-dissimilarity coefficients (DC), for different types of dataset, and
+dissimilarity coefficients (DC), for different types of datasets, and
 various levels of data smoothing (from none to Grimm’s) can be applied
 depending on the variance of the data. In addition, R-Ratepol is able to
 use randomisation, accompanied with taxa standardisation and/or usage of
 uncertainty for age of each level, to detect RoC patterns in dataset
 with more noise in data.
 
-The general process of computation RoC in R-Ratepol follow simple
-sequence::
+Computation of RoC by R-Ratepol follows this step-wise procedure:
 
 1.  Both community and age data are extracted and compiled together.
 
 2.  (optional) Community data is smoothed. Each taxon is smoothed using
     one of five in-build smoothing methods: none, Shepard’s 5-term
-    filter (Davis, 1986; Wilkinson, 2005)., moving average, age-weighted
+    filter (Davis, 1986; Wilkinson, 2005), moving average, age-weighted
     average, Grimm’s smoothing (Grimm and Jacobson, 1992).
 
 3.  Working Units (WU) for computation are selected.
 
 4.  Single run (an individual loop) is computed:
 
-    -   (optional) A single age sequence is randomly select from age
+    -   (optional) A single age sequence is randomly selected from age
         uncertainties for all levels.
 
     -   (optional) Community data is standardised, i.e. community data
@@ -97,12 +96,12 @@ Due to the inherent statistical errors in a community datasets
 (e.g. pollen count in each level; Birks and Gordon, 1985) and
 uncertainties in the age estimates from age-depth modelling, R-Ratepol
 can be run several times and the results summarised. Therefore, two
-optional settings can be used: usage of age uncertainties and community
-data standardisation.
+optional settings can be used: usage of community data standardisation
+and age uncertainties.
 
 ### Community data standardisation
 
-Taxa in community dataset can standardised to a certain abundance
+Taxa in community dataset can be standardised to a certain abundance
 (e.g. number of pollen grains in each WU) by rarefaction. Random
 sampling without replacement is used to a draw selected number of
 individuals in each WU (e.g. 150 pollen).
@@ -130,14 +129,14 @@ sequences and interpreting the potential drivers of assemblage change.
 To detect such significant peak-points of RoC scores in each sequence,
 each point is tested to see if it represents a significant increase in
 RoC values. There are various ways of detection peak points in time
-series and R-Ratepol is able detect peak-points using five methods:
+series and R-Ratepol is able to detect peak-points using five methods:
 
 1.  Threshold: Each point in the RoC sequence is compared to a median of
     all RoC scores from the whole (i.e. threshold value). The point is
     considered significant if the 95th quantile of the RoC scores from
     all calculations is higher than the threshold value.
 
-2.  Linear trend: linear model is fitted between RoC values and their
+2.  Linear trend: A linear model is fitted between RoC values and their
     ages. Differences between the model and each point is calculated
     (residuals). Standard deviation (SD) is calculated from all the
     residuals. Peak is considered significant if it is 1.5 SD higher
@@ -147,10 +146,10 @@ series and R-Ratepol is able detect peak-points using five methods:
     fitted through the RoC scores and their ages (GAM= RoC ~ s(age,k=3)
     using mgcv package (Wood, 2011). The distance between each point and
     the fitted value is calculated (residuals). Standard deviation (SD)
-    is calculated from all the residuals. Peak is considered significant
+    is calculated from all the residuals. A peak is considered significant
     if it is 1.5 SD higher than the model.
 
-4.  F-deriv GAM: smooth GAM model is fitted the RoC scores and their
+4.  F-deriv GAM: Smooth GAM model is fitted to the RoC scores and their
     ages (GAM= RoC ~ s(age). First derivative as well as continuous
     confidence intervals are calculated from the model using gratia
     package (Simpson, 2019). Peak is considered significant if
@@ -170,13 +169,13 @@ Examples
 
 ### Example data
 
-Pollen data from four European sequences the *Neotoma database* (Goring
-et al., 2015). Taxa were standardised to the taxonomically highest
-pollen morphotype (Level = MHVar2) using the pollen harmonisation table
-in Giesecke et al. (2019).
+Pollen data from four European sequences were extracted from 
+the *Neotoma database* (Goring et al., 2015). Taxa were standardised 
+to the taxonomically highestpollen morphotype (Level = MHVar2) 
+using the pollen harmonisation table by Giesecke et al. (2019).
 
 Age-depth models were developed using the pre-selected radiometric
-control points provided in Giesecke et al. (2014) and calibrated the
+control points provided in Giesecke et al. (2014). We calibrated the
 radiocarbon dates using the IntCal13 Northern Hemisphere calibration
 curve (Reimer et al., 2013). For each sequence, an age-depth model was
 constructed using the *Bchron R package* (Haslett & Parnell, 2008) to
@@ -186,7 +185,7 @@ to give the most probable age (default age) in calibrated years before
 present (cal yr BP, where 0 = 1950 CE).
 
 In each sequence, we excluded all levels that contained less than 150
-pollen grain counts of the terrestrial taxa, and all levels beyond a
+pollen grain counts of terrestrial taxa, and all levels beyond a
 3000-years extrapolation of the oldest chronological control point. In
 addition, we excluded all levels with an age older than 8500 cal yr BP
 to focus on the period of most substantial human impact.
@@ -223,7 +222,7 @@ to focus on the period of most substantial human impact.
 
 Estimate RoC values for *Dallican Water* site using *Age-weighed
 smoothing* of the data and *Chord dissimilarity* coefficient. Pollen
-data will not standardised to a certain pollen count and age
+data will not be standardised to a certain pollen count and age
 uncertainties from *Bchron* will not be used.
 
     sequence_01 <- 
