@@ -18,7 +18,7 @@ dissimilarity coefficients (DC), for different types of datasets, and
 various levels of data smoothing (from none to Grimm’s) can be applied
 depending on the variance of the data. In addition, R-Ratepol is able to
 use randomisation, accompanied with taxa standardisation and/or usage of
-uncertainty for age of each level, to detect RoC patterns in dataset
+uncertainty for the age of each level, to detect RoC patterns in datasets
 with more noise in data.
 
 Computation of RoC by R-Ratepol follows this step-wise procedure:
