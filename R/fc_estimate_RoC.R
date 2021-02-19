@@ -146,7 +146,7 @@ fc_estimate_RoC <- function(data_source_community,
     foreach::`%dopar%`(foreach::foreach(
       l = 1:rand,
       .combine = rbind,
-      .options.snow=opts), {
+      .options.snow = opts), {
         
         # TIME SAMPLING
         # sample random time sequence from time uncern.
