@@ -23,9 +23,8 @@ rapid changes in composition or sedimentation rates).
 The computation of RoC in R-Ratepol is performed using the following
 steps::
 
-1.  1.  Assemblage and age-model data are extracted from the original
-        source and is compiled together, i.e. depth, age, taxon 1, taxon
-        2, etc.
+1.  Assemblage and age-model data are extracted from the original source
+    and is compiled together, i.e. depth, age, taxon 1, taxon 2, etc.
 
 2.  (optional) Smoothing of assemblage data: Each variable within the
     assemblage data is smoothed using one of five in-built smoothing
@@ -53,14 +52,14 @@ steps::
 
 -   Summary of a single run is produced based on all moving windows
 
-1.  Step 4 is repeated multiple times (e.g. 10,000 times).
+5.  Step 4 is repeated multiple times (e.g. 10,000 times).
 
-2.  Validation and summary of results from all runs of RoC calculation
+6.  Validation and summary of results from all runs of RoC calculation
     are produced.
 
-3.  (Optional) Data beyond a certain age can be excluded.
+7.  (Optional) Data beyond a certain age can be excluded.
 
-4.  Detection and validation of significant peak-points. There are five
+8.  Detection and validation of significant peak-points. There are five
     in-built methods to detect significant peak-points: Threshold,
     Linear trend, Non-linear trend, first derivative of a generalised
     additive model (f-deriv GAM; Simpson, 2018), and Signal-to-Noise
@@ -109,15 +108,15 @@ times and the results summarised (Steps 5-6). Therefore, two optional
 settings are available by using age uncertainties and assemblage data
 standardisation. 
 
-### Age uncertainties (Step 4a) 
+### Age uncertainties (Step 4a)
 
-For each run, a single age sequence from the age uncertainties is randomly selected. The
-calculation between two consecutive WUs (i.e. one working-unit
-combination) results in a RoC score and a time position (which is
-calculated as the mean age position of the two WUs). However, due to
-random sampling of the age sequence, each WU combination will result in
-multiple RoC values and age positions. R Ratepol assigns the age
-position of each WU combination as the median time position from all
+For each run, a single age sequence from the age uncertainties is
+randomly selected. The calculation between two consecutive WUs (i.e. one
+working-unit combination) results in a RoC score and a time position
+(which is calculated as the mean age position of the two WUs). However,
+due to random sampling of the age sequence, each WU combination will
+result in multiple RoC values and age positions. R-Ratepol assigns the
+age position of each WU combination as the median time position from all
 calculations (Step 6). The final RoC value for a single WU combination
 is calculated as the median of the scores from all randomisations. In
 addition, the 95th quantile from all randomisations is calculated as an
