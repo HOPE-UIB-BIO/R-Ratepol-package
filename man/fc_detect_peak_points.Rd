@@ -8,7 +8,7 @@ Detect significant peak points
 Detect points of suddent increae of Rate-of-change values
 }
 \usage{
-fc_detect_peak_points(data_source, method = "trend_linear")
+fc_detect_peak_points(data_source, method = "trend_linear", sd_threshold = 1.5)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,14 +20,18 @@ method of peak detection:
   
 "threshold"        = Treshold value is set for whole dataset (after subseting for interest_threshold) as median of all RoC values. Peak is  consider significant if 95 percent quantile (gain from randomisation) is higher than treshold
 
-"trend_linear"     = linear model is fitted with RoC and Age. Differences between the model and each point is calculated. SD is calculated from all the differences.Peak is considered significat if it is 1.5 SD higher than the model
+"trend_linear"     = linear model is fitted with RoC and Age. Differences between the model and each point is calculated. SD is calculated from all the differences.Peak is considered significat if it is sd_threshold (default = 1.5) SD higher than the model
   
-"trend_non_linear" = very crude GAM model (k = 3) is fitted with RoC and Age. Differences between GAM and each point is calculated. SD is calculated from all the differences. Peak is considered significat if it is 1.5 SD higher than GAM
+"trend_non_linear" = very crude GAM model (k = 3) is fitted with RoC and Age. Differences between GAM and each point is calculated. SD is calculated from all the differences. Peak is considered significat if it is sd_threshold (default = 1.5) SD higher than GAM
             
 "GAM_deriv"        = smooth GAM model is fitted with RoC and Age. First derivative as welll as continuous confidence intervals are calculted from the model. Peak is considered significat if confidence intervals of first derivative is higher than 0.
 
 "SNI"              = Signal-to-Noise Index, following adapted the SNI from Kelly et al. (2011) written to detect changes in charcoal records. The SNI is calculated for the whole RoC sequence and point is consider significant if has SNI value higher than 3 (following suggesting from Kelly et al. (2011)).
 }
+\item{sd_threshold}{
+Threshold that SD of residuals are compared to, to determine peak point (default = 1.5).
+}
+
 }
 \details{
 A rapid change in composition or relative abundances of taxa within the sequence can provide a means of comparing RoC between sequences and interpreting the potential drivers of assemblage change. To detect such significant peak-points of RoC scores in each sequence, each point is tested to see if it represents a significant increase in RoC values. There are various ways to detect peak-points in a time series and R-Ratepol is able detect peak-points using five methods: 
@@ -80,7 +84,7 @@ sequence_01 <-
     data_source_age = example_data$sample_age[[1]])
 
 sequence_01_peak <-
-  fc_detect_peak_points(sequence_01, method = "trend_non_linear")
+  fc_detect_peak_points(sequence_01, method = "trend_non_linear", sd_threshold = 1.5)
   
 fc_plot_RoC_sequence(
   sequence_01_peak,

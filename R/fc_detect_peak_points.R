@@ -1,4 +1,4 @@
-fc_detect_peak_points <-  function(data_source, method = "trend_linear"){
+fc_detect_peak_points <-  function(data_source, method = "trend_linear", sd_threshold = 1.5){
   
   
   if(any(method == c("threshold", "trend_linear", "trend_non_linear", "GAM_deriv", "SNI")) == F)
@@ -22,7 +22,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear"){
   #----------------------------------------------------------#
   if(method == "trend_linear"){
     
-    # mark points that are abowe the linear model (exactly 1.5 SD higher than prediction)
+    # mark points that are abowe the linear model (exactly sd_threshold SD higher than prediction)
     data_source$pred_linear <-
       predict.glm(
         glm(ROC ~ Age,
@@ -31,7 +31,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear"){
         type = "response")
     
     data_source$pred_linear_diff <-  data_source$ROC - data_source$pred_linear
-    data_source$Peak <-  (data_source$pred_linear_diff) > 1.5 * sd(data_source$pred_linear_diff)
+    data_source$Peak <-  (data_source$pred_linear_diff) > sd_threshold * sd(data_source$pred_linear_diff)
   }
   
   #----------------------------------------------------------#
@@ -39,7 +39,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear"){
   #----------------------------------------------------------#
   if(method == "trend_non_linear"){
     
-    # mark points that are abowe the GAM model (exactly 1.5 SD higher than GAM prediction)
+    # mark points that are abowe the GAM model (exactly sd_threshold SD higher than GAM prediction)
     data_source$pred_gam <-  
       mgcv::predict.gam(
         mgcv::gam(
@@ -50,7 +50,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear"){
         type="response")
     
     data_source$pred_gam_diff <-  data_source$ROC - data_source$pred_gam
-    data_source$Peak <-  (data_source$pred_gam_diff) > 1.5 * sd(data_source$pred_gam_diff)
+    data_source$Peak <-  (data_source$pred_gam_diff) > sd_threshold * sd(data_source$pred_gam_diff)
     
   }
   
