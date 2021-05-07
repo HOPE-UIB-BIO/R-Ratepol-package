@@ -10,26 +10,33 @@ Encoding: UTF-8
 LazyData: true
 Authors@R: person("Ondrej", "Mottl", email = "ondrej.mottl@gmail.com", role = c("aut","cre"))
 Imports:
-    dplyr,
-    tidyr,
-    mgcv,
-    tibble,
-    magrittr,
-    ggplot2,
-    parallel,
+    assertthat,
     doSNOW,
-    snow,
-    utils,
+    dplyr,
     foreach,
-    stats,
-    StatMatch,
+    ggplot2,
     gratia,
+    magrittr,
+    mgcv,
+    parallel,
     rlang,
-    assertthat
+    snow,
+    StatMatch,
+    stats,
+    tibble,
+    tidyr,
+    utils  
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 2.10)
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    tidyverse,
+    neotoma,
+    Bchron,
+    janitor,
+    here,
+    pander,
+    qpdf
 VignetteBuilder: knitr
