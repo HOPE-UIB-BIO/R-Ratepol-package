@@ -298,6 +298,6 @@ Plot the estimates with showing both the peak-points
 
 ```{r Figure, results='markup', echo=TRUE}
 RRatepol::fc_plot_RoC_sequence(
-  gl_roc_peaks, age_treshold= 8e3, Roc_threshold = 1.5, Peaks = TRUE, trend = "trend_non_linear")
+  gl_roc_peaks, age_threshold= 8e3, Roc_threshold = 1.5, Peaks = TRUE, trend = "trend_non_linear")
 ```
 
