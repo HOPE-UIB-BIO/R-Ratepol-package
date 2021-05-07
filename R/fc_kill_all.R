@@ -1,6 +1,6 @@
 fc_kill_all <- function(data_source_check.kill, Species = Species, Samples = Samples){
   
-  #' @Description: check if there is a sample that do not have a individuals data and delete it
+  # check if there is a sample that do not have a individuals data and delete it
   #     and check if there are any specie without individuals record and delete them
 
   
