@@ -127,12 +127,12 @@ Estimate RoC values for *Dallican Water* site using *Age-weighed smoothing* of t
 
 ```{r sequence 1, results = F, warning=F}
 sequence_01 <- 
-  fc_estimate_RoC(
+  RRatepol::fc_estimate_RoC(
     data_source_community = example_data$pollen_data[[1]],
     data_source_age = example_data$sample_age[[1]],
     age_uncertainty = F,
-    smooth_method = "age.w",
-    DC = "chord",
+    smooth_method = "shep",
+    DC = "chisq",
     Working_Units = "levels",
     standardise = F,
     rand = 1)
@@ -140,7 +140,7 @@ sequence_01 <-
 ```
 
 ```{r plot 1, echo=T}
-fc_plot_RoC_sequence(sequence_01, age_treshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
+RRatepol::fc_plot_RoC_sequence(sequence_01, age_treshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
 ```
 
 ### Example 2
@@ -151,12 +151,12 @@ This will produce error *wrapper* showing 95th percent quantile.
 
 ```{r sequence 2, results = F, warning=F}
 sequence_02 <-
-  fc_estimate_RoC(
+  RRatepol::fc_estimate_RoC(
     data_source_community = example_data$pollen_data[[1]],
     data_source_age = example_data$sample_age[[1]],
     age_uncertainty = example_data$age_uncertainty[[1]],
-    smooth_method = "age.w",
-    DC = "chord",
+    smooth_method = "shep",
+    DC = "chisq",
     Working_Units = "levels",
     standardise = T,
     N_individuals = 150,
@@ -167,7 +167,7 @@ sequence_02 <-
 ```
 
 ```{r plot 2, echo=T}
-fc_plot_RoC_sequence(sequence_02, age_treshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
+RRatepol::fc_plot_RoC_sequence(sequence_02, age_treshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
 ```
 
 ### Example 3
@@ -176,12 +176,12 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and `Number_
 
 ```{r sequence 3, results = F, warning=F}
 sequence_03 <-
-    fc_estimate_RoC(
+    RRatepol::fc_estimate_RoC(
     data_source_community = example_data$pollen_data[[1]],
     data_source_age = example_data$sample_age[[1]],
     age_uncertainty = example_data$age_uncertainty[[1]],
-    smooth_method = "age.w",
-    DC = "chord",
+    smooth_method = "shep",
+    DC = "chisq",
     Working_Units = "MW",
     bin_size = 500,
     Number_of_shifts  = 5,
@@ -193,7 +193,7 @@ sequence_03 <-
 ```
 
 ```{r plot 3, echo=T}
-fc_plot_RoC_sequence(sequence_03, age_treshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
+RRatepol::fc_plot_RoC_sequence(sequence_03, age_treshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
 ```
 
 ### Example 4
@@ -203,9 +203,9 @@ Detect the *peak points* using *trend_non_linear* method.
 
 ```{r plot 4, echo=T}
 sequence_03_peaks <-
-  fc_detect_peak_points(sequence_03, method = "trend_non_linear")
+  RRatepol::fc_detect_peak_points(sequence_03, method = "trend_non_linear")
 
-fc_plot_RoC_sequence(sequence_03_peaks, age_treshold= 8e3, Roc_threshold = 1, Peaks = T, trend = "trend_non_linear")
+RRatepol::fc_plot_RoC_sequence(sequence_03_peaks, age_treshold= 8e3, Roc_threshold = 1, Peaks = T, trend = "trend_non_linear")
 ```
 
 ## References 
