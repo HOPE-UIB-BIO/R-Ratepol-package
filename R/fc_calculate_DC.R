@@ -68,7 +68,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F){
       length = data_source_DC@Dim.val[1])
     
     # calculate the SD for each species
-    df_sp_supp <-  apply(data_source_DC@Community, 2 , sd)
+    df_sp_supp <-  apply(data_source_DC@Community, 2 , stats::sd)
     
     # calculation of the DC
     # for each sample (except the last)

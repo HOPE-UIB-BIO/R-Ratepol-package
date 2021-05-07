@@ -25,7 +25,7 @@ fc_check_data <- function (data_source_check, proportion = F, Species = TRUE, Sa
         "Age data has values of min", min(data_source_check@Age$age),
         ", max",max(data_source_check@Age$age),
         ", mean", round(mean(data_source_check@Age$age), 2),
-        ", and median", round(median(data_source_check@Age$age), 2)),
+        ", and median", round(stats::median(data_source_check@Age$age), 2)),
       fill = TRUE)
     
     cat("", fill = TRUE)

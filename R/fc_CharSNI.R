@@ -46,7 +46,7 @@ fc_CharSNI = function(CharData,BandWidth) {
   
   CHAR = CharData[,2];
   CHAR.mean <- mean(CHAR);
-  CHAR.sd <- sd(CHAR);
+  CHAR.sd <- stats::sd(CHAR);
   CHAR <- ( CHAR - CHAR.mean ) / CHAR.sd;
   
   thresh = CharData[,3];
@@ -98,10 +98,10 @@ fc_CharSNI = function(CharData,BandWidth) {
     }
     
     
-    if(is.na(sd(X[inN]))){
+    if(is.na(stats::sd(X[inN]))){
       SNI_output$stdN[i] = 1;
     } else {
-      SNI_output$stdN[i] = sd(X[inN]);
+      SNI_output$stdN[i] = stats::sd(X[inN]);
     }
     
 

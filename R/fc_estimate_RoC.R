@@ -9,11 +9,11 @@ fc_estimate_RoC <- function(data_source_community,
                             bin_size = 500,
                             Number_of_shifts = 5,
                             rand = 1,
-                            treads = T,
+                            treads = TRUE,
                             standardise = FALSE,
                             N_individuals = 150,
                             tranform_to_proportions = TRUE,
-                            DC = "chord",
+                            DC = "chisq",
                             interest_threshold = FALSE,
                             Debug = FALSE){
   
@@ -136,7 +136,7 @@ fc_estimate_RoC <- function(data_source_community,
   
   # create progress bar based os the number of replication
   pb <-  utils::txtProgressBar(max = rand, style = 3)
-  progress <-  function(n) setTxtProgressBar(pb, n)
+  progress <-  function(n) utils::setTxtProgressBar(pb, n)
   opts <-  list(progress = progress)
   
   # create template for result tibble
