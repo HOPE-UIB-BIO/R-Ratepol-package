@@ -245,7 +245,7 @@ uncertainties from *Bchron* will not be used.
         standardise = F,
         rand = 1)
 
-    RRatepol::fc_plot_RoC_sequence(sequence_01, age_treshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
+    RRatepol::fc_plot_RoC_sequence(sequence_01, age_threshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
 
 ![](README_files/figure-markdown_strict/plot_1_1.png)
 
@@ -269,7 +269,7 @@ This will produce error *wrapper* showing 95th percent quantile.
         rand = 1000,
         treads = T)
 
-    RRatepol::fc_plot_RoC_sequence(sequence_02, age_treshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
+    RRatepol::fc_plot_RoC_sequence(sequence_02, age_threshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
 
 ![](README_files/figure-markdown_strict/plot_2_1.png)
 
@@ -293,7 +293,7 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and
         rand = 1000,
         treads = T)
 
-    RRatepol::fc_plot_RoC_sequence(sequence_03, age_treshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
+    RRatepol::fc_plot_RoC_sequence(sequence_03, age_threshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
 
 ![](README_files/figure-markdown_strict/plot_3_1.png)
 
@@ -304,7 +304,7 @@ Detect the *peak points* using *trend\_non\_linear* method.
     sequence_03_peaks <-
       RRatepol::fc_detect_peak_points(sequence_03, method = "trend_non_linear")
 
-    RRatepol::fc_plot_RoC_sequence(sequence_03_peaks, age_treshold= 8e3, Roc_threshold = 1, Peaks = T, trend = "trend_non_linear")
+    RRatepol::fc_plot_RoC_sequence(sequence_03_peaks, age_threshold= 8e3, Roc_threshold = 1, Peaks = T, trend = "trend_non_linear")
 
 ![](README_files/figure-markdown_strict/plot_4_1.png)
 

@@ -1,9 +1,7 @@
 \name{fc_estimate_RoC}
 \alias{fc_estimate_RoC}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 RRatepol: Estimate Rate of change
-%%  ~~function to do ... ~~
 }
 \description{
 A function to estimate Rate of change in community data in time series 
@@ -24,14 +22,14 @@ fc_estimate_RoC(data_source_community,
                 standardise = FALSE,
                 N_individuals = 150,
                 tranform_to_proportions = TRUE,
-                DC = "chord",
+                DC = "chisq",
                 interest_threshold = FALSE,
                 Debug = FALSE)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{data_source_community}{
-Community data with species as collumns and levels (samples) as rows. First column should be sample.id. (character)
+Community data with species as columns and levels (samples) as rows. First column should be sample.id. (character)
 }
   \item{data_source_age}{
 Dataframe with two columns:
@@ -41,7 +39,7 @@ age = age of level (numeric)
  \item{age_uncertainty}{
 Usage of age uncertainty form Age-depth models. Either:
 
-[1] matrix with number of columns as number of samples. Each column is one sample, each row is one age sequence from age-depth model. Age sequence is randomly sampled from age-depth model uncertainties at the begining of each run.
+[1] matrix with number of columns as number of samples. Each column is one sample, each row is one age sequence from age-depth model. Age sequence is randomly sampled from age-depth model uncertainties at the beginning of each run.
 
 [2] FALSE. Age uncertainties are not available and, therefore, will not be used.
 }
@@ -71,11 +69,11 @@ Maximal age range for both Grimm and Age-weight smoothing
  \item{Working_Units}{
 Selection of units that the DC will be calculated between.
 
-"levels" = individual levels are ogoing to be used
+"levels" = individual levels are going to be used
 
-"bins"   = samples in predifined bins will be pooled together and one random sample will be selected from each time bin as a representation.
+"bins"   = samples in predefined bins will be pooled together and one random sample will be selected from each time bin as a representation.
 
-"MW"     = Bins of selected size are created, starting from zero. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. Sample, whitch is the closest to the begining of the bin is selected asa representation of the bin.  
+"MW"     = Bins of selected size are created, starting from zero. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. Sample, whitch is the closest to the beginning of the bin is selected asa representation of the bin.  
 
 }
  \item{bin_size}{
@@ -90,12 +88,12 @@ Number of runs used in randomisation.
  \item{treads}{
 Preference of usage of parallel computation of randomisation
 [value] = selected number of cores
-T = automaticly selected number of cores
+T = automatically selected number of cores
 F = does not use parallel computation
 }
 
  \item{standardise}{
-T = standardise each Working Unit to cetrain number of individuals (using random resampling without repetition)
+T = standardise each Working Unit to certrain number of individuals (using random resampling without repetition)
 }
  \item{N_individuals}{
 Number of grain to perform standardisation to. The N_individuals is automatically adjusted to the smallest  number of pollen grains in sequence. 
@@ -104,7 +102,7 @@ Number of grain to perform standardisation to. The N_individuals is automaticall
 Should the community data be transformed to a proportion during calculations?
 }
  \item{DC}{
-Disimilarity coeficient. Type of calculation of differences between Working Units
+Dissimilarity coefficient. Type of calculation of differences between Working Units
 
 "euc"     = 	Euclidean distance
 
@@ -177,13 +175,7 @@ Data standardisation (Step 4b)
 Taxa in the assemblage dataset can be standardised to a certain count (e.g. number of pollen grains in each WU) by rarefaction. Random sampling without replacement is used to draw a selected number of individuals from each WU (e.g. 150 pollen grains).
 
 }
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
+
 \references{
 Birks, H.J.B., Gordon, A.D., 1985. Numerical Methods in Quaternary Pollen Analysis. Academic Press, London.
 
@@ -201,33 +193,29 @@ Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York, USA 37.
 \author{
 Ondrej Mottl
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
+
+# Toy example with low number of randomisations
+# We higly recommend to increase the randomisations to 10.000 
+
+example_data <-  RRatepol::example_data
+
 sequence_01 <- 
   fc_estimate_RoC(
     data_source_community = example_data$pollen_data[[1]],
-    data_source_age = example_data$sample_age[[1]])
+    data_source_age = example_data$sample_age[[1]],
+    age_uncertainty = FALSE,
+    smooth_method = "shep",
+    Working_Units = "MW",
+    rand = 100,
+    treads = FALSE,
+    DC = "chisq")
 
 fc_plot_RoC_sequence(
   sequence_01,
-  age_treshold = 8e3,
+  age_threshold = 8e3,
   Roc_threshold = 1)
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
-% \keyword{ ~kwd1 }
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.
+

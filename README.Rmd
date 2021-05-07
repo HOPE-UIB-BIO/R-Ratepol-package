@@ -140,7 +140,7 @@ sequence_01 <-
 ```
 
 ```{r plot 1, echo=T}
-RRatepol::fc_plot_RoC_sequence(sequence_01, age_treshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
+RRatepol::fc_plot_RoC_sequence(sequence_01, age_threshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
 ```
 
 ### Example 2
@@ -167,7 +167,7 @@ sequence_02 <-
 ```
 
 ```{r plot 2, echo=T}
-RRatepol::fc_plot_RoC_sequence(sequence_02, age_treshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
+RRatepol::fc_plot_RoC_sequence(sequence_02, age_threshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
 ```
 
 ### Example 3
@@ -193,7 +193,7 @@ sequence_03 <-
 ```
 
 ```{r plot 3, echo=T}
-RRatepol::fc_plot_RoC_sequence(sequence_03, age_treshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
+RRatepol::fc_plot_RoC_sequence(sequence_03, age_threshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
 ```
 
 ### Example 4

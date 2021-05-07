@@ -1,30 +1,29 @@
 \name{fc_detect_peak_points}
 \alias{fc_detect_peak_points}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Detect significant peak points
 }
 \description{
-Detect points of suddent increae of Rate-of-change values
+Detect points of sudden increae of Rate-of-change values
 }
 \usage{
 fc_detect_peak_points(data_source, method = "trend_linear", sd_threshold = 1.5)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{data_source}{
-data from fc_estimae_RoC function.
+data from fc_estimate_RoC function.
 }
   \item{method}{
 method of peak detection:
   
-"threshold"        = Treshold value is set for whole dataset (after subseting for interest_threshold) as median of all RoC values. Peak is  consider significant if 95 percent quantile (gain from randomisation) is higher than treshold
+"threshold"        = Threshold value is set for whole dataset (after subsetting for interest_threshold) as median of all RoC values. Peak is  consider significant if 95 percent quantile (gain from randomisation) is higher than threshold
 
 "trend_linear"     = linear model is fitted with RoC and Age. Differences between the model and each point is calculated. SD is calculated from all the differences.Peak is considered significat if it is sd_threshold (default = 1.5) SD higher than the model
   
 "trend_non_linear" = very crude GAM model (k = 3) is fitted with RoC and Age. Differences between GAM and each point is calculated. SD is calculated from all the differences. Peak is considered significat if it is sd_threshold (default = 1.5) SD higher than GAM
             
-"GAM_deriv"        = smooth GAM model is fitted with RoC and Age. First derivative as welll as continuous confidence intervals are calculted from the model. Peak is considered significat if confidence intervals of first derivative is higher than 0.
+"GAM_deriv"        = smooth GAM model is fitted with RoC and Age. First derivative as welll as continuous confidence intervals are calculated from the model. Peak is considered significat if confidence intervals of first derivative is higher than 0.
 
 "SNI"              = Signal-to-Noise Index, following adapted the SNI from Kelly et al. (2011) written to detect changes in charcoal records. The SNI is calculated for the whole RoC sequence and point is consider significant if has SNI value higher than 3 (following suggesting from Kelly et al. (2011)).
 }
@@ -46,13 +45,7 @@ A rapid change in composition or relative abundances of taxa within the sequence
     
     - Signal-to-noise (SNI) method: We adapted SNI from Kelly et al. (2011), which was developed to detect changes in charcoal stratigraphical records. SNI is calculated for the whole RoC sequence and a peak-point is considered significant if it has an SNI value higher than 3. 
 }
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
+
 \references{
 Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A signal-to-noise index to quantify the potential for peak detection in sediment-charcoal records. Quat. Res. 75, 11–17. https://doi.org/10.1016/j.yqres.2010.07.011
 
@@ -68,29 +61,33 @@ Wood, S.N., 2011. Fast stable restricted maximum likelihood and marginal likelih
 \author{
 Ondrej Mottl
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
+
+# Toy example with low number of randomisations
+# We higly recommend to increase the randomisations to 10.000 
+
+example_data <-  RRatepol::example_data
+
 sequence_01 <- 
   fc_estimate_RoC(
     data_source_community = example_data$pollen_data[[1]],
-    data_source_age = example_data$sample_age[[1]])
+    data_source_age = example_data$sample_age[[1]],
+    age_uncertainty = FALSE,
+    smooth_method = "shep",
+    Working_Units = "MW",
+    rand = 100, 
+    treads = FALSE,
+    DC = "chisq")
 
 sequence_01_peak <-
   fc_detect_peak_points(sequence_01, method = "trend_non_linear", sd_threshold = 1.5)
   
 fc_plot_RoC_sequence(
   sequence_01_peak,
-  age_treshold = 8e3,
+  age_threshold = 8e3,
   Roc_threshold = 2,
-  Peaks = T,
+  Peaks = TRUE,
   trend = "trend_non_linear")
 }
 
