@@ -52,14 +52,14 @@ steps::
 
 -   Summary of a single run is produced based on all moving windows
 
-5.  Step 4 is repeated multiple times (e.g. 10,000 times).
+1.  Step 4 is repeated multiple times (e.g. 10,000 times).
 
-6.  Validation and summary of results from all runs of RoC calculation
+2.  Validation and summary of results from all runs of RoC calculation
     are produced.
 
-7.  (Optional) Data beyond a certain age can be excluded.
+3.  (Optional) Data beyond a certain age can be excluded.
 
-8.  Detection and validation of significant peak-points. There are five
+4.  Detection and validation of significant peak-points. There are five
     in-built methods to detect significant peak-points: Threshold,
     Linear trend, Non-linear trend, first derivative of a generalised
     additive model (f-deriv GAM; Simpson, 2018), and Signal-to-Noise
@@ -225,7 +225,7 @@ to focus on the period of most substantial human impact.
       labs(x= "Longitude",y="Latitude")+
       theme_classic()
 
-![](README_files/figure-markdown_strict/plot%20data-1.png)
+![](README_files/figure-markdown_strict/plot_data_1.png)
 
 ### Example 1
 
@@ -235,19 +235,19 @@ data will not standardised to a certain pollen count and age
 uncertainties from *Bchron* will not be used.
 
     sequence_01 <- 
-      fc_estimate_RoC(
+      RRatepol::fc_estimate_RoC(
         data_source_community = example_data$pollen_data[[1]],
         data_source_age = example_data$sample_age[[1]],
         age_uncertainty = F,
-        smooth_method = "age.w",
-        DC = "chord",
+        smooth_method = "shep",
+        DC = "chisq",
         Working_Units = "levels",
         standardise = F,
         rand = 1)
 
-    fc_plot_RoC_sequence(sequence_01, age_treshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
+    RRatepol::fc_plot_RoC_sequence(sequence_01, age_threshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
 
-![](README_files/figure-markdown_strict/plot%201-1.png)
+![](README_files/figure-markdown_strict/plot_1_1.png)
 
 ### Example 2
 
@@ -257,21 +257,21 @@ will be repeated 1000 times on multiple cores using *parallel package*.
 This will produce error *wrapper* showing 95th percent quantile.
 
     sequence_02 <-
-      fc_estimate_RoC(
+      RRatepol::fc_estimate_RoC(
         data_source_community = example_data$pollen_data[[1]],
         data_source_age = example_data$sample_age[[1]],
         age_uncertainty = example_data$age_uncertainty[[1]],
-        smooth_method = "age.w",
-        DC = "chord",
+        smooth_method = "shep",
+        DC = "chisq",
         Working_Units = "levels",
         standardise = T,
         N_individuals = 150,
         rand = 1000,
         treads = T)
 
-    fc_plot_RoC_sequence(sequence_02, age_treshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
+    RRatepol::fc_plot_RoC_sequence(sequence_02, age_threshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
 
-![](README_files/figure-markdown_strict/plot%202-1.png)
+![](README_files/figure-markdown_strict/plot_2_1.png)
 
 ### Example 3
 
@@ -279,12 +279,12 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and
 `Number_of_shifts` = 5.
 
     sequence_03 <-
-        fc_estimate_RoC(
+        RRatepol::fc_estimate_RoC(
         data_source_community = example_data$pollen_data[[1]],
         data_source_age = example_data$sample_age[[1]],
         age_uncertainty = example_data$age_uncertainty[[1]],
-        smooth_method = "age.w",
-        DC = "chord",
+        smooth_method = "shep",
+        DC = "chisq",
         Working_Units = "MW",
         bin_size = 500,
         Number_of_shifts  = 5,
@@ -293,20 +293,20 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and
         rand = 1000,
         treads = T)
 
-    fc_plot_RoC_sequence(sequence_03, age_treshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
+    RRatepol::fc_plot_RoC_sequence(sequence_03, age_threshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
 
-![](README_files/figure-markdown_strict/plot%203-1.png)
+![](README_files/figure-markdown_strict/plot_3_1.png)
 
 ### Example 4
 
 Detect the *peak points* using *trend\_non\_linear* method.
 
     sequence_03_peaks <-
-      fc_detect_peak_points(sequence_03, method = "trend_non_linear")
+      RRatepol::fc_detect_peak_points(sequence_03, method = "trend_non_linear")
 
-    fc_plot_RoC_sequence(sequence_03_peaks, age_treshold= 8e3, Roc_threshold = 1, Peaks = T, trend = "trend_non_linear")
+    RRatepol::fc_plot_RoC_sequence(sequence_03_peaks, age_threshold= 8e3, Roc_threshold = 1, Peaks = T, trend = "trend_non_linear")
 
-![](README_files/figure-markdown_strict/plot%204-1.png)
+![](README_files/figure-markdown_strict/plot_4_1.png)
 
 ## References
 

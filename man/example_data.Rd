@@ -5,19 +5,19 @@
 Pollen data from four European sequences
 }
 \description{
-Tibble cointaining four European sequences obtained the Neotoma database (Goring et al., 2015) with age-depth models from Bchron (Haslett & Parnell, 2008) and hamronised pollen taxa.
+Tibble containing four European sequences obtained the Neotoma database (Goring et al., 2015) with age-depth models from Bchron (Haslett & Parnell, 2008) and hamronised pollen taxa.
 }
 \usage{data("example_data")}
 \format{
   A data frame with 4 observations on the following 6 variables.
   \describe{
     \item{\code{dataset.id}}{a character vector containing Neotoma unique number for each sequence}
-    \item{\code{collection.handle}}{a character vector containing Neotoma sequence name abberation}
+    \item{\code{collection.handle}}{a character vector containing Neotoma sequence name aberration}
     \item{\code{lat}}{a numeric vector of Latitude}
     \item{\code{long}}{a numeric vector of Longitude}
     \item{\code{sample_age}}{a list vector including tibble with estimated ages for each level}
-    \item{\code{age_uncertainty }}{Matrix with all age uncertainties from age-depth model. Each collumn represent one level. Each row is one age-depth simulation}
-    \item{\code{pollen_data}}{a list vector cointaining tibbles with pollen counts of taxa in each level}
+    \item{\code{age_uncertainty }}{Matrix with all age uncertainties from age-depth model. Each column represent one level. Each row is one age-depth simulation}
+    \item{\code{pollen_data}}{a list vector containing tibbles with pollen counts of taxa in each level}
   }
 }
 \details{
@@ -27,7 +27,7 @@ In each sequence, we excluded all levels that contained less than 150 pollen cou
 
 }
 \source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
+https://www.neotomadb.org/
 }
 \references{
 Giesecke, T., Davis, B., Brewer, S., Finsinger, W., Wolters, S., Blaauw, M., de Beaulieu, J.L., Binney, H., Fyfe, R.M., Gaillard, M.J., Gil-Romera, G., van der Knaap, W.O., Kuneš, P., Kühl, N., van Leeuwen, J.F.N., Leydet, M., Lotter, A.F., Ortu, E., Semmler, M., Bradshaw, R.H.W., 2013. Towards mapping the late Quaternary vegetation change of Europe. Veg. Hist. Archaeobot. 23, 75–86. https://doi.org/10.1007/s00334-012-0390-y

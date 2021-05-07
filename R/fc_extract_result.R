@@ -34,11 +34,11 @@ fc_extract_result <- function (x, sel_var, rand){
       sample_id = bin,
       shift = shift,
       !!sel_var := dplyr::select(., -c(bin,shift)) %>%
-        apply(., 1, FUN = function(x) median(x, na.rm = T)),
+        apply(., 1, FUN = function(x) stats::median(x, na.rm = T)),
       !!paste0(sel_var,"_05q") := dplyr::select(., -c(bin,shift))
-      %>% apply(., 1, FUN = function(x) quantile(x, 0.025, na.rm = T)),
+      %>% apply(., 1, FUN = function(x) stats::quantile(x, 0.025, na.rm = T)),
       !!paste0(sel_var,"_95q") := dplyr::select(., -c(bin,shift))
-      %>% apply(., 1, FUN = function(x) quantile(x, 0.975, na.rm = T))
+      %>% apply(., 1, FUN = function(x) stats::quantile(x, 0.975, na.rm = T))
     ) %>%
     dplyr::select(
       sample_id,

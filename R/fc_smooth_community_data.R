@@ -219,7 +219,7 @@ fc_smooth_community_data <- function(data_source,
         const[const > 1] <-  1
         df_work$Weight <-  const
         
-        col_res[i] <-  weighted.mean(df_work$values,df_work$Weight)
+        col_res[i] <-  stats::weighted.mean(df_work$values,df_work$Weight)
         
       }
       

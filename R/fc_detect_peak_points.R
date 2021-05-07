@@ -11,7 +11,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear", sd_thre
   if(method == "threshold"){
     
     # threshold for RoC peaks is set as median of all RoC in dataset
-    r_threshold <- median(data_source$ROC)
+    r_threshold <- stats::median(data_source$ROC)
     
     # mark peaks which have 95% quantile above the threshold as Peak
     data_source$Peak <-  data_source$ROC_dw > r_threshold
@@ -24,14 +24,14 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear", sd_thre
     
     # mark points that are abowe the linear model (exactly sd_threshold SD higher than prediction)
     data_source$pred_linear <-
-      predict.glm(
-        glm(ROC ~ Age,
+      stats::predict.glm(
+        stats::glm(ROC ~ Age,
            data = data_source,
            family = mgcv::Tweedie(p=2)),
         type = "response")
     
     data_source$pred_linear_diff <-  data_source$ROC - data_source$pred_linear
-    data_source$Peak <-  (data_source$pred_linear_diff) > sd_threshold * sd(data_source$pred_linear_diff)
+    data_source$Peak <-  (data_source$pred_linear_diff) > sd_threshold * stats::sd(data_source$pred_linear_diff)
   }
   
   #----------------------------------------------------------#
@@ -50,7 +50,7 @@ fc_detect_peak_points <-  function(data_source, method = "trend_linear", sd_thre
         type="response")
     
     data_source$pred_gam_diff <-  data_source$ROC - data_source$pred_gam
-    data_source$Peak <-  (data_source$pred_gam_diff) > sd_threshold * sd(data_source$pred_gam_diff)
+    data_source$Peak <-  (data_source$pred_gam_diff) > sd_threshold * stats::sd(data_source$pred_gam_diff)
     
   }
   
