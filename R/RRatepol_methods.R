@@ -1,7 +1,7 @@
 #' An S4 class for R- Ratepol data structure .
 
 RRatepolList <-
-  setClass(
+  methods::setClass(
     "RRatepolList",
     slots = c(
       Community = "data.frame",
