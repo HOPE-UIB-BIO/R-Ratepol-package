@@ -30,7 +30,7 @@ fc_estimate_RoC <- function(data_source_community,
   # extract data into working format
   # already include data check
   data_extract <- 
-    RRatepol:::fc_extract_data(
+    fc_extract_data(
       data_source_community,
       data_source_age,
       age_uncertainty = age_uncertainty,
@@ -43,7 +43,7 @@ fc_estimate_RoC <- function(data_source_community,
   
   # smoothdata by selected smoothing type
   data_smooth <- 
-    RRatepol:::fc_smooth_community_data(
+    fc_smooth_community_data(
       data_smooth,
       smooth_method = smooth_method,
       smooth_N_points = smooth_N_points,
@@ -54,7 +54,7 @@ fc_estimate_RoC <- function(data_source_community,
   
   #check data and reduce data dimentions
   data_work <- 
-    RRatepol:::fc_check_data(
+    fc_check_data(
       data_smooth, 
       proportion = FALSE,
       Debug = Debug)
@@ -77,7 +77,7 @@ fc_estimate_RoC <- function(data_source_community,
       msg = " `bin_size` must be a whole number")
     
     bin_sizes <- 
-      RRatepol:::fc_create_bins(
+      fc_create_bins(
         data_work,
         shift_value = bin_size,
         Number_of_shifts = 1)
@@ -102,7 +102,7 @@ fc_estimate_RoC <- function(data_source_community,
     shift_value <-  bin_size/Number_of_shifts
     
     bin_sizes <- 
-      RRatepol:::fc_create_bins(
+      fc_create_bins(
         data_work,
         shift_value = shift_value,
         Number_of_shifts = Number_of_shifts)
@@ -132,7 +132,7 @@ fc_estimate_RoC <- function(data_source_community,
   
   # add all functions to the cluster
   # envir <-  environment(RRatepol::fc_estimate_RoC)
-  # parallel::clusterExport(cl, varlist = paste0("RRatepol:::",c(ls(envir))))
+  # parallel::clusterExport(cl, varlist = paste0("",c(ls(envir))))
   
   # create progress bar based os the number of replication
   pb <-  utils::txtProgressBar(max = rand, style = 3)
@@ -172,13 +172,13 @@ fc_estimate_RoC <- function(data_source_community,
             
             #subset data
             data_subset <-  
-              RRatepol:::fc_subset_samples(
+              fc_subset_samples(
                 data_subset,
                 selected_bins,
                 Working_Units)
             
             data_subset <-  
-              RRatepol:::fc_check_data(
+              fc_check_data(
                 data_subset,
                 proportion = FALSE)
             
@@ -214,7 +214,7 @@ fc_estimate_RoC <- function(data_source_community,
               data_sd@Community[rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals, ]
             
             data_sd <-  
-              RRatepol:::fc_check_data(
+              fc_check_data(
                 data_sd,
                 proportion = FALSE,
                 Samples = TRUE,
@@ -222,7 +222,7 @@ fc_estimate_RoC <- function(data_source_community,
             
             # standardisation
             data_sd <-  
-              RRatepol:::fc_standardise_community_data(
+              fc_standardise_community_data(
                 data_sd
                 , N_individuals,
                 Debug = Debug)
@@ -234,7 +234,7 @@ fc_estimate_RoC <- function(data_source_community,
           
           # data check with proportioning
           data_sd_check <-  
-            RRatepol:::fc_check_data(
+            fc_check_data(
               data_sd,
               proportion = tranform_to_proportions,
               Samples = FALSE, Debug = Debug)
@@ -245,7 +245,7 @@ fc_estimate_RoC <- function(data_source_community,
           
           # calculate DC between each subsequent samples/bins
           DC_res <-  
-            RRatepol:::fc_calculate_DC(
+            fc_calculate_DC(
               data_sd_check,
               DC = DC,
               Debug = Debug)
@@ -347,11 +347,11 @@ fc_estimate_RoC <- function(data_source_community,
   # extract results and match them by bin
   results_full <- 
     dplyr::right_join(
-      RRatepol:::fc_extract_result(
+      fc_extract_result(
         result_tibble,
         "RoC",
         rand),
-      RRatepol:::fc_extract_result(
+      fc_extract_result(
         result_tibble,
         "age_position",
         rand),
