@@ -17,6 +17,7 @@ Imports:
     ggplot2,
     gratia,
     magrittr,
+    methods,
     mgcv,
     parallel,
     rlang,
@@ -36,7 +37,6 @@ Suggests:
     neotoma,
     Bchron,
     janitor,
-    here,
     pander,
     qpdf
 VignetteBuilder: knitr
