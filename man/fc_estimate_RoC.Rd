@@ -93,7 +93,7 @@ F = does not use parallel computation
 }
 
  \item{standardise}{
-T = standardise each Working Unit to certrain number of individuals (using random resampling without repetition)
+T = standardise each Working Unit to certain number of individuals (using random resampling without repetition)
 }
  \item{N_individuals}{
 Number of grain to perform standardisation to. The N_individuals is automatically adjusted to the smallest  number of pollen grains in sequence. 

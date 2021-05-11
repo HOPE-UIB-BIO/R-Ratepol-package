@@ -34,9 +34,9 @@ If peak-points are presented in the dataset and \code{Peaks} == \code{TRUE}, the
 
 "threshold"         = Threshold value is set for whole dataset (after subsetting for interest_threshold) as median of all RoC values. Peak is  consider significant if 95 percent quantile (gain from randomisation) is higher than threshold
 
-"trend_linear"      = linear model is fitted with RoC and Age. Differences between the model and each point is calculated. SD is calculated from all the differences.Peak is considered significat if it is 1.5 SD higher than the model
+"trend_linear"      = linear model is fitted with RoC and Age. Differences between the model and each point is calculated. SD is calculated from all the differences.Peak is considered significant if it is 1.5 SD higher than the model
 
-"trend_non_linear"  = very crude GAM model (k = 3) is fitted with RoC and Age. Differences between GAM and each point is calculated. SD is calculated from all the differences. Peak is considered significat if it is 1.5 SD higher than GAM
+"trend_non_linear"  = very crude GAM model (k = 3) is fitted with RoC and Age. Differences between GAM and each point is calculated. SD is calculated from all the differences. Peak is considered significant if it is 1.5 SD higher than GAM
 }
 }
 
