@@ -59,7 +59,7 @@ sequence_01 <-
     age_uncertainty = FALSE,
     smooth_method = "shep",
     Working_Units = "MW",
-    rand = 100,
+    rand = 10,
     treads = FALSE,
     DC = "chisq")
 
@@ -76,7 +76,7 @@ sequence_02 <-
     age_uncertainty = FALSE,
     smooth_method = "shep",
     Working_Units = "MW",
-    rand = 100,
+    rand = 10,
     treads = FALSE,
     DC = "chisq")
 
