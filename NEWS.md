@@ -7,9 +7,12 @@
  - stop using pre-saved data
  - decrease the 'i_multiplier' to 0.5 to speed up the vignette building
  - change the 'treads' arguments in 'fc_estimate_RoC' to FALSE so the vignette can be build in machines without multiple cores.
+ - rename r chunks to remove empty spaces in names
 
 ### Other
  - remove 'RRatepol' namespace inside package for internal functions
+ - fix couple of typos in function descriptions
+ - add cran-comments
 
 # R-Ratepol package 0.5.5.
  - 'sample.id' or 'sample_id' can be used in as the sample identification
