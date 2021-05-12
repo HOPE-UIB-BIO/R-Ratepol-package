@@ -5,7 +5,7 @@ fc_check_data <- function (data_source_check, proportion = F, Species = TRUE, Sa
   # check if there are any specie without individuals record and delete them
   
   data_source_check <-  
-    RRatepol:::fc_kill_all(
+    fc_kill_all(
       data_source_check, 
       Species = Species, 
       Samples = Samples) 
@@ -50,7 +50,7 @@ fc_check_data <- function (data_source_check, proportion = F, Species = TRUE, Sa
       as.data.frame(lapply(data_source_check@Community, function(x) x/p.counts.row.sums))
     
     data_source_check <- 
-      RRatepol:::fc_kill_all(
+      fc_kill_all(
         data_source_check,
         Species = Species,
         Samples = Samples)

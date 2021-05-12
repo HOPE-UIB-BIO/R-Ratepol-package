@@ -162,7 +162,7 @@ fc_extract_data <-  function (data_community_extract,
   
   # create list  class of 4 variables Ppllen, age, age.un, dim_val
   dat_merge <- 
-    RRatepol:::RRatepolList(
+    RRatepolList(
       Community = dat_community,
       Age = age,
       Age.un = age.un,

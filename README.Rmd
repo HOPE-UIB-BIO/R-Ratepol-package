@@ -5,8 +5,12 @@ date: "23/02/2021"
 output: md_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-")
 ```
 
 # R-Ratepol package
@@ -53,12 +57,13 @@ The computation of RoC in R-Ratepol is performed using the following steps::
 RoC is calculated between consecutive Working Units (WU). Traditionally, these WUs represent individual stratigraphical levels. However, changes in sedimentation rates and sampling strategies can result in an uneven temporal distribution of levels within a time sequence, which in turn makes the comparison of RoC between sequences problematic. There are various methods that attempt to minimise such problems. The first is interpolation of levels to evenly spaced time intervals, and the use of the interpolated data as WUs. This can lead to a loss of information when the density of levels is high. Second is binning of levels: assemblage data are pooled into age brackets of various size (bins) and these serve as WUs. Here, the issue is a lower resolution of WUs and their uneven size in terms of total assemblage count (bins with more levels have higher assemblage counts). Third is selective binning: like classical binning, bins of selected size are created, but instead of pooling assemblage data together, only one level is selected as representative of each bin. This results in an even number of WUs in bins with a similar count size in the assemblage. However, the issue of low resolution remains. 
 Therefore, we propose a new method of binning with a moving window, which is a compromise between using individual levels and selective binning. This method follows a simple sequence: bins are created, levels are selected as in selective binning, and RoC between bins is calculated. However, the brackets of the time bin (window) are then moved forward by a selected amount of time (Z), levels are selected again, and RoC calculated for the new set of WUs. This is repeated X times (where X is the bin size divided by Z) while retaining all the results. R-Ratepol currently provides several options for selecting WU, namely as individual levels, binning of levels, selective binning, and our new method of binning with a moving window. The method is summarised in figure.
 
-![](README_files/figure-source/Fig_Scheme.png)
+![](man/figures/Fig_Scheme.png)
 
 ## Randomisation
 
 Due to the inherent statistical errors in uncertainties in the age estimates from age-depth and the assemblage datasets (e.g. pollen counts in each level; Birks and Gordon, 1985), R-Ratepol can be run several times and the results summarised (Steps 5-6). Therefore, two optional settings are available by using age uncertainties and assemblage data standardisation. 
-### Age uncertainties (Step 4a)
+
+## Age uncertainties (Step 4a)
 
 For each run, a single age sequence from the age uncertainties is randomly selected. The calculation between two consecutive WUs (i.e. one working-unit combination) results in a RoC score and a time position (which is calculated as the mean age position of the two WUs). However, due to random sampling of the age sequence, each WU combination will result in multiple RoC values and age positions. R-Ratepol assigns the age position of each WU combination as the median time position from all calculations (Step 6). 
 The final RoC value for a single WU combination is calculated as the median of the scores from all randomisations. In addition, the 95th quantile from all randomisations is calculated as an error estimate.
@@ -105,19 +110,33 @@ library(tidyverse)
 
 
 ```{r data, results = T}
-example_data <-  RRatepol::example_data
+example_data <-  
+  RRatepol::example_data
 
 glimpse(example_data)
-
 ```
-```{r plot data, echo=T}
+
+```{r plot_data, echo=T}
 example_data %>%
-  ggplot(aes(x=long, y=lat))+
-  borders(fill = "gray90", colour = NA)+
-  geom_point(shape = 0, size = 2)+
-  geom_point(shape = 20, size = 2)+
-  coord_quickmap(xlim = c(-10,25), ylim= c(47,70))+
-  labs(x= "Longitude",y="Latitude")+
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = long,
+      y = lat)) +
+  borders(
+    fill = "gray90",
+    colour = NA) +
+  geom_point(
+    shape = 0,
+    size = 2) +
+  geom_point(
+    shape = 20,
+    size = 2) +
+  coord_quickmap(
+    xlim = c(-10, 25),
+    ylim = c(47, 70)) +
+  labs(
+    x = "Longitude",
+    y = "Latitude") +
   theme_classic()
 ```
 
@@ -130,16 +149,15 @@ sequence_01 <-
   RRatepol::fc_estimate_RoC(
     data_source_community = example_data$pollen_data[[1]],
     data_source_age = example_data$sample_age[[1]],
-    age_uncertainty = F,
+    age_uncertainty = FALSE,
     smooth_method = "shep",
     DC = "chisq",
     Working_Units = "levels",
-    standardise = F,
+    standardise = FALSE,
     rand = 1)
-
 ```
 
-```{r plot 1, echo=T}
+```{r plot_1, echo=T}
 RRatepol::fc_plot_RoC_sequence(sequence_01, age_threshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
 ```
 
@@ -158,16 +176,19 @@ sequence_02 <-
     smooth_method = "shep",
     DC = "chisq",
     Working_Units = "levels",
-    standardise = T,
+    standardise = TRUE,
     N_individuals = 150,
     rand = 1000,
-    treads = T)
-
-
+    treads = TRUE)
 ```
 
-```{r plot 2, echo=T}
-RRatepol::fc_plot_RoC_sequence(sequence_02, age_threshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
+```{r plot_2, echo=T}
+RRatepol::fc_plot_RoC_sequence(
+  data_source = sequence_02,
+  age_threshold = 8e3,
+  Roc_threshold = 2.5,
+  Peaks = FALSE,
+  trend = FALSE)
 ```
 
 ### Example 3
@@ -185,27 +206,37 @@ sequence_03 <-
     Working_Units = "MW",
     bin_size = 500,
     Number_of_shifts  = 5,
-    standardise = T,
+    standardise = TRUE,
     N_individuals = 150,
     rand = 1000,
-    treads = T)
-  
+    treads = TRUE)
 ```
 
-```{r plot 3, echo=T}
-RRatepol::fc_plot_RoC_sequence(sequence_03, age_threshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
+```{r plot_3, echo=T}
+RRatepol::fc_plot_RoC_sequence(
+  data_source = sequence_03,
+  age_threshold = 8e3,
+  Roc_threshold = 1.5,
+  Peaks = FALSE,
+  trend = FALSE)
 ```
 
 ### Example 4
 
 Detect the *peak points* using *trend_non_linear* method.
 
-
-```{r plot 4, echo=T}
+```{r plot_4, echo=T}
 sequence_03_peaks <-
-  RRatepol::fc_detect_peak_points(sequence_03, method = "trend_non_linear")
+  RRatepol::fc_detect_peak_points(
+    data_source = sequence_03,
+    method = "trend_non_linear")
 
-RRatepol::fc_plot_RoC_sequence(sequence_03_peaks, age_treshold= 8e3, Roc_threshold = 1, Peaks = T, trend = "trend_non_linear")
+RRatepol::fc_plot_RoC_sequence(
+  data_source = sequence_03_peaks,
+  age_threshold= 8e3,
+  Roc_threshold = 1,
+  Peaks = TRUE,
+  trend = "trend_non_linear")
 ```
 
 ## References 

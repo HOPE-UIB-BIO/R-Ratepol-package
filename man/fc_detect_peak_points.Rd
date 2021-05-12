@@ -19,11 +19,11 @@ method of peak detection:
   
 "threshold"        = Threshold value is set for whole dataset (after subsetting for interest_threshold) as median of all RoC values. Peak is  consider significant if 95 percent quantile (gain from randomisation) is higher than threshold
 
-"trend_linear"     = linear model is fitted with RoC and Age. Differences between the model and each point is calculated. SD is calculated from all the differences.Peak is considered significat if it is sd_threshold (default = 1.5) SD higher than the model
+"trend_linear"     = linear model is fitted with RoC and Age. Differences between the model and each point is calculated. SD is calculated from all the differences.Peak is considered significant if it is sd_threshold (default = 1.5) SD higher than the model
   
-"trend_non_linear" = very crude GAM model (k = 3) is fitted with RoC and Age. Differences between GAM and each point is calculated. SD is calculated from all the differences. Peak is considered significat if it is sd_threshold (default = 1.5) SD higher than GAM
+"trend_non_linear" = very crude GAM model (k = 3) is fitted with RoC and Age. Differences between GAM and each point is calculated. SD is calculated from all the differences. Peak is considered significant if it is sd_threshold (default = 1.5) SD higher than GAM
             
-"GAM_deriv"        = smooth GAM model is fitted with RoC and Age. First derivative as welll as continuous confidence intervals are calculated from the model. Peak is considered significat if confidence intervals of first derivative is higher than 0.
+"GAM_deriv"        = smooth GAM model is fitted with RoC and Age. First derivative as welll as continuous confidence intervals are calculated from the model. Peak is considered significant if confidence intervals of first derivative is higher than 0.
 
 "SNI"              = Signal-to-Noise Index, following adapted the SNI from Kelly et al. (2011) written to detect changes in charcoal records. The SNI is calculated for the whole RoC sequence and point is consider significant if has SNI value higher than 3 (following suggesting from Kelly et al. (2011)).
 }
@@ -76,7 +76,7 @@ sequence_01 <-
     age_uncertainty = FALSE,
     smooth_method = "shep",
     Working_Units = "MW",
-    rand = 100, 
+    rand = 10, 
     treads = FALSE,
     DC = "chisq")
 

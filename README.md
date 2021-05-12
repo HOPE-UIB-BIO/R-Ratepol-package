@@ -97,7 +97,7 @@ selecting WU, namely as individual levels, binning of levels, selective
 binning, and our new method of binning with a moving window. The method
 is summarised in figure.
 
-![](README_files/figure-source/Fig_Scheme.png)
+![](man/figures/Fig_Scheme.png)
 
 ## Randomisation
 
@@ -106,9 +106,9 @@ estimates from age-depth and the assemblage datasets (e.g. pollen counts
 in each level; Birks and Gordon, 1985), R-Ratepol can be run several
 times and the results summarised (Steps 5-6). Therefore, two optional
 settings are available by using age uncertainties and assemblage data
-standardisation. 
+standardisation.
 
-### Age uncertainties (Step 4a)
+## Age uncertainties (Step 4a)
 
 For each run, a single age sequence from the age uncertainties is
 randomly selected. The calculation between two consecutive WUs (i.e. one
@@ -202,30 +202,43 @@ to focus on the period of most substantial human impact.
     library(RRatepol)
     library(tidyverse)
 
-    example_data <-  RRatepol::example_data
+    example_data <-  
+      RRatepol::example_data
 
     glimpse(example_data)
-
-    ## Rows: 4
-    ## Columns: 7
-    ## $ dataset.id        <chr> "4012", "40951", "45314", "17334"
-    ## $ collection.handle <chr> "DALLICAN", "STEERMOS", "KILOALA", "GL"
-    ## $ lat               <dbl> 60.38736, 47.80567, 67.96611, 53.00735
-    ## $ long              <dbl> -1.096480, 8.200150, 20.460278, -6.348035
-    ## $ pollen_data       <list> [<tbl_df[63 x 51]>, <tbl_df[273 x 104]>, <tbl_df...
-    ## $ sample_age        <named list> [<data.frame[63 x 3]>, <data.frame[273 x 3...
-    ## $ age_uncertainty   <named list> [<matrix[1000 x 63]>, <matrix[1000 x 273]>...
+    #> Rows: 4
+    #> Columns: 7
+    #> $ dataset.id        <chr> "4012", "40951", "45314", "17334"
+    #> $ collection.handle <chr> "DALLICAN", "STEERMOS", "KILOALA", "GL"
+    #> $ lat               <dbl> 60.38736, 47.80567, 67.96611, 53.00735
+    #> $ long              <dbl> -1.096480, 8.200150, 20.460278, -6.348035
+    #> $ pollen_data       <list> [<tbl_df[63 x 51]>, <tbl_df[273 x 104]>, <tbl_df...
+    #> $ sample_age        <named list> [<data.frame[63 x 3]>, <data.frame[273 x 3...
+    #> $ age_uncertainty   <named list> [<matrix[1000 x 63]>, <matrix[1000 x 273]>...
 
     example_data %>%
-      ggplot(aes(x=long, y=lat))+
-      borders(fill = "gray90", colour = NA)+
-      geom_point(shape = 0, size = 2)+
-      geom_point(shape = 20, size = 2)+
-      coord_quickmap(xlim = c(-10,25), ylim= c(47,70))+
-      labs(x= "Longitude",y="Latitude")+
+      ggplot2::ggplot(
+        ggplot2::aes(
+          x = long,
+          y = lat)) +
+      borders(
+        fill = "gray90",
+        colour = NA) +
+      geom_point(
+        shape = 0,
+        size = 2) +
+      geom_point(
+        shape = 20,
+        size = 2) +
+      coord_quickmap(
+        xlim = c(-10, 25),
+        ylim = c(47, 70)) +
+      labs(
+        x = "Longitude",
+        y = "Latitude") +
       theme_classic()
 
-![](README_files/figure-markdown_strict/plot_data_1.png)
+![](man/figures/README-plot_data-1.png)
 
 ### Example 1
 
@@ -238,16 +251,16 @@ uncertainties from *Bchron* will not be used.
       RRatepol::fc_estimate_RoC(
         data_source_community = example_data$pollen_data[[1]],
         data_source_age = example_data$sample_age[[1]],
-        age_uncertainty = F,
+        age_uncertainty = FALSE,
         smooth_method = "shep",
         DC = "chisq",
         Working_Units = "levels",
-        standardise = F,
+        standardise = FALSE,
         rand = 1)
 
     RRatepol::fc_plot_RoC_sequence(sequence_01, age_threshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
 
-![](README_files/figure-markdown_strict/plot_1_1.png)
+![](man/figures/README-plot_1-1.png)
 
 ### Example 2
 
@@ -264,14 +277,19 @@ This will produce error *wrapper* showing 95th percent quantile.
         smooth_method = "shep",
         DC = "chisq",
         Working_Units = "levels",
-        standardise = T,
+        standardise = TRUE,
         N_individuals = 150,
         rand = 1000,
-        treads = T)
+        treads = TRUE)
 
-    RRatepol::fc_plot_RoC_sequence(sequence_02, age_threshold= 8e3, Roc_threshold = 2.5, Peaks = F, trend = F)
+    RRatepol::fc_plot_RoC_sequence(
+      data_source = sequence_02,
+      age_threshold = 8e3,
+      Roc_threshold = 2.5,
+      Peaks = FALSE,
+      trend = FALSE)
 
-![](README_files/figure-markdown_strict/plot_2_1.png)
+![](man/figures/README-plot_2-1.png)
 
 ### Example 3
 
@@ -288,25 +306,37 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and
         Working_Units = "MW",
         bin_size = 500,
         Number_of_shifts  = 5,
-        standardise = T,
+        standardise = TRUE,
         N_individuals = 150,
         rand = 1000,
-        treads = T)
+        treads = TRUE)
 
-    RRatepol::fc_plot_RoC_sequence(sequence_03, age_threshold= 8e3, Roc_threshold = 1.5, Peaks = F, trend = F)
+    RRatepol::fc_plot_RoC_sequence(
+      data_source = sequence_03,
+      age_threshold = 8e3,
+      Roc_threshold = 1.5,
+      Peaks = FALSE,
+      trend = FALSE)
 
-![](README_files/figure-markdown_strict/plot_3_1.png)
+![](man/figures/README-plot_3-1.png)
 
 ### Example 4
 
 Detect the *peak points* using *trend\_non\_linear* method.
 
     sequence_03_peaks <-
-      RRatepol::fc_detect_peak_points(sequence_03, method = "trend_non_linear")
+      RRatepol::fc_detect_peak_points(
+        data_source = sequence_03,
+        method = "trend_non_linear")
 
-    RRatepol::fc_plot_RoC_sequence(sequence_03_peaks, age_threshold= 8e3, Roc_threshold = 1, Peaks = T, trend = "trend_non_linear")
+    RRatepol::fc_plot_RoC_sequence(
+      data_source = sequence_03_peaks,
+      age_threshold= 8e3,
+      Roc_threshold = 1,
+      Peaks = TRUE,
+      trend = "trend_non_linear")
 
-![](README_files/figure-markdown_strict/plot_4_1.png)
+![](man/figures/README-plot_4-1.png)
 
 ## References
 
