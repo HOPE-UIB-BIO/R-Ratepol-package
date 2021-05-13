@@ -7,7 +7,7 @@
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
-There was 3 NOTEs:
+There was 2 NOTEs:
 
 * Possibly mis-spelled words in DESCRIPTION:
   Ratepol (3:10, 6:16)
@@ -49,10 +49,3 @@ Undefined global functions or variables:
 
 
 All of those variables are new variables defined within the functions.
-
-* checking examples ... NOTE
-Examples with CPU (user + system) or elapsed time > 5s
-                      user system elapsed
-fc_plot_RoC_sequence 0.837  0.012    6.75
-
-Our package works with lost of randomization and has ability to use parallel calculation, which is not used in the example.
