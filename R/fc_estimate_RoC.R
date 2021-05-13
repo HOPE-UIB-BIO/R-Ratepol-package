@@ -113,6 +113,9 @@ fc_estimate_RoC <- function(data_source_community,
   # 4. Randomisation ----- 
   #----------------------------------------------------------#
   
+  # create template for result tibble
+  shift_tibble_template <-  tibble::tibble()
+  
   # select the prefetred number of cores for of cores for parallel computation
   if(class(treads) == "numeric"){
     Ncores <-  treads # set value
@@ -141,19 +144,6 @@ fc_estimate_RoC <- function(data_source_community,
       rbind(...) # this can feed into .combine option of foreach
     }
   }
-  
-  
-  # add all functions to the cluster
-  # envir <-  environment(RRatepol::fc_estimate_RoC)
-  # parallel::clusterExport(cl, varlist = paste0("",c(ls(envir))))
-  
-  # # create progress bar based os the number of replication
-  # pb <-  utils::txtProgressBar(max = rand, style = 3)
-  # progress <-  function(n) utils::setTxtProgressBar(pb, n)
-  # opts <-  list(progress = progress)
-  
-  # create template for result tibble
-  shift_tibble_template <-  tibble::tibble()
   
   result_tibble <-  
     foreach::`%dopar%`(foreach::foreach(
