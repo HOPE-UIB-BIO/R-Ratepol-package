@@ -1,3 +1,7 @@
+# R-Ratepol package 0.5.7.
+ - packages 'doSNOW' and 'snow' are replaced by 'doParallel' 
+ - all hyphens are replaced with dashes ('–') in the whole package
+
 # R-Ratepol package 0.5.6.
 ### README
  - Figures are now saved in the new folder ('man' folder) with the new names.
