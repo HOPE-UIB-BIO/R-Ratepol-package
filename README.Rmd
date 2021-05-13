@@ -252,7 +252,7 @@ Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A signal-to-noi
 
 Prentice, I.C., 1980. Multidimensional scaling as a research tool in Quaternary palynology: A review of theory and methods. Rev. Palaeobot. Palynol. 31, 71–104. https://doi.org/10.1016/0034-6667(80)90023-8
 
-Simpson, G.L., 2019. gratia: graceful’ggplot’‐based graphics and other functions for GAMs fitted using “mgcv.” R Packag. version 0.2‐1.
+Simpson, G.L., 2019. gratia: graceful’ggplot’–based graphics and other functions for GAMs fitted using “mgcv.” R Packag. version 0.2–1.
 
 Simpson, G.L., 2018. Modelling palaeoecological time series using generalised additive models. Front. Ecol. Evol. 6, 1–21. https://doi.org/10.3389/fevo.2018.00149
 
