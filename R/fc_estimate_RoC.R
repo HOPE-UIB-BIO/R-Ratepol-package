@@ -126,18 +126,31 @@ fc_estimate_RoC <- function(data_source_community,
   
   # create cluster
   cl <-  parallel::makeCluster(Ncores)
-  doSNOW::registerDoSNOW(cl)
+  doParallel::registerDoParallel(cl)
   
   parallel::clusterEvalQ(cl, library("RRatepol"))
+  
+  # Progress combine function
+  f <- function(iterator){
+    pb <- utils::txtProgressBar(min = iterator - 1, max = iterator , style = 3)
+    count <- 0
+    function(...) {
+      count <<- count + length(list(...)) - 1
+      utils::setTxtProgressBar(pb, count)
+      utils::flush.console()
+      rbind(...) # this can feed into .combine option of foreach
+    }
+  }
+  
   
   # add all functions to the cluster
   # envir <-  environment(RRatepol::fc_estimate_RoC)
   # parallel::clusterExport(cl, varlist = paste0("",c(ls(envir))))
   
-  # create progress bar based os the number of replication
-  pb <-  utils::txtProgressBar(max = rand, style = 3)
-  progress <-  function(n) utils::setTxtProgressBar(pb, n)
-  opts <-  list(progress = progress)
+  # # create progress bar based os the number of replication
+  # pb <-  utils::txtProgressBar(max = rand, style = 3)
+  # progress <-  function(n) utils::setTxtProgressBar(pb, n)
+  # opts <-  list(progress = progress)
   
   # create template for result tibble
   shift_tibble_template <-  tibble::tibble()
@@ -145,8 +158,7 @@ fc_estimate_RoC <- function(data_source_community,
   result_tibble <-  
     foreach::`%dopar%`(foreach::foreach(
       l = 1:rand,
-      .combine = rbind,
-      .options.snow = opts), {
+      .combine = f(rand)), {
         
         # TIME SAMPLING
         # sample random time sequence from time uncern.
@@ -334,7 +346,6 @@ fc_estimate_RoC <- function(data_source_community,
       })# end of the randomization
   
   # close progress bar and cluster
-  close(pb)
   parallel::stopCluster(cl)
   
   
