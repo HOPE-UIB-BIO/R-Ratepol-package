@@ -64,9 +64,7 @@ Ondrej Mottl
 
 \examples{
 
-# Toy example with low number of randomisations
-# We higly recommend to increase the randomisations to 10.000 
-
+\dontrun{
 example_data <-  RRatepol::example_data
 
 sequence_01 <- 
@@ -76,8 +74,8 @@ sequence_01 <-
     age_uncertainty = FALSE,
     smooth_method = "shep",
     Working_Units = "MW",
-    rand = 10, 
-    treads = FALSE,
+    rand = 10e3, 
+    treads = TRUE,
     DC = "chisq")
 
 sequence_01_peak <-
@@ -89,5 +87,7 @@ fc_plot_RoC_sequence(
   Roc_threshold = 2,
   Peaks = TRUE,
   trend = "trend_non_linear")
+}
+
 }
 
