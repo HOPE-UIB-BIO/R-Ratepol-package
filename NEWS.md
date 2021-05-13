@@ -1,6 +1,7 @@
 # R-Ratepol package 0.5.7.
  - packages 'doSNOW' and 'snow' are replaced by 'doParallel' 
  - all hyphens are replaced with dashes ('–') in the whole package
+ - examples are wrapped into 'dontrun'
 
 # R-Ratepol package 0.5.6.
 ### README
