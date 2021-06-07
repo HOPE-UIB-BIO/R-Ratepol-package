@@ -5,7 +5,7 @@ fc_extract_result <- function (x, sel_var, rand){
   r_m <-
     x %>%
     dplyr::mutate(bin_shift = paste0(shift, "_", bin)) %>%
-    dplyr::select(c(ID, bin, shift, sel_var)) %>%
+    dplyr::select(dplyr::all_of(c("ID", "bin", "shift","age_distance", sel_var))) %>%
     tidyr::pivot_wider(names_from = "ID", values_from = sel_var) %>%
     dplyr::mutate(bin_order = sub(" -.*","", bin) %>%
                     as.numeric()) %>%
@@ -15,7 +15,7 @@ fc_extract_result <- function (x, sel_var, rand){
   # calculate number of NOT NA values for each BIN code
   N_not_NA <-
     r_m  %>%
-    dplyr::select(-c(bin)) %>%
+    dplyr::select(-c(bin,age_distance,shift)) %>%
     apply(., 1, FUN = function(x){
       y <-  is.na(x) %>%
         table ()
@@ -33,16 +33,17 @@ fc_extract_result <- function (x, sel_var, rand){
     dplyr::mutate(
       sample_id = bin,
       shift = shift,
-      !!sel_var := dplyr::select(., -c(bin,shift)) %>%
+      !!sel_var := dplyr::select(., -c(bin,shift,age_distance)) %>%
         apply(., 1, FUN = function(x) stats::median(x, na.rm = T)),
-      !!paste0(sel_var,"_05q") := dplyr::select(., -c(bin,shift))
+      !!paste0(sel_var,"_05q") := dplyr::select(., -c(bin,shift,age_distance))
       %>% apply(., 1, FUN = function(x) stats::quantile(x, 0.025, na.rm = T)),
-      !!paste0(sel_var,"_95q") := dplyr::select(., -c(bin,shift))
+      !!paste0(sel_var,"_95q") := dplyr::select(., -c(bin,shift,age_distance))
       %>% apply(., 1, FUN = function(x) stats::quantile(x, 0.975, na.rm = T))
     ) %>%
     dplyr::select(
       sample_id,
       shift, 
+      age_distance,
       sel_var, 
       paste0(sel_var,"_05q"), 
       paste0(sel_var,"_95q"))
