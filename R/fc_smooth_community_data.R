@@ -21,8 +21,8 @@ fc_smooth_community_data <- function(data_source,
   
   assertthat::assert_that(
     any(smooth_method == c("none", "m.avg", "grim", "age.w", "shep")),
-    msg = "`smooth_method` must be one of the following:
-    `none`, `m.avg`, `grim`, `age.w`, `shep`")
+    msg = "'smooth_method' must be one of the following:
+    'none', 'm.avg', 'grim', 'age.w', 'shep'")
   
   
   # ----------------------------------------------
@@ -124,7 +124,7 @@ fc_smooth_community_data <- function(data_source,
         # check if smooth_N_points is and odd number
         assertthat::assert_that(
           smooth_N_points%%2 != 0,
-          msg = "`smooth_N_points` must be an odd number")
+          msg = "'smooth_N_points' must be an odd number")
         
         if( i < round(0.5 * (smooth_N_points)) + 1 ){  # Samples near beginning (moving window truncated)
           focus_par[i, ] = c(1, ( i + round(0.5 * (smooth_N_points)) ))
@@ -147,21 +147,21 @@ fc_smooth_community_data <- function(data_source,
         # check if smooth_N_points is and odd number
         assertthat::assert_that(
           smooth_N_points%%2 != 0,
-          msg = "`smooth_N_points` must be an odd number")
+          msg = "'smooth_N_points' must be an odd number")
         
         # check if smooth_N_max is an odd numbers
         assertthat::assert_that(
           smooth_N_max%%2 != 0,
-          msg = "`smooth_N_max` must be an odd number")
+          msg = "'smooth_N_max' must be an odd number")
         
         # Check if miminal number of points in not bigger than maximum
         assertthat::assert_that(
           smooth_N_points < smooth_N_max,
-          msg = "`smooth_N_max` must be bigger than `smooth_N_points")
+          msg = "'smooth_N_max' must be bigger than 'smooth_N_points")
         
         assertthat::assert_that(
           is.numeric(smooth_age_range),
-          msg = "`smooth_age_range` must be `numeric")
+          msg = "'smooth_age_range' must be 'numeric")
         
         if( i < round(0.5 * (smooth_N_max)) + 1 ) {  # Samples near beginning (moving window truncated)
           focus_par[i, 1] <-  1
@@ -190,11 +190,11 @@ fc_smooth_community_data <- function(data_source,
         # check if smooth_N_points is and odd number
         assertthat::assert_that(
           smooth_N_points%%2 != 0,
-          msg = "`smooth_N_points` must be an odd number")
+          msg = "'smooth_N_points' must be an odd number")
         
         assertthat::assert_that(
           is.numeric(smooth_age_range),
-          msg = "`smooth_age_range` must be `numeric")
+          msg = "'smooth_age_range' must be 'numeric")
         
         if( i < round(0.5 * (smooth_N_points)) + 1 ) {  # Samples near beginning (moving window truncated)
           focus_par[i, ] <-  c(1, ( i + round(0.5 * (smooth_N_points)) ))
