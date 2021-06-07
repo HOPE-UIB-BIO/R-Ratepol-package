@@ -8,6 +8,7 @@ fc_estimate_RoC <- function(data_source_community,
                             Working_Units = "MW",
                             bin_size = 500,
                             Number_of_shifts = 5,
+                            bin_selection = "first",
                             rand = 1,
                             treads = TRUE,
                             standardise = FALSE,
@@ -15,6 +16,8 @@ fc_estimate_RoC <- function(data_source_community,
                             tranform_to_proportions = TRUE,
                             DC = "chisq",
                             interest_threshold = FALSE,
+                            only_subsequent = TRUE,
+                            time_standardisation = 500,
                             Debug = FALSE){
   
   # Start of the code
@@ -22,6 +25,171 @@ fc_estimate_RoC <- function(data_source_community,
   if (Debug == TRUE){
     cat(paste("RATEPOL started", start.time), fill=TRUE)
   }
+  
+  #----------------------------------------------------------# 
+  # 0. Arguments check -----
+  #----------------------------------------------------------#
+  
+  assertthat::assert_that(
+    is.numeric(rand),
+    msg = " 'rand' must be a 'numeric'")
+  
+  assertthat::assert_that(
+    round(rand) == rand,
+    msg = " 'rand' must be a whole number")
+  
+  assertthat::assert_that(
+    Working_Units %in% c("levels", "bins", "MW"),
+    msg = " 'Working_Units' must be a 'levels' 'bins' or 'MW'")
+  
+  if(Working_Units != "levels"){
+    
+    assertthat::assert_that(
+      is.numeric(bin_size),
+      msg = " 'bin_size' must be a 'numeric'")
+    
+    assertthat::assert_that(
+      round(bin_size) == bin_size,
+      msg = " 'bin_size' must be a whole number")
+    
+    assertthat::assert_that(
+      bin_selection == "first" | bin_selection == "random",
+      msg = " 'bin_selection' must be a 'first' or 'random'")
+    
+    if(bin_selection == "random" & rand < 10){
+      cat(
+        "'bin_selection' was selected as 'random'. Recommend to increase
+        'rand'", "\n")
+    }
+    
+    assertthat::assert_that(
+      is.numeric(only_subsequent),
+      msg = " 'only_subsequent' must be a 'TRUE' or 'FALSE'")
+    
+    if(only_subsequent == FALSE){
+      cat(
+        "'only_subsequent' was selected as 'FALSE'. This is not a recommended 
+        setting. Results will be affected", "\n")
+    }
+    
+  
+  if (Working_Units == "MW"){
+    assertthat::assert_that(
+      is.numeric(Number_of_shifts),
+      msg = " 'Number_of_shifts' must be a 'numeric'")
+    
+    assertthat::assert_that(
+      round(Number_of_shifts) == Number_of_shifts,
+      msg = " 'Number_of_shifts' must be a whole number")
+  }
+  
+    
+    assertthat::assert_that(
+      is.numeric(time_standardisation) | time_standardisation == "auto",
+      msg = " 'time_standardisation' must be a 'numeric' or 'auto'")
+    
+    if( is.numeric(time_standardisation)){
+      assertthat::assert_that(
+        round(time_standardisation) == time_standardisation,
+        msg = " 'time_standardisation' must be a whole number")
+      
+      if(Working_Units != "levels" & time_standardisation != bin_size){
+        cat(
+          " RoC values will be reported in different units than size of bin. 
+          Recomend to keep 'time_standardisation' and 'bin_size' as same values"
+          , "\n")
+      }
+        
+    }
+    
+    if(time_standardisation == "auto"){
+      cat(
+        "'time_standardisation' = 'auto' is not recomended setting. 
+        RoC values will be reported as standardised by the average distance 
+        between Working Units (levels/ bins)", "\n")
+    }
+  }  
+    
+  assertthat::assert_that(
+    is.numeric(standardise),
+    msg = " 'standardise' must be a 'TRUE' or 'FALSE'")
+  
+  if(standardise == TRUE){
+    assertthat::assert_that(
+      is.numeric(N_individuals),
+      msg = " 'N_individuals' must be a 'numeric'")
+    
+    assertthat::assert_that(
+      round(N_individuals) == N_individuals,
+      msg = " 'N_individuals' must be a whole number")
+  }
+  
+  if(standardise == TRUE & rand < 10){
+    cat(
+      "'standardise' was selected as 'TRUE'. Recommend to increase 'rand'", "\n")
+  }
+  
+  if (!all(age_uncertainty == FALSE) &  rand < 10){
+    cat(
+      "'age_uncertainty' was selected to be used. Recommend to increase
+      'rand'", "\n")
+  }
+  
+  assertthat::assert_that(
+    is.numeric(tranform_to_proportions),
+    msg = " 'tranform_to_proportions' must be a 'TRUE' or 'FALSE'")
+  
+  assertthat::assert_that(
+    is.numeric(interest_threshold) | interest_threshold == FALSE,
+    msg = " 'interest_threshold' must be a 'numeric' or 'FALSE'")
+  
+ 
+  assertthat::assert_that(
+    any(smooth_method == c("none", "m.avg", "grim", "age.w", "shep")),
+    msg = "'smooth_method' must be one of the following:
+    'none', 'm.avg', 'grim', 'age.w', 'shep'")
+  
+  if(!smooth_method %in% c("none", "shep")){
+    
+    assertthat::assert_that(
+      smooth_N_points%%2 != 0,
+      msg = "'smooth_N_points' must be an odd number")
+    
+    if(smooth_method != "m.avg"){
+      assertthat::assert_that(
+        is.numeric(smooth_age_range),
+        msg = "'smooth_age_range' must be 'numeric")
+      
+      if(smooth_method == "grim"){
+        assertthat::assert_that(
+          smooth_N_max%%2 != 0,
+          msg = "'smooth_N_max' must be an odd number")
+        
+        assertthat::assert_that(
+          smooth_N_points < smooth_N_max,
+          msg = "'smooth_N_max' must be bigger than 'smooth_N_points")
+      }
+    }
+    
+  }
+  
+  assertthat::assert_that(
+    any(DC == c("euc", "euc.sd", "chord", "chisq", "gower")),
+    msg = "'DC' must be one of the following:
+    'euc', 'euc.sd', 'chord', 'chisq', 'gower'")
+  
+  
+  assertthat::assert_that(
+    is.numeric(treads) | time_standardisation == FALSE,
+    msg = " 'treads' must be a 'numeric' or 'FALSE'")
+  
+  if(is.numeric(treads)){
+    assertthat::assert_that(
+      round(treads) == treads,
+      msg = " 'treads' must be a whole number")
+  }
+  
+  
   
   #----------------------------------------------------------# 
   # 1. Data extraction -----
@@ -35,6 +203,7 @@ fc_estimate_RoC <- function(data_source_community,
       data_source_age,
       age_uncertainty = age_uncertainty,
       Debug = Debug)
+  
   
   #----------------------------------------------------------#
   # 2. Data smoothing ----- 
@@ -67,37 +236,13 @@ fc_estimate_RoC <- function(data_source_community,
     Number_of_shifts <-  1
   } else if(Working_Units == "bins"){
     Number_of_shifts <-  1
-    
-    assertthat::assert_that(
-      is.numeric(bin_size),
-      msg = " `bin_size` must be a `numeric`")
-    
-    assertthat::assert_that(
-      round(bin_size) == bin_size,
-      msg = " `bin_size` must be a whole number")
-    
+
     bin_sizes <- 
       fc_create_bins(
         data_work,
         shift_value = bin_size,
         Number_of_shifts = 1)
   } else if(Working_Units == "MW"){
-    
-    assertthat::assert_that(
-      is.numeric(bin_size),
-      msg = " `bin_size` must be a `numeric`")
-    
-    assertthat::assert_that(
-      round(bin_size) == bin_size,
-      msg = " `bin_size` must be a whole number")
-    
-    assertthat::assert_that(
-      is.numeric(Number_of_shifts),
-      msg = " `Number_of_shifts` must be a `numeric`")
-    
-    assertthat::assert_that(
-      round(Number_of_shifts) == Number_of_shifts,
-      msg = " `Number_of_shifts` must be a whole number")
     
     shift_value <-  bin_size/Number_of_shifts
     
@@ -107,7 +252,6 @@ fc_estimate_RoC <- function(data_source_community,
         shift_value = shift_value,
         Number_of_shifts = Number_of_shifts)
   }
-  
   
   #----------------------------------------------------------#
   # 4. Randomisation ----- 
@@ -130,25 +274,18 @@ fc_estimate_RoC <- function(data_source_community,
   # create cluster
   cl <-  parallel::makeCluster(Ncores)
   doParallel::registerDoParallel(cl)
-  
-  parallel::clusterEvalQ(cl, library("RRatepol"))
-  
-  # Progress combine function
-  f <- function(iterator){
-    pb <- utils::txtProgressBar(min = iterator - 1, max = iterator , style = 3)
-    count <- 0
-    function(...) {
-      count <<- count + length(list(...)) - 1
-      utils::setTxtProgressBar(pb, count)
-      utils::flush.console()
-      rbind(...) # this can feed into .combine option of foreach
-    }
-  }
+  parallel::clusterEvalQ(cl, {
+    library("RRatepol")
+    library("tidyverse")
+  })
+
+  # progress bar
+  cat("Progress bar is not working in the current version, please wait", "\n")
   
   result_tibble <-  
     foreach::`%dopar%`(foreach::foreach(
       l = 1:rand,
-      .combine = f(rand)), {
+      .combine = rbind), {
         
         # TIME SAMPLING
         # sample random time sequence from time uncern.
@@ -166,7 +303,8 @@ fc_estimate_RoC <- function(data_source_community,
           #----------------------------------------------------------#
           data_subset <-  data_work
           
-          # select one sample for each bin based on the age of the samples. Sample is chones if it is the closes one to the upper end of the bin
+          # select one sample for each bin based on the age of the samples. 
+          # Sample is choses if it is the closes one to the upper end of the bin
           if (Working_Units != "levels"){
             
             # select bin for this shift
@@ -176,14 +314,14 @@ fc_estimate_RoC <- function(data_source_community,
             data_subset <-  
               fc_subset_samples(
                 data_subset,
-                selected_bins,
-                Working_Units)
+                bins = selected_bins,
+                WU = Working_Units,
+                bin_selection = bin_selection)
             
             data_subset <-  
               fc_check_data(
                 data_subset,
                 proportion = FALSE)
-            
           }
           
           #----------------------------------------------------------#
@@ -193,14 +331,6 @@ fc_estimate_RoC <- function(data_source_community,
           
           # standardisation of community data to X(N_individuals) number of individuals
           if(standardise == TRUE){
-            
-            assertthat::assert_that(
-              is.numeric(N_individuals),
-              msg = " `N_individuals` must be a `numeric`")
-            
-            assertthat::assert_that(
-              round(N_individuals) == N_individuals,
-              msg = " `N_individuals` must be a whole number")
             
             # adjust the value by the minimal Community or to a minimal of presected values
             N_individuals <-  min(c(rowSums(data_sd@Community), N_individuals) )
@@ -231,7 +361,7 @@ fc_estimate_RoC <- function(data_source_community,
             
             assertthat::assert_that(
               any(rowSums(data_sd@Community, na.rm = TRUE) == N_individuals),
-              msg = "Data standardisation was unsuccesfull, try `standardise` = FALSE")
+              msg = "Data standardisation was unsuccesfull, try 'standardise' = FALSE")
           }
           
           # data check with proportioning
@@ -256,52 +386,97 @@ fc_estimate_RoC <- function(data_source_community,
           # 4.4 Age Standardisation ----- 
           #----------------------------------------------------------#
           
-          # create empty vector with size = number of samples-1
-          sample_size_work <-  data_sd_check@Dim.val[2]-1
+          # create empty tible with size = number of samples-1
+          shift_tibble_res <- 
+            tibble::tibble(
+              DC = DC_res) 
           
           # create empty vectors for age difference calcualtion
-          age_diff <-  
+          shift_tibble_res$age_diff <-  
             vector(
               mode = "numeric",
-              length = sample_size_work)
+              length = nrow(shift_tibble_res))
           
-          age_diff_names <-  
+          shift_tibble_res$bin <-  
             vector(
               mode = "character",
-              length = sample_size_work)
+              length = nrow(shift_tibble_res))
           
-          age_mean <-  age_diff
+          shift_tibble_res$age_distance <- 
+            vector(
+              mode = "numeric",
+              length = nrow(shift_tibble_res))
           
-          for (i in 1:sample_size_work){ # for each RoC
+          shift_tibble_res$age_position <-  
+            vector(
+              mode = "numeric",
+              length = nrow(shift_tibble_res))
+          
+          
+          for (i in 1:nrow(shift_tibble_res)){ # for each RoC
             
             # calcualte the age difference between subsequesnt samples
-            age_diff[i] <-  
+            shift_tibble_res$age_diff[i] <-  
               data_sd_check@Age$newage[i + 1] - data_sd_check@Age$newage[i]
             
             # Set age difference as 1, if age difference between samples is 
             #   smaller than 1
-            if(age_diff[i] < 1){ age_diff[i] <-  1}
+            if(shift_tibble_res$age_diff[i] < 1){shift_tibble_res$age_diff[i] <-  1}
             
             #calculate the average position of RoC
-            age_mean[i] <-  mean(c(data_sd_check@Age$age[i+1],
-                                   data_sd_check@Age$age[i]))
+            shift_tibble_res$age_position[i] <-  
+              mean(c(data_sd_check@Age$age[i+1],
+                     data_sd_check@Age$age[i]))
             
             # create vector with WU names
-            age_diff_names[i] <-
+            shift_tibble_res$bin[i] <-
               paste(
                 row.names(data_sd_check@Age)[i],
                 "-",
                 row.names(data_sd_check@Age)[i + 1])
+            
+            if(Working_Units != "levels"){
+              shift_tibble_res$age_distance[i] <- 
+                as.numeric(row.names(data_sd_check@Age)[i + 1]) -
+                as.numeric(row.names(data_sd_check@Age)[i])
+            } else {
+              shift_tibble_res$age_distance[i] <- NA
+            }
+          }
+          
+          
+          # remove the non-subsequent levels.
+          if(Working_Units != "levels" & only_subsequent == TRUE){
+            shift_tibble_res <-
+              shift_tibble_res %>% 
+              dplyr::filter(age_distance <= bin_size)
+          }
+          
+          
+          if(time_standardisation == "auto"){
+            if(Working_Units != "levels"){
+              time_standardisation_unit <- bin_size
+            } else {
+              time_standardisation_unit <- mean(shift_tibble_res$age_diff)
+            }
+          } else {
+            time_standardisation_unit <- time_standardisation
           }
           
           if (Debug == TRUE){
             cat("", fill = TRUE)
-            cat(paste("The time standardisation unit (TSU) is",round(mean(age_diff),2)), fill=TRUE)
+            cat(paste("The time standardisation unit (TSU) is",
+                      round(time_standardisation_unit,2)), fill=TRUE)
           }
           
           #  calculate DC standardise by time
-          DC_res_s <-  vector(mode = "numeric", length = sample_size_work)
-          DC_res_s <-  (DC_res * mean(age_diff)) / age_diff
+          shift_tibble_res <-
+            shift_tibble_res %>% 
+            dplyr::mutate(
+              age_diff_st = age_diff / time_standardisation_unit,
+              RoC = DC / age_diff_st,
+              shift = k)
+          
           
           #----------------------------------------------------------#
           # 4.5 Result of a single window shift -----
@@ -311,33 +486,29 @@ fc_estimate_RoC <- function(data_source_community,
           shift_tibble <- 
             rbind(
               shift_tibble,
-              data.frame(
-                bin = age_diff_names,
-                DC = DC_res,
-                age_position = age_mean,
-                age_diff = age_diff,
-                RoC = DC_res_s,
-                shift = rep(k, sample_size_work))
-            )
+              shift_tibble_res)
         }
         
         #----------------------------------------------------------#
         # 4.6 Result of a single randomisation run -----
         #----------------------------------------------------------#
         
-        # save result from single randomisation into data.frame with number of randomisation as ID.
-        data_result_temp <- 
-          as.data.frame(
-            list(
-              ID = l,
-              shift_tibble))
         
-        return(data_result_temp)
+        if(nrow(shift_tibble)<1 & Working_Units != "levels" & only_subsequent == TRUE){
+          stop("Estimation not succesfull, try increase the bin size")
+        }
+        
+        shift_tibble <- 
+          shift_tibble %>% 
+          dplyr::mutate(
+            ID = l)
+        
+        
+        return(shift_tibble)
       })# end of the randomization
   
   # close progress bar and cluster
   parallel::stopCluster(cl)
-  
   
   #----------------------------------------------------------#
   # 5. Results Summary -----
@@ -356,14 +527,10 @@ fc_estimate_RoC <- function(data_source_community,
         result_tibble,
         "age_position",
         rand),
-      by = c("sample_id","shift"))
+      by = c("sample_id","shift","age_distance"))
   
   
   # reduce results by the focus age time
-  assertthat::assert_that(
-    is.numeric(interest_threshold) | interest_threshold == FALSE,
-    msg = " `interest_threshold` must be a `numeric` or `FALSE`")
-  
   if(interest_threshold != FALSE){
     results_full <- 
       dplyr::filter(
@@ -371,30 +538,17 @@ fc_estimate_RoC <- function(data_source_community,
         age_position <= interest_threshold)
   }
   
-  # sort samples by age and add smoothing to avoid "waiving" from different shifts
-  results_full <-  
-    results_full[order(results_full$age_position), ]
-  results_full$RoC_sm <-  
-    stats::lowess(results_full$age_position, results_full$RoC, f = .1, iter = 100)$y
-  results_full$RoC_95q_sm <-  
-    stats::lowess(results_full$age_position, results_full$RoC_95q, f = .1, iter = 100)$y
-  results_full$RoC_05q_sm <-  
-    stats::lowess(results_full$age_position, results_full$RoC_05q, f = .1, iter = 100)$y
-  results_full$RoC_sm <-  
-    ifelse(results_full$RoC_sm <= 0, 0.0001, results_full$RoC_sm)
-  results_full$RoC_05q_sm <-  
-    ifelse(results_full$RoC_05q_sm < 0, 0.0001, results_full$RoC_05q_sm)
   
-  
-  # final tibble
+  # final tibble (sort samples by age and select variables)
   results_full_fin <- 
-    dplyr::select(
-      results_full, 
+    results_full %>% 
+    dplyr::arrange(age_position) %>% 
+    dplyr::select( 
       sample_id,
       age_position,
-      RoC_sm,
-      RoC_95q_sm,
-      RoC_05q_sm)
+      RoC,
+      RoC_95q,
+      RoC_05q)
   
   names(results_full_fin) <-  c("Working_Unit","Age", "ROC", "ROC_up", "ROC_dw")
   
@@ -404,7 +558,7 @@ fc_estimate_RoC <- function(data_source_community,
   if(Debug == TRUE){
     cat("", fill=TRUE)
     cat(paste(
-      "RATEPOL finished", end.time, "taking", time.length, units(time.length)), fill=TRUE)
+      "RATEPOL finished", end.time, "taking", time.length, units(time.length)), fill = TRUE)
   }
   
   return(results_full_fin)

@@ -17,6 +17,7 @@ fc_estimate_RoC(data_source_community,
                 Working_Units = "MW",
                 bin_size = 500,
                 Number_of_shifts = 5,
+                bin_selection = "first",
                 rand = 1,
                 treads = TRUE,
                 standardise = FALSE,
@@ -24,6 +25,8 @@ fc_estimate_RoC(data_source_community,
                 tranform_to_proportions = TRUE,
                 DC = "chisq",
                 interest_threshold = FALSE,
+                only_subsequent = TRUE,
+                time_standardisation = 500,
                 Debug = FALSE)
 }
 
@@ -71,9 +74,9 @@ Selection of units that the DC will be calculated between.
 
 "levels" = individual levels are going to be used
 
-"bins"   = samples in predefined bins will be pooled together and one random sample will be selected from each time bin as a representation.
+"bins"   = samples in predefined bins will be pooled together and one sample will be selected from each time bin as a representation.
 
-"MW"     = Bins of selected size are created, starting from zero. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. Sample, whitch is the closest to the beginning of the bin is selected asa representation of the bin.  
+"MW"     = Bins of selected size are created, starting from the begining of the core. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. XXX.  
 
 }
  \item{bin_size}{
@@ -82,6 +85,9 @@ bin_size = size of the time bin (in years)
  \item{Number_of_shifts}{
 Value determining the number of shifts of window used in Moving window method
 }
+ \item{bin_selection}{
+Setting determining the the process of selection of samples from bins. For "first", sample closest to the beginning of the bin is selected as a representation. For "random", random sample is selected as a representation.
+}
  \item{rand}{
 Number of runs used in randomisation.
 }
@@ -89,7 +95,7 @@ Number of runs used in randomisation.
 Preference of usage of parallel computation of randomisation
 [value] = selected number of cores
 T = automatically selected number of cores
-F = does not use parallel computation
+F = does not use parallel computation (only single core)
 }
 
  \item{standardise}{
@@ -116,6 +122,14 @@ Dissimilarity coefficient. Type of calculation of differences between Working Un
 }
  \item{interest_threshold}{
 [value] = age, after which all results of RoC are excluded before detection of peak points 
+}
+ \item{only_subsequent}{
+Should only subsequent bins be used for estimation of RoC? Recomended setting is TRUE.
+}
+ \item{time_standardisation}{
+Units scaling for result RoC values. For example, if time_standardisation == 500, the RoC will be reported as
+dissimilatity per 500 yr. If time_standardisation = "auto" (not recomended), RoC values will be reported as 
+standardised by the average distancebetween Working Units (levels/ bins)" 
 }
  \item{Debug}{
 T = show messages from internal processes
