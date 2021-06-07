@@ -63,7 +63,7 @@ fc_estimate_RoC <- function(data_source_community,
     }
     
     assertthat::assert_that(
-      is.numeric(only_subsequent),
+      is.logical(only_subsequent),
       msg = " 'only_subsequent' must be a 'TRUE' or 'FALSE'")
     
     if(only_subsequent == FALSE){
@@ -111,7 +111,7 @@ fc_estimate_RoC <- function(data_source_community,
   }  
     
   assertthat::assert_that(
-    is.numeric(standardise),
+    is.logical(standardise),
     msg = " 'standardise' must be a 'TRUE' or 'FALSE'")
   
   if(standardise == TRUE){
@@ -136,7 +136,7 @@ fc_estimate_RoC <- function(data_source_community,
   }
   
   assertthat::assert_that(
-    is.numeric(tranform_to_proportions),
+    is.logical(tranform_to_proportions),
     msg = " 'tranform_to_proportions' must be a 'TRUE' or 'FALSE'")
   
   assertthat::assert_that(
@@ -180,8 +180,8 @@ fc_estimate_RoC <- function(data_source_community,
   
   
   assertthat::assert_that(
-    is.numeric(treads) | time_standardisation == FALSE,
-    msg = " 'treads' must be a 'numeric' or 'FALSE'")
+    is.numeric(treads) | is.logical(treads),
+    msg = " 'treads' must be a 'numeric' or 'TRUE'/'FALSE'")
   
   if(is.numeric(treads)){
     assertthat::assert_that(
