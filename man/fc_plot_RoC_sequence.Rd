@@ -10,8 +10,8 @@ Plot Rate-of-Change sequence with a error estimate and trend and/or peak-points 
 \usage{
 fc_plot_RoC_sequence(
   data_source,
-  age_threshold = 15000,
-  Roc_threshold = 2,
+  age_threshold = FALSE,
+  Roc_threshold = FALSE,
   Peaks = FALSE,
   trend = FALSE)
 }
