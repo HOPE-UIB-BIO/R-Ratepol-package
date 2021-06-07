@@ -1,4 +1,4 @@
-fc_subset_samples <- function(data_subset, bins, WU){
+fc_subset_samples <- function(data_subset, bins, WU, bin_selection){
   
   # create empty template with length of number of bins for both age and pollen
   
@@ -36,19 +36,23 @@ fc_subset_samples <- function(data_subset, bins, WU){
     if (nrow(subset_w) > 0){ # If selected subset has at least one sample
   
       # for binning
-      if (WU == "bins"){
+      if (WU != "levels" & bin_selection == "random"){
         # select one random sample from the bin
         random_row <- sample(1:nrow(subset_w), 1)
         suppressWarnings(data_result_age[i, ] <-  subset_w[random_row, ] )
+        data_result_age$age[i] <- selected_bin + (bin_size/2)
+        data_result_age$newage[i] <- data_result_age$age[i]
         
         data_result_community[i, ]<-  data_subset@Community[row.names(data_subset@Community) %in% data_result_age$sample.id[i], ]  
       }
       
       # for moving window
-      if (WU == "MW"){
+      if (WU != "levels" & bin_selection == "first"){
         # select the sample which is the closest to the beggining of the bin
         subset_w$diff <-  abs(subset_w$newage - selected_bin)
         suppressWarnings(data_result_age[i, ] <-  subset_w[subset_w$diff == min(subset_w$diff), ] )
+        data_result_age$age[i] <- selected_bin + (bin_size/2)
+        data_result_age$newage[i] <- data_result_age$age[i]
         
         data_result_community[i, ]<-  data_subset@Community[row.names(data_subset@Community) %in% data_result_age$sample.id[i], ]  
       }
@@ -57,11 +61,14 @@ fc_subset_samples <- function(data_subset, bins, WU){
   }
   
   # reduce the empty collumns 
+  keep_row <-
+    ifelse(is.na(data_result_age$newage),FALSE,TRUE)
+
   data_result_age <-
-    data_result_age[rowSums(data_result_community, na.rm = T) > 0, ] 
+    data_result_age[keep_row, ] 
   
   data_result_community <- 
-    data_result_community[rowSums(data_result_community, na.rm = T) > 0, ] 
+    data_result_community[keep_row, ] 
   
   list.res <-
     RRatepolList(
