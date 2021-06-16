@@ -17,14 +17,10 @@ fc_estimate_RoC <- function(data_source_community,
                             DC = "chisq",
                             interest_threshold = FALSE,
                             only_subsequent = TRUE,
-                            time_standardisation = 500,
+                            time_standardisation = 100,
                             Debug = FALSE){
   
   # Start of the code
-  start.time <- Sys.time()
-  if (Debug == TRUE){
-    cat(paste("RATEPOL started", start.time), fill=TRUE)
-  }
   
   #----------------------------------------------------------# 
   # 0. Arguments check -----
@@ -42,6 +38,16 @@ fc_estimate_RoC <- function(data_source_community,
     Working_Units %in% c("levels", "bins", "MW"),
     msg = " 'Working_Units' must be a 'levels' 'bins' or 'MW'")
   
+  assertthat::assert_that(
+    is.numeric(time_standardisation) | time_standardisation == "auto",
+    msg = " 'time_standardisation' must be a 'numeric' or 'auto'")
+  
+  if( is.numeric(time_standardisation)){
+    assertthat::assert_that(
+      round(time_standardisation) == time_standardisation,
+      msg = " 'time_standardisation' must be a whole number")  
+  }
+  
   if(Working_Units != "levels"){
     
     assertthat::assert_that(
@@ -56,21 +62,9 @@ fc_estimate_RoC <- function(data_source_community,
       bin_selection == "first" | bin_selection == "random",
       msg = " 'bin_selection' must be a 'first' or 'random'")
     
-    if(bin_selection == "random" & rand < 10){
-      cat(
-        "'bin_selection' was selected as 'random'. Recommend to increase
-        'rand'", "\n")
-    }
-    
     assertthat::assert_that(
       is.logical(only_subsequent),
       msg = " 'only_subsequent' must be a 'TRUE' or 'FALSE'")
-    
-    if(only_subsequent == FALSE){
-      cat(
-        "'only_subsequent' was selected as 'FALSE'. This is not a recommended 
-        setting. Results will be affected", "\n")
-    }
     
   
   if (Working_Units == "MW"){
@@ -83,31 +77,6 @@ fc_estimate_RoC <- function(data_source_community,
       msg = " 'Number_of_shifts' must be a whole number")
   }
   
-    
-    assertthat::assert_that(
-      is.numeric(time_standardisation) | time_standardisation == "auto",
-      msg = " 'time_standardisation' must be a 'numeric' or 'auto'")
-    
-    if( is.numeric(time_standardisation)){
-      assertthat::assert_that(
-        round(time_standardisation) == time_standardisation,
-        msg = " 'time_standardisation' must be a whole number")
-      
-      if(Working_Units != "levels" & time_standardisation != bin_size){
-        cat(
-          " RoC values will be reported in different units than size of bin. 
-          Recomend to keep 'time_standardisation' and 'bin_size' as same values"
-          , "\n")
-      }
-        
-    }
-    
-    if(time_standardisation == "auto"){
-      cat(
-        "'time_standardisation' = 'auto' is not recomended setting. 
-        RoC values will be reported as standardised by the average distance 
-        between Working Units (levels/ bins)", "\n")
-    }
   }  
     
   assertthat::assert_that(
@@ -124,17 +93,6 @@ fc_estimate_RoC <- function(data_source_community,
       msg = " 'N_individuals' must be a whole number")
   }
   
-  if(standardise == TRUE & rand < 10){
-    cat(
-      "'standardise' was selected as 'TRUE'. Recommend to increase 'rand'", "\n")
-  }
-  
-  if (!all(age_uncertainty == FALSE) &  rand < 10){
-    cat(
-      "'age_uncertainty' was selected to be used. Recommend to increase
-      'rand'", "\n")
-  }
-  
   assertthat::assert_that(
     is.logical(tranform_to_proportions),
     msg = " 'tranform_to_proportions' must be a 'TRUE' or 'FALSE'")
@@ -143,7 +101,6 @@ fc_estimate_RoC <- function(data_source_community,
     is.numeric(interest_threshold) | interest_threshold == FALSE,
     msg = " 'interest_threshold' must be a 'numeric' or 'FALSE'")
   
- 
   assertthat::assert_that(
     any(smooth_method == c("none", "m.avg", "grim", "age.w", "shep")),
     msg = "'smooth_method' must be one of the following:
@@ -188,6 +145,170 @@ fc_estimate_RoC <- function(data_source_community,
       round(treads) == treads,
       msg = " 'treads' must be a whole number")
   }
+  
+  
+  #--------------------------------------------------#
+  # 0.1. Report to user -----
+  #--------------------------------------------------#
+  
+  start_time <- Sys.time()
+  cat(paste("R-RATEPOL started", start_time),
+      "\n", fill = TRUE)
+  
+  
+  if (!all(age_uncertainty == FALSE)){
+    cat(
+      "'age_uncertainty' will be used for in the RoC estimation",
+      "\n", fill = TRUE)
+    
+    if (rand < 100){
+      cat(
+        paste(
+          "'age_uncertainty' was selected to be used with low number",
+          "of replication. Recommend to increase 'rand'"),
+        "\n", fill = TRUE)
+    }
+  }
+  
+  if(smooth_method == "m.avg"){
+    cat(
+      paste(
+      "Data will be smoothed by 'moving average' over", smooth_N_points,
+      "points"),
+      "\n",fill = TRUE)  
+  }
+  
+  if(smooth_method == "grim"){
+    cat(
+      paste(
+      "Data will be smoothed by 'Grimm method' with min samples", smooth_N_points,
+      "max samples", smooth_N_max, "and max age range of", smooth_age_range),
+      "\n", fill = TRUE)  
+  }
+  
+  if(smooth_method == "age.w"){
+    cat(
+      paste(
+      "Data will be smoothed by 'age-weighed average' over", smooth_N_points,
+      "points with a threshold of", smooth_age_range),
+      "\n", fill = TRUE)  
+  }
+  
+  if(smooth_method == "shep"){
+    cat(
+      paste(
+      "Data will be smoothed by 'Shepard's 5-term filter'"),
+      "\n", fill = TRUE)  
+  }
+  
+  
+  if(Working_Units == "levels"){
+    cat(
+      "RoC will be estimated between individual subsequent levels",
+      "\n", fill = TRUE)  
+  }
+  
+  if(Working_Units != "levels"){
+  
+    if(Working_Units == "bins"){
+      cat(
+        paste(
+          "RoC will be estimated using selective binning with", bin_size,
+          "yr time bin"),
+        "\n", fill = TRUE)  
+    }
+    
+    if(Working_Units == "MW"){
+      cat(
+        paste(
+          "RoC will be estimated using 'binning with the mowing window' of",
+          bin_size, "yr time bin over", Number_of_shifts, "number of window shifts"),
+        "\n", fill = TRUE)  
+    }
+    
+    
+    if(bin_selection == "random"){
+      cat(
+        "Sample will randomly selected for each bin",
+        "\n", fill = TRUE)  
+      
+      if(rand < 100){
+        cat(
+          paste(
+            "'bin_selection' was selected as 'random' with low number",
+            "of replication. Recommend to increase 'rand'"),
+        "\n", fill = TRUE)  
+      }
+      
+    } else {
+      cat(
+        "First sample of each time bin will selected",
+        "\n", fill = TRUE)  
+    }
+      
+    if(only_subsequent == FALSE){
+      cat(
+        paste(
+          "'only_subsequent' was selected as 'FALSE'.",
+          "This is not a recommended setting. Results will be affected"),
+        "\n", fill = TRUE)
+    }
+    
+    if(only_subsequent == FALSE & Working_Units == "MW"){
+      cat(
+        paste(
+          "WARNING 'only_subsequent == FALSE' and 'Working_Units == MW'.",
+        "This is NOT a recommended setting.",
+        "Please use 'only_subsequent == TRUE' for 'Working_Units == MW'"), 
+        "\n", fill = TRUE)
+    }
+    
+  }
+  
+  
+  if(is.numeric(time_standardisation)){
+    cat(
+      paste(
+        "'time_standardisation' =", time_standardisation,":",
+        "RoC values will be reported as disimilarity per", time_standardisation,
+        "years."),
+      "\n", fill = TRUE)
+    
+    if(Working_Units != "levels" & time_standardisation != bin_size){
+      cat(
+        paste(
+          "RoC values will be reported in different units than size of bin.",
+          "Recommend to keep 'time_standardisation'",
+          "and 'bin_size' as same values"),
+        "\n", fill = TRUE)
+    }
+  }
+  
+  if(time_standardisation == "auto"){
+    cat(
+     paste(
+       "'time_standardisation' = 'auto' is not recomended setting.", 
+        "RoC values will be reported as standardised by the average distance", 
+        "between Working Units (levels/ bins)"),
+      "\n", fill = TRUE)
+  }
+  
+  if(standardise == TRUE ){
+    cat(
+      paste("Data will be standardise in each Working unit to", N_individuals,
+            "or the lowest number detected in dataset"),
+      "\n", fill=TRUE)
+    
+    if(rand < 100){
+      cat(
+       paste(
+         "'standardise' was selected as 'TRUE' with low number of replication.",
+      "Recommend to increase 'rand'"),
+      "\n", fill = TRUE) 
+    }
+  }
+  
+  
   
   
   
@@ -279,8 +400,17 @@ fc_estimate_RoC <- function(data_source_community,
     library("tidyverse")
   })
 
+  
+  if(rand > 1){
+    cat(
+      paste(
+        "Starting the randomisation. Number of randomisations set to", rand),
+      "\n", fill = TRUE)  
+  }
+  
   # progress bar
-  cat("Progress bar is not working in the current version, please wait", "\n")
+  cat("Progress bar is not working in the current version, please wait",
+      "\n", fill=TRUE)
   
   result_tibble <-  
     foreach::`%dopar%`(foreach::foreach(
@@ -552,14 +682,11 @@ fc_estimate_RoC <- function(data_source_community,
   
   names(results_full_fin) <-  c("Working_Unit","Age", "ROC", "ROC_up", "ROC_dw")
   
-  end.time <-  Sys.time()
-  time.length <-  end.time - start.time
-  
-  if(Debug == TRUE){
-    cat("", fill=TRUE)
-    cat(paste(
-      "RATEPOL finished", end.time, "taking", time.length, units(time.length)), fill = TRUE)
-  }
+  end_time <-  Sys.time()
+  time_duration <-  end_time - start_time
+  cat(paste(
+    "R-RATEPOL finished", end_time, "taking", time_duration, units(time_duration)),
+    fill = TRUE)
   
   return(results_full_fin)
   
