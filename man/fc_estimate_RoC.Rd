@@ -26,7 +26,7 @@ fc_estimate_RoC(data_source_community,
                 DC = "chisq",
                 interest_threshold = FALSE,
                 only_subsequent = TRUE,
-                time_standardisation = 500,
+                time_standardisation = 100,
                 Debug = FALSE)
 }
 
@@ -127,8 +127,8 @@ Dissimilarity coefficient. Type of calculation of differences between Working Un
 Should only subsequent bins be used for estimation of RoC? Recomended setting is TRUE.
 }
  \item{time_standardisation}{
-Units scaling for result RoC values. For example, if time_standardisation == 500, the RoC will be reported as
-dissimilatity per 500 yr. If time_standardisation = "auto" (not recomended), RoC values will be reported as 
+Units scaling for result RoC values. For example, if time_standardisation == 100, the RoC will be reported as
+dissimilatity per 100 yr. If time_standardisation = "auto" (not recomended), RoC values will be reported as 
 standardised by the average distancebetween Working Units (levels/ bins)" 
 }
  \item{Debug}{
