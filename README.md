@@ -1,5 +1,12 @@
 # R-Ratepol package
 
+## Current version: 0.6.0
+
+What is new in the package? See
+[NEWS](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/blob/master/NEWS.md)
+
+## Desciption
+
 R-Ratepol is an R package for estimating rate of change (RoC) from
 community data in time series.
 
