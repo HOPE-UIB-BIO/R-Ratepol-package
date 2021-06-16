@@ -5,6 +5,10 @@
  - RoC is estimated only for subsequent bins (only_subsequent == TRUE)
  - Bins are now created form the beginning of the core (instead of 0)
 
+### Console outputs
+ - General overhaul of console outputs presented to user while running R-Ratepol
+ - more infomration and warning messages are presented with each run
+
 ### doPararell
  - packages 'doSNOW' and 'snow' are replaced by 'doParallel'
  - progress bar for randomisation is currently not present 
