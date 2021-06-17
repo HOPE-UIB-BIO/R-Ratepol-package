@@ -7,6 +7,7 @@ Description: R-Ratepol is an R package for estimating rate of change (RoC) from 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Language: en-GB
 Authors@R: person("Ondrej", "Mottl", email = "ondrej.mottl@gmail.com", role = c("aut","cre"))
 Imports:
     assertthat,

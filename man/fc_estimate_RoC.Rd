@@ -76,7 +76,7 @@ Selection of units that the DC will be calculated between.
 
 "bins"   = samples in predefined bins will be pooled together and one sample will be selected from each time bin as a representation.
 
-"MW"     = Bins of selected size are created, starting from the begining of the core. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. XXX.  
+"MW"     = Bins of selected size are created, starting from the beginning of the core. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. XXX.  
 
 }
  \item{bin_size}{
@@ -124,12 +124,12 @@ Dissimilarity coefficient. Type of calculation of differences between Working Un
 [value] = age, after which all results of RoC are excluded before detection of peak points 
 }
  \item{only_subsequent}{
-Should only subsequent bins be used for estimation of RoC? Recomended setting is TRUE.
+Should only subsequent bins be used for estimation of RoC? Recommended setting is TRUE.
 }
  \item{time_standardisation}{
 Units scaling for result RoC values. For example, if time_standardisation == 100, the RoC will be reported as
-dissimilatity per 100 yr. If time_standardisation = "auto" (not recomended), RoC values will be reported as 
-standardised by the average distancebetween Working Units (levels/ bins)" 
+dissimilarity per 100 yr. If time_standardisation = "auto" (not recommended), RoC values will be reported as 
+standardised by the average distance between Working Units (levels/ bins)" 
 }
  \item{Debug}{
 T = show messages from internal processes
