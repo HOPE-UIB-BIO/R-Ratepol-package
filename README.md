@@ -179,6 +179,10 @@ R-Ratepol is able detect peak-points using five methods:
 
 ## Examples
 
+For more detailed example, see [Materials for Seminar Day of PalaeoSIG:
+Data Manipulation & Statistical Analysis in
+Palaeoecology](https://github.com/OndrejMottl/palaeoR_R-Ratepol_workshop)
+
 ### Instaling package
 
     devtools::install_github("HOPE-UIB-BIO/R-Ratepol-package")
