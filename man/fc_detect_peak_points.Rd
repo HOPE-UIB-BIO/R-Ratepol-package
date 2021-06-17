@@ -49,7 +49,7 @@ A rapid change in composition or relative abundances of taxa within the sequence
 \references{
 Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A signal-to-noise index to quantify the potential for peak detection in sediment-charcoal records. Quat. Res. 75, 11–17. https://doi.org/10.1016/j.yqres.2010.07.011
 
-Simpson, G.L., 2019. gratia: graceful’ggplot’‐based graphics and other functions for GAMs fitted using “mgcv.” R Packag. version 0.2‐1.
+Simpson, G.L., 2019. gratia: graceful’ggplot’–based graphics and other functions for GAMs fitted using “mgcv.” R Packag. version 0.2–1.
 
 Simpson, G.L., 2018. Modelling palaeoecological time series using generalised additive models. Front. Ecol. Evol. 6, 1–21. https://doi.org/10.3389/fevo.2018.00149
 
@@ -64,9 +64,7 @@ Ondrej Mottl
 
 \examples{
 
-# Toy example with low number of randomisations
-# We higly recommend to increase the randomisations to 10.000 
-
+\dontrun{
 example_data <-  RRatepol::example_data
 
 sequence_01 <- 
@@ -76,8 +74,8 @@ sequence_01 <-
     age_uncertainty = FALSE,
     smooth_method = "shep",
     Working_Units = "MW",
-    rand = 10, 
-    treads = FALSE,
+    rand = 10e3, 
+    treads = TRUE,
     DC = "chisq")
 
 sequence_01_peak <-
@@ -89,5 +87,7 @@ fc_plot_RoC_sequence(
   Roc_threshold = 2,
   Peaks = TRUE,
   trend = "trend_non_linear")
+}
+
 }
 

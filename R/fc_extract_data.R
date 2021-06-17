@@ -17,25 +17,25 @@ fc_extract_data <-  function (data_community_extract,
   
   assertthat::assert_that(
     'data.frame' %in% class(data_community_extract),
-    msg = "Object `data_source_community` must be a `data.frame`")
+    msg = "Object 'data_source_community' must be a 'data.frame'")
   
   assertthat::assert_that(
     'data.frame' %in% class(data_age_extract),
-    msg = "Object `data_source_age` must be a `data.frame`")
+    msg = "Object 'data_source_age' must be a 'data.frame'")
   
   # 1.2. Sample id -----
   
   assertthat::assert_that(
     'sample.id' %in% names(data_community_extract) | 
       'sample_id' %in% names(data_community_extract)  ,
-    msg = "Variable `sample.id` or `sample_id` must be present in the 
-    `data_source_community`")
+    msg = "Variable 'sample.id' or 'sample_id' must be present in the 
+    'data_source_community'")
   
   assertthat::assert_that(
     'sample.id' %in% names(data_age_extract) |
       'sample_id' %in% names(data_age_extract) ,
-    msg = "Variable `sample.id` or `sample_id` must be present in the 
-    `data_source_age`")
+    msg = "Variable 'sample.id' or 'sample_id' must be present in the 
+    'data_source_age'")
 
   # community
   if('sample_id' %in% names(data_community_extract)){
@@ -46,8 +46,8 @@ fc_extract_data <-  function (data_community_extract,
   
   assertthat::assert_that(
     'character' %in% class(data_community_extract$sample.id),
-    msg = "Variable `sample.id` or `sample_id` in `data_source_community` must
-    be a `character`")
+    msg = "Variable 'sample.id' or 'sample_id' in 'data_source_community' must
+    be a 'character'")
   
   #age
   if('sample_id' %in% names(data_age_extract)){
@@ -58,27 +58,27 @@ fc_extract_data <-  function (data_community_extract,
   
   assertthat::assert_that(
     'character' %in% class(data_age_extract$sample.id),
-    msg = "Variable `sample.id` in or `sample_id` `data_source_age` must be
-    a `character`")
+    msg = "Variable 'sample.id' in or 'sample_id' 'data_source_age' must be
+    a 'character'")
   
   assertthat::assert_that(
     all(data_community_extract$sample.id == data_age_extract$sample.id),
-    msg = "Variable `sample.id`/`sample_id` must have same values in 
-    `data_source_age` and `data_source_community`")
+    msg = "Variable 'sample.id'/'sample_id' must have same values in 
+    'data_source_age' and 'data_source_community'")
   
   # 1.3. Age test -----
   
   assertthat::assert_that(
     'age' %in% names(data_age_extract),
-    msg = "Variable `age` must be present in `data_source_age`")
+    msg = "Variable 'age' must be present in 'data_source_age'")
   
   assertthat::assert_that(
     'numeric' %in% class(data_age_extract$age),
-    msg = "Variable `age` in `data_source_age` must be a `numeric`")
+    msg = "Variable 'age' in 'data_source_age' must be a 'numeric'")
   
   assertthat::assert_that(
     is.unsorted(data_age_extract$age) == FALSE,
-    msg = "Variable `age` in `data_source_age` must be ordered by age")
+    msg = "Variable 'age' in 'data_source_age' must be ordered by age")
   
   # order of the age
   if(data_age_extract$age[1] > data_age_extract$age[n_samples_age]){
@@ -87,13 +87,13 @@ fc_extract_data <-  function (data_community_extract,
     
     
     if (Debug == T){
-      cat("Variable `age` in `data_source_age` was stored in decreesing format,
+      cat("Variable 'age' in 'data_source_age' was stored in decreesing format,
           changed accordingly for analyses", fill = TRUE)
     }
     
   } else {
     if (Debug == T){
-      cat("Variable `age` in `data_source_age` is stored in increesing format", fill = TRUE)
+      cat("Variable 'age' in 'data_source_age' is stored in increesing format", fill = TRUE)
     }
     
   }
@@ -102,7 +102,7 @@ fc_extract_data <-  function (data_community_extract,
   
   assertthat::assert_that(
     n_samples_com == n_samples_age,
-    msg = "Object `data_source_community` and `data_source_age` 
+    msg = "Object 'data_source_community' and 'data_source_age' 
     must have the same number of levels")
 
  
@@ -123,14 +123,14 @@ fc_extract_data <-  function (data_community_extract,
   if (!all(age_uncertainty == FALSE)){
     assertthat::assert_that(
       'matrix' %in% class(age_uncertainty),
-      msg = "Object `age_uncertainty` must be a `matrix`")
+      msg = "Object 'age_uncertainty' must be a 'matrix'")
     
     n_samples_un <- ncol(age_uncertainty)
     
     assertthat::assert_that(
       n_samples_age == n_samples_un,
-      msg = "Object `data_source_age` and `age_uncertainty` must have 
-      the same number of levels. `age_uncertainty` must have samples stored as 
+      msg = "Object 'data_source_age' and 'age_uncertainty' must have 
+      the same number of levels. 'age_uncertainty' must have samples stored as 
       columns")
     
     # save as dataframe

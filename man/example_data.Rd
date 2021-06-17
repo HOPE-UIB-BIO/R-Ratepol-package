@@ -5,7 +5,7 @@
 Pollen data from four European sequences
 }
 \description{
-Tibble containing four European sequences obtained the Neotoma database (Goring et al., 2015) with age-depth models from Bchron (Haslett & Parnell, 2008) and hamronised pollen taxa.
+Tibble containing four European sequences obtained the Neotoma database (Goring et al., 2015) with age-depth models from Bchron (Haslett & Parnell, 2008) and harmonised pollen taxa.
 }
 \usage{data("example_data")}
 \format{

@@ -158,7 +158,7 @@ gl_bchron <-
     iterations = n_iteration,
     burn = n_burn,
     thin = n_thin,
-    jitterPositions = TRUE)
+    jitterPositions = FALSE)
 
 ```
 

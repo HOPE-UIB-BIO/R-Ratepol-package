@@ -1,6 +1,27 @@
-fc_plot_RoC_sequence <- function (data_source, age_threshold = 15000, Roc_threshold = 2, Peaks = FALSE, trend = FALSE){
+fc_plot_RoC_sequence <- function (data_source, age_threshold = FALSE, Roc_threshold = FALSE, Peaks = FALSE, trend = FALSE){
   
-  data_source_filter <-  dplyr::filter(data_source, Age <= age_threshold)
+  # age_threshold
+  assertthat::assert_that(
+    age_threshold == FALSE | is.numeric(age_threshold),
+    msg = "'age_threshold' must be 'FALSE' or 'numeric'")
+  
+  if(age_threshold == FALSE){
+    age_threshold <- max(data_source$Age)
+  } 
+  
+  data_source_filter <-  
+    dplyr::filter(data_source, Age <= age_threshold)
+  
+  
+  #Roc_threshold
+  assertthat::assert_that(
+    Roc_threshold == FALSE | is.numeric(Roc_threshold),
+    msg = "'Roc_threshold' must be 'FALSE' or 'numeric'")
+  
+  if(Roc_threshold == FALSE){
+    Roc_threshold <- max(data_source$ROC_up)
+  }
+  
   
   p.fin <- 
     ggplot2::ggplot(data_source_filter, mapping =  ggplot2::aes( y=ROC,x= Age)) +
@@ -14,7 +35,13 @@ fc_plot_RoC_sequence <- function (data_source, age_threshold = 15000, Roc_thresh
     ggplot2::labs(x = "Age (cal yr BP)",
                   y = "Rate of change score")
 
-  if (Peaks == T){
+  if (Peaks == TRUE){
+    
+    assertthat::assert_that(
+      "Peak" %in% names(data_source),
+      msg = "'Peak' are not detected in the data and cannot be plotted.
+      Select 'Peaks = FALSE'")
+    
     p.fin <- 
       p.fin + 
       ggplot2::geom_point(data = . %>% dplyr::filter(Peak==T),
@@ -25,9 +52,10 @@ fc_plot_RoC_sequence <- function (data_source, age_threshold = 15000, Roc_thresh
 
   if (trend != F){
     
-    if (! trend %in% c("threshold","trend_linear","trend_non_linear")) 
-      stop("Used method for peak detection have to specified 'threshold', 'trend_linear','trend_non_linear' ")
-    
+    assertthat::assert_that(
+      trend %in% c("threshold","trend_linear","trend_non_linear"),
+      msg = "'trend' method for peak detection have to specified: 'threshold', 'trend_linear','trend_non_linear'"
+    )
     
     if (trend == "threshold"){
       p.fin <- 
@@ -61,12 +89,7 @@ fc_plot_RoC_sequence <- function (data_source, age_threshold = 15000, Roc_thresh
                           Age = data_source_filter$Age),
           color = "blue", size = 1)
     }
-    
-    
   }
-  
-  
-  
   
   return(p.fin)
 }

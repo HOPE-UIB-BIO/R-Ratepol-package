@@ -1,7 +1,7 @@
 ---
 title: "RRatepol"
 author: "Ondrej Mottl"
-date: "23/02/2021"
+date: "16/06/2021"
 output: md_document
 ---
 
@@ -14,6 +14,12 @@ knitr::opts_chunk$set(
 ```
 
 # R-Ratepol package
+
+## Current version: 0.6.0
+
+What is new in the package? See [NEWS](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/blob/master/NEWS.md)
+
+## Description
 
 R-Ratepol is an R package for estimating rate of change (RoC) from community data in time series.
 
@@ -158,7 +164,7 @@ sequence_01 <-
 ```
 
 ```{r plot_1, echo=T}
-RRatepol::fc_plot_RoC_sequence(sequence_01, age_threshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
+RRatepol::fc_plot_RoC_sequence(sequence_01, Peaks = F, trend = F)
 ```
 
 ### Example 2
@@ -185,8 +191,6 @@ sequence_02 <-
 ```{r plot_2, echo=T}
 RRatepol::fc_plot_RoC_sequence(
   data_source = sequence_02,
-  age_threshold = 8e3,
-  Roc_threshold = 2.5,
   Peaks = FALSE,
   trend = FALSE)
 ```
@@ -215,8 +219,6 @@ sequence_03 <-
 ```{r plot_3, echo=T}
 RRatepol::fc_plot_RoC_sequence(
   data_source = sequence_03,
-  age_threshold = 8e3,
-  Roc_threshold = 1.5,
   Peaks = FALSE,
   trend = FALSE)
 ```
@@ -233,8 +235,6 @@ sequence_03_peaks <-
 
 RRatepol::fc_plot_RoC_sequence(
   data_source = sequence_03_peaks,
-  age_threshold= 8e3,
-  Roc_threshold = 1,
   Peaks = TRUE,
   trend = "trend_non_linear")
 ```
@@ -252,7 +252,7 @@ Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A signal-to-noi
 
 Prentice, I.C., 1980. Multidimensional scaling as a research tool in Quaternary palynology: A review of theory and methods. Rev. Palaeobot. Palynol. 31, 71–104. https://doi.org/10.1016/0034-6667(80)90023-8
 
-Simpson, G.L., 2019. gratia: graceful’ggplot’‐based graphics and other functions for GAMs fitted using “mgcv.” R Packag. version 0.2‐1.
+Simpson, G.L., 2019. gratia: graceful’ggplot’–based graphics and other functions for GAMs fitted using “mgcv.” R Packag. version 0.2–1.
 
 Simpson, G.L., 2018. Modelling palaeoecological time series using generalised additive models. Front. Ecol. Evol. 6, 1–21. https://doi.org/10.3389/fevo.2018.00149
 

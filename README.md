@@ -1,5 +1,12 @@
 # R-Ratepol package
 
+## Current version: 0.6.0
+
+What is new in the package? See
+[NEWS](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/blob/master/NEWS.md)
+
+## Description
+
 R-Ratepol is an R package for estimating rate of change (RoC) from
 community data in time series.
 
@@ -212,9 +219,9 @@ to focus on the period of most substantial human impact.
     #> $ collection.handle <chr> "DALLICAN", "STEERMOS", "KILOALA", "GL"
     #> $ lat               <dbl> 60.38736, 47.80567, 67.96611, 53.00735
     #> $ long              <dbl> -1.096480, 8.200150, 20.460278, -6.348035
-    #> $ pollen_data       <list> [<tbl_df[63 x 51]>, <tbl_df[273 x 104]>, <tbl_df...
-    #> $ sample_age        <named list> [<data.frame[63 x 3]>, <data.frame[273 x 3...
-    #> $ age_uncertainty   <named list> [<matrix[1000 x 63]>, <matrix[1000 x 273]>...
+    #> $ pollen_data       <list> [<tbl_df[63 x 51]>], [<tbl_df[273 x 104]>], [<tbl_df~
+    #> $ sample_age        <named list> [<data.frame[63 x 3]>], [<data.frame[273 x 3]>], [<d~
+    #> $ age_uncertainty   <named list> <<matrix[1000 x 63]>>, <<matrix[1000 x 273]>>, <<mat~
 
     example_data %>%
       ggplot2::ggplot(
@@ -258,7 +265,7 @@ uncertainties from *Bchron* will not be used.
         standardise = FALSE,
         rand = 1)
 
-    RRatepol::fc_plot_RoC_sequence(sequence_01, age_threshold = 8e3, Roc_threshold = 0.5, Peaks = F, trend = F)
+    RRatepol::fc_plot_RoC_sequence(sequence_01, Peaks = F, trend = F)
 
 ![](man/figures/README-plot_1-1.png)
 
@@ -284,8 +291,6 @@ This will produce error *wrapper* showing 95th percent quantile.
 
     RRatepol::fc_plot_RoC_sequence(
       data_source = sequence_02,
-      age_threshold = 8e3,
-      Roc_threshold = 2.5,
       Peaks = FALSE,
       trend = FALSE)
 
@@ -313,8 +318,6 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and
 
     RRatepol::fc_plot_RoC_sequence(
       data_source = sequence_03,
-      age_threshold = 8e3,
-      Roc_threshold = 1.5,
       Peaks = FALSE,
       trend = FALSE)
 
@@ -331,8 +334,6 @@ Detect the *peak points* using *trend\_non\_linear* method.
 
     RRatepol::fc_plot_RoC_sequence(
       data_source = sequence_03_peaks,
-      age_threshold= 8e3,
-      Roc_threshold = 1,
       Peaks = TRUE,
       trend = "trend_non_linear")
 
@@ -362,8 +363,8 @@ Prentice, I.C., 1980. Multidimensional scaling as a research tool in
 Quaternary palynology: A review of theory and methods. Rev. Palaeobot.
 Palynol. 31, 71–104. <https://doi.org/10.1016/0034-6667(80)90023-8>
 
-Simpson, G.L., 2019. gratia: graceful’ggplot’‐based graphics and other
-functions for GAMs fitted using “mgcv.” R Packag. version 0.2‐1.
+Simpson, G.L., 2019. gratia: graceful’ggplot’–based graphics and other
+functions for GAMs fitted using “mgcv.” R Packag. version 0.2–1.
 
 Simpson, G.L., 2018. Modelling palaeoecological time series using
 generalised additive models. Front. Ecol. Evol. 6, 1–21.

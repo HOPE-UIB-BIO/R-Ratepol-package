@@ -3,8 +3,8 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F){
   
   assertthat::assert_that(
     any(DC == c("euc", "euc.sd", "chord", "chisq", "gower")),
-    msg = "`DC` must be one of the following:
-    `euc`, `euc.sd`, `chord`, `chisq`, `gower`")
+    msg = "'DC' must be one of the following:
+    'euc', 'euc.sd', 'chord', 'chisq', 'gower'")
   
   
   # pre-allocate some space

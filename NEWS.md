@@ -1,3 +1,23 @@
+# R-Ratepol package 0.6.0.
+### Overhaul change of the estimation of RoC
+ - RoC score is now returned in units selected by user (time_standardisation)
+ - Method of sample selection from bin is now optional (bin_selection)
+ - RoC is estimated only for subsequent bins (only_subsequent == TRUE)
+ - Bins are now created form the beginning of the core (instead of 0)
+
+### Console outputs
+ - General overhaul of console outputs presented to user while running R-Ratepol
+ - more information and warning messages are presented with each run
+
+### doParallel
+ - packages 'doSNOW' and 'snow' are replaced by 'doParallel'
+ - progress bar for randomisation is currently not present 
+
+### Other
+ - Added various checks for correct argument selection
+ - all hyphens are replaced with dashes ('–') in the whole package
+ - examples are wrapped into 'dontrun'
+
 # R-Ratepol package 0.5.6.
 ### README
  - Figures are now saved in the new folder ('man' folder) with the new names.
