@@ -150,6 +150,7 @@ fc_estimate_RoC <- function(data_source_community,
   #--------------------------------------------------#
   # 0.1. Report to user -----
   #--------------------------------------------------#
+  cat("\n")
   
   start_time <- Sys.time()
   cat(paste("R-RATEPOL started", start_time),
