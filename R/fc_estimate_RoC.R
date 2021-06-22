@@ -156,6 +156,9 @@ fc_estimate_RoC <- function(data_source_community,
   cat(paste("R-RATEPOL started", start_time),
       "\n", fill = TRUE)
   
+  if(missing(age_uncertainty)){
+    age_uncertainty <- FALSE
+  }
   
   if (!all(age_uncertainty == FALSE)){
     cat(
@@ -247,20 +250,21 @@ fc_estimate_RoC <- function(data_source_community,
         "\n", fill = TRUE)  
     }
       
-    if(only_subsequent == FALSE){
-      cat(
-        paste(
-          "'only_subsequent' was selected as 'FALSE'.",
-          "This is not a recommended setting. Results will be affected"),
-        "\n", fill = TRUE)
-    }
     
     if(only_subsequent == FALSE & Working_Units == "MW"){
       cat(
         paste(
-          "WARNING 'only_subsequent == FALSE' and 'Working_Units == MW'.",
-        "This is NOT a recommended setting.",
-        "Please use 'only_subsequent == TRUE' for 'Working_Units == MW'"), 
+        "'only_subsequent == FALSE' and 'Working_Units == MW'.",
+        "This is not a recommended setting.",
+        "Please use 'only_subsequent == TRUE' for 'Working_Units == MW'",
+        "see '?fc_estimate_ROC' for more information"), 
+        "\n", fill = TRUE)
+    } else if(only_subsequent == FALSE){
+      cat(
+        paste(
+          "'only_subsequent' was selected as 'FALSE'.",
+          "This is not a recommended setting. Results will be affected",
+          "see '?fc_estimate_ROC' for more information"),
         "\n", fill = TRUE)
     }
     
