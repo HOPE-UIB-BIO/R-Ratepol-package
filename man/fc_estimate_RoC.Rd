@@ -36,7 +36,9 @@ Community data with species as columns and levels (samples) as rows. First colum
 }
   \item{data_source_age}{
 Dataframe with two columns:
+
 sample.id = unique ID of each level (character)
+
 age = age of level (numeric)
 }
  \item{age_uncertainty}{
@@ -50,15 +52,15 @@ Usage of age uncertainty form Age-depth models. Either:
  \item{smooth_method}{
 type of smoothing applied for the each of the pollen type
 
-"none"    = None: Pollen data is not smoothed
+\code{"none"}   = Pollen data is not smoothed
 
-"m.avg"   = Moving average:
+\code{"m.avg"}  = Moving average:
 
-"grim"    = 	Grimm’s smoothing
+\code{"grim"}   = Grimm's smoothing
 
-"age.w"   = 	Age-weighted average
+\code{"age.w"}  = Age-weighted average
 
-"shep"    =   Shepard's 5-term filter
+\code{"shep"}   = Shepard's 5-term filter
 }
  \item{smooth_N_points}{
 Number of points for used for moving average, Grimm and Age-Weighted smoothing (odd number)
@@ -72,21 +74,21 @@ Maximal age range for both Grimm and Age-weight smoothing
  \item{Working_Units}{
 Selection of units that the DC will be calculated between.
 
-"levels" = individual levels are going to be used
+\code{"levels"} = individual levels are going to be used
 
-"bins"   = samples in predefined bins will be pooled together and one sample will be selected from each time bin as a representation.
+\code{"bins"}   = samples in predefined bins will be pooled together and one sample will be selected from each time bin as a representation.
 
-"MW"     = Bins of selected size are created, starting from the beginning of the core. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. XXX.  
+\code{"MW"}     = Bins of selected size are created, starting from the beginning of the core. This is repeated many times, with each time bin (window) shifting by Z years forward. This is repeated X times, where X = bin size / Z. XXX.  
 
 }
  \item{bin_size}{
-bin_size = size of the time bin (in years)
+Size of the time bin (in years)
 }
  \item{Number_of_shifts}{
 Value determining the number of shifts of window used in Moving window method
 }
  \item{bin_selection}{
-Setting determining the the process of selection of samples from bins. For "first", sample closest to the beginning of the bin is selected as a representation. For "random", random sample is selected as a representation.
+Setting determining the the process of selection of samples from bins. For \code{"first"}, sample closest to the beginning of the bin is selected as a representation. For \code{"random"}, random sample is selected as a representation.
 }
  \item{rand}{
 Number of runs used in randomisation.
@@ -94,15 +96,15 @@ Number of runs used in randomisation.
  \item{treads}{
 Preference of usage of parallel computation of randomisation
 [value] = selected number of cores
-T = automatically selected number of cores
-F = does not use parallel computation (only single core)
+TRUE = automatically selected number of cores
+FALSE = does not use parallel computation (only single core)
 }
 
  \item{standardise}{
-T = standardise each Working Unit to certain number of individuals (using random resampling without repetition)
+TRUE = standardise each Working Unit to certain number of individuals (using random resampling without repetition)
 }
  \item{N_individuals}{
-Number of grain to perform standardisation to. The N_individuals is automatically adjusted to the smallest  number of pollen grains in sequence. 
+Number of grain to perform standardisation to. The \code{N_individual} is automatically adjusted to the smallest  number of pollen grains in sequence. 
 }
  \item{tranform_to_proportions}{
 Should the community data be transformed to a proportion during calculations?
@@ -110,67 +112,68 @@ Should the community data be transformed to a proportion during calculations?
  \item{DC}{
 Dissimilarity coefficient. Type of calculation of differences between Working Units
 
-"euc"     = 	Euclidean distance
+\code{"euc"}     = 	Euclidean distance
 
-"euc.sd"  = 	Standardised Euclidean distance
+\code{"euc.sd"}  = 	Standardised Euclidean distance
 
-"chord"   = 	Chord distance
+\code{"chord"}   = 	Chord distance
 
-"chisq    = 	Chi-squared coefficient
+\code{"chisq"}    = 	Chi-squared coefficient
 
-"gower"   =   Gower's distance
+\code{"gower"}   =   Gower's distance
 }
  \item{interest_threshold}{
-[value] = age, after which all results of RoC are excluded before detection of peak points 
+Age, after which all results of RoC are excluded before detection of peak points 
 }
  \item{only_subsequent}{
-Should only subsequent bins be used for estimation of RoC? Recommended setting is TRUE.
+RoC between WUs can be calculated using every consecutive WU \code{only_subsequent = FALSE}, or alternatively, calculation of RoC can be restricted to only directly adjacent WUs \code{only_subsequent = TRUE}. Using the former increases the number of samples for which RoC can be calculated within a sequence, which varies in terms of sample resolution, but may still introduce biases related to the RoC estimation as a result of the varying inter-sample distances. Recommended setting is \code{only_subsequent = TRUE}.
 }
  \item{time_standardisation}{
-Units scaling for result RoC values. For example, if time_standardisation == 100, the RoC will be reported as
+Units scaling for result RoC values. For example, if \code{time_standardisation = 100}, the RoC will be reported as
 dissimilarity per 100 yr. If time_standardisation = "auto" (not recommended), RoC values will be reported as 
-standardised by the average distance between Working Units (levels/ bins)" 
+standardised by the average distance between Working Units (levels/bins)" 
 }
  \item{Debug}{
-T = show messages from internal processes
+TRUE = show messages from internal processes
 }
 
 }
 \details{
-R-Ratepol is written as an R package and includes a range of possible settings including a novel method to evaluate RoC in a single stratigraphical sequence using assemblage data and age uncertainties for each level. There are multiple built-in dissimilarity coefficients (DC) for different types of data, and various levels of data smoothing that can be applied depending on the type and variance of the data. In addition, R-Ratepol can use randomisation, accompanied by use of age uncertainties of each level and taxon standardisation to detect RoC patterns in datasets with high data noise or variability (i.e. numerous rapid changes in composition or sedimentation rates). 
+R-Ratepol is written as an R package and includes a range of possible settings including a novel method to evaluate RoC in a single stratigraphical sequence using assemblage data and age uncertainties for each level. There are multiple built-in dissimilarity coefficients (DC) for different types of assemblage data, and various levels of data smoothing that can be applied depending on the type and variance of the data. In addition, R-Ratepol can use randomisation, accompanied by use of age uncertainties of each level and taxon standardisation to detect RoC patterns in datasets with high data noise or variability (i.e. numerous rapid changes in composition or sedimentation rates).  
 
 
-The computation of RoC in R-Ratepol is performed using the following steps::
+The computation of RoC in R-Ratepol is performed using the following steps:
 
-1.  1.	Assemblage and age-model data are extracted from the original source and is compiled together, i.e. depth, age, taxon 1, taxon 2, etc.
+1. Assemblage and age-model data are extracted from the original source and should be compiled together, i.e. depth, age, variable (taxon) 1, variable (taxon) 2, etc.
 
-2. (optional) Smoothing of assemblage data: Each variable within the assemblage data is smoothed using one of five in-built smoothing methods: none, Shepard's 5-term filter (Davis, 1986; Wilkinson, 2005), moving average, age-weighted average, Grimm’s smoothing (Grimm and Jacobson, 1992). 
+2. (optional) Smoothing of assemblage data: Each variable within the assemblage data is smoothed using one of five in-built smoothing methods: none (\code{smooth_method = "none"}), Shepard's 5-term filter (\code{smooth_method = "shep"}; Davis, 1986; Wilkinson, 2005), moving average (\code{smooth_method = "m.avg"}), age-weighted average (\code{smooth_method = "age.w"}), Grimm's smoothing (\code{smooth_method = "grim"}; Grimm and Jacobson, 1992). 
 
-3.  Creation of time bins: A template for all time bins in all window movements is created.
+3. Creation of time bins: A template for all time bins in all window movements is created.
 
 4.  A single run (an individual loop) is computed:
 
-    -   (optional) Selection of one time series from age uncertainties
+- (optional) Selection of one time series from age uncertainties (see section 2.1.1.2. on randomisation)
     
-    -   Subsetting levels in each bin: Here the working units are created 
+- Subsetting levels in each bin: Here the working units (WU) are defined  
 
-    -   Standardisation of assemblage data in each WU.
+- (optional) Standardisation of assemblage data in each WU 
 
-    -   Calculation of RoC between adjacent WUs: RoC is calculated as the dissimilarity coefficient (DC) standardised by age differences between WUs. Five in-built dissimilarity coefficients are available: Euclidean distance, standardised Euclidean distance, Chord distance, Chi-squared coefficient (Prentice, 1980), Gower’s distance (Gower, 1971). The choice of DC depends on the type of data.
+- Calculation of RoC between WUs: RoC is calculated as the dissimilarity coefficient (DC) standardised by age differences between WUs. Five in-built dissimilarity coefficients are available: Euclidean distance (`DC = "euc`), standardised Euclidean distance (\code{DC = "euc.sd}), Chord distance (\code{DC = "chord}), Chi-squared coefficient (\code{DC = "chisq}; Prentice, 1980), Gower's distance (\code{DC = "gower}; Gower, 1971). The choice of DC depends on the type of assemblage data. In addition, RoC between WUs be calculated using every consecutive WU (\code{only_subsequent = FALSE}), or alternatively, calculation of RoC can be restricted to only directly adjacent WUs (\code{only_subsequent = TRUE}). Using the former increases the number of samples for which RoC can be calculated within a sequence, which varies in terms of sample resolution, but may still introduce biases related to the RoC estimation as a result of the varying inter-sample distances.
     
-    -   Summary of a single run is produced based on all moving windows
+- The summary of a single run is produced based on all moving windows
 
-5.  Step 4 is repeated multiple times (e.g. 10,000 times).
+5. Step 4 is repeated multiple times (e.g. 10,000 times).
 
-6.  Validation and summary of results from all runs of RoC calculation are produced.
+6. Validation and summary of results from all runs of RoC calculation are produced.
 
-7.  (Optional) Data beyond a certain age can be excluded.
+7. (Optional) Data beyond a certain age can be excluded.
 
 
 Selection of working units (WU; Step 3)
 
-RoC is calculated between consecutive Working Units (WU). Traditionally, these WUs represent individual stratigraphical levels. However, changes in sedimentation rates and sampling strategies can result in an uneven temporal distribution of levels within a time sequence, which in turn makes the comparison of RoC between sequences problematic. There are various methods that attempt to minimise such problems. The first is interpolation of levels to evenly spaced time intervals, and the use of the interpolated data as WUs. This can lead to a loss of information when the density of levels is high. Second is binning of levels: assemblage data are pooled into age brackets of various size (bins) and these serve as WUs. Here, the issue is a lower resolution of WUs and their uneven size in terms of total assemblage count (bins with more levels have higher assemblage counts). Third is selective binning: like classical binning, bins of selected size are created, but instead of pooling assemblage data together, only one level is selected as representative of each bin. This results in an even number of WUs in bins with a similar count size in the assemblage. However, the issue of low resolution remains. 
-Therefore, we propose a new method of binning with a moving window, which is a compromise between using individual levels and selective binning. This method follows a simple sequence: bins are created, levels are selected as in selective binning, and RoC between bins is calculated. However, the brackets of the time bin (window) are then moved forward by a selected amount of time (Z), levels are selected again, and RoC calculated for the new set of WUs. This is repeated X times (where X is the bin size divided by Z) while retaining all the results. R-Ratepol currently provides several options for selecting WU, namely as individual levels, binning of levels, selective binning, and our new method of binning with a moving window.
+RoC is calculated between consecutive Working Units (WU). Traditionally, these WUs represent individual stratigraphical levels. However, changes in sedimentation rates and sampling strategies can result in an uneven temporal distribution of levels within a time sequence, which in turn makes the comparison of RoC between sequences problematic. There are various methods that attempt to minimise such problems. The first is interpolation of levels to evenly spaced time intervals, and the use of the interpolated data as WUs. This can lead to a loss of information when the density of levels is high. Second is binning of levels: assemblage data are pooled into age brackets of various size (i.e. time bins) and these serve as WUs. Here, the issue is a lower resolution of WUs and their uneven size in terms of total assemblage count (bins with more levels have higher assemblage counts). Third is selective binning: like classical binning, bins of selected size are created, but instead of pooling assemblage data together, only one level per time bin is selected as representative of each bin. This results in an even number of WUs in bins with a similar count size in the assemblage. However, the issue of low resolution remains. 
+Therefore, we propose a new method of binning with a moving window, which is a compromise between using individual levels and selective binning. This method follows a simple sequence: time bins are created, levels are selected as in selective binning, and RoC between bins is calculated. However, the brackets of the time bin (window) are then moved forward by a selected amount of time (Z), levels are selected again (subset into bins), and RoC calculated for the new set of WUs. This is repeated X times (where X is the bin size divided by Z) while retaining all the results. 
+R-Ratepol currently provides several options for selecting WU, namely as individual levels (\code{Working_Units = "levels"}), selective binning of levels (\code{Working_Units = "bins"}), and our new method of binning with a moving window (\code{Working_Units = "MW"})
 
 
 Randomisation
@@ -179,8 +182,7 @@ Due to the inherent statistical errors in uncertainties in the age estimates fro
 
 Age uncertainties 
 
-For each run, a single age sequence from the age uncertainties is randomly selected. The calculation between two consecutive WUs (i.e. one working-unit combination) results in a RoC score and a time position (which is calculated as the mean age position of the two WUs). However, due to random sampling of the age sequence, each WU combination will result in multiple RoC values and age positions. R Ratepol assigns the age position of each WU combination as the median time position from all calculations (Step 6). 
-
+For each run, a single age sequence from the age uncertainties is randomly selected. The calculation between two consecutive WUs (i.e. one working-unit combination) results in a RoC score and a time position (which is calculated as the mean age position of the two WUs). However, due to random sampling of the age sequence, each WU combination will result in multiple RoC values. The final RoC value for a single WU combination is calculated as the median of the scores from all randomisations. In addition, the 95th quantile from all randomisations is calculated as an error estimate.
 The final RoC value for a single WU combination is calculated as the median of the scores from all randomisations. In addition, the 95th quantile from all randomisations is calculated as an error estimate.
 
 
@@ -220,7 +222,7 @@ sequence_01 <-
     age_uncertainty = FALSE,
     smooth_method = "shep",
     Working_Units = "MW",
-    rand = 10e3,
+    rand = 1e3,
     treads = TRUE,
     DC = "chisq")
 

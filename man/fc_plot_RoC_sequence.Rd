@@ -32,11 +32,11 @@ If peak-points are presented in the dataset and \code{Peaks} == \code{TRUE}, the
   \item{trend}{
 If peak-points are presented in the dataset and \code{Peaks} == \code{TRUE}, then one of the three method can be used to visualise the process of peak detection:
 
-"threshold"         = Threshold value is set for whole dataset (after subsetting for interest_threshold) as median of all RoC values. Peak is  consider significant if 95 percent quantile (gain from randomisation) is higher than threshold
+\code{"threshold"}         = Each point in the RoC sequence is compared to a median of all RoC scores from the whole sequence (i.e. threshold value). The ROC value for a point is considered significant if the 95th quantile of the RoC scores from all calculations is higher than the threshold value.
 
-"trend_linear"      = linear model is fitted with RoC and Age. Differences between the model and each point is calculated. SD is calculated from all the differences.Peak is considered significant if it is 1.5 SD higher than the model
-
-"trend_non_linear"  = very crude GAM model (k = 3) is fitted with RoC and Age. Differences between GAM and each point is calculated. SD is calculated from all the differences. Peak is considered significant if it is 1.5 SD higher than GAM
+\code{"trend_linear"}      = A linear model is fitted between the RoC values and their ages. Differences between the model and each point are calculated (residuals). The standard deviation (SD) is calculated from all the residuals. A peak is considered significant if it is 1.5 SD higher than the model.
+  
+\code{"trend_non_linear"}  = A conservative generalised additive model (GAM) is fitted through the RoC scores and their ages (GAM = RoC ~ s(age,k=3) using the mgcv package (Wood, 2011). The distance between each point and the fitted value is calculated (residuals). The standard deviation (SD) is calculated from all the residuals. A peak is considered significant if it is 1.5 SD higher than the model. 
 }
 }
 
@@ -57,7 +57,7 @@ sequence_01 <-
     age_uncertainty = FALSE,
     smooth_method = "shep",
     Working_Units = "MW",
-    rand = 10e3,
+    rand = 1e3,
     treads = TRUE,
     DC = "chisq")
 
@@ -74,7 +74,7 @@ sequence_02 <-
     age_uncertainty = FALSE,
     smooth_method = "shep",
     Working_Units = "MW",
-    rand = 10e3,
+    rand = 1e3,
     treads = TRUE,
     DC = "chisq")
 
