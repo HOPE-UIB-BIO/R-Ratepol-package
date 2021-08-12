@@ -12,9 +12,9 @@ community data in time series.
 
 Reference: Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon,
 Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A.
-Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology
-revisited: a new approach bioRxiv 2020.12.16.422943; doi:
-<https://doi.org/10.1101/2020.12.16.422943>
+Flantua, H. John B. Birks. (2021). Rate-of-change analysis in palaeoecology
+revisited: a new approachReview of Palaeobotany and Palynology, 293; doi:
+<https://doi.org/10.1016/j.revpalbo.2021.104483>
 
 R-Ratepol is written as an R package and includes a range of possible
 settings including a novel method to evaluate RoC in a single
