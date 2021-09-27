@@ -1,20 +1,20 @@
 fc_estimate_RoC <- function(data_source_community,
                             data_source_age,
-                            age_uncertainty = FALSE,
-                            smooth_method = "shep",
+                            age_uncertainty,
+                            smooth_method = c("none", "m.avg", "grim", "age.w", "shep"),
                             smooth_N_points = 5,
                             smooth_age_range = 500,
                             smooth_N_max = 9,
-                            Working_Units = "MW",
+                            Working_Units = c("levels", "bins", "MW"),
                             bin_size = 500,
                             Number_of_shifts = 5,
-                            bin_selection = "first",
+                            bin_selection = c( "first", "random"),
                             rand = 1,
                             treads = TRUE,
                             standardise = FALSE,
                             N_individuals = 150,
                             tranform_to_proportions = TRUE,
-                            DC = "chisq",
+                            DC = c("euc", "euc.sd", "chord", "chisq", "gower"),
                             interest_threshold = FALSE,
                             only_subsequent = TRUE,
                             time_standardisation = 100,
@@ -27,79 +27,95 @@ fc_estimate_RoC <- function(data_source_community,
   #----------------------------------------------------------#
   
   assertthat::assert_that(
+    !missing(data_source_community),
+    msg = "Object 'data_source_community' must be included as a 'data.frame'")
+  
+  assertthat::assert_that(
+    !missing(data_source_age),
+    msg = "Object 'data_source_age' must be included as a 'data.frame'")
+  
+  if(missing(age_uncertainty)){
+    age_uncertainty <- FALSE
+  }
+  
+  assertthat::assert_that(
     is.numeric(rand),
-    msg = " 'rand' must be a 'numeric'")
+    msg = "'rand' must be a 'numeric'")
   
   assertthat::assert_that(
     round(rand) == rand,
-    msg = " 'rand' must be a whole number")
+    msg = "'rand' must be a whole number")
+  
+  Working_Units <- match.arg(Working_Units)
   
   assertthat::assert_that(
     Working_Units %in% c("levels", "bins", "MW"),
-    msg = " 'Working_Units' must be a 'levels' 'bins' or 'MW'")
+    msg = "'Working_Units' must be a 'levels' 'bins' or 'MW'")
   
   assertthat::assert_that(
     is.numeric(time_standardisation) | time_standardisation == "auto",
-    msg = " 'time_standardisation' must be a 'numeric' or 'auto'")
+    msg = "'time_standardisation' must be a 'numeric' or 'auto'")
   
   if( is.numeric(time_standardisation)){
     assertthat::assert_that(
       round(time_standardisation) == time_standardisation,
-      msg = " 'time_standardisation' must be a whole number")  
+      msg = "'time_standardisation' must be a whole number")  
   }
   
   if(Working_Units != "levels"){
     
     assertthat::assert_that(
       is.numeric(bin_size),
-      msg = " 'bin_size' must be a 'numeric'")
+      msg = "'bin_size' must be a 'numeric'")
     
     assertthat::assert_that(
       round(bin_size) == bin_size,
-      msg = " 'bin_size' must be a whole number")
+      msg = "'bin_size' must be a whole number")
+    
+    bin_selection <- match.arg(bin_selection)
     
     assertthat::assert_that(
       bin_selection == "first" | bin_selection == "random",
-      msg = " 'bin_selection' must be a 'first' or 'random'")
+      msg = "'bin_selection' must be a 'first' or 'random'")
     
     assertthat::assert_that(
       is.logical(only_subsequent),
-      msg = " 'only_subsequent' must be a 'TRUE' or 'FALSE'")
+      msg = "'only_subsequent' must be a 'TRUE' or 'FALSE'")
     
-  
-  if (Working_Units == "MW"){
-    assertthat::assert_that(
-      is.numeric(Number_of_shifts),
-      msg = " 'Number_of_shifts' must be a 'numeric'")
-    
-    assertthat::assert_that(
-      round(Number_of_shifts) == Number_of_shifts,
-      msg = " 'Number_of_shifts' must be a whole number")
-  }
-  
+    if (Working_Units == "MW"){
+      assertthat::assert_that(
+        is.numeric(Number_of_shifts),
+        msg = "'Number_of_shifts' must be a 'numeric'")
+      
+      assertthat::assert_that(
+        round(Number_of_shifts) == Number_of_shifts,
+        msg = "'Number_of_shifts' must be a whole number")
+    }
   }  
-    
+  
   assertthat::assert_that(
     is.logical(standardise),
-    msg = " 'standardise' must be a 'TRUE' or 'FALSE'")
+    msg = "'standardise' must be a 'TRUE' or 'FALSE'")
   
   if(standardise == TRUE){
     assertthat::assert_that(
       is.numeric(N_individuals),
-      msg = " 'N_individuals' must be a 'numeric'")
+      msg = "'N_individuals' must be a 'numeric'")
     
     assertthat::assert_that(
       round(N_individuals) == N_individuals,
-      msg = " 'N_individuals' must be a whole number")
+      msg = "'N_individuals' must be a whole number")
   }
   
   assertthat::assert_that(
     is.logical(tranform_to_proportions),
-    msg = " 'tranform_to_proportions' must be a 'TRUE' or 'FALSE'")
+    msg = "'tranform_to_proportions' must be a 'TRUE' or 'FALSE'")
   
   assertthat::assert_that(
     is.numeric(interest_threshold) | interest_threshold == FALSE,
-    msg = " 'interest_threshold' must be a 'numeric' or 'FALSE'")
+    msg = "'interest_threshold' must be a 'numeric' or 'FALSE'")
+  
+  smooth_method <-  match.arg(smooth_method)
   
   assertthat::assert_that(
     any(smooth_method == c("none", "m.avg", "grim", "age.w", "shep")),
@@ -127,23 +143,23 @@ fc_estimate_RoC <- function(data_source_community,
           msg = "'smooth_N_max' must be bigger than 'smooth_N_points")
       }
     }
-    
   }
+  
+  DC <- match.arg(DC)
   
   assertthat::assert_that(
     any(DC == c("euc", "euc.sd", "chord", "chisq", "gower")),
     msg = "'DC' must be one of the following:
     'euc', 'euc.sd', 'chord', 'chisq', 'gower'")
   
-  
   assertthat::assert_that(
     is.numeric(treads) | is.logical(treads),
-    msg = " 'treads' must be a 'numeric' or 'TRUE'/'FALSE'")
+    msg = "'treads' must be a 'numeric' or 'TRUE'/'FALSE'")
   
   if(is.numeric(treads)){
     assertthat::assert_that(
       round(treads) == treads,
-      msg = " 'treads' must be a whole number")
+      msg = "'treads' must be a whole number")
   }
   
   
@@ -155,10 +171,6 @@ fc_estimate_RoC <- function(data_source_community,
   start_time <- Sys.time()
   cat(paste("R-RATEPOL started", start_time),
       "\n", fill = TRUE)
-  
-  if(missing(age_uncertainty)){
-    age_uncertainty <- FALSE
-  }
   
   if (!all(age_uncertainty == FALSE)){
     cat(
@@ -177,34 +189,33 @@ fc_estimate_RoC <- function(data_source_community,
   if(smooth_method == "m.avg"){
     cat(
       paste(
-      "Data will be smoothed by 'moving average' over", smooth_N_points,
-      "points"),
+        "Data will be smoothed by 'moving average' over", smooth_N_points,
+        "points"),
       "\n",fill = TRUE)  
   }
   
   if(smooth_method == "grim"){
     cat(
       paste(
-      "Data will be smoothed by 'Grimm method' with min samples", smooth_N_points,
-      "max samples", smooth_N_max, "and max age range of", smooth_age_range),
+        "Data will be smoothed by 'Grimm method' with min samples", smooth_N_points,
+        "max samples", smooth_N_max, "and max age range of", smooth_age_range),
       "\n", fill = TRUE)  
   }
   
   if(smooth_method == "age.w"){
     cat(
       paste(
-      "Data will be smoothed by 'age-weighed average' over", smooth_N_points,
-      "points with a threshold of", smooth_age_range),
+        "Data will be smoothed by 'age-weighed average' over", smooth_N_points,
+        "points with a threshold of", smooth_age_range),
       "\n", fill = TRUE)  
   }
   
   if(smooth_method == "shep"){
     cat(
       paste(
-      "Data will be smoothed by 'Shepard's 5-term filter'"),
+        "Data will be smoothed by 'Shepard's 5-term filter'"),
       "\n", fill = TRUE)  
   }
-  
   
   if(Working_Units == "levels"){
     cat(
@@ -213,7 +224,7 @@ fc_estimate_RoC <- function(data_source_community,
   }
   
   if(Working_Units != "levels"){
-  
+    
     if(Working_Units == "bins"){
       cat(
         paste(
@@ -230,7 +241,6 @@ fc_estimate_RoC <- function(data_source_community,
         "\n", fill = TRUE)  
     }
     
-    
     if(bin_selection == "random"){
       cat(
         "Sample will randomly selected for each bin",
@@ -241,7 +251,7 @@ fc_estimate_RoC <- function(data_source_community,
           paste(
             "'bin_selection' was selected as 'random' with low number",
             "of replication. Recommend to increase 'rand'"),
-        "\n", fill = TRUE)  
+          "\n", fill = TRUE)  
       }
       
     } else {
@@ -249,15 +259,14 @@ fc_estimate_RoC <- function(data_source_community,
         "First sample of each time bin will selected",
         "\n", fill = TRUE)  
     }
-      
     
     if(only_subsequent == FALSE & Working_Units == "MW"){
       cat(
         paste(
-        "'only_subsequent == FALSE' and 'Working_Units == MW'.",
-        "This is not a recommended setting.",
-        "Please use 'only_subsequent == TRUE' for 'Working_Units == MW'",
-        "see '?fc_estimate_ROC' for more information"), 
+          "'only_subsequent == FALSE' and 'Working_Units == MW'.",
+          "This is not a recommended setting.",
+          "Please use 'only_subsequent == TRUE' for 'Working_Units == MW'",
+          "see '?fc_estimate_ROC' for more information"), 
         "\n", fill = TRUE)
     } else if(only_subsequent == FALSE){
       cat(
@@ -269,7 +278,6 @@ fc_estimate_RoC <- function(data_source_community,
     }
     
   }
-  
   
   if(is.numeric(time_standardisation)){
     cat(
@@ -291,8 +299,8 @@ fc_estimate_RoC <- function(data_source_community,
   
   if(time_standardisation == "auto"){
     cat(
-     paste(
-       "'time_standardisation' = 'auto' is not recomended setting.", 
+      paste(
+        "'time_standardisation' = 'auto' is not recomended setting.", 
         "RoC values will be reported as standardised by the average distance", 
         "between Working Units (levels/ bins)"),
       "\n", fill = TRUE)
@@ -306,15 +314,12 @@ fc_estimate_RoC <- function(data_source_community,
     
     if(rand < 100){
       cat(
-       paste(
-         "'standardise' was selected as 'TRUE' with low number of replication.",
-      "Recommend to increase 'rand'"),
-      "\n", fill = TRUE) 
+        paste(
+          "'standardise' was selected as 'TRUE' with low number of replication.",
+          "Recommend to increase 'rand'"),
+        "\n", fill = TRUE) 
     }
   }
-  
-  
-  
   
   
   #----------------------------------------------------------# 
@@ -354,6 +359,7 @@ fc_estimate_RoC <- function(data_source_community,
       proportion = FALSE,
       Debug = Debug)
   
+  
   #----------------------------------------------------------#
   # 3. Working Unit selection -----
   #----------------------------------------------------------#
@@ -362,7 +368,7 @@ fc_estimate_RoC <- function(data_source_community,
     Number_of_shifts <-  1
   } else if(Working_Units == "bins"){
     Number_of_shifts <-  1
-
+    
     bin_sizes <- 
       fc_create_bins(
         data_work,
@@ -378,6 +384,7 @@ fc_estimate_RoC <- function(data_source_community,
         shift_value = shift_value,
         Number_of_shifts = Number_of_shifts)
   }
+  
   
   #----------------------------------------------------------#
   # 4. Randomisation ----- 
@@ -404,7 +411,6 @@ fc_estimate_RoC <- function(data_source_community,
     library("RRatepol")
     library("tidyverse")
   })
-
   
   if(rand > 1){
     cat(
@@ -506,6 +512,7 @@ fc_estimate_RoC <- function(data_source_community,
               proportion = tranform_to_proportions,
               Samples = FALSE, Debug = Debug)
           
+          
           #----------------------------------------------------------#
           # 4.3 DC Calculation ----- 
           #----------------------------------------------------------#
@@ -516,6 +523,7 @@ fc_estimate_RoC <- function(data_source_community,
               data_sd_check,
               DC = DC,
               Debug = Debug)
+          
           
           #----------------------------------------------------------#
           # 4.4 Age Standardisation ----- 
@@ -546,7 +554,6 @@ fc_estimate_RoC <- function(data_source_community,
             vector(
               mode = "numeric",
               length = nrow(shift_tibble_res))
-          
           
           for (i in 1:nrow(shift_tibble_res)){ # for each RoC
             
@@ -579,14 +586,12 @@ fc_estimate_RoC <- function(data_source_community,
             }
           }
           
-          
           # remove the non-subsequent levels.
           if(Working_Units != "levels" & only_subsequent == TRUE){
             shift_tibble_res <-
               shift_tibble_res %>% 
               dplyr::filter(age_distance <= bin_size)
           }
-          
           
           if(time_standardisation == "auto"){
             if(Working_Units != "levels"){
@@ -624,10 +629,10 @@ fc_estimate_RoC <- function(data_source_community,
               shift_tibble_res)
         }
         
+        
         #----------------------------------------------------------#
         # 4.6 Result of a single randomisation run -----
         #----------------------------------------------------------#
-        
         
         if(nrow(shift_tibble)<1 & Working_Units != "levels" & only_subsequent == TRUE){
           stop("Estimation not succesfull, try increase the bin size")
@@ -638,12 +643,12 @@ fc_estimate_RoC <- function(data_source_community,
           dplyr::mutate(
             ID = l)
         
-        
         return(shift_tibble)
       })# end of the randomization
   
   # close progress bar and cluster
   parallel::stopCluster(cl)
+  
   
   #----------------------------------------------------------#
   # 5. Results Summary -----
@@ -664,7 +669,6 @@ fc_estimate_RoC <- function(data_source_community,
         rand),
       by = c("sample_id","shift","age_distance"))
   
-  
   # reduce results by the focus age time
   if(interest_threshold != FALSE){
     results_full <- 
@@ -672,7 +676,6 @@ fc_estimate_RoC <- function(data_source_community,
         results_full,
         age_position <= interest_threshold)
   }
-  
   
   # final tibble (sort samples by age and select variables)
   results_full_fin <- 
