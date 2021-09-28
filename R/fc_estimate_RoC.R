@@ -14,7 +14,7 @@ fc_estimate_RoC <- function(data_source_community,
                             standardise = FALSE,
                             N_individuals = 150,
                             tranform_to_proportions = TRUE,
-                            DC = c("euc", "euc.sd", "chord", "chisq", "gower"),
+                            DC = c("euc", "euc.sd", "chord", "chisq", "gower", "bray"),
                             interest_threshold = FALSE,
                             only_subsequent = TRUE,
                             time_standardisation = 100,
@@ -148,9 +148,9 @@ fc_estimate_RoC <- function(data_source_community,
   DC <- match.arg(DC)
   
   assertthat::assert_that(
-    any(DC == c("euc", "euc.sd", "chord", "chisq", "gower")),
+    any(DC == c("euc", "euc.sd", "chord", "chisq", "gower", "bray")),
     msg = "'DC' must be one of the following:
-    'euc', 'euc.sd', 'chord', 'chisq', 'gower'")
+    'euc', 'euc.sd', 'chord', 'chisq', 'gower', 'bray'")
   
   assertthat::assert_that(
     is.numeric(treads) | is.logical(treads),
