@@ -1,4 +1,4 @@
-fc_check_data <- function (data_source_check, proportion = F, Species = TRUE, Samples = TRUE, Debug = F)
+fc_check_data <- function (data_source_check, proportion = FALSE, Species = TRUE, Samples = TRUE, Debug = FALSE)
 {
   # check if there is a sample that do not have a individuals data and delete it
   # & 
@@ -31,14 +31,14 @@ fc_check_data <- function (data_source_check, proportion = F, Species = TRUE, Sa
     cat("", fill = TRUE)
   }
   
-  # check if all values is new age are in positive values and interpolate if necesery
+  # check if all values is new age are in positive values and interpolate if necessary
   if(any(data_source_check@Age$newage<0, na.rm = TRUE))
   {
     data_source_check@Age$newage <- 
       data_source_check@Age$newage + min(data_source_check@Age$newage)*(-1)
   }
   
-  if (proportion == TRUE)
+  if(proportion == TRUE)
   {
     if (Debug == TRUE){
       cat("Community data values are being converted to proportions", fill = TRUE)}

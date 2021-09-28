@@ -330,8 +330,8 @@ fc_estimate_RoC <- function(data_source_community,
   # already include data check
   data_extract <- 
     fc_extract_data(
-      data_source_community,
-      data_source_age,
+      data_community_extract = data_source_community,
+      data_age_extract = data_source_age,
       age_uncertainty = age_uncertainty,
       Debug = Debug)
   
