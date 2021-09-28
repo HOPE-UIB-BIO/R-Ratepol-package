@@ -484,7 +484,7 @@ fc_estimate_RoC <- function(data_source_community,
               data_sd@Age.un[ ,rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals]
             
             data_sd@Community <-  
-              data_sd@Community[rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals, ]
+              data_sd@Community[rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals, , drop = FALSE]
             
             data_sd <-  
               fc_check_data(
@@ -496,8 +496,8 @@ fc_estimate_RoC <- function(data_source_community,
             # standardisation
             data_sd <-  
               fc_standardise_community_data(
-                data_sd
-                , N_individuals,
+                data_source = data_sd, 
+                N_individuals = N_individuals,
                 Debug = Debug)
             
             assertthat::assert_that(
@@ -508,9 +508,10 @@ fc_estimate_RoC <- function(data_source_community,
           # data check with proportioning
           data_sd_check <-  
             fc_check_data(
-              data_sd,
+              data_source_check = data_sd,
               proportion = tranform_to_proportions,
-              Samples = FALSE, Debug = Debug)
+              Samples = FALSE,
+              Debug = Debug)
           
           
           #----------------------------------------------------------#
@@ -520,7 +521,7 @@ fc_estimate_RoC <- function(data_source_community,
           # calculate DC between each subsequent samples/bins
           DC_res <-  
             fc_calculate_DC(
-              data_sd_check,
+              data_source_DC = data_sd_check,
               DC = DC,
               Debug = Debug)
           
@@ -686,7 +687,7 @@ fc_estimate_RoC <- function(data_source_community,
       age_position,
       RoC,
       RoC_95q,
-      RoC_05q)
+      RoC_05q) 
   
   names(results_full_fin) <-  c("Working_Unit","Age", "ROC", "ROC_up", "ROC_dw")
   
