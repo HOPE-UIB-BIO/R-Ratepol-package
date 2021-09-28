@@ -13,12 +13,13 @@ fc_kill_all <- function(data_source_check.kill, Species = Species, Samples = Sam
       data_source_check.kill@Age.un[ ,rowSums(data_source_check.kill@Community, na.rm = TRUE) > 0]
     
     data_source_check.kill@Community <- 
-      data_source_check.kill@Community[rowSums(data_source_check.kill@Community, na.rm = TRUE) > 0, ]
+      data_source_check.kill@Community[rowSums(data_source_check.kill@Community, na.rm = TRUE) > 0, , drop = FALSE]
   }
   
   if(any(colSums(data_source_check.kill@Community, na.rm = TRUE) == 0) & Species == TRUE){ # if there are some species without individuals
     
-    data_source_check.kill@Community<- data_source_check.kill@Community[ ,colSums(data_source_check.kill@Community, na.rm = TRUE) > 0]
+    data_source_check.kill@Community<- 
+      data_source_check.kill@Community[ ,colSums(data_source_check.kill@Community, na.rm = TRUE) > 0, drop = FALSE]
   }
   
   # count the species and samples

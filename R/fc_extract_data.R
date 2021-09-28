@@ -148,7 +148,7 @@ fc_extract_data <-  function (data_community_extract,
   names(age.un) <- age$sample.id
   
   # remove the sample.id
-  dat_community <- dat_community[ , !names(dat_community) %in% "sample.id"]
+  dat_community <- dat_community[ , !names(dat_community) %in% "sample.id", drop = FALSE]
   
   # create a new variable that would be used all latter analyses
   # Newage is a value of interpolated time (time which start with 0)
@@ -169,12 +169,12 @@ fc_extract_data <-  function (data_community_extract,
       Dim.val = dim_val)
   
   # perform check = round number of species and samples and exclude "empty" ones
-  dat_merge <- fc_check_data(dat_merge, proportion = F, Debug = Debug)
+  dat_merge <- fc_check_data(dat_merge, proportion = FALSE, Debug = Debug)
   
   if (Debug==T)
   {
     cat("",fill = T)
-    cat(paste("Data extraction completed",Sys.time()),fill = T)
+    cat(paste("Data extraction completed",Sys.time()), fill = TRUE)
     cat("",fill = T)
   }
   
