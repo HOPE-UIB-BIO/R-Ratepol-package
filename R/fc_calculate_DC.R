@@ -26,7 +26,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F){
     for(i in 1:(data_source_DC@Dim.val[2] - 1)){ 
       
       # select only 2 samples (observed + 1 after)
-      df_work <-  data_source_DC@Community[c(i, i + 1), ] 
+      df_work <-  data_source_DC@Community[c(i, i + 1), , drop = FALSE] 
       
       # get rid of "empty species"
       df_work <-  as.data.frame(df_work[ ,colSums(df_work) > 0]) 
@@ -75,7 +75,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F){
     for(i in 1:(data_source_DC@Dim.val[2] - 1)){ 
       
       # select only 2 samples (observed + 1 after)
-      df_work <-  data_source_DC@Community[c(i, i + 1), ] 
+      df_work <-  data_source_DC@Community[c(i, i + 1), , drop = FALSE] 
       
       # get rid of "empty species" in data & in sp.std
       df_sp_supp_work <-  df_sp_supp[colSums(df_work) > 0]
@@ -93,7 +93,8 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F){
         if (df_sp_supp_work[j] != 0) { 
           a <-  .subset2(df_work, j)[1]
           b <-  .subset2(df_work, j)[2]
-          # calculate the diference
+         
+          # calculate the difference
           vector_work[j] <-  ((a - b) / df_sp_supp_work[j])**2 
         }
       }
@@ -116,7 +117,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F){
     for(i in 1:(data_source_DC@Dim.val[2] - 1)){ 
       
       # select only 2 samples (observed + 1 after)
-      df_work <-  data_source_DC@Community[c(i, i + 1), ]
+      df_work <-  data_source_DC@Community[c(i, i + 1), , drop = FALSE]
       
       # get rid of "empty species"
       df_work <-  as.data.frame(df_work[ ,colSums(df_work) > 0]) 
@@ -131,7 +132,8 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F){
       for(j in 1:ncol(df_work)){ 
         a <-  .subset2(df_work, j)[1]
         b <-  .subset2(df_work, j)[2]
-        # calculate the diference
+       
+         # calculate the diference
         vector_work[j] <-  ( sqrt(a) - sqrt(b) )**2 
       }
       # save the square root of sum of all differeces
@@ -153,7 +155,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F){
     for(i in 1:(data_source_DC@Dim.val[2] - 1)){ 
       
       # select only 2 samples (observed + 1 after)
-      df_work <-  data_source_DC@Community[c(i, i + 1), ] 
+      df_work <-  data_source_DC@Community[c(i, i + 1), , drop = FALSE] 
       
       # get rid of "empty species"
       df_work <-  as.data.frame(df_work[ ,colSums(df_work) > 0]) 
@@ -167,13 +169,16 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F){
       for(j in 1:ncol(df_work)){ 
         a <-  .subset2(df_work, j)[1]
         b <-  .subset2(df_work, j)[2]
-        # calculate the diference
+       
+         # calculate the diference
         vector_work[j] <-  ( (a - b)**2 ) / (a + b) 
       }
+      
       # save the square root of sum of all differeces
       dat_res[i] <-  sqrt(sum(vector_work)) 
     }
   }
+  
   
   #----------------------------------------------------------#
   # Gower's disatnce -----
@@ -192,11 +197,10 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = F){
     dat_res <-  corrmat[row(corrmat) == col(corrmat) + 1]
   }
   
+  
   #----------------------------------------------------------#
   # Return result -----
   #----------------------------------------------------------#
   
   return(dat_res)
-  
-  
 }
