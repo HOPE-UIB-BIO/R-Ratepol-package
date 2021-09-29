@@ -1,8 +1,6 @@
 # R-Ratepol package 0.6.1.
 ### Dissimilarity calculation
- - use vegan package to calculate dissimilarity for Euclidean, Chord, and Chisq distance
- - as vegan package cannot calculate distance for only one species, manual calculations are used in that scenario
- - added Bray-Curtis dissimilarity
+ - use vegan package to calculate Gower and Bray-Curtis (new) dissimilarity
 
 ### Univariate RoC estimation
  - fix issues when using only single-taxon dataset 
