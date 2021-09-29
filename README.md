@@ -1,6 +1,6 @@
 # R-Ratepol package
 
-## Current version: 0.6.0
+## Current version: 0.6.1.
 
 What is new in the package? See
 [NEWS](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/blob/master/NEWS.md)
