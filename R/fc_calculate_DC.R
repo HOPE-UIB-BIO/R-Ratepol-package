@@ -27,7 +27,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = FALSE){
     for(i in 1:(data_source_DC@Dim.val[2] - 1)){ 
       
       # select only 2 samples (observed + 1 after)
-      df_work <-  data_source_DC@Community[c(i, i + 1), ] 
+      df_work <-  data_source_DC@Community[c(i, i + 1), , drop = FALSE] 
       
       # get rid of "empty species"
       df_work <-  as.data.frame(df_work[ ,colSums(df_work) > 0]) 
