@@ -15,6 +15,7 @@ Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A.
 Flantua, H. John B. Birks. (2021) Rate-of-change analysis in palaeoecology
 revisited: a new approach. 
 Review of Palaeobotany and Palynology 293,  doi:
+
 <https://doi.org/10.1016/j.revpalbo.2021.104483>
 
 R-Ratepol is written as an R package and includes a range of possible
