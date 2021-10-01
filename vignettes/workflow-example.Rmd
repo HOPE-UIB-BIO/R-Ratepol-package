@@ -157,8 +157,7 @@ gl_bchron <-
     positionThicknesses = gl_chron_control_table$thickness,
     iterations = n_iteration,
     burn = n_burn,
-    thin = n_thin,
-    jitterPositions = FALSE)
+    thin = n_thin)
 
 ```
 

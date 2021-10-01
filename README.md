@@ -1,6 +1,6 @@
 # R-Ratepol package
 
-## Current version: 0.6.0
+## Current version: 0.6.1.
 
 What is new in the package? See
 [NEWS](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/blob/master/NEWS.md)
@@ -12,8 +12,10 @@ community data in time series.
 
 Reference: Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon,
 Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A.
-Flantua, H. John B. Birks. (2021). Rate-of-change analysis in palaeoecology
-revisited: a new approachReview of Palaeobotany and Palynology, 293; doi:
+Flantua, H. John B. Birks. (2021) Rate-of-change analysis in palaeoecology
+revisited: a new approach. 
+Review of Palaeobotany and Palynology 293,  doi:
+
 <https://doi.org/10.1016/j.revpalbo.2021.104483>
 
 R-Ratepol is written as an R package and includes a range of possible
@@ -57,14 +59,15 @@ steps:
 
 -   Calculation of RoC between WUs: RoC is calculated as the
     dissimilarity coefficient (DC) standardised by age differences
-    between WUs. Five in-built dissimilarity coefficients are available:
-    Euclidean distance (`DC = "euc`), standardised Euclidean distance
-    (`DC = "euc.sd`), Chord distance (`DC = "chord`), Chi-squared
-    coefficient (`DC = "chisq`; Prentice, 1980), Gower’s distance
-    (`DC = "gower`; Gower, 1971). The choice of DC depends on the type
-    of assemblage data. In addition, RoC between WUs be calculated using
-    every consecutive WU (`only_subsequent = FALSE`), or alternatively,
-    calculation of RoC can be restricted to only directly adjacent WUs
+    between WUs. Several in-built dissimilarity coefficients are
+    available: Euclidean distance (`DC = "euc`), standardised Euclidean
+    distance (`DC = "euc.sd`), Chord distance (`DC = "chord`),
+    Chi-squared coefficient (`DC = "chisq`; Prentice, 1980), Gower’s
+    distance (`DC = "gower`; Gower, 1971), Bray-Curtis(`DC = "bray`).
+    The choice of DC depends on the type of assemblage data. In
+    addition, RoC between WUs be calculated using every consecutive WU
+    (`only_subsequent = FALSE`), or alternatively, calculation of RoC
+    can be restricted to only directly adjacent WUs
     (`only_subsequent = TRUE`). Using the former increases the number of
     samples for which RoC can be calculated within a sequence, which
     varies in terms of sample resolution, but may still introduce biases

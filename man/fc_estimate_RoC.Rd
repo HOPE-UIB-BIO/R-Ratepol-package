@@ -10,20 +10,20 @@ A function to estimate Rate of change in community data in time series
 fc_estimate_RoC(data_source_community,
                 data_source_age,
                 age_uncertainty = FALSE,
-                smooth_method = "shep",
+                smooth_method = c("none", "m.avg", "grim", "age.w", "shep"),
                 smooth_N_points = 5,
                 smooth_age_range = 500,
                 smooth_N_max = 9,
-                Working_Units = "MW",
+                Working_Units = c("levels", "bins", "MW"),
                 bin_size = 500,
                 Number_of_shifts = 5,
-                bin_selection = "first",
+                bin_selection = c( "first", "random"),
                 rand = 1,
                 treads = TRUE,
                 standardise = FALSE,
                 N_individuals = 150,
                 tranform_to_proportions = TRUE,
-                DC = "chisq",
+                DC = c("euc", "euc.sd", "chord", "chisq", "gower", "bray"),
                 interest_threshold = FALSE,
                 only_subsequent = TRUE,
                 time_standardisation = 100,
@@ -121,6 +121,8 @@ Dissimilarity coefficient. Type of calculation of differences between Working Un
 \code{"chisq"}    = 	Chi-squared coefficient
 
 \code{"gower"}   =   Gower's distance
+
+\code{"bray"}   =   Bray-Curtis distance
 }
  \item{interest_threshold}{
 Age, after which all results of RoC are excluded before detection of peak points 
@@ -158,9 +160,9 @@ The computation of RoC in R-Ratepol is performed using the following steps:
 
 - (optional) Standardisation of assemblage data in each WU 
 
-- Calculation of RoC between WUs: RoC is calculated as the dissimilarity coefficient (DC) standardised by age differences between WUs. Five in-built dissimilarity coefficients are available: Euclidean distance (`DC = "euc`), standardised Euclidean distance (\code{DC = "euc.sd}), Chord distance (\code{DC = "chord}), Chi-squared coefficient (\code{DC = "chisq}; Prentice, 1980), Gower's distance (\code{DC = "gower}; Gower, 1971). The choice of DC depends on the type of assemblage data. In addition, RoC between WUs be calculated using every consecutive WU (\code{only_subsequent = FALSE}), or alternatively, calculation of RoC can be restricted to only directly adjacent WUs (\code{only_subsequent = TRUE}). Using the former increases the number of samples for which RoC can be calculated within a sequence, which varies in terms of sample resolution, but may still introduce biases related to the RoC estimation as a result of the varying inter-sample distances.
     
 - The summary of a single run is produced based on all moving windows
+- Calculation of RoC between WUs: RoC is calculated as the dissimilarity coefficient (DC) standardised by age differences between WUs. Five in-built dissimilarity coefficients are available: Euclidean distance (`DC = "euc`), standardised Euclidean distance (\code{DC = "euc.sd}), Chord distance (\code{DC = "chord}), Chi-squared coefficient (\code{DC = "chisq}; Prentice, 1980), Gower's distance (\code{DC = "gower}; Gower, 1971), Bray-Curtis istance (\code{DC = "bray"}). The choice of DC depends on the type of assemblage data. In addition, RoC between WUs be calculated using every consecutive WU (\code{only_subsequent = FALSE}), or alternatively, calculation of RoC can be restricted to only directly adjacent WUs (\code{only_subsequent = TRUE}). Using the former increases the number of samples for which RoC can be calculated within a sequence, which varies in terms of sample resolution, but may still introduce biases related to the RoC estimation as a result of the varying inter-sample distances.
 
 5. Step 4 is repeated multiple times (e.g. 10,000 times).
 

@@ -1,3 +1,15 @@
+# R-Ratepol package 0.6.1.
+### Dissimilarity calculation
+ - use vegan package to calculate Gower and Bray-Curtis (new) dissimilarity
+
+### Univariate RoC estimation
+ - fix issues when using only single-taxon dataset 
+
+### Code cosmetics changes
+ - TRUE/FALSE written as full
+ - all arguments are written for each function
+ - spelling fixes
+
 # R-Ratepol package 0.6.0.
 ### Overhaul change of the estimation of RoC
  - RoC score is now returned in units selected by user (time_standardisation)
