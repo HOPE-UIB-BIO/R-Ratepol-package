@@ -61,7 +61,7 @@ gl_counts_selected <-
   gl_counts %>% 
   as.data.frame() %>% 
   tibble::rownames_to_column(., var = "sample_id") %>% 
-  as_tibble() %>% 
+  tibble::as_tibble() %>% 
   dplyr::select(sample_id, dplyr::any_of(gl_taxon_lits_selected$taxon.name)) %>% 
   janitor::clean_names() 
 
@@ -87,8 +87,8 @@ Extract depth for each level
 ```{r level_preparion, results='hide', warning=FALSE}
 gl_level <-
   gl_dataset_download[[1]]$sample.meta %>% 
-  as_tibble() %>% 
-  rename(sample_id = sample.id) %>% 
+  tibble::as_tibble() %>% 
+  dplyr::rename(sample_id = sample.id) %>% 
   dplyr::select(sample_id, depth) %>% 
   dplyr::mutate_if(is.integer, as.character)
 
@@ -231,13 +231,19 @@ We will detect significant peak-points using *Non-linear* method
 
 ```{r peak_points, results='hide', warning=FALSE}
 gl_roc_peaks <-
-  RRatepol::fc_detect_peak_points(gl_roc, method = "trend_non_linear")
+  RRatepol::fc_detect_peak_points(
+    data_source = gl_roc,
+    method = "trend_non_linear")
 ```
 
 Plot the estimates with showing both the peak-points 
 
 ```{r roc_figure, results='markup', echo=TRUE}
 RRatepol::fc_plot_RoC_sequence(
-  gl_roc_peaks, age_threshold= 8e3, Roc_threshold = 1.5, Peaks = TRUE, trend = "trend_non_linear")
+  data_source = gl_roc_peaks,
+  age_threshold = 8e3,
+  Roc_threshold = 0.5,
+  Peaks = TRUE,
+  trend = "trend_non_linear")
 ```
 
