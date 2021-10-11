@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//index.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//reference/example_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//reference/fc_detect_peak_points.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//reference/fc_estimate_RoC.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//reference/fc_plot_RoC_sequence.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//reference/RRatepolList-class.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//articles/workflow-example.html</loc>
+  </url>
+</urlset>

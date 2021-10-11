@@ -1,0 +1,28 @@
+title: RRatepol 
+url: https://hope-uib-bio.github.io/R-Ratepol-package/
+
+reference:
+
+- title: Estimate Rate-of-Change
+  contents:
+  - fc_estimate_RoC
+
+- title: Dectect peak-points
+  contents:
+  - fc_detect_peak_points
+
+- title: Plot results
+  contents:
+  - fc_plot_RoC_sequence
+
+- title: Miscellaneous
+  contents:
+  - example_data
+  - RRatepolList-class
+
+articles:
+
+- title: Example of full workflow
+  navbar: vignettes
+  contents: 
+   - workflow-example
