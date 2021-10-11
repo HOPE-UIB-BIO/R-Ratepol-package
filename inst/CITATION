@@ -3,16 +3,14 @@ citHeader("To cite R-Ratpol in publications use:")
 citEntry(entry = "Article",
   title        = "Rate-of-change analysis in palaeoecology revisited: a new approach",
   author       = personList(as.person("Ondrej Mottl"), as.person("John-Arvid Grytnes"), as.person("Alistair W.R. Seddon"), as.person("Manuel J. Steinbauer"), as.person("Kuber P. Bhatta"), as.person("Vivian A. Felde"), as.person("Suzette G.A. Flantua"), as.person("H. John B. Birks")),
-  journal      = "bioRxiv",
-  year         = "2020",
-  volume       = "12",
-  number       = "16",
-  pages        = "422943",
-  url          = "https://doi.org/10.1101/2020.12.16.422943",
+  journal      = "Review of Palaeobotany and Palynology",
+  year         = "2021",
+  volume       = "293",
+  url          = "https://doi.org/10.1016/j.revpalbo.2021.104483",
 
   textVersion  =
-  paste("Ondrej Mottl et al. (2020).",
-        "ate-of-change analysis in palaeoecology revisited: a new approach",
-        "bioRxiv 2020.12.16.422943",
-        "URL https://doi.org/10.1101/2020.12.16.422943")
+  paste("Ondrej Mottl et al. (2021).",
+        "Rate-of-change analysis in palaeoecology revisited: a new approach.",
+        "Review of Palaeobotany and Palynology 293",
+        "DOI https://doi.org/10.1016/j.revpalbo.2021.104483")
 )

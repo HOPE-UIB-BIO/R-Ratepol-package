@@ -6,3 +6,7 @@
 ^README-.*\.png$
 ^NEWS$
 ^CRAN-RELEASE$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
