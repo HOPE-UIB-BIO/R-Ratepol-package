@@ -1,4 +1,4 @@
-# 0.6.1.
+# version 0.6.1
 
 ## Dissimilarity calculation
 - use vegan package to calculate Gower and Bray-Curtis (new) dissimilarity
@@ -12,7 +12,7 @@
 - spelling fixes
 
 
-# 0.6.0.
+# version 0.6.0
 
 ## Overhaul change of the estimation of RoC
 - RoC score is now returned in units selected by user (time_standardisation)
@@ -34,7 +34,7 @@ have been curated by you during the last years packages 'doSNOW' and 'snow' are 
 - examples are wrapped into 'dontrun'
 
 
-# 0.5.6.
+# version 0.5.6
 
 ## README
 - Figures are now saved in the new folder ('man' folder) with the new names.
@@ -52,7 +52,7 @@ have been curated by you during the last years packages 'doSNOW' and 'snow' are 
 - add cran-comments
 
 
-# 0.5.5.
+# version 0.5.5
 - 'sample.id' or 'sample_id' can be used in as the sample identification
 - RRatepol::fc_plot_RoC_sequence: fix typo in argument 'age_threshold' 
 - citation(package = "RRatepol") now show correct citation

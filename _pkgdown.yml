@@ -22,7 +22,13 @@ reference:
 
 articles:
 
+- title: General description of the packge
+  navbar: vignettes
+  contents: 
+   - package-description
+
 - title: Example of full workflow
   navbar: vignettes
   contents: 
    - workflow-example
+
