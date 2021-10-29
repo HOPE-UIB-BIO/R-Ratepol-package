@@ -96,6 +96,11 @@
     <li class="divider"></li>
     <li class="dropdown-header">vignettes</li>
     <li>
+      <a href="../articles/package-description.html">General RRatepol package description</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">vignettes</li>
+    <li>
       <a href="../articles/workflow-example.html">Example of full workflow</a>
     </li>
   </ul>
@@ -123,6 +128,113 @@
       
     </div>
 
+    <div id="version-061" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.1">
+<a href="#version-061" class="anchor"></a>version 0.6.1</h1>
+<div id="dissimilarity-calculation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dissimilarity-calculation" class="anchor"></a>Dissimilarity calculation</h2>
+<ul>
+<li>use vegan package to calculate Gower and Bray-Curtis (new) dissimilarity</li>
+</ul>
+</div>
+<div id="univariate-roc-estimation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#univariate-roc-estimation" class="anchor"></a>Univariate RoC estimation</h2>
+<ul>
+<li>fix issues when using only single-taxon dataset</li>
+</ul>
+</div>
+<div id="code-cosmetics-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-cosmetics-changes" class="anchor"></a>Code cosmetics changes</h2>
+<ul>
+<li>TRUE/FALSE written as full</li>
+<li>all arguments are written for each function</li>
+<li>spelling fixes</li>
+</ul>
+</div>
+</div>
+    <div id="version-060" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.0">
+<a href="#version-060" class="anchor"></a>version 0.6.0</h1>
+<div id="overhaul-change-of-the-estimation-of-roc" class="section level2">
+<h2 class="hasAnchor">
+<a href="#overhaul-change-of-the-estimation-of-roc" class="anchor"></a>Overhaul change of the estimation of RoC</h2>
+<ul>
+<li>RoC score is now returned in units selected by user (time_standardisation)</li>
+<li>Method of sample selection from bin is now optional (bin_selection)</li>
+<li>RoC is estimated only for subsequent bins (only_subsequent == TRUE)</li>
+<li>Bins are now created form the beginning of the core (instead of 0)</li>
+</ul>
+</div>
+<div id="console-outputs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#console-outputs" class="anchor"></a>Console outputs</h2>
+<ul>
+<li>General overhaul of console outputs presented to user while running R-Ratepol</li>
+<li>more information and warning messages are presented with each run</li>
+</ul>
+</div>
+<div id="doparallel" class="section level2">
+<h2 class="hasAnchor">
+<a href="#doparallel" class="anchor"></a>doParallel</h2>
+<p>have been curated by you during the last years packages ‘doSNOW’ and ‘snow’ are replaced by ‘doParallel’</p>
+<ul>
+<li>progress bar for randomisation is currently not present</li>
+</ul>
+</div>
+<div id="other" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other" class="anchor"></a>Other</h2>
+<ul>
+<li>Added various checks for correct argument selection</li>
+<li>all hyphens are replaced with dashes (‘–’) in the whole package</li>
+<li>examples are wrapped into ‘dontrun’</li>
+</ul>
+</div>
+</div>
+    <div id="version-056" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.6">
+<a href="#version-056" class="anchor"></a>version 0.5.6</h1>
+<div id="readme" class="section level2">
+<h2 class="hasAnchor">
+<a href="#readme" class="anchor"></a>README</h2>
+<ul>
+<li>Figures are now saved in the new folder (‘man’ folder) with the new names.</li>
+<li>cosmetics changes in the code (spaces, new lines, etc)</li>
+</ul>
+</div>
+<div id="vignette" class="section level2">
+<h2 class="hasAnchor">
+<a href="#vignette" class="anchor"></a>Vignette</h2>
+<ul>
+<li>stop using pre-saved data</li>
+<li>decrease the ‘i_multiplier’ to 0.5 to speed up the vignette building</li>
+<li>change the ‘treads’ arguments in ‘fc_estimate_RoC’ to FALSE so the vignette can be build in machines without multiple cores.</li>
+<li>rename r chunks to remove empty spaces in names</li>
+</ul>
+</div>
+<div id="other-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-1" class="anchor"></a>Other</h2>
+<ul>
+<li>remove ‘RRatepol’ namespace inside package for internal functions</li>
+<li>fix couple of typos in function descriptions</li>
+<li>add cran-comments</li>
+</ul>
+</div>
+</div>
+    <div id="version-055" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.5">
+<a href="#version-055" class="anchor"></a>version 0.5.5</h1>
+<ul>
+<li>‘sample.id’ or ‘sample_id’ can be used in as the sample identification</li>
+<li>RRatepol::fc_plot_RoC_sequence: fix typo in argument ‘age_threshold’</li>
+<li>citation(package = “RRatepol”) now show correct citation</li>
+<li>update the Figure in README file</li>
+</ul>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
