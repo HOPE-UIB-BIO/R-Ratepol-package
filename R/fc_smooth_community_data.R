@@ -4,7 +4,7 @@ fc_smooth_community_data <- function(data_source,
                                      smooth_N_max = 9,
                                      smooth_age_range = 500,
                                      round_results = TRUE,
-                                     Debug = FALSE){
+                                     verbose = FALSE){
   
   # ----------------------------------------------
   # SETUP -----
@@ -29,7 +29,7 @@ fc_smooth_community_data <- function(data_source,
   # NONE SMOOTHING -----
   # ----------------------------------------------
   
-  if (Debug == TRUE & smooth_method == "none"){
+  if (verbose == TRUE & smooth_method == "none"){
     cat("data will not be smoothed", fill = TRUE)}
   
   if(smooth_method == "none"){
@@ -46,7 +46,7 @@ fc_smooth_community_data <- function(data_source,
   # Additional information -----  
   # ----------------------------------------------
   
-  if(Debug == TRUE){
+  if(verbose == TRUE){
     
     if(smooth_method == "m.avg"){
       cat(paste(

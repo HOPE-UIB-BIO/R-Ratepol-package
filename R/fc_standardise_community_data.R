@@ -1,6 +1,6 @@
-fc_standardise_community_data <- function (data_source, N_individuals = 150, Debug = FALSE){
+fc_standardise_community_data <- function (data_source, N_individuals = 150, verbose = FALSE){
   
-  if(Debug == TRUE){
+  if(verbose == TRUE){
     cat(paste("Data standardization started", Sys.time()), fill = TRUE)}
   
   Samples <-  1:nrow(data_source@Community) 
@@ -34,7 +34,7 @@ fc_standardise_community_data <- function (data_source, N_individuals = 150, Deb
     
   }
   
-  if(Debug == TRUE){cat(paste("Data standardization finished", Sys.time()), fill = TRUE)}
+  if(verbose == TRUE){cat(paste("Data standardization finished", Sys.time()), fill = TRUE)}
   
   return (data_source) 
 }

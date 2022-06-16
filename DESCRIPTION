@@ -17,6 +17,7 @@ Imports:
     foreach,
     ggplot2,
     gratia,
+    lifecycle,
     magrittr,
     methods,
     mgcv,
@@ -28,7 +29,7 @@ Imports:
     tidyr,
     utils,
     vegan
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Depends: 
     R (>= 2.10)
 Suggests: 

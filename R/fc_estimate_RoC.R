@@ -18,7 +18,8 @@ fc_estimate_RoC <- function(data_source_community,
                             interest_threshold = FALSE,
                             only_subsequent = TRUE,
                             time_standardisation = 100,
-                            Debug = FALSE){
+                            verbose = FALSE,
+                            Debug = NULL){
   
   # Start of the code
   
@@ -162,6 +163,20 @@ fc_estimate_RoC <- function(data_source_community,
       msg = "'treads' must be a whole number")
   }
   
+  if(is.null(Debug) == FALSE){
+    lifecycle::deprecate_warn(
+      "0.0.7",
+      "fc_estimate_RoC(Debug)",
+      "fc_estimate_RoC(verbose)")
+    
+    verbose <- Debug
+    
+  }
+  
+  assertthat::assert_that(
+    is.logical(verbose) == TRUE,
+    msg = "'verbose' must be a logical"
+  )
   
   #--------------------------------------------------#
   # 0.1. Report to user -----
@@ -333,7 +348,7 @@ fc_estimate_RoC <- function(data_source_community,
       data_community_extract = data_source_community,
       data_age_extract = data_source_age,
       age_uncertainty = age_uncertainty,
-      Debug = Debug)
+      verbose = verbose)
   
   
   #----------------------------------------------------------#
@@ -350,14 +365,14 @@ fc_estimate_RoC <- function(data_source_community,
       smooth_N_max = smooth_N_max,
       smooth_age_range = smooth_age_range,
       round_results = standardise,
-      Debug = Debug)
+      verbose = verbose)
   
   #check data and reduce data dimentions
   data_work <- 
     fc_check_data(
       data_smooth, 
       proportion = FALSE,
-      Debug = Debug)
+      verbose = verbose)
   
   
   #----------------------------------------------------------#
@@ -492,14 +507,14 @@ fc_estimate_RoC <- function(data_source_community,
                 data_sd,
                 proportion = FALSE,
                 Samples = TRUE,
-                Debug = Debug)
+                verbose = verbose)
             
             # standardisation
             data_sd <-  
               fc_standardise_community_data(
                 data_source = data_sd, 
                 N_individuals = N_individuals,
-                Debug = Debug)
+                verbose = verbose)
             
             assertthat::assert_that(
               any(rowSums(data_sd@Community, na.rm = TRUE) == N_individuals),
@@ -512,7 +527,7 @@ fc_estimate_RoC <- function(data_source_community,
               data_source_check = data_sd,
               proportion = tranform_to_proportions,
               Samples = FALSE,
-              Debug = Debug)
+              verbose = verbose)
           
           
           #----------------------------------------------------------#
@@ -524,7 +539,7 @@ fc_estimate_RoC <- function(data_source_community,
             fc_calculate_DC(
               data_source_DC = data_sd_check,
               DC = DC,
-              Debug = Debug)
+              verbose = verbose)
           
           
           #----------------------------------------------------------#
@@ -605,7 +620,7 @@ fc_estimate_RoC <- function(data_source_community,
             time_standardisation_unit <- time_standardisation
           }
           
-          if (Debug == TRUE){
+          if (verbose == TRUE){
             cat("", fill = TRUE)
             cat(paste("The time standardisation unit (TSU) is",
                       round(time_standardisation_unit,2)), fill=TRUE)

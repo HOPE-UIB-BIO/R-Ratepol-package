@@ -77,7 +77,7 @@ fc_subset_samples <- function(data_subset, bins, WU, bin_selection){
       Age.un = data_subset@Age.un,
       Dim.val = data_subset@Dim.val )
   
-  list.res <- fc_check_data(list.res, proportion = F, Debug = F)
+  list.res <- fc_check_data(list.res, proportion = F, verbose = F)
 
   
   return(list.res)

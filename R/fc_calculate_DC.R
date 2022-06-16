@@ -1,4 +1,4 @@
-fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = FALSE){
+fc_calculate_DC <- function (data_source_DC, DC = "chord", verbose = FALSE){
   
   
   assertthat::assert_that(
@@ -19,7 +19,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = FALSE){
   
   if(DC == "euc"){
     
-    if (Debug == TRUE){
+    if (verbose == TRUE){
       cat("Euclidan distance will be used as DC", fill = TRUE)
       }
     
@@ -59,7 +59,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = FALSE){
   
   if(DC == "euc.sd"){
     
-    if(Debug == TRUE){
+    if(verbose == TRUE){
       cat("Standardised Euclidan distance will be used as DC", fill = TRUE)
       }
     
@@ -115,7 +115,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = FALSE){
   
   if(DC == "chord"){
     
-    if(Debug == TRUE){
+    if(verbose == TRUE){
       cat("Chord distance will be used as DC", fill = TRUE)
     }
     
@@ -155,7 +155,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = FALSE){
   
   if(DC == "chisq"){
     
-    if(Debug == TRUE){
+    if(verbose == TRUE){
       cat("Chi-squared coeficient will be used as DC", fill = TRUE)}
     
     # for each sample (except the last)
@@ -193,7 +193,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = FALSE){
   
   if(DC == "gower"){
     
-    if(Debug == T){
+    if(verbose == T){
       cat("Gower's distance will be used as DC", fill = T)}
     
     # use pre-made function from vegan package to 
@@ -211,7 +211,7 @@ fc_calculate_DC <- function (data_source_DC, DC = "chord", Debug = FALSE){
   
   if(DC == "bray"){
     
-    if(Debug == T){
+    if(verbose == T){
       cat("Bray–Curtis distance will be used as DC", fill = T)}
     
     # use pre-made function from vegan package to 

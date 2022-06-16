@@ -1,4 +1,4 @@
-fc_check_data <- function (data_source_check, proportion = FALSE, Species = TRUE, Samples = TRUE, Debug = FALSE)
+fc_check_data <- function (data_source_check, proportion = FALSE, Species = TRUE, Samples = TRUE, verbose = FALSE)
 {
   # check if there is a sample that do not have a individuals data and delete it
   # & 
@@ -10,7 +10,7 @@ fc_check_data <- function (data_source_check, proportion = FALSE, Species = TRUE
       Species = Species, 
       Samples = Samples) 
   
-  if(Debug == TRUE){
+  if(verbose == TRUE){
     
     cat("", fill = TRUE)
     cat(
@@ -40,7 +40,7 @@ fc_check_data <- function (data_source_check, proportion = FALSE, Species = TRUE
   
   if(proportion == TRUE)
   {
-    if (Debug == TRUE){
+    if (verbose == TRUE){
       cat("Community data values are being converted to proportions", fill = TRUE)}
     
     # convert the values community data to proportion of sum of each sample
