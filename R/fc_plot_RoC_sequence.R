@@ -22,7 +22,7 @@
 #'  (residuals). The standard deviation (SD) is calculated from all the residuals. 
 #'  A peak is considered significant if it is 2 SD higher than the model.
 #'  \item `"trend_non_linear"` - A conservative generalised additive model (GAM) 
-#'  is fitted through the RoC scores and their ages (GAM = `RoC ~ s(age,k=3)` using 
+#'  is fitted through the RoC scores and their ages (GAM = `RoC ~ s(age, k = 3)` using 
 #'  the `mgcv` package (Wood, 2011). The distance between each point and the 
 #'  fitted value is calculated (residuals). The standard deviation (SD) is 
 #'  calculated from all the residuals. A peak is considered significant if it 
