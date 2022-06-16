@@ -246,6 +246,26 @@
 #' Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York, 
 #' USA 37. https://doi.org/10.2307/2669493
 #' @export
+#' @examples 
+#' \dontrun{
+#' example_data <-  RRatepol::example_data
+#' 
+#' sequence_01 <- 
+#' fc_estimate_RoC(
+#' data_source_community = example_data$pollen_data[[1]],
+#' data_source_age = example_data$sample_age[[1]],
+#' age_uncertainty = FALSE,
+#' smooth_method = "shep",
+#' Working_Units = "MW",
+#' rand = 1e3,
+#' treads = TRUE,
+#' DC = "chisq")
+#' 
+#' fc_plot_RoC_sequence(
+#' sequence_01,
+#' age_threshold = 8e3,
+#' Roc_threshold = 1)
+#' }
 fc_estimate_RoC <- 
   function(
     data_source_community,

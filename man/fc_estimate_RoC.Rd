@@ -265,6 +265,27 @@ without replacement is used to draw a selected number of individuals from
 each WU (e.g. 150 pollen grains).
 }
 }
+\examples{
+\dontrun{
+example_data <-  RRatepol::example_data
+
+sequence_01 <- 
+fc_estimate_RoC(
+data_source_community = example_data$pollen_data[[1]],
+data_source_age = example_data$sample_age[[1]],
+age_uncertainty = FALSE,
+smooth_method = "shep",
+Working_Units = "MW",
+rand = 1e3,
+treads = TRUE,
+DC = "chisq")
+
+fc_plot_RoC_sequence(
+sequence_01,
+age_threshold = 8e3,
+Roc_threshold = 1)
+}
+}
 \references{
 Birks, H.J.B., Gordon, A.D., 1985. Numerical Methods in Quaternary Pollen
 Analysis. Academic Press, London.
