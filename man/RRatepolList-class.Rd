@@ -4,7 +4,19 @@
 \name{RRatepolList-class}
 \alias{RRatepolList-class}
 \alias{RRatepolList}
-\title{An S4 class for R- Ratepol data structure .}
+\title{An S4 class for R-Ratepol data structure}
 \description{
-An S4 class for R- Ratepol data structure .
+An S4 class for R-Ratepol data structure
 }
+\section{Slots}{
+
+\describe{
+\item{\code{Community}}{data.frame.}
+
+\item{\code{Age}}{data.frame.}
+
+\item{\code{Age.un}}{data.frame.}
+
+\item{\code{Dim.val}}{integer.}
+}}
+
