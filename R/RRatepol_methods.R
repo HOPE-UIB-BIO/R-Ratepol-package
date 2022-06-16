@@ -1,5 +1,11 @@
-#' An S4 class for R- Ratepol data structure .
-
+#' @title An S4 class for R-Ratepol data structure
+#'
+#' @slot Community data.frame. 
+#' @slot Age data.frame. 
+#' @slot Age.un data.frame. 
+#' @slot Dim.val integer. 
+#'
+#' @export
 RRatepolList <-
   methods::setClass(
     "RRatepolList",

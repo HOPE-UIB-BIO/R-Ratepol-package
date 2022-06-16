@@ -43,3 +43,4 @@ Suggests:
     tidyverse
 VignetteBuilder: knitr
 URL: https://hope-uib-bio.github.io/R-Ratepol-package/
+Roxygen: list(markdown = TRUE)
