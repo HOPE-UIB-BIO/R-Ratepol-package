@@ -11,8 +11,8 @@ A data.frame with columns:
 \item \code{collection.handle} - Neotoma sequence name aberration
 \item \code{lat} - Latitude (degrees)
 \item \code{long} - Longitude (degrees)
-\item \code{pollen_data} - Dataframe contain pollen counts of taxa in each level.
-\item \code{sample_age} - Dataframe including estimated ages for each level
+\item \code{pollen_data} - Data.frame contain pollen counts of taxa in each level.
+\item \code{sample_age} - Data.frame including estimated ages for each level
 \item \code{age_uncertainty} - Matrix with age uncertainties from age-depth model
 }
 }

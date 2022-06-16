@@ -17,8 +17,8 @@
 #'  \item `collection.handle` - Neotoma sequence name aberration
 #'  \item `lat` - Latitude (degrees)
 #'  \item `long` - Longitude (degrees)
-#'  \item `pollen_data` - Dataframe contain pollen counts of taxa in each level.
-#'  \item `sample_age` - Dataframe including estimated ages for each level
+#'  \item `pollen_data` - Data.frame contain pollen counts of taxa in each level.
+#'  \item `sample_age` - Data.frame including estimated ages for each level
 #'  \item `age_uncertainty` - Matrix with age uncertainties from age-depth model
 #' }
 #' @keywords datasets
@@ -76,5 +76,4 @@
 #' \dontrun{
 #' data(example_data)
 #' }
-#' @export
 "example_data"
