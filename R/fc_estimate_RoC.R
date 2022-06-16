@@ -403,15 +403,7 @@ fc_estimate_RoC <- function(data_source_community,
       Ncores <-  1
     }
   }
-  
-  # create cluster
-  cl <-  parallel::makeCluster(Ncores)
-  doParallel::registerDoParallel(cl)
-  parallel::clusterEvalQ(cl, {
-    library("RRatepol")
-    library("tidyverse")
-  })
-  
+
   if(rand > 1){
     cat(
       paste(
@@ -419,14 +411,23 @@ fc_estimate_RoC <- function(data_source_community,
       "\n", fill = TRUE)  
   }
   
+  doFuture::registerDoFuture()
+  future::plan(multisession, workers = Ncores)
+  progressr::handlers(global = TRUE)
+  progressr::handlers("progress")
+  
+  `%dorng%` <- doRNG::`%dorng%`# so %dorng% doesn't need to be attached
+  
   # progress bar
-  cat("Progress bar is not working in the current version, please wait",
-      "\n", fill=TRUE)
+  p <- progressr::progressor(steps = rand)
   
   result_tibble <-  
-    foreach::`%dopar%`(foreach::foreach(
+    foreach::foreach(
       l = 1:rand,
-      .combine = rbind), {
+      .export = c(
+        "data_work",
+        "N_individuals"),
+      .combine = rbind) %dorng% {
         
         # TIME SAMPLING
         # sample random time sequence from time uncern.
@@ -643,12 +644,14 @@ fc_estimate_RoC <- function(data_source_community,
           shift_tibble %>% 
           dplyr::mutate(
             ID = l)
+       
+         p(sprintf("l=%g", l))
         
         return(shift_tibble)
-      })# end of the randomization
+      }# end of the randomization
   
   # close progress bar and cluster
-  parallel::stopCluster(cl)
+  # parallel::stopCluster(cl)
   
   
   #----------------------------------------------------------#

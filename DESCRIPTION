@@ -11,7 +11,8 @@ Language: en-GB
 Authors@R: person("Ondrej", "Mottl", email = "ondrej.mottl@gmail.com", role = c("aut","cre"))
 Imports:
     assertthat,
-    doParallel,
+    doFuture,
+    doRNG,
     dplyr,
     foreach,
     ggplot2,
@@ -20,6 +21,7 @@ Imports:
     methods,
     mgcv,
     parallel,
+    progressr,
     rlang,
     stats,
     tibble,
