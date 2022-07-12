@@ -19,9 +19,8 @@ Steps to reproduce the behaviour:
 If applicable, add screenshots to help explain your problem.
 
 ** Versions (please complete the following information):**
- - OS: [e.g. Windows 11]
- - Workflow Version [e.g. 0.0.1]
-- RFossilpol package [e.g. 0.1.1]
+- OS: [e.g. Windows 11]
+- RRatepol package [e.g. 0.1.1]
 
 **Additional context**
 Add any other context about the problem here.
