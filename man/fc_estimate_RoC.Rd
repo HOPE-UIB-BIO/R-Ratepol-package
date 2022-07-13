@@ -80,7 +80,7 @@ in Moving window method}
 
 \item{bin_selection}{Character. Setting determining the the process of selection of
 samples from bins.
-\itemize {
+\itemize{
 \item \code{"first"} - sample closest to the beginning of the bin is selected
 as a representation.
 \item \code{"random"} - a random sample is selected as a representation.

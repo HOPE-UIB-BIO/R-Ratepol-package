@@ -51,7 +51,7 @@
 #' @param bin_selection 
 #' Character. Setting determining the the process of selection of 
 #' samples from bins.
-#' \itemize {
+#' \itemize{
 #' \item `"first"` - sample closest to the beginning of the bin is selected 
 #' as a representation.
 #' \item `"random"` - a random sample is selected as a representation.
