@@ -15,14 +15,14 @@ fc_estimate_RoC(
   Working_Units = c("levels", "bins", "MW"),
   bin_size = 500,
   Number_of_shifts = 5,
-  bin_selection = c("first", "random"),
+  bin_selection = c("random", "first"),
   standardise = FALSE,
   N_individuals = 150,
   DC = c("euc", "euc.sd", "chord", "chisq", "gower", "bray"),
   tranform_to_proportions = TRUE,
   rand = NULL,
   treads = NULL,
-  parallel = TRUE,
+  use_parallel = TRUE,
   interest_threshold = NULL,
   only_subsequent = TRUE,
   time_standardisation = bin_size,
@@ -113,7 +113,7 @@ proportion during calculations?}
 
 \item{treads}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
-\item{parallel}{Preference of usage of parallel computation of randomisation
+\item{use_parallel}{Preference of usage of parallel computation of randomisation
 \itemize{
 \item \verb{[value]} - selected number of cores
 \item \code{TRUE} - automatically selected number of cores
@@ -277,7 +277,7 @@ sequence_01 <-
     smooth_method = "shep",
     Working_Units = "MW",
     rand = 1e3,
-    parallel = TRUE,
+    use_parallel = TRUE,
     DC = "chisq"
   )
 
