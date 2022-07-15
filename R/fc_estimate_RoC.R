@@ -82,7 +82,7 @@
 #' Numeric. Number of runs used in randomisation.
 #' @param treads
 #' `r lifecycle::badge("deprecated")`
-#' @param parallel
+#' @param use_parallel
 #' Preference of usage of parallel computation of randomisation
 #' \itemize{
 #' \item `[value]` - selected number of cores
@@ -257,7 +257,7 @@
 #'     smooth_method = "shep",
 #'     Working_Units = "MW",
 #'     rand = 1e3,
-#'     parallel = TRUE,
+#'     use_parallel = TRUE,
 #'     DC = "chisq"
 #'   )
 #'
@@ -285,7 +285,7 @@ fc_estimate_RoC <-
            tranform_to_proportions = TRUE,
            rand = NULL,
            treads = NULL,
-           parallel = TRUE,
+           use_parallel = TRUE,
            interest_threshold = NULL,
            only_subsequent = TRUE,
            time_standardisation = bin_size,
@@ -368,8 +368,10 @@ fc_estimate_RoC <-
 
     util_check_class("smooth_method", "character")
 
-    util_check_vector_values("smooth_method", 
-    c("none", "m.avg", "grim", "age.w", "shep"))
+    util_check_vector_values(
+      "smooth_method",
+      c("none", "m.avg", "grim", "age.w", "shep")
+    )
 
     smooth_method <- match.arg(smooth_method)
 
@@ -404,8 +406,10 @@ fc_estimate_RoC <-
 
     util_check_class("DC", "character")
 
-    util_check_vector_values("DC", 
-    c("euc", "euc.sd", "chord", "chisq", "gower", "bray"))
+    util_check_vector_values(
+      "DC",
+      c("euc", "euc.sd", "chord", "chisq", "gower", "bray")
+    )
 
     DC <- match.arg(DC)
 
@@ -423,17 +427,17 @@ fc_estimate_RoC <-
       lifecycle::deprecate_warn(
         "1.0.0",
         "fc_estimate_RoC(treads)",
-        "fc_estimate_RoC(parallel)"
+        "fc_estimate_RoC(use_parallel)"
       )
 
-      parallel <- treads
+      use_parallel <- treads
     }
-    util_check_class("parallel", c("logical", "numeric"))
+    util_check_class("use_parallel", c("logical", "numeric"))
 
     if (
-      is.numeric(parallel)
+      is.numeric(use_parallel)
     ) {
-      util_check_if_integer("parallel")
+      util_check_if_integer("use_parallel")
     }
 
     if (
@@ -636,304 +640,52 @@ fc_estimate_RoC <-
         Number_of_shifts = Number_of_shifts,
         rand = rand
       )
-      
-    #----------------------------------------------------------#
-    # 4. Randomisation -----
-    #----------------------------------------------------------#
 
-    # create template for result tibble
-    shift_tibble_template <- tibble::tibble()
+    #----------------------------------------------------------#
+    # 4. Estimation -----
+    #----------------------------------------------------------#
 
     # select the prefetred number of cores for of cores for parallel computation
-    if (class(treads) == "numeric") {
-      Ncores <- treads # set value
+    if (
+      use_parallel == FALSE
+    ) {
+      result_table <-
+        lapply(
+          X = data_to_run,
+          FUN = ~ fc_run_iteration()
+        )
     } else {
-      if (treads == TRUE) {
-        Ncores <- parallel::detectCores() # detect number
+      if (
+        class(use_parallel) == "numeric"
+      ) {
+        n_cores <-
+          as.numeric(use_parallel) # set value
       } else {
-        Ncores <- 1
+        n_cores <-
+          parallel::detectCores() # detect number
       }
+
+      # create cluster
+      cl <- parallel::makeCluster(n_cores)
+      parallel::clusterEvalQ(cl, {
+        library("RRatepol")
+        library("tidyverse")
+      })
+
+      result_table <-
+        parallel::parLapply(
+          X = data_to_run,
+          fun = ~ fc_run_iteration(),
+          cl = cl
+        )
+
+      # close progress bar and cluster
+      if (!is.null(cl)) {
+        parallel::stopCluster(cl)
+        cl <- c()
+      }
+      gc()
     }
-
-    if (rand > 1) {
-      cat(
-        paste(
-          "Starting the randomisation. Number of randomisations set to", rand
-        ),
-        "\n",
-        fill = TRUE
-      )
-    }
-
-    # create cluster
-    cl <- parallel::makeCluster(Ncores)
-    doParallel::registerDoParallel(cl)
-    parallel::clusterEvalQ(cl, {
-      library("RRatepol")
-      library("tidyverse")
-    })
-
-
-    result_tibble <-
-      foreach::foreach(
-        l = 1:rand,
-        .export = c(
-          "data_work",
-          "N_individuals"
-        ),
-        .combine = rbind
-      ) %dorng% {
-
-        # TIME SAMPLING
-        # sample random time sequence from time uncern.
-        data_work@Age$newage <-
-          as.numeric(data_work@Age.un[sample(c(1:max(1, nrow(data_work@Age.un))), 1), ])
-
-        # create result tible
-        shift_tibble <- shift_tibble_template
-
-        # repeat for number of shifts
-        for (k in 1:Number_of_shifts) {
-
-          #----------------------------------------------------------#
-          # 4.1 Data subsetting -----
-          #----------------------------------------------------------#
-          data_subset <- data_work
-
-          # select one sample for each bin based on the age of the samples.
-          # Sample is choses if it is the closes one to the upper end of the bin
-          if (Working_Units != "levels") {
-
-            # select bin for this shift
-            selected_bins <- bin_sizes[bin_sizes$shift == k, ]
-
-            # subset data
-            data_subset <-
-              fc_subset_samples(
-                data_subset,
-                bins = selected_bins,
-                WU = Working_Units,
-                bin_selection = bin_selection
-              )
-
-            data_subset <-
-              fc_check_data(
-                data_subset,
-                proportion = FALSE
-              )
-          }
-
-          #----------------------------------------------------------#
-          # 4.2 Data Standardisation -----
-          #----------------------------------------------------------#
-          data_sd <- data_subset
-
-          # standardisation of community data to X(N_individuals) number of individuals
-          if (standardise == TRUE) {
-
-            # adjust the value by the minimal Community or to a minimal of presected values
-            N_individuals <- min(c(rowSums(data_sd@Community), N_individuals))
-
-            # check if all samples has N_individuals of individuals
-            data_sd@Age <-
-              data_sd@Age[rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals, ]
-
-            data_sd@Age.un <-
-              data_sd@Age.un[, rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals]
-
-            data_sd@Community <-
-              data_sd@Community[rowSums(data_sd@Community, na.rm = TRUE) >= N_individuals, , drop = FALSE]
-
-            data_sd <-
-              fc_check_data(
-                data_sd,
-                proportion = FALSE,
-                Samples = TRUE,
-                verbose = verbose
-              )
-
-            # standardisation
-            data_sd <-
-              fc_standardise_community_data(
-                data_source = data_sd,
-                N_individuals = N_individuals,
-                verbose = verbose
-              )
-
-            assertthat::assert_that(
-              any(rowSums(data_sd@Community, na.rm = TRUE) == N_individuals),
-              msg = "Data standardisation was unsuccesfull, try 'standardise' = FALSE"
-            )
-          }
-
-          # data check with proportioning
-          data_sd_check <-
-            fc_check_data(
-              data_source_check = data_sd,
-              proportion = tranform_to_proportions,
-              Samples = FALSE,
-              verbose = verbose
-            )
-
-
-          #----------------------------------------------------------#
-          # 4.3 DC Calculation -----
-          #----------------------------------------------------------#
-
-          # calculate DC between each subsequent samples/bins
-          DC_res <-
-            fc_calculate_DC(
-              data_source_DC = data_sd_check,
-              DC = DC,
-              verbose = verbose
-            )
-
-
-          #----------------------------------------------------------#
-          # 4.4 Age Standardisation -----
-          #----------------------------------------------------------#
-
-          # create empty tible with size = number of samples-1
-          shift_tibble_res <-
-            tibble::tibble(
-              DC = DC_res
-            )
-
-          # create empty vectors for age difference calcualtion
-          shift_tibble_res$age_diff <-
-            vector(
-              mode = "numeric",
-              length = nrow(shift_tibble_res)
-            )
-
-          shift_tibble_res$bin <-
-            vector(
-              mode = "character",
-              length = nrow(shift_tibble_res)
-            )
-
-          shift_tibble_res$age_distance <-
-            vector(
-              mode = "numeric",
-              length = nrow(shift_tibble_res)
-            )
-
-          shift_tibble_res$age_position <-
-            vector(
-              mode = "numeric",
-              length = nrow(shift_tibble_res)
-            )
-
-          for (i in 1:nrow(shift_tibble_res)) { # for each RoC
-
-            # calcualte the age difference between subsequesnt samples
-            shift_tibble_res$age_diff[i] <-
-              data_sd_check@Age$newage[i + 1] - data_sd_check@Age$newage[i]
-
-            # Set age difference as 1, if age difference between samples is
-            #   smaller than 1
-            if (shift_tibble_res$age_diff[i] < 1) {
-              shift_tibble_res$age_diff[i] <- 1
-            }
-
-            # calculate the average position of RoC
-            shift_tibble_res$age_position[i] <-
-              mean(c(
-                data_sd_check@Age$age[i + 1],
-                data_sd_check@Age$age[i]
-              ))
-
-            # create vector with WU names
-            shift_tibble_res$bin[i] <-
-              paste(
-                row.names(data_sd_check@Age)[i],
-                "-",
-                row.names(data_sd_check@Age)[i + 1]
-              )
-
-            if (Working_Units != "levels") {
-              shift_tibble_res$age_distance[i] <-
-                as.numeric(row.names(data_sd_check@Age)[i + 1]) -
-                as.numeric(row.names(data_sd_check@Age)[i])
-            } else {
-              shift_tibble_res$age_distance[i] <- NA
-            }
-          }
-
-          # remove the non-subsequent levels.
-          if (Working_Units != "levels" & only_subsequent == TRUE) {
-            shift_tibble_res <-
-              shift_tibble_res %>%
-              dplyr::filter(age_distance <= bin_size)
-          }
-
-          if (time_standardisation == "auto") {
-            if (Working_Units != "levels") {
-              time_standardisation_unit <- bin_size
-            } else {
-              time_standardisation_unit <- mean(shift_tibble_res$age_diff)
-            }
-          } else {
-            time_standardisation_unit <- time_standardisation
-          }
-
-          if (verbose == TRUE) {
-            cat("", fill = TRUE)
-            cat(paste(
-              "The time standardisation unit (TSU) is",
-              round(time_standardisation_unit, 2)
-            ), fill = TRUE)
-          }
-
-          #  calculate DC standardise by time
-          shift_tibble_res <-
-            shift_tibble_res %>%
-            dplyr::mutate(
-              age_diff_st = age_diff / time_standardisation_unit,
-              RoC = DC / age_diff_st,
-              shift = k
-            )
-
-
-          #----------------------------------------------------------#
-          # 4.5 Result of a single window shift -----
-          #----------------------------------------------------------#
-
-          # add the results from this shift into the result tibble
-          shift_tibble <-
-            rbind(
-              shift_tibble,
-              shift_tibble_res
-            )
-        }
-
-
-        #----------------------------------------------------------#
-        # 4.6 Result of a single randomisation run -----
-        #----------------------------------------------------------#
-
-        if (nrow(shift_tibble) < 1 & Working_Units != "levels" & only_subsequent == TRUE) {
-          stop("Estimation not succesfull, try increase the bin size")
-        }
-
-        shift_tibble <-
-          shift_tibble %>%
-          dplyr::mutate(
-            ID = l
-          )
-
-        p(sprintf("l=%g", l))
-
-        return(shift_tibble)
-      } # end of the randomization
-
-    # close progress bar and cluster
-    if (!is.null(cl)) {
-      parallel::stopCluster(cl)
-      cl <- c()
-    }
-    gc()
-
 
     #----------------------------------------------------------#
     # 5. Results Summary -----
@@ -945,12 +697,12 @@ fc_estimate_RoC <-
     results_full <-
       dplyr::right_join(
         fc_extract_result(
-          result_tibble,
+          result_table,
           "RoC",
           rand
         ),
         fc_extract_result(
-          result_tibble,
+          result_table,
           "age_position",
           rand
         ),
