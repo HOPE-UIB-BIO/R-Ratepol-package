@@ -278,7 +278,7 @@ fc_estimate_RoC <-
            Working_Units = c("levels", "bins", "MW"),
            bin_size = 500,
            Number_of_shifts = 5,
-           bin_selection = c("first", "random"),
+           bin_selection = c("random", "first"),
            standardise = FALSE,
            N_individuals = 150,
            DC = c("euc", "euc.sd", "chord", "chisq", "gower", "bray"),
@@ -331,7 +331,7 @@ fc_estimate_RoC <-
 
       util_check_if_integer("bin_size")
 
-      util_check_class("bin_selection", "charcter")
+      util_check_class("bin_selection", "character")
 
       util_check_vector_values("bin_selection", c("first", "random"))
 
@@ -368,7 +368,8 @@ fc_estimate_RoC <-
 
     util_check_class("smooth_method", "character")
 
-    util_check_vector_values("smooth_method", c("none", "m.avg", "grim", "age.w", "shep"))
+    util_check_vector_values("smooth_method", 
+    c("none", "m.avg", "grim", "age.w", "shep"))
 
     smooth_method <- match.arg(smooth_method)
 
@@ -403,7 +404,8 @@ fc_estimate_RoC <-
 
     util_check_class("DC", "character")
 
-    util_check_vector_values("DC", c("euc", "euc.sd", "chord", "chisq", "gower", "bray"))
+    util_check_vector_values("DC", 
+    c("euc", "euc.sd", "chord", "chisq", "gower", "bray"))
 
     DC <- match.arg(DC)
 
@@ -612,44 +614,29 @@ fc_estimate_RoC <-
     # reduce data dimentions
     data_work <-
       fc_reduce(
-        data_smooth,
-        verbose = verbose
+        data_smooth
       )
-     
-     if (
+
+    if (
       verbose == TRUE
-      ) {
-        fc_check_data(data_work)
-      }
-
-
-    #----------------------------------------------------------#
-    # 3. Working Unit selection -----
-    #----------------------------------------------------------#
-
-    if (Working_Units == "levels") {
-      Number_of_shifts <- 1
-    } else if (Working_Units == "bins") {
-      Number_of_shifts <- 1
-
-      bin_sizes <-
-        fc_create_bins(
-          data_work,
-          shift_value = bin_size,
-          Number_of_shifts = 1
-        )
-    } else if (Working_Units == "MW") {
-      shift_value <- bin_size / Number_of_shifts
-
-      bin_sizes <-
-        fc_create_bins(
-          data_work,
-          shift_value = shift_value,
-          Number_of_shifts = Number_of_shifts
-        )
+    ) {
+      fc_check_data(data_work)
     }
 
 
+    #----------------------------------------------------------#
+    # 3. Crete datasets to use -----
+    #----------------------------------------------------------#
+
+    data_to_run <-
+      fc_prepare_data(
+        data_source_prep = data_work,
+        Working_Units = Working_Units,
+        bin_size = bin_size,
+        Number_of_shifts = Number_of_shifts,
+        rand = rand
+      )
+      
     #----------------------------------------------------------#
     # 4. Randomisation -----
     #----------------------------------------------------------#
