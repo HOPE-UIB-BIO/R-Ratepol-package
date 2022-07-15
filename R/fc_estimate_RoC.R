@@ -312,6 +312,8 @@ fc_estimate_RoC <-
 
     util_check_class("data_source_age", "data.frame")
 
+    util_check_class("age_uncertainty", c("NULL", "matrix"))
+
     util_check_class("Working_Units", "character")
 
     util_check_vector_values("Working_Units", c("levels", "bins", "MW"))
@@ -338,7 +340,7 @@ fc_estimate_RoC <-
       if (
         only_subsequent == FALSE
       ) {
-        lifecycle::deprecate_warn("1.0.0", "fc_estimate_RoC(only_subsequent)")
+        lifecycle::deprecate_stop("1.0.0", "fc_estimate_RoC(only_subsequent)")
       }
 
       if (
@@ -449,98 +451,47 @@ fc_estimate_RoC <-
     #--------------------------------------------------#
     # 0.1. Report to user -----
     #--------------------------------------------------#
-    cat("\n")
 
     start_time <- Sys.time()
-    cat(paste("R-RATEPOL started", start_time),
-      "\n",
-      fill = TRUE
+
+    util_output_heading(
+      paste("RRatepol started", start_time),
+      size = "h1"
     )
 
-    if (!all(age_uncertainty == FALSE)) {
-      cat(
-        "'age_uncertainty' will be used for in the RoC estimation",
-        "\n",
-        fill = TRUE
+    if (
+      is.null(age_uncertainty == FALSE)
+    ) {
+      util_output_comment(
+        "'age_uncertainty' will be used for in the RoC estimation"
       )
 
       if (rand < 100) {
-        cat(
+        util_output_warning(
           paste(
             "'age_uncertainty' was selected to be used with low number",
             "of replication. Recommend to increase 'rand'"
-          ),
-          "\n",
-          fill = TRUE
+          )
         )
       }
     }
 
-    if (smooth_method == "m.avg") {
-      cat(
-        paste(
-          "Data will be smoothed by 'moving average' over", smooth_N_points,
-          "points"
-        ),
-        "\n",
-        fill = TRUE
-      )
-    }
-
-    if (smooth_method == "grim") {
-      cat(
-        paste(
-          "Data will be smoothed by 'Grimm method' with min samples", smooth_N_points,
-          "max samples", smooth_N_max, "and max age range of", smooth_age_range
-        ),
-        "\n",
-        fill = TRUE
-      )
-    }
-
-    if (smooth_method == "age.w") {
-      cat(
-        paste(
-          "Data will be smoothed by 'age-weighed average' over", smooth_N_points,
-          "points with a threshold of", smooth_age_range
-        ),
-        "\n",
-        fill = TRUE
-      )
-    }
-
-    if (smooth_method == "shep") {
-      cat(
-        paste(
-          "Data will be smoothed by 'Shepard's 5-term filter'"
-        ),
-        "\n",
-        fill = TRUE
-      )
-    }
-
-    if (Working_Units == "levels") {
-      cat(
-        "RoC will be estimated between individual subsequent levels",
-        "\n",
-        fill = TRUE
-      )
-    }
-
-    if (Working_Units != "levels") {
-      if (Working_Units == "bins") {
-        cat(
+    switch(Working_Units,
+      "levels" = {
+        util_output_comment(
+          "RoC will be estimated between individual subsequent levels"
+        )
+      },
+      "bins" = {
+        util_output_comment(
           paste(
             "RoC will be estimated using selective binning with", bin_size,
             "yr time bin"
-          ),
-          "\n",
-          fill = TRUE
+          )
         )
-      }
-
-      if (Working_Units == "MW") {
-        cat(
+      },
+      "MW" = {
+        util_output_comment(
           paste(
             "RoC will be estimated using 'binning with the mowing window' of",
             bin_size, "yr time bin over", Number_of_shifts, "number of window shifts"
@@ -549,114 +500,77 @@ fc_estimate_RoC <-
           fill = TRUE
         )
       }
+    )
 
-      if (bin_selection == "random") {
-        cat(
+    if (
+      Working_Units != "levels"
+    ) {
+      if (
+        bin_selection == "random"
+      ) {
+        util_output_comment(
           "Sample will randomly selected for each bin",
           "\n",
           fill = TRUE
         )
 
-        if (rand < 100) {
-          cat(
+        if (
+          rand < 100
+        ) {
+          util_output_warning(
             paste(
               "'bin_selection' was selected as 'random' with low number",
               "of replication. Recommend to increase 'rand'"
-            ),
-            "\n",
-            fill = TRUE
+            )
           )
         }
       } else {
-        cat(
-          "First sample of each time bin will selected",
-          "\n",
-          fill = TRUE
-        )
-      }
-
-      if (only_subsequent == FALSE & Working_Units == "MW") {
-        cat(
-          paste(
-            "'only_subsequent == FALSE' and 'Working_Units == MW'.",
-            "This is not a recommended setting.",
-            "Please use 'only_subsequent == TRUE' for 'Working_Units == MW'",
-            "see '?fc_estimate_ROC' for more information"
-          ),
-          "\n",
-          fill = TRUE
-        )
-      } else if (only_subsequent == FALSE) {
-        cat(
-          paste(
-            "'only_subsequent' was selected as 'FALSE'.",
-            "This is not a recommended setting. Results will be affected",
-            "see '?fc_estimate_ROC' for more information"
-          ),
-          "\n",
-          fill = TRUE
+        util_output_comment(
+          "First sample of each time bin will selected"
         )
       }
     }
 
-    if (is.numeric(time_standardisation)) {
-      cat(
-        paste(
-          "'time_standardisation' =", time_standardisation, ":",
-          "RoC values will be reported as disimilarity per", time_standardisation,
-          "years."
-        ),
-        "\n",
-        fill = TRUE
+    util_output_comment(
+      paste(
+        "'time_standardisation' =", time_standardisation, ":",
+        "RoC values will be reported as disimilarity per", time_standardisation,
+        "years."
       )
+    )
 
-      if (Working_Units != "levels" & time_standardisation != bin_size) {
-        cat(
-          paste(
-            "RoC values will be reported in different units than size of bin.",
-            "Recommend to keep 'time_standardisation'",
-            "and 'bin_size' as same values"
-          ),
-          "\n",
-          fill = TRUE
-        )
-      }
-    }
-
-    if (time_standardisation == "auto") {
-      cat(
+    if (
+      Working_Units != "levels" && time_standardisation != bin_size
+    ) {
+      util_output_comment(
         paste(
-          "'time_standardisation' = 'auto' is not recomended setting.",
-          "RoC values will be reported as standardised by the average distance",
-          "between Working Units (levels/ bins)"
-        ),
-        "\n",
-        fill = TRUE
+          "RoC values will be reported in different units than size of bin.",
+          "Recommend to keep 'time_standardisation'",
+          "and 'bin_size' as same values"
+        )
       )
     }
 
-    if (standardise == TRUE) {
-      cat(
+    if (
+      standardise == TRUE
+    ) {
+      util_output_comment(
         paste(
           "Data will be standardise in each Working unit to", N_individuals,
           "or the lowest number detected in dataset"
-        ),
-        "\n",
-        fill = TRUE
+        )
       )
 
       if (rand < 100) {
-        cat(
+        util_output_warning(
           paste(
             "'standardise' was selected as 'TRUE' with low number of replication.",
             "Recommend to increase 'rand'"
-          ),
-          "\n",
-          fill = TRUE
+          )
         )
       }
     }
-
+    
 
     #----------------------------------------------------------#
     # 1. Data extraction -----
