@@ -396,7 +396,7 @@ fc_smooth_community_data <-
       list(
         community = dat_community,
         age = dat_age,
-        age_un = data_source_smooth$age.un
+        age_un = data_source_smooth$age_un
       )
 
     return(final_list)
