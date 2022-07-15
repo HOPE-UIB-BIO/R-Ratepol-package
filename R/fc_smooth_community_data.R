@@ -23,6 +23,27 @@
 #' Logical. If `TRUE`, function will output messages about internal processes
 #' @description 
 #' A function to apply one of the 4 smoothers.
+#' @details 
+#' Smoothing of assemblage data: Each variable within the
+#' assemblage data is smoothed using one of five in-built smoothing methods:
+#' \itemize{
+#' \item Shepard's 5-term filter (`smooth_method` = `"shep"`;
+#'  Davis, 1986; Wilkinson, 2005)
+#' \item moving average ´(`smooth_method` = `"m.avg"}`)
+#' \item age-weighted average (`smooth_method` = `"age.w"`)
+#' \item Grimm's smoothing (`smooth_method` = `"grim"`;
+#'  Grimm and Jacobson, 1992)
+#' }
+#' @references 
+#' Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed.
+#' J. Wiley & Sons, New York.
+#'
+#' Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt
+#' climate changes during the past 18000 years in eastern North America.
+#' Clim. Dyn. 6, 179–184.
+#'
+#' Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
+#' USA 37. https://doi.org/10.2307/2669493
 fc_smooth_community_data <-
   function(data_source_smooth,
            smooth_method = c("m.avg", "grim", "age.w", "shep"),

@@ -39,3 +39,26 @@ Grimm and Age-Weighted smoothing (odd number)}
 \description{
 A function to apply one of the 4 smoothers.
 }
+\details{
+Smoothing of assemblage data: Each variable within the
+assemblage data is smoothed using one of five in-built smoothing methods:
+\itemize{
+\item Shepard's 5-term filter (\code{smooth_method} = \code{"shep"};
+Davis, 1986; Wilkinson, 2005)
+\item moving average ´(\code{smooth_method} = \verb{"m.avg"\}})
+\item age-weighted average (\code{smooth_method} = \code{"age.w"})
+\item Grimm's smoothing (\code{smooth_method} = \code{"grim"};
+Grimm and Jacobson, 1992)
+}
+}
+\references{
+Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed.
+J. Wiley & Sons, New York.
+
+Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt
+climate changes during the past 18000 years in eastern North America.
+Clim. Dyn. 6, 179–184.
+
+Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
+USA 37. https://doi.org/10.2307/2669493
+}
