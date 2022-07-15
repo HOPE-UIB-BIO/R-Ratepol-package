@@ -570,7 +570,7 @@ fc_estimate_RoC <-
         )
       }
     }
-    
+
 
     #----------------------------------------------------------#
     # 1. Data extraction -----
@@ -590,27 +590,37 @@ fc_estimate_RoC <-
     #----------------------------------------------------------#
     # 2. Data smoothing -----
     #----------------------------------------------------------#
-    data_smooth <- data_extract
 
-    # smoothdata by selected smoothing type
-    data_smooth <-
-      fc_smooth_community_data(
-        data_smooth,
-        smooth_method = smooth_method,
-        smooth_N_points = smooth_N_points,
-        smooth_N_max = smooth_N_max,
-        smooth_age_range = smooth_age_range,
-        round_results = standardise,
-        verbose = verbose
-      )
+    if (
+      smooth_method != "none"
+    ) {
+      # smooth data by selected smoothing type
+      data_smooth <-
+        fc_smooth_community_data(
+          data_source_smooth = data_extract,
+          smooth_method = smooth_method,
+          smooth_N_points = smooth_N_points,
+          smooth_N_max = smooth_N_max,
+          smooth_age_range = smooth_age_range,
+          round_results = standardise,
+          verbose = verbose
+        )
+    } else {
+      data_smooth <- data_extract
+    }
 
-    # check data and reduce data dimentions
+    # reduce data dimentions
     data_work <-
-      fc_check_data(
+      fc_reduce(
         data_smooth,
-        proportion = FALSE,
         verbose = verbose
       )
+     
+     if (
+      verbose == TRUE
+      ) {
+        fc_check_data(data_work)
+      }
 
 
     #----------------------------------------------------------#
