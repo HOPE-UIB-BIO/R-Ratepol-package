@@ -7,7 +7,7 @@
 fc_estimate_RoC(
   data_source_community,
   data_source_age,
-  age_uncertainty = FALSE,
+  age_uncertainty = NULL,
   smooth_method = c("none", "m.avg", "grim", "age.w", "shep"),
   smooth_N_points = 5,
   smooth_age_range = 500,
@@ -16,15 +16,16 @@ fc_estimate_RoC(
   bin_size = 500,
   Number_of_shifts = 5,
   bin_selection = c("first", "random"),
-  rand = 1,
-  treads = TRUE,
   standardise = FALSE,
   N_individuals = 150,
-  tranform_to_proportions = TRUE,
   DC = c("euc", "euc.sd", "chord", "chisq", "gower", "bray"),
-  interest_threshold = FALSE,
+  tranform_to_proportions = TRUE,
+  rand = NULL,
+  treads = NULL,
+  parallel = TRUE,
+  interest_threshold = NULL,
   only_subsequent = TRUE,
-  time_standardisation = 100,
+  time_standardisation = bin_size,
   verbose = FALSE,
   Debug = NULL
 )
@@ -44,7 +45,7 @@ levels (samples) as rows. First column should be \code{sample_id} (character).}
 \item matrix with number of columns as number of samples. Each column is one sample,
 each row is one age sequence from age-depth model. Age sequence is randomly
 sampled from age-depth model uncertainties at the beginning of each run.
-\item \code{FALSE} - Age uncertainties are not available and, therefore, will not be used.
+\item \code{NULL} - Age uncertainties are not available and, therefore, will not be used.
 }}
 
 \item{smooth_method}{Character. type of smoothing applied for the each of the pollen type
@@ -86,15 +87,6 @@ as a representation.
 \item \code{"random"} - a random sample is selected as a representation.
 }}
 
-\item{rand}{Numeric. Number of runs used in randomisation.}
-
-\item{treads}{Preference of usage of parallel computation of randomisation
-\itemize{
-\item \verb{[value]} - selected number of cores
-\item \code{TRUE} - automatically selected number of cores
-\item \code{FALSE} - does not use parallel computation (only single core)
-}}
-
 \item{standardise}{Logical. If \code{standardise} == \code{TRUE}, then standardise
 each Working Unit to certain number of individuals (using random resampling
 without repetition)}
@@ -102,9 +94,6 @@ without repetition)}
 \item{N_individuals}{Numeric. Number of grain to perform standardisation to.
 The \code{N_individual} is automatically adjusted to the smallest number
 of pollen grains in sequence.}
-
-\item{tranform_to_proportions}{Logical. Should the community data be transformed to a
-proportion during calculations?}
 
 \item{DC}{Character. Dissimilarity coefficient. Type of calculation of differences
 between Working Units
@@ -117,8 +106,21 @@ between Working Units
 \item \code{"bray"} - Bray-Curtis distance
 }}
 
-\item{interest_threshold}{Numeric. Age, after which all results of RoC are excluded
-before detection of peak points}
+\item{tranform_to_proportions}{Logical. Should the community data be transformed to a
+proportion during calculations?}
+
+\item{rand}{Numeric. Number of runs used in randomisation.}
+
+\item{treads}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+
+\item{parallel}{Preference of usage of parallel computation of randomisation
+\itemize{
+\item \verb{[value]} - selected number of cores
+\item \code{TRUE} - automatically selected number of cores
+\item \code{FALSE} - does not use parallel computation (only single core)
+}}
+
+\item{interest_threshold}{Numeric. Optional. Age, after which all results of RoC are excluded.}
 
 \item{only_subsequent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Logical.
@@ -134,9 +136,7 @@ Only \code{only_subsequent} = \code{TRUE} will be kept in the next version.}
 
 \item{time_standardisation}{Numeric. Units scaling for result RoC values. For example,
 if \code{time_standardisation} = 100, the RoC will be reported as
-dissimilarity per 100 yr. If \code{time_standardisation} = \code{"auto"} (not recommended),
-RoC values will be reported as  standardised by the average distance between
-Working Units (levels/bins)"}
+dissimilarity per 100 yr.}
 
 \item{verbose}{Logical. If \code{TRUE}, function will output messages about internal processes}
 
@@ -267,23 +267,25 @@ each WU (e.g. 150 pollen grains).
 }
 \examples{
 \dontrun{
-example_data <-  RRatepol::example_data
+example_data <- RRatepol::example_data
 
-sequence_01 <- 
-fc_estimate_RoC(
-data_source_community = example_data$pollen_data[[1]],
-data_source_age = example_data$sample_age[[1]],
-age_uncertainty = FALSE,
-smooth_method = "shep",
-Working_Units = "MW",
-rand = 1e3,
-treads = TRUE,
-DC = "chisq")
+sequence_01 <-
+  fc_estimate_RoC(
+    data_source_community = example_data$pollen_data[[1]],
+    data_source_age = example_data$sample_age[[1]],
+    age_uncertainty = FALSE,
+    smooth_method = "shep",
+    Working_Units = "MW",
+    rand = 1e3,
+    parallel = TRUE,
+    DC = "chisq"
+  )
 
 fc_plot_RoC_sequence(
-sequence_01,
-age_threshold = 8e3,
-Roc_threshold = 1)
+  sequence_01,
+  age_threshold = 8e3,
+  Roc_threshold = 1
+)
 }
 }
 \references{
