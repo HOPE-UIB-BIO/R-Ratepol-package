@@ -3,23 +3,30 @@ fc_extract_data <-
            data_age_extract,
            age_uncertainty = NULL,
            verbose = FALSE) {
-    util_check_class("verbose", "logical")
-
-    if (verbose == TRUE) {
-      util_output_comment(
-        paste(
-          "Data extraction started",
-          Sys.time()
-        )
-      )
-    }
 
     # 1. Initial tests -----
 
     # 1.1 Data types -----
+
+    util_check_class("verbose", "logical")
+
+    if (
+      verbose == TRUE
+    ) {
+      util_output_heading(
+        paste(
+          "Data extraction started",
+          Sys.time()
+        ),
+        size = "h2"
+      )
+    }
+
     util_check_class("data_community_extract", "data.frame")
 
     util_check_class("data_age_extract", "data.frame")
+
+    util_check_class("age_uncertainty", c("NULL", "matrix"))
 
     # 1.2. Sample id -----
     # community
@@ -29,7 +36,8 @@ fc_extract_data <-
     ) {
       usethis::ui_oops(
         paste(
-          "'sample.id' was detected but 'sample_id' is prefered.",
+          "'sample.id' was detected in 'data_community'",
+          "but 'sample_id' is prefered.",
           "Recommend renaming your data"
         )
       )
@@ -43,7 +51,7 @@ fc_extract_data <-
 
     assertthat::assert_that(
       "character" %in% class(data_community_extract$sample_id),
-      msg = "Variable 'sample_id' in 'data_source_community' must
+      msg = "Variable 'sample_id' in 'data_community' must
     be a 'character'"
     )
 
@@ -51,7 +59,7 @@ fc_extract_data <-
     if ("sample.id" %in% names(data_age_extract)) {
       usethis::ui_oops(
         paste(
-          "'sample.id' was detected but 'sample_id' is prefered.",
+          "'sample.id' was detected in 'data_age' but 'sample_id' is prefered.",
           "Recomend renaming your data"
         )
       )
@@ -67,7 +75,7 @@ fc_extract_data <-
       all(data_community_extract$sample_id %in% data_age_extract$sample_id) &&
         all(data_age_extract$sample_id %in% data_community_extract$sample_id),
       msg = "Variable 'sample_id' must have same values in
-    'data_source_age' and 'data_source_community'"
+    'data_age' and 'data_community'"
     )
 
     # 1.3. Age test -----
@@ -95,7 +103,7 @@ fc_extract_data <-
 
     assertthat::assert_that(
       n_samples_com == n_samples_age,
-      msg = "Object 'data_source_community' and 'data_source_age'
+      msg = "Object 'data_community' and 'data_age'
     must have the same number of levels"
     )
 
@@ -154,10 +162,10 @@ fc_extract_data <-
     if (
       any(is.na(dat_community))
     ) {
-      util_output_comment(
+      util_output_warning(
         paste(
-          "Missing data has been replaces with '0'",
-          "in community data"
+          "Missing data has been detected in community data",
+          "and automatically replaces with '0'"
         )
       )
 
@@ -171,9 +179,20 @@ fc_extract_data <-
         )
     }
 
-    dat_age <-
-      dat_age %>%
-      tidyr::drop_na(.data$age)
+    if (
+      any(is.na(dat_community$age))
+    ) {
+      util_output_warning(
+        paste(
+          "Missing 'age' values has detected in age data",
+          "Such levels has been filtered out"
+        )
+      )
+
+      dat_age <-
+        dat_age %>%
+        tidyr::drop_na(.data$age)
+    }
 
     # 2.5 Summary  ----
 
@@ -188,21 +207,24 @@ fc_extract_data <-
     #  exclude redundnat rows and columns
     dat_merge <-
       fc_reduce(
-        data_source = dat_merge,
+        data_source_reduce = dat_merge,
         check_taxa = TRUE,
         check_levels = TRUE
       )
 
-    if (verbose == TRUE) {
+    if (
+      verbose == TRUE
+    ) {
       fc_check_data(
         data_source_check = dat_merge
       )
 
-      util_output_comment(
+      util_output_heading(
         paste(
           "Data extraction completed",
           Sys.time()
-        )
+        ),
+        size = "h2"
       )
     }
 

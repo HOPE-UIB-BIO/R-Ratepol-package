@@ -1,6 +1,6 @@
 fc_check_data <-
   function(data_source_check) {
-    util_check_class("data_source", "list")
+    util_check_class("data_source_check", "list")
 
     util_output_comment(
       paste(
