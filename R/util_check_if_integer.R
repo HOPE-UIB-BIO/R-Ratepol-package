@@ -14,7 +14,9 @@ util_check_if_integer <-
     data_source_value <- get(data_source, envir = parent_env)
 
     assertthat::assert_that(
-        round(data_source_value) == data_source_value,
-        msg = "'", data_source, "' must be a an integer"
+      round(data_source_value) == data_source_value,
+      msg = paste(
+        "'", data_source, "' must be a an integer"
       )
+    )
   }
