@@ -4,14 +4,14 @@
 \alias{fc_reduce}
 \title{Reduce datasets}
 \usage{
-fc_reduce(data_source, check_taxa = TRUE, check_levels = TRUE)
+fc_reduce(data_source_reduce, check_taxa = TRUE, check_levels = TRUE)
 }
 \arguments{
-\item{data_source}{List with \code{community}, \code{age}, and \code{age_un}}
+\item{data_source_reduce}{List with \code{community}, \code{age}, and \code{age_un}}
 
 \item{check_taxa}{Logical. Should columns be check for redundnat data?}
 
-\item{check_rows}{Logical. Should rows be check for redundnat data?}
+\item{check_levels}{Logical. Should rows be check for redundnat data?}
 }
 \description{
 Check the community dataset for redundnat taxa and levels
