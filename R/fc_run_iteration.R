@@ -1,0 +1,144 @@
+fc_run_iteration <-
+    function(data_source_run,
+             bin_selection = "first",
+             standardise = FALSE,
+             N_individuals = 150,
+             tranform_to_proportions = TRUE,
+             DC = "euc",
+             time_standardisation = 500,
+             verbose = FALSE) {
+
+
+        #----------------------------------------------------------#
+        # 4.1 Data subsetting -----
+        #----------------------------------------------------------#
+
+        # select one sample for each bin based on the age of the samples.
+        # subset data
+        data_subset <-
+            fc_subset_samples(
+                data_source_subset = data_source_run$data,
+                data_source_bins = data_source_run$bins,
+                bin_selection = bin_selection
+            )
+
+        # reduce
+        data_subset <-
+            fc_reduce_simple(
+                data_source_reduce = data_subset
+            )
+
+        #----------------------------------------------------------#
+        # 4.2 Data Standardisation -----
+        #----------------------------------------------------------#
+
+        # standardisation of community data to N_individuals
+        if (
+            standardise == TRUE
+        ) {
+            # select only community data
+            com_data_sums <-
+                util_subset_community(
+                    data_subset
+                ) %>%
+                rowSums(., na.rm = TRUE)
+
+            # adjust the value to a minimal of presented values
+            N_individuals <-
+                min(
+                    c(
+                        com_data_sums,
+                        N_individuals
+                    )
+                )
+
+            # check if all samples has N_individuals of individuals
+            data_subset <-
+                data_subset[com_data_sums >= N_individuals, ]
+
+            data_subset <-
+                fc_reduce_simple(
+                    data_source_reduce = data_subset
+                )
+
+            # standardisation
+            data_sd <-
+                fc_standardise_community_data(
+                    data_source_standard = data_subset,
+                    N_individuals = N_individuals
+                )
+
+            if (
+                verbose == TRUE
+            ) {
+                assertthat::assert_that(
+                    all(
+                        N_individuals ==
+                            rowSums(
+                                util_subset_community(data_sd),
+                                na.rm = TRUE
+                            )
+                    ),
+                    msg = paste(
+                        "Data standardisation was unsuccesfull,",
+                        "try 'standardise' = FALSE"
+                    )
+                )
+            }
+        } else {
+            data_sd <- data_subset
+        }
+
+        # data reduce
+        data_sd <-
+            fc_reduce_simple(
+                data_source_reduce = data_sd
+            )
+
+        # tunr into proportion
+        data_sd_prop <-
+            fc_transfer_into_proportions(
+                data_source_trans = data_sd,
+                sel_method = "proportions"
+            )
+
+        #----------------------------------------------------------#
+        # 4.3 DC Calculation -----
+        #----------------------------------------------------------#
+
+        # calculate DC between each subsequent samples/bins
+        dc_res <-
+            fc_calculate_DC(
+                data_source_DC = data_sd_prop,
+                DC = DC,
+                verbose = verbose
+            )
+
+
+        #----------------------------------------------------------#
+        # 4.4 Rate of Change -----
+        #----------------------------------------------------------#
+
+        #  calculate DC standardise by time
+        roc_res <-
+            data_sd_prop[1:length(dc_res), ] %>%
+            dplyr::mutate(
+                dc = dc_res,
+                age_diff_st = age_diff / time_standardisation,
+                roc = dc / age_diff_st
+            ) %>%
+            dplyr::select(label, res_age, roc)
+
+
+        #----------------------------------------------------------#
+        # 4.6 Result of a single randomisation run -----
+        #----------------------------------------------------------#
+
+        if (
+            nrow(roc_res) < 1
+        ) {
+            stop("Estimation not succesfull")
+        }
+
+        return(roc_res)
+    }

@@ -632,6 +632,26 @@ fc_estimate_RoC <-
     # 3. Crete datasets to use -----
     #----------------------------------------------------------#
 
+    if (
+      is.null(age_uncertainty) &&
+        standardise == FALSE &&
+        is.null(rand) == FALSE &&
+        (Working_Units == "levels" || bin_selection == "first")
+    ) {
+      if (
+        verbose == TRUE
+      ) {
+        util_output_comment(
+          msg = paste(
+            "There is no need for randomisation.",
+            "Changing `rand` to NULL"
+          )
+        )
+      }
+
+      rand <- NULL
+    }
+
     data_to_run <-
       fc_prepare_data(
         data_source_prep = data_work,
@@ -641,7 +661,6 @@ fc_estimate_RoC <-
         rand = rand
       )
 
-    str(data_to_run, 3)
     #----------------------------------------------------------#
     # 4. Estimation -----
     #----------------------------------------------------------#
@@ -668,7 +687,14 @@ fc_estimate_RoC <-
       result_table <-
         lapply(
           X = data_to_run,
-          FUN = ~ fc_run_iteration()
+          FUN = fc_run_iteration,
+          bin_selection = bin_selection,
+          standardise = standardise,
+          N_individuals = N_individuals,
+          tranform_to_proportions = tranform_to_proportions,
+          DC = DC,
+          time_standardisation = time_standardisation,
+          verbose = verbose
         )
     } else {
       if (
@@ -682,7 +708,8 @@ fc_estimate_RoC <-
       }
 
       # create cluster
-      cl <- parallel::makeCluster(n_cores)
+      cl <- 
+        parallel::makeCluster(n_cores)
       parallel::clusterEvalQ(cl, {
         library("tidyverse")
         library("RRatepol")
@@ -691,14 +718,21 @@ fc_estimate_RoC <-
       result_table <-
         parallel::parLapply(
           X = data_to_run,
-          fun = ~ fc_run_iteration(),
-          cl = cl
+          fun = fc_run_iteration,
+          cl = cl,
+          bin_selection = bin_selection,
+          standardise = standardise,
+          N_individuals = N_individuals,
+          tranform_to_proportions = tranform_to_proportions,
+          DC = DC,
+          time_standardisation = time_standardisation,
+          verbose = verbose
         )
 
       # close progress bar and cluster
       if (!is.null(cl)) {
         parallel::stopCluster(cl)
-        cl <- c()
+        cl <- NULL
       }
       gc(verbose = FALSE)
     }
