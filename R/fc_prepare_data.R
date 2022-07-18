@@ -36,7 +36,7 @@ fc_prepare_data <-
         ) {
             bin_dummy <-
                 fc_make_bins(
-                    data_source_bin = data_source_prep,
+                    data_source_bins = data_source_prep,
                     Working_Units = "levels"
                 )
         } else if (
@@ -44,7 +44,7 @@ fc_prepare_data <-
         ) {
             bin_dummy <-
                 fc_make_bins(
-                    data_source_bin = data_source_prep,
+                    data_source_bins = data_source_prep,
                     Working_Units = "MW",
                     bin_size = bin_size,
                     Number_of_shifts = Number_of_shifts
@@ -52,7 +52,7 @@ fc_prepare_data <-
         } else {
             bin_dummy <-
                 fc_make_bins(
-                    data_source_bin = data_source_prep,
+                    data_source_bins = data_source_prep,
                     Working_Units = "bins",
                     bin_size = bin_size
                 )
