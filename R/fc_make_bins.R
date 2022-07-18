@@ -27,6 +27,10 @@ fc_make_bins <-
                     name = rownames(data_source_bins$age)[1:n_res]
                 ) %>%
                 dplyr::mutate(
+                    age_diff = abs(
+                        data_source_bins$age[2:n_levels, "age"] -
+                            data_source_bins$age[1:n_res, "age"]
+                    ),
                     start = as.character(name),
                     end = as.character(
                         rownames(data_source_bins$age)[2:n_levels]
@@ -91,6 +95,7 @@ fc_make_bins <-
         res <-
             res_df %>%
             dplyr::mutate(
+                age_diff = bin_size,
                 start = name,
                 end = start + bin_size,
                 res_age = (end + start) / 2,
