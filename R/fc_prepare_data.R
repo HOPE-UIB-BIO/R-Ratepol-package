@@ -73,13 +73,24 @@ fc_prepare_data <-
                 )
         }
 
+        data_merge <-
+            data_source_prep$community %>%
+            tibble::rownames_to_column("row_name") %>%
+            dplyr::left_join(
+                data_source_prep$age %>%
+                    tibble::rownames_to_column("row_name"),
+                by = "row_name"
+            ) %>%
+            dplyr::relocate(age) %>%
+            tibble::column_to_rownames("row_name")
+
         # test individual possibilities
         if (
             is_rand_present == FALSE
         ) {
             list(
                 list(
-                    data = data_source_prep[c("community", "age")],
+                    data = data_merge,
                     bins = bin_dummy
                 )
             ) %>%
@@ -94,7 +105,7 @@ fc_prepare_data <-
             rep(
                 list(
                     list(
-                        data = data_source_prep[c("community", "age")],
+                        data = data_merge,
                         bins = bin_dummy
                     )
                 ),
@@ -112,14 +123,18 @@ fc_prepare_data <-
                 ) %>%
                 purrr::map(
                     .f = ~ {
-                        data_temp <-
-                            data_source_prep
+                        random_age <-
+                            as.numeric(
+                                data_source_prep$age_un[random_value[.x], ]
+                            )
 
-                        data_temp$age$age <-
-                            as.numeric(data_temp$age_un[random_value[.x], ])
-
+                        data_with_rand_age <-
+                            data_merge %>%
+                                dplyr::mutate(
+                                    age = random_age
+                                )
                         list(
-                            data = data_temp[c("community", "age")],
+                            data = data_with_rand_age,
                             bins = bin_dummy
                         ) %>%
                             return()
@@ -127,5 +142,5 @@ fc_prepare_data <-
                 ) %>%
                 return()
         }
-       # stop("Not a valid setting for creating bins")
+        # stop("Not a valid setting for creating bins")
     }
