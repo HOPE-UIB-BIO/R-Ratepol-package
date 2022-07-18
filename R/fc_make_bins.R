@@ -31,7 +31,7 @@ fc_make_bins <-
                     end = as.character(
                         rownames(data_source_bins$age)[2:n_levels]
                     ),
-                    age = data_source_bins$age$age[1:n_res],
+                    res_age = data_source_bins$age$age[1:n_res],
                     label = paste(start, end, sep = "-")
                 )
             return(res)
@@ -93,7 +93,7 @@ fc_make_bins <-
             dplyr::mutate(
                 start = name,
                 end = start + bin_size,
-                age = (end + start) / 2,
+                res_age = (end + start) / 2,
                 label = paste(start, end, sep = "-")
             )
 
