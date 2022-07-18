@@ -641,9 +641,25 @@ fc_estimate_RoC <-
         rand = rand
       )
 
+    str(data_to_run, 3)
     #----------------------------------------------------------#
     # 4. Estimation -----
     #----------------------------------------------------------#
+
+    if (
+      verbose == TRUE
+    ) {
+      util_output_heading(
+        msg = "Start of estimation",
+        size = "h2"
+      )
+
+      util_output_comment(
+        msg = paste(
+          "Number of estimation set to", length(data_to_run)
+        )
+      )
+    }
 
     # select the prefetred number of cores for of cores for parallel computation
     if (
@@ -668,8 +684,8 @@ fc_estimate_RoC <-
       # create cluster
       cl <- parallel::makeCluster(n_cores)
       parallel::clusterEvalQ(cl, {
-        library("RRatepol")
         library("tidyverse")
+        library("RRatepol")
       })
 
       result_table <-
@@ -684,7 +700,7 @@ fc_estimate_RoC <-
         parallel::stopCluster(cl)
         cl <- c()
       }
-      gc()
+      gc(verbose = FALSE)
     }
 
     #----------------------------------------------------------#
