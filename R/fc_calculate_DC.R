@@ -1,231 +1,226 @@
-fc_calculate_DC <- function (data_source_DC, DC = "chord", verbose = FALSE){
-  
-  
-  assertthat::assert_that(
-    any(DC == c("euc", "euc.sd", "chord", "chisq", "gower", "bray")),
-    msg = "'DC' must be one of the following:
-    'euc', 'euc.sd', 'chord', 'chisq', 'gower', 'bray'")
-  
-  
-  # pre-allocate some space
-  dat_res <-  
-    vector(
-      mode = "numeric",
-      length = data_source_DC@Dim.val[2] - 1)
-  
-  #----------------------------------------------------------#
-  # Euclidan distance ----- 
-  #----------------------------------------------------------#
-  
-  if(DC == "euc"){
-    
-    if (verbose == TRUE){
-      cat("Euclidan distance will be used as DC", fill = TRUE)
-      }
-    
-    # for each sample (except the last)
-    for(i in 1:(data_source_DC@Dim.val[2] - 1)){ 
-      
-      # select only 2 samples (observed + 1 after)
-      df_work <-  data_source_DC@Community[c(i, i + 1), , drop = FALSE] 
-      
-      # get rid of "empty species"
-      df_work <-  as.data.frame(df_work[ ,colSums(df_work) > 0]) 
-      
-      # vector for result for each species
-      vector_work <-  
-        vector( 
-          mode="numeric",
-          length = ncol(df_work)) 
-      
-      # for each species
-      for(j in 1:ncol(df_work)){ 
-        a <-  .subset2(df_work, j)[1]
-        b <-  .subset2(df_work, j)[2]
-        
-        # calculate the diference
-        vector_work[j] <-  (a-b)**2 
-      }
-      
-      # save the square root of sum of all differeces
-      dat_res[i] <-  sqrt(sum(vector_work)) 
-    }
-    
-  }
-  
-  #----------------------------------------------------------#
-  # Standardised euclidan distace -----
-  #----------------------------------------------------------#
-  
-  if(DC == "euc.sd"){
-    
-    if(verbose == TRUE){
-      cat("Standardised Euclidan distance will be used as DC", fill = TRUE)
-      }
-    
-    # calculation of standard deviation for each species
-    
-    # vector for standard deviation for each species
-    df_sp_supp <-  
+fc_calculate_DC <-
+  function(data_source_DC,
+           DC = "chord",
+           verbose = FALSE) {
+    n_res <-
+      nrow(data_source_DC) - 1
+
+    # pre-allocate some space
+    dat_res <-
       vector(
-      mode = "numeric",
-      length = data_source_DC@Dim.val[1])
-    
-    # calculate the SD for each species
-    df_sp_supp <-  apply(data_source_DC@Community, 2 , stats::sd)
-    
-    # calculation of the DC
-    # for each sample (except the last)
-    for(i in 1:(data_source_DC@Dim.val[2] - 1)){ 
-      
-      # select only 2 samples (observed + 1 after)
-      df_work <-  data_source_DC@Community[c(i, i + 1), , drop = FALSE] 
-      
-      # get rid of "empty species" in data & in sp.std
-      df_sp_supp_work <-  df_sp_supp[colSums(df_work) > 0]
-      df_work <-  as.data.frame(df_work[ ,colSums(df_work) > 0])
-      
-      # vector for result for each species
-      vector_work <-  vector( 
         mode = "numeric",
-        length = ncol(df_work)) 
-      
-      # for each species
-      for(j in 1:ncol(df_work)){ 
-        
-        # check if the standard deviation is not equal zero
-        if (df_sp_supp_work[j] != 0) { 
-          a <-  .subset2(df_work, j)[1]
-          b <-  .subset2(df_work, j)[2]
-         
-          # calculate the difference
-          vector_work[j] <-  ((a - b) / df_sp_supp_work[j])**2 
-        }
+        length = n_res
+      )
+
+    data_com <-
+      util_subset_community(data_source_DC)
+
+    #----------------------------------------------------------#
+    # Standardised euclidan distace -----
+    #----------------------------------------------------------#
+
+    # for euc.sd use custom made calculation
+
+    if (
+      DC == "euc.sd"
+    ) {
+      if (
+        verbose == TRUE
+      ) {
+        util_output_comment(
+          "Standardised Euclidan distance will be used as DC"
+        )
       }
-      
-      # save the square root of sum of all differece
-      dat_res[i] <-  sqrt(sum(vector_work)) 
-    }
-  }
-  
-  
-  #----------------------------------------------------------#
-  # Chord's distance -----
-  #----------------------------------------------------------#
-  
-  if(DC == "chord"){
-    
-    if(verbose == TRUE){
-      cat("Chord distance will be used as DC", fill = TRUE)
-    }
-    
-    # for each sample (except the last)
-    for(i in 1:(data_source_DC@Dim.val[2] - 1)){ 
-      
-      # select only 2 samples (observed + 1 after)
-      df_work <-  data_source_DC@Community[c(i, i + 1), , drop = FALSE]
-      
-      # get rid of "empty species"
-      df_work <-  as.data.frame(df_work[ ,colSums(df_work) > 0]) 
-      
-      # vector for result for each species
-      vector_work <-  
-        vector( 
+
+      # calculation of standard deviation for each species
+
+      # calculate the SD for each species
+      df_sp_supp <-
+        apply(data_com, 2, stats::sd)
+
+      # calculation of the DC
+      # for each sample (except the last)
+      for (i in 1:n_res) {
+
+        # select only 2 samples (observed + 1 after)
+        df_work <-
+          data_com[c(i, i + 1), , drop = FALSE]
+
+        # get rid of "empty species" in data & in sp.std
+        df_sp_supp_work <-
+          df_sp_supp[colSums(df_work, na.rm = TRUE) > 0]
+        df_work <-
+          as.data.frame(df_work[, colSums(df_work, , na.rm = TRUE) > 0])
+
+        # vector for result for each species
+        vector_work <- vector(
           mode = "numeric",
-          length = ncol(df_work)) 
-      
-      # for each species
-      for(j in 1:ncol(df_work)){ 
-        a <-  .subset2(df_work, j)[1]
-        b <-  .subset2(df_work, j)[2]
-        
-        # calculate the diference
-        vector_work[j] <-  ( sqrt(a) - sqrt(b) )**2 
+          length = ncol(df_work)
+        )
+
+        # for each species
+        for (j in 1:ncol(df_work)) {
+
+          # check if the standard deviation is not equal zero
+          if (df_sp_supp_work[j] != 0) {
+            a <-
+              .subset2(df_work, j)[1]
+            b <-
+              .subset2(df_work, j)[2]
+
+            # calculate the difference
+            vector_work[j] <-
+              ((a - b) / df_sp_supp_work[j])**2
+          }
+        }
+
+        # save the square root of sum of all differece
+        dat_res[i] <- sqrt(sum(vector_work))
       }
-      
-      # save the square root of sum of all differences
-      dat_res[i] <-  sqrt(sum(vector_work)) 
+
+      return(dat_res)
     }
-  }
-  
-  
-  #----------------------------------------------------------#
-  # Chi-squared coeficient ----- 
-  #----------------------------------------------------------#
-  
-  if(DC == "chisq"){
-    
-    if(verbose == TRUE){
-      cat("Chi-squared coeficient will be used as DC", fill = TRUE)}
-    
-    # for each sample (except the last)
-    for(i in 1:(data_source_DC@Dim.val[2] - 1)){ 
-      
-      # select only 2 samples (observed + 1 after)
-      df_work <-  data_source_DC@Community[c(i, i + 1), , drop = FALSE] 
-      
-      # get rid of "empty species"
-      df_work <-  as.data.frame(df_work[ ,colSums(df_work) > 0]) 
-      
-      # vector for result for each species
-      vector_work <-  vector( 
-        mode = "numeric",
-        length = ncol(df_work)) 
-      
-      # for each species 
-      for(j in 1:ncol(df_work)){ 
-        a <-  .subset2(df_work, j)[1]
-        b <-  .subset2(df_work, j)[2]
-        
-        # calculate the diference
-        vector_work[j] <-  ( (a - b)**2 ) / (a + b) 
+
+    # for all other DC u se pre-made function from vegan package to
+    #   calculate correlation between all samples and then
+    #   only include calculation between subsequent samples
+
+    #----------------------------------------------------------#
+    # Euclidan distance -----
+    #----------------------------------------------------------#
+
+    if (
+      DC == "euc"
+    ) {
+      if (
+        verbose == TRUE
+      ) {
+        util_output_comment(
+          "Euclidan distance will be used as DC"
+        )
       }
-      
-      # save the square root of sum of all differeces
-      dat_res[i] <-  sqrt(sum(vector_work)) 
+
+      corrmat <-
+        as.matrix(
+          vegan::vegdist(
+            data_com,
+            method = "euclidean"
+          )
+        )
     }
+    #----------------------------------------------------------#
+    # Chord's distance -----
+    #----------------------------------------------------------#
+
+    if (
+      DC == "chord"
+    ) {
+      if (
+        verbose == TRUE
+      ) {
+        util_output_comment(
+          "Chord distance will be used as DC"
+        )
+      }
+
+      # use pre-made function from vegan package to
+      #   calculate correlation between all samples
+      corrmat <-
+        as.matrix(
+          vegan::vegdist(
+            data_com,
+            method = "chord"
+          )
+        )
+    }
+
+
+    #----------------------------------------------------------#
+    # Chi-squared coeficient -----
+    #----------------------------------------------------------#
+
+    if (
+      DC == "chisq"
+    ) {
+      if (
+        verbose == TRUE
+      ) {
+        util_output_comment(
+          "Chi-squared coeficient will be used as DC"
+        )
+      }
+
+      # use pre-made function from vegan package to
+      #   calculate correlation between all samples
+      corrmat <-
+        as.matrix(
+          vegan::vegdist(
+            data_com,
+            method = "chord"
+          )
+        )
+    }
+
+
+    #----------------------------------------------------------#
+    # Gower's distance -----
+    #----------------------------------------------------------#
+
+    if (
+      DC == "gower"
+    ) {
+      if (
+        verbose == TRUE
+      ) {
+        util_output_comment(
+          "Gower's distance will be used as DC"
+        )
+      }
+
+      # use pre-made function from vegan package to
+      #   calculate correlation between all samples
+      corrmat <- as.matrix(
+        vegan::vegdist(
+          data_com,
+          method = "gower"
+        )
+      )
+    }
+
+
+    #----------------------------------------------------------#
+    # Bray–Curtis distance -----
+    #----------------------------------------------------------#
+
+    if (
+      DC == "bray"
+    ) {
+      if (
+        verbose == TRUE
+      ) {
+        util_output_comment(
+          "Bray-Curtis distance will be used as DC"
+        )
+      }
+
+      # use pre-made function from vegan package to
+      #   calculate correlation between all samples
+      corrmat <-
+        as.matrix(
+          vegan::vegdist(
+            data_com,
+            method = "bray"
+          )
+        )
+    }
+
+    # only include calculation between subsequent samples
+    dat_res <-
+      corrmat[row(corrmat) == col(corrmat) + 1]
+
+    #----------------------------------------------------------#
+    # Return result -----
+    #----------------------------------------------------------#
+
+    return(dat_res)
   }
-  
-  
-  #----------------------------------------------------------#
-  # Gower's distance -----
-  #----------------------------------------------------------#
-  
-  if(DC == "gower"){
-    
-    if(verbose == T){
-      cat("Gower's distance will be used as DC", fill = T)}
-    
-    # use pre-made function from vegan package to 
-    #   calculate correlation between all samples
-    corrmat <-  as.matrix(vegan::vegdist(data_source_DC@Community, method = "gower"))
-    
-    # only include calculation between subsequent samples 
-    dat_res <-  corrmat[row(corrmat) == col(corrmat) + 1]
-  }
-  
-  
-  #----------------------------------------------------------#
-  # Bray–Curtis distance -----
-  #----------------------------------------------------------#
-  
-  if(DC == "bray"){
-    
-    if(verbose == T){
-      cat("Bray–Curtis distance will be used as DC", fill = T)}
-    
-    # use pre-made function from vegan package to 
-    #   calculate correlation between all samples
-    corrmat <-  as.matrix(vegan::vegdist(data_source_DC@Community, method = "bray"))
-    
-    # only include calculation between subsequent samples 
-    dat_res <-  corrmat[row(corrmat) == col(corrmat) + 1]
-  }
-  
-  
-  #----------------------------------------------------------#
-  # Return result -----
-  #----------------------------------------------------------#
-  
-  return(dat_res)
-}
