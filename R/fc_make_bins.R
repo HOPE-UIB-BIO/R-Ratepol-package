@@ -14,28 +14,40 @@ fc_make_bins <-
 
         Working_Units <- match.arg(Working_Units)
 
+        age_dat <-
+            data_source_bins$age
+
         if (
             Working_Units == "levels"
         ) {
             n_levels <-
-                nrow(data_source_bins$age)
+                nrow(age_dat)
 
-            n_res <- n_levels - 1
+            age_dat_longer <- 
+                dplyr::bind_rows(
+                    age_dat,
+                    data.frame(
+                        age = Inf,
+                        row.names = c("Inf")
+                    )
+                )
+
+            age_vec <-
+                age_dat_longer[, "age"]
 
             res <-
                 data.frame(
-                    name = rownames(data_source_bins$age)[1:n_res]
+                    name = rownames(age_dat_longer)[1:n_levels]
                 ) %>%
                 dplyr::mutate(
                     age_diff = abs(
-                        data_source_bins$age[2:n_levels, "age"] -
-                            data_source_bins$age[1:n_res, "age"]
+                        age_vec[1 + (1:n_levels)] -
+                            age_vec[1:n_levels]
                     ),
                     start = as.character(name),
                     end = as.character(
-                        rownames(data_source_bins$age)[2:n_levels]
-                    ),
-                    res_age = data_source_bins$age$age[1:n_res],
+                        rownames(age_dat_longer)[1 + 1:n_levels]),
+                    res_age = age_vec[1:n_levels],
                     label = paste(start, end, sep = "-")
                 )
             return(res)
@@ -47,12 +59,12 @@ fc_make_bins <-
 
         bin_oldest <-
             ceiling(
-                max(data_source_bins$age$age)
-            )
+                max(age_dat$age)
+            ) + bin_size
 
         bin_youngest <-
             floor(
-                min(data_source_bins$age$age)
+                min(age_dat$age)
             )
 
         bin_breaks <- seq(
