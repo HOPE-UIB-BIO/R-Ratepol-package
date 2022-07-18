@@ -1,17 +1,16 @@
 
 #' @title Transform community data into proportions
-#' @param data_source List with `community` data.frame with pollen data.
-#'  Each row represent one level (sample) and each column represent one taxon. 
-#' able must contain sample_id` as rownames.
+#' @param data_source_trans
+#' Data.frame with `label`, `res_age`, and all community data
 #' @param sel_method
 #' variable to select result as either proportions (`percentages`) or
 #' percentage (`percentages`).
 #' @description Tranform pollen data into proportions (or percentages)
-fc_transfer_into_proportions  <-
-    function(data_source,
+fc_transfer_into_proportions <-
+    function(data_source_trans,
              sel_method = c("proportions", "percentages"),
              verbose = FALSE) {
-        util_check_class("data_source", "list")
+        util_check_class("data_source_trans", "data.frame")
 
         util_check_class("sel_method", "character")
 
@@ -23,18 +22,25 @@ fc_transfer_into_proportions  <-
 
         if (verbose == TRUE) {
             util_output_comment(
-                "community data values are being converted to proportions"
+                "Community data values are being converted to proportions"
             )
         }
 
-        # convert the values community data to proportion of sum of each sample
-        data_rownames <-
-            rowSums(data_source@community, na.rm = TRUE)
+        data_com <-
+            util_subset_community(data_source_trans)
 
-        data_source@community <-
-            data_rownames / data_rownames * switch(sel_method,
-                "percentages" = 100,
-                "proportions" = 1
-            )
-        return(data_source)
+        # convert the values community data to proportion of sum of each sample
+        data_rowsums <-
+            rowSums(data_com, na.rm = TRUE)
+
+        data_com <-
+            data_com / data_rowsums *
+                switch(sel_method,
+                    "percentages" = 100,
+                    "proportions" = 1
+                )
+        data_source_trans[, names(data_com)] <-
+            data_com
+
+        return(data_source_trans)
     }
