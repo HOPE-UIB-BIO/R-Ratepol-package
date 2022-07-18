@@ -18,20 +18,20 @@ fc_make_bins <-
             Working_Units == "levels"
         ) {
             n_levels <-
-                nrow(data_source_prep$age)
+                nrow(data_source_bins$age)
 
             n_res <- n_levels - 1
 
             res <-
                 data.frame(
-                    name = rownames(data_source_prep$age)[1:n_res]
+                    name = rownames(data_source_bins$age)[1:n_res]
                 ) %>%
                 dplyr::mutate(
                     start = as.character(name),
                     end = as.character(
-                        rownames(data_source_prep$age)[2:n_levels]
+                        rownames(data_source_bins$age)[2:n_levels]
                     ),
-                    age = data_source_prep$age$age[1:n_res],
+                    age = data_source_bins$age$age[1:n_res],
                     label = paste(start, end, sep = "-")
                 )
             return(res)
