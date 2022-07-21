@@ -2,7 +2,7 @@ fc_standardise_community_data <-
   function(data_source_standard,
            N_individuals = 150) {
     data_community <-
-      util_subset_community(data_subset)  %>% 
+      util_subset_community(data_source_standard)  %>% 
       round()
 
     n_taxa <-
