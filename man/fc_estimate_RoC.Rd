@@ -25,7 +25,7 @@ fc_estimate_RoC(
   use_parallel = TRUE,
   interest_threshold = NULL,
   only_subsequent = TRUE,
-  time_standardisation = bin_size,
+  time_standardisation = NULL,
   verbose = FALSE,
   Debug = NULL
 )
