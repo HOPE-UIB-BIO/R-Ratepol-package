@@ -37,7 +37,8 @@ fc_make_bins <-
 
             res <-
                 data.frame(
-                    name = rownames(age_dat_longer)[1:n_levels]
+                    name = rownames(age_dat_longer)[1:n_levels],
+                    shift = 1
                 ) %>%
                 dplyr::mutate(
                     age_diff = abs(
@@ -78,7 +79,8 @@ fc_make_bins <-
         ) {
             res_df <-
                 data.frame(
-                    name = bin_breaks
+                    name = bin_breaks,
+                    shift = 1
                 )
         } else {
             util_check_class("Number_of_shifts", "numeric")
