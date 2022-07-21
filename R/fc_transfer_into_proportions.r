@@ -5,6 +5,7 @@
 #' @param sel_method
 #' variable to select result as either proportions (`percentages`) or
 #' percentage (`percentages`).
+#' @param verbose Logical. Should additional information be output?
 #' @description Tranform pollen data into proportions (or percentages)
 fc_transfer_into_proportions <-
     function(data_source_trans,

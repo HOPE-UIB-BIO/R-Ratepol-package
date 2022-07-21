@@ -8,8 +8,6 @@ util_check_if_integer(data_source)
 }
 \arguments{
 \item{data_source}{The name of the object in quotes}
-
-\item{sel_class}{The name of the class in quotes}
 }
 \value{
 \code{TRUE} if class match or error message

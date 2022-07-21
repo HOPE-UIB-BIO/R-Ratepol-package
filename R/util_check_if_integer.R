@@ -1,6 +1,5 @@
 #' @title Assert the class of object
 #' @param data_source The name of the object in quotes
-#' @param sel_class The name of the class in quotes
 #' @description The function will evaluate the object of `data_source` name
 #' and test if ANY of the classes in equal to `sel_class`
 #' @return `TRUE` if class match or error message

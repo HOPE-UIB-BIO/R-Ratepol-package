@@ -5,18 +5,18 @@
 \title{Transform community data into proportions}
 \usage{
 fc_transfer_into_proportions(
-  data_source,
+  data_source_trans,
   sel_method = c("proportions", "percentages"),
   verbose = FALSE
 )
 }
 \arguments{
-\item{data_source}{List with \code{community} data.frame with pollen data.
-Each row represent one level (sample) and each column represent one taxon.
-able must contain sample_id` as rownames.}
+\item{data_source_trans}{Data.frame with \code{label}, \code{res_age}, and all community data}
 
 \item{sel_method}{variable to select result as either proportions (\code{percentages}) or
 percentage (\code{percentages}).}
+
+\item{verbose}{Logical. Should additional information be output?}
 }
 \description{
 Tranform pollen data into proportions (or percentages)
