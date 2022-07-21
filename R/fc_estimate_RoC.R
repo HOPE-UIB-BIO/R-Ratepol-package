@@ -684,7 +684,7 @@ fc_estimate_RoC <-
     if (
       use_parallel == FALSE
     ) {
-      result_table <-
+      result_list <-
         lapply(
           X = data_to_run,
           FUN = fc_run_iteration,
@@ -708,14 +708,14 @@ fc_estimate_RoC <-
       }
 
       # create cluster
-      cl <- 
+      cl <-
         parallel::makeCluster(n_cores)
       parallel::clusterEvalQ(cl, {
         library("tidyverse")
         library("RRatepol")
       })
 
-      result_table <-
+      result_list <-
         parallel::parLapply(
           X = data_to_run,
           fun = fc_run_iteration,
@@ -742,25 +742,29 @@ fc_estimate_RoC <-
     #----------------------------------------------------------#
 
     # create new dataframe with summary of randomisation results
-
-    # extract results and match them by bin
     results_full <-
-      dplyr::right_join(
-        fc_extract_result(
-          result_table,
-          "RoC",
-          rand
-        ),
-        fc_extract_result(
-          result_table,
-          "age_position",
-          rand
-        ),
-        by = c("sample_id", "shift", "age_distance")
+      purrr::map_dfr(
+        .x = result_list,
+        .f = as.data.frame,
+        .id = "it"
+      ) %>%
+      dplyr::group_by(label) %>%
+      dplyr::summarise(
+        .groups = "drop",
+        Age = stats::median(res_age, na.rm = TRUE),
+        ROC = stats::median(roc, na.rm = TRUE),
+        ROC_up = stats::quantile(roc, 0.975, na.rm = TRUE),
+        ROC_dw = stats::quantile(roc, 0.025, na.rm = TRUE)
+      ) %>%
+      dplyr::select(
+        Working_Unit = label,
+        Age, ROC, ROC_up, ROC_dw
       )
 
     # reduce results by the focus age time
-    if (interest_threshold != FALSE) {
+    if (
+      class(interest_threshold) == "numeric"
+    ) {
       results_full <-
         dplyr::filter(
           results_full,
@@ -768,26 +772,22 @@ fc_estimate_RoC <-
         )
     }
 
-    # final tibble (sort samples by age and select variables)
+    # final tibble (sort samples by age)
     results_full_fin <-
       results_full %>%
-      dplyr::arrange(age_position) %>%
-      dplyr::select(
-        sample_id,
-        age_position,
-        RoC,
-        RoC_95q,
-        RoC_05q
-      )
+      dplyr::arrange(Age)
 
-    names(results_full_fin) <- c("Working_Unit", "Age", "ROC", "ROC_up", "ROC_dw")
 
+    # time duration output
     end_time <- Sys.time()
     time_duration <- end_time - start_time
-    cat(paste(
-      "R-RATEPOL finished", end_time, "taking", time_duration, units(time_duration)
-    ),
-    fill = TRUE
+
+    util_output_heading(
+      paste(
+        "R-RATEPOL finished", end_time, "taking",
+        time_duration, units(time_duration)
+      ),
+      size = "h1"
     )
 
     return(results_full_fin)
