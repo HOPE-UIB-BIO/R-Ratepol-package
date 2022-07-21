@@ -13,7 +13,11 @@ fc_subset_samples <-
             tibble::rownames_to_column("start"),
           by = "start"
         ) %>%
-        dplyr::select(-c(start, age))
+        dplyr::mutate(
+          age_diff = c(diff(age), Inf),
+          res_age = age
+        ) %>% 
+         dplyr::select(-c(start, age))
 
       return(res)
     }
