@@ -19,6 +19,18 @@ fc_prepare_data <-
         util_check_class("rand", c("NULL", "numeric"))
 
         # check the condition
+        is_shift_present <-
+            Working_Units == "MW" && (Number_of_shifts != 0)
+
+        if (
+            is_shift_present == FALSE
+        ) {
+            Number_of_shifts <- 1
+        } else {
+            util_check_class("Number_of_shifts", "numeric")
+            util_check_if_integer("Number_of_shifts")
+        }
+
         is_rand_present <-
             (is.null(rand) == FALSE)
 
@@ -26,10 +38,9 @@ fc_prepare_data <-
             is_rand_present == TRUE
         ) {
             util_check_if_integer("rand")
+        } else {
+            rand <- 1
         }
-
-        is_shift_present <-
-            Working_Units == "MW" && (Number_of_shifts != 0)
 
         if (
             Working_Units == "levels"
@@ -62,15 +73,30 @@ fc_prepare_data <-
             (is.null(data_source_prep$age_un) == FALSE)
 
         if (
-            is_uncertit_present == TRUE && is_rand_present == TRUE
+            is_uncertit_present == TRUE
         ) {
-            random_value <-
-                sample(
-                    c(
-                        1:max(1, nrow(data_source_prep$age_un))
-                    ),
-                    rand
-                )
+            if (
+                is_rand_present == TRUE
+            ) {
+                random_value <-
+                    sample(
+                        c(
+                            1:max(1, nrow(data_source_prep$age_un))
+                        ),
+                        rand
+                    )
+
+                random_age <-
+                    purrr::map(
+                        .x = seq_along(random_value),
+                        .f = ~ as.numeric(
+                            data_source_prep$age_un[random_value[.x], ]
+                        )
+                    )
+            } else {
+                random_age <-
+                    list(data_source_prep$age$age)
+            }
         }
 
         data_merge <-
@@ -84,60 +110,57 @@ fc_prepare_data <-
             dplyr::relocate(age) %>%
             tibble::column_to_rownames("row_name")
 
-        # test individual possibilities
+        shift_vec <-
+            c(1:Number_of_shifts) %>%
+            rlang::set_names(
+                nm = as.character(1:Number_of_shifts)
+            )
+
+        rand_vec <-
+            c(1:rand) %>%
+            rlang::set_names(
+                nm = as.character(1:rand)
+            )
+
         if (
-            is_rand_present == FALSE
-        ) {
-            list(
-                list(
-                    data = data_merge,
-                    bins = bin_dummy
-                )
-            ) %>%
-                rlang::set_names(
-                    nm = 1
-                ) %>%
-                return()
-        } else if (
             # is_rand_present is TRUE
             is_uncertit_present == FALSE
         ) {
-            rep(
-                list(
-                    list(
-                        data = data_merge,
-                        bins = bin_dummy
+            rand_vec %>%
+                purrr::map(
+                    .f = ~ purrr::map(
+                        .x = shift_vec,
+                        .f = ~
+                            list(
+                                data = data_merge,
+                                bins = bin_dummy %>%
+                                    dplyr::filter(shift == .x)
+                            )
                     )
-                ),
-                rand
-            ) %>%
-                rlang::set_names(
-                    nm = 1:rand
                 ) %>%
                 return()
         } else {
             # is_uncertit_present is TRUE
-            c(1:rand) %>%
-                rlang::set_names(
-                    nm = 1:rand
-                ) %>%
+            rand_vec %>%
                 purrr::map(
                     .f = ~ {
-                        random_age <-
-                            as.numeric(
-                                data_source_prep$age_un[random_value[.x], ]
+                        data_with_random_age <-
+                            data_merge %>%
+                            dplyr::mutate(
+                                age = random_age[[.x]]
                             )
 
-                        data_with_rand_age <-
-                            data_merge %>%
-                                dplyr::mutate(
-                                    age = random_age
-                                )
-                        list(
-                            data = data_with_rand_age,
-                            bins = bin_dummy
+                        purrr::map(
+                            .x = shift_vec,
+                            .f = ~
+                                list(
+                                    data = data_with_random_age,
+                                    bins = bin_dummy %>%
+                                        dplyr::filter(shift == .x)
+                                ) %>%
+                                    return()
                         ) %>%
-                            return()
+                            return(res)
                     }
                 ) %>%
                 return()

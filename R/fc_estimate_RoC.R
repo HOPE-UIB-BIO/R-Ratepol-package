@@ -501,9 +501,7 @@ fc_estimate_RoC <-
           paste(
             "RoC will be estimated using 'binning with the mowing window' of",
             bin_size, "yr time bin over", Number_of_shifts, "number of window shifts"
-          ),
-          "\n",
-          fill = TRUE
+          )
         )
       }
     )
@@ -515,9 +513,7 @@ fc_estimate_RoC <-
         bin_selection == "random"
       ) {
         util_output_comment(
-          "Sample will randomly selected for each bin",
-          "\n",
-          fill = TRUE
+          "Sample will randomly selected for each bin"
         )
 
         if (
@@ -652,7 +648,7 @@ fc_estimate_RoC <-
       rand <- NULL
     }
 
-    data_to_run <-
+    data_prepared <-
       fc_prepare_data(
         data_source_prep = data_work,
         Working_Units = Working_Units,
@@ -661,9 +657,14 @@ fc_estimate_RoC <-
         rand = rand
       )
 
+    data_to_run <-
+      util_flatten_by_one(data_prepared)
+
+
     #----------------------------------------------------------#
     # 4. Estimation -----
     #----------------------------------------------------------#
+
 
     if (
       verbose == TRUE
@@ -785,7 +786,7 @@ fc_estimate_RoC <-
     util_output_heading(
       paste(
         "R-RATEPOL finished", end_time, "taking",
-        time_duration, units(time_duration)
+        round(time_duration, 2), units(time_duration)
       ),
       size = "h1"
     )
