@@ -28,6 +28,7 @@ fc_run_iteration <-
                 data_source_reduce = data_subset
             )
 
+
         #----------------------------------------------------------#
         # 4.2 Data Standardisation -----
         #----------------------------------------------------------#
@@ -39,7 +40,7 @@ fc_run_iteration <-
             # select only community data
             com_data_sums <-
                 util_subset_community(
-                    data_subset
+                    data_source = data_subset
                 ) %>%
                 rowSums(., na.rm = TRUE)
 
