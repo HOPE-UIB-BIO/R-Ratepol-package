@@ -42,7 +42,7 @@ fc_run_iteration <-
                 util_subset_community(
                     data_source = data_subset
                 ) %>%
-                rowSums(., na.rm = TRUE)
+                rowSums(.data, na.rm = TRUE)
 
             # adjust the value to a minimal of presented values
             N_individuals <-
@@ -125,10 +125,10 @@ fc_run_iteration <-
             data_sd_prop[1:length(dc_res), ] %>%
             dplyr::mutate(
                 dc = dc_res,
-                age_diff_st = age_diff / time_standardisation,
-                roc = dc / age_diff_st
+                age_diff_st = .data$age_diff / time_standardisation,
+                roc = .data$dc / .data$age_diff_st
             ) %>%
-            dplyr::select(label, res_age, roc)
+            dplyr::select(.data$label, .data$res_age, .data$roc)
 
 
         #----------------------------------------------------------#

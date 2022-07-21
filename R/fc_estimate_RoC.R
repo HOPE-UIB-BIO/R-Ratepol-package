@@ -288,7 +288,7 @@ fc_estimate_RoC <-
            use_parallel = TRUE,
            interest_threshold = NULL,
            only_subsequent = TRUE,
-           time_standardisation = bin_size,
+           time_standardisation = NULL,
            verbose = FALSE,
            Debug = NULL) {
 
@@ -320,6 +320,11 @@ fc_estimate_RoC <-
 
     Working_Units <- match.arg(Working_Units)
 
+    if (
+      is.null(time_standardisation)
+    ) {
+      time_standardisation <- bin_size
+    }
     util_check_class("time_standardisation", "numeric")
 
     util_check_if_integer("time_standardisation")
@@ -711,15 +716,17 @@ fc_estimate_RoC <-
       # create cluster
       cl <-
         parallel::makeCluster(n_cores)
+
+      # eval packages
       parallel::clusterEvalQ(cl, {
         library("tidyverse")
         library("RRatepol")
       })
 
       result_list <-
-        parallel::parLapply(
+        pbapply::pblapply(
           X = data_to_run,
-          fun = fc_run_iteration,
+          FUN = fc_run_iteration,
           cl = cl,
           bin_selection = bin_selection,
           standardise = standardise,
@@ -749,17 +756,17 @@ fc_estimate_RoC <-
         .f = as.data.frame,
         .id = "it"
       ) %>%
-      dplyr::group_by(label) %>%
+      dplyr::group_by(.data$label) %>%
       dplyr::summarise(
         .groups = "drop",
-        Age = stats::median(res_age, na.rm = TRUE),
-        ROC = stats::median(roc, na.rm = TRUE),
-        ROC_up = stats::quantile(roc, 0.975, na.rm = TRUE),
-        ROC_dw = stats::quantile(roc, 0.025, na.rm = TRUE)
+        Age = stats::median(.data$res_age, na.rm = TRUE),
+        ROC = stats::median(.data$roc, na.rm = TRUE),
+        ROC_up = stats::quantile(.data$roc, 0.975, na.rm = TRUE),
+        ROC_dw = stats::quantile(.data$roc, 0.025, na.rm = TRUE)
       ) %>%
       dplyr::select(
-        Working_Unit = label,
-        Age, ROC, ROC_up, ROC_dw
+        Working_Unit = .data$label,
+        .data$Age, .data$ROC, .data$ROC_up, .data$ROC_dw
       )
 
     # reduce results by the focus age time
@@ -767,16 +774,16 @@ fc_estimate_RoC <-
       class(interest_threshold) == "numeric"
     ) {
       results_full <-
+      results_full  %>% 
         dplyr::filter(
-          results_full,
-          age_position <= interest_threshold
+          .data$age_position <= interest_threshold
         )
     }
 
     # final tibble (sort samples by age)
     results_full_fin <-
       results_full %>%
-      dplyr::arrange(Age)
+      dplyr::arrange(.data$Age)
 
 
     # time duration output
@@ -785,7 +792,7 @@ fc_estimate_RoC <-
 
     util_output_heading(
       paste(
-        "R-RATEPOL finished", end_time, "taking",
+        "RRatepol finished", end_time, "taking",
         round(time_duration, 2), units(time_duration)
       ),
       size = "h1"

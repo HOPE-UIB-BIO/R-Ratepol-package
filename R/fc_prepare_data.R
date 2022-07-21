@@ -107,7 +107,7 @@ fc_prepare_data <-
                     tibble::rownames_to_column("row_name"),
                 by = "row_name"
             ) %>%
-            dplyr::relocate(age) %>%
+            dplyr::relocate(.data$age) %>%
             tibble::column_to_rownames("row_name")
 
         shift_vec <-
