@@ -3,7 +3,6 @@
 #' @param var_list Vector with names
 #' @description Function will test the presence of ALL names in `var_list`
 #' within the `data_source` data.frame and return error message
-#' @export
 util_check_col_names <-
   function(data_source, var_list) {
     parent_frame <- sys.parent()

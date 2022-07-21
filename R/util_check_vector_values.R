@@ -3,7 +3,6 @@
 #' @param var_list Vector with names
 #' @description Function will test the presence of ANY values from `var_list`
 #' within the `data_source` vector and return error message
-#' @export
 util_check_vector_values <-
   function(data_source, var_list) {
     parent_frame <- sys.parent()

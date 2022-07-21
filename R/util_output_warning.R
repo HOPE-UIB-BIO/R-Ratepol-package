@@ -1,6 +1,5 @@
 #' @title Output warning in console
 #' @param msg String with the message that should be printed
-#' @export
 util_output_warning <-
   function(msg = "") {
     assertthat::assert_that(

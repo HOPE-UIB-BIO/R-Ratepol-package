@@ -2,7 +2,6 @@
 #' @param msg String with the message that should be printed
 #' @param size Select the hierarchy of the heading (1-3)
 #' @return NULL
-#' @export
 util_output_heading <-
   function(msg = "",
            size = c("h1", "h2", "h3")) {
