@@ -1,3 +1,8 @@
+#' @title Create template for RoC estimations
+#'
+#' @inheritParams fc_estimate_RoC
+#' @param data_source_bins
+#' List with `community` and `age`
 fc_make_bins <-
     function(data_source_bins,
              Working_Units = c("levels", "bins", "MW"),
@@ -23,7 +28,7 @@ fc_make_bins <-
             n_levels <-
                 nrow(age_dat)
 
-            age_dat_longer <- 
+            age_dat_longer <-
                 dplyr::bind_rows(
                     age_dat,
                     data.frame(
@@ -47,7 +52,8 @@ fc_make_bins <-
                     ),
                     start = as.character(.data$name),
                     end = as.character(
-                        rownames(age_dat_longer)[1 + 1:n_levels]),
+                        rownames(age_dat_longer)[1 + 1:n_levels]
+                    ),
                     res_age = age_vec[1:n_levels],
                     label = paste(.data$start, .data$end, sep = "-")
                 )

@@ -1,3 +1,19 @@
+
+#' @title Run a single interation of RoC estimation
+#'
+#' @param data_source_run
+#' List with `data` and `bins` prepared by `fc_prepare_data`
+#' @inheritParams fc_estimate_RoC
+#' @description
+#' A single run is computed following the simple steps:
+#' \itemize{
+#' \item Subsetting levels in each bin: Here the working units (WU) are defined
+#' \item Standardisation of assemblage data in each WU
+#' \item Calculation of calculated as the dissimilarity coefficient (DC)
+#' \item Calculation of RoC between WUs: RoC is calculated as (DC)
+#' standardised by age differences between WUs.
+#' }
+#' @seealso [fc_estimate_RoC()]
 fc_run_iteration <-
     function(data_source_run,
              bin_selection = "first",

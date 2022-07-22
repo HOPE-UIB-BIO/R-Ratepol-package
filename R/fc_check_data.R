@@ -1,3 +1,9 @@
+
+#' @title Check the data
+#'
+#' @param data_source_check
+#' List with `community` and `age`
+#' @description Output summary information about the data
 fc_check_data <-
   function(data_source_check) {
     util_check_class("data_source_check", "list")

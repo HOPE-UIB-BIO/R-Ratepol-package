@@ -1,3 +1,10 @@
+#' @title Subsetting levels in each Working units (WU)
+#'
+#' @param data_source_subset
+#' Data.frame with community data
+#' @param data_source_bins
+#' Data.frame with individual WU to use
+#' @inheritParams fc_estimate_RoC
 fc_subset_samples <-
   function(data_source_subset,
            data_source_bins,
@@ -16,8 +23,8 @@ fc_subset_samples <-
         dplyr::mutate(
           age_diff = c(diff(.data$age), Inf),
           res_age = .data$age
-        ) %>% 
-         dplyr::select(-c(.data$start, .data$age))
+        ) %>%
+        dplyr::select(-c(.data$start, .data$age))
 
       return(res)
     }

@@ -1,3 +1,25 @@
+#' @title Calculate the dissimilarity coeficient
+#'
+#' @inheritParams fc_estimate_RoC
+#' @param data_source_DC Data.frame with taxons as columns
+#' @details 
+#' Five in-built dissimilarity coefficients are available:
+#' \itemize{
+#' \item Euclidean distance (`DC` = `"euc"`)
+#' \item standardised Euclidean distance (`DC` = `"euc.sd"`)
+#' \item Chord distance (`DC` = `"chord"`)
+#' \item Chi-squared coefficient (`DC` = `"chisq"`; Prentice, 1980)
+#' \item Gower's distance (`DC` = `"gower"`;Gower, 1971)
+#' \item Bray-Curtis distance (`DC` = `"bray"`)
+#' }
+#' The choice of DC depends on the type of assemblage data. In addition, RoC
+#' between WUs be calculated using every consecutive WU (`only_subsequent` = `FALSE`),
+#' or alternatively, calculation of RoC can be restricted to only directly
+#' adjacent WUs (`only_subsequent` = `TRUE`). Using the former increases
+#' the number of samples for which RoC can be calculated within a sequence,
+#' which varies in terms of sample resolution, but may still introduce
+#' biases related to the RoC estimation as a result of the varying
+#' inter-sample distances.
 fc_calculate_DC <-
   function(data_source_DC,
            DC = "chord",

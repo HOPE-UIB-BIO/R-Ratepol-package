@@ -2,8 +2,7 @@
 #' @param data_source_reduce List with `community`, `age`, and `age_un`
 #' @param ommit_vars
 #' Character vector with names of columns to omit in community data.
-#' @param check_taxa Logical. Should columns be check for redundnat data?
-#' @param check_levels Logical. Should rows be check for redundnat data?
+#' @inheritParams fc_reduce
 #' @description
 #' Check the community dataset for redundnat taxa and levels
 #' and filter them out. This function is simplified due to performance.

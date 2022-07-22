@@ -2,25 +2,9 @@
 #'
 #' @param data_source_smooth
 #' List with `community`, and `age`
-#' @param smooth_method
-#' Character. type of smoothing applied for the each of the pollen type
-#' \itemize{
-#' \item `"m.avg"` - Moving average
-#' \item `"grim"` - Grimm's smoothing
-#' \item `"age.w""` - Age-weighted average
-#' \item `"shep"` - Shepard's 5-term filter
-#' }
-#' @param smooth_N_points
-#' Numeric. Number of points for used for moving average,
-#'  Grimm and Age-Weighted smoothing (odd number)
-#' @param smooth_age_range
-#' Numeric. Maximal age range for both Grimm and Age-weight smoothing
-#' @param smooth_N_max
-#' Numeric. Maximal number of samples to look in Grimm smoothing
 #' @param round_results
 #' Logical. Should smoothed values be rounded to integers?
-#' @param verbose
-#' Logical. If `TRUE`, function will output messages about internal processes
+#' @inheritParams fc_estimate_RoC
 #' @description 
 #' A function to apply one of the 4 smoothers.
 #' @details 
@@ -34,6 +18,7 @@
 #' \item Grimm's smoothing (`smooth_method` = `"grim"`;
 #'  Grimm and Jacobson, 1992)
 #' }
+#' @seealso [fc_estimate_RoC()]
 #' @references 
 #' Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed.
 #' J. Wiley & Sons, New York.

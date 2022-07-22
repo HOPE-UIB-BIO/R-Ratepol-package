@@ -1,3 +1,26 @@
+#' @title Extract and check the data
+#'
+#' @param data_community_extract
+#' Data.frame. Community data with species as columns and
+#' levels (samples) as rows. First column should be `sample_id` (character).
+#' @param data_age_extract
+#' Data.frame with two columns:
+#' \itemize{
+#' \item `sample_id` - unique ID of each level (character)
+#' \item `age` - age of level (numeric)
+#' }
+#' @param age_uncertainty
+#' Usage of age uncertainty form Age-depth models. Either:
+#' \itemize{
+#' \item matrix with number of columns as number of samples. Each column is one sample,
+#'  each row is one age sequence from age-depth model. Age sequence is randomly
+#'  sampled from age-depth model uncertainties at the beginning of each run.
+#'  \item `NULL` - Age uncertainties are not available and, therefore, will not be used.
+#' }
+#' @param verbose DESCRIPTION.
+#' Logical. If `TRUE`, function will output messages about internal processes
+#' @description
+#' Function for general preparation of input data
 fc_extract_data <-
   function(data_community_extract,
            data_age_extract,

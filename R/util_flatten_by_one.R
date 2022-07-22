@@ -1,3 +1,8 @@
+#' @title Flatten the list by one levles
+#'
+#' @param x Nested list
+#' @description Return list without the first h-level. The names of the h1 and
+#' h2 are merged
 util_flatten_by_one <-
     function(x) {
         len <- length(x)

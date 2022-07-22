@@ -19,6 +19,7 @@ fc_smooth_community_data(
 
 \item{smooth_method}{Character. type of smoothing applied for the each of the pollen type
 \itemize{
+\item \code{"none"} - Pollen data is not smoothed
 \item \code{"m.avg"} - Moving average
 \item \code{"grim"} - Grimm's smoothing
 \item \verb{"age.w""} - Age-weighted average
@@ -61,4 +62,7 @@ Clim. Dyn. 6, 179–184.
 
 Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
 USA 37. https://doi.org/10.2307/2669493
+}
+\seealso{
+\code{\link[=fc_estimate_RoC]{fc_estimate_RoC()}}
 }
