@@ -143,7 +143,9 @@ fc_detect_peak_points <-
       )
     )
 
-    util_check_class("sd_threshold", "mumeric")
+    sel_method <- match.arg(sel_method)
+
+    util_check_class("sd_threshold", "numeric")
 
     assertthat::assert_that(
       sd_threshold > 0,
@@ -243,21 +245,13 @@ fc_detect_peak_points <-
         tibble::tibble(Age = data_source$Age)
 
       gam_deriv <-
-        gratia::fderiv(gam_model, newdata = new_data, n = 1000)
-
-      gam_deriv_conf <-
-        with(new_data, cbind(
-          confint(
-            gam_deriv,
-            nsim = 1000,
-            type = "simultaneous",
-            transform   = TRUE
-          ),
-          Age = Age
-        ))
+        gratia::derivatives(gam_model,
+          newdata = new_data,
+          n = 1000
+        )
 
       data_source$Peak <-
-        (gam_deriv_conf$lower > 0)
+        (gam_deriv$lower > 0)
     }
 
     #----------------------------------------------------------#
