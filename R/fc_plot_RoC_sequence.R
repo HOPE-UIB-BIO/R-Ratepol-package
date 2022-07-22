@@ -83,7 +83,7 @@
 fc_plot_RoC_sequence <-
   function(data_source,
            age_threshold = NULL,
-           Roc_threshold = NULLL,
+           Roc_threshold = NULL,
            Peaks = FALSE,
            trend = NULL) {
 
@@ -163,22 +163,6 @@ fc_plot_RoC_sequence <-
       )
 
     if (
-      Peaks == TRUE
-    ) {
-      util_check_col_names("data_source", "Peak")
-
-      p_res <-
-        p_res +
-        ggplot2::geom_point(
-          data = .data %>%
-            dplyr::filter(Peak == TRUE),
-          color = "green",
-          alpha = 1,
-          size = 1
-        )
-    }
-
-    if (
       is.null(trend) == FALSE
     ) {
       util_check_vector_values(
@@ -186,7 +170,18 @@ fc_plot_RoC_sequence <-
         c("threshold", "trend_linear", "trend_non_linear")
       )
 
-      trend <- match.arg(trend)
+      if (
+        Peaks == FALSE
+      ) {
+        util_output_comment(
+          msg = paste(
+            "'trend' has been set to NOT 'NULL',",
+            "'Peaks' will be plotted"
+          )
+        )
+        # set peaks
+        Peaks <- TRUE
+      }
 
       if (
         trend == "threshold"
@@ -234,6 +229,22 @@ fc_plot_RoC_sequence <-
             size = 1
           )
       }
+    }
+
+    if (
+      Peaks == TRUE
+    ) {
+      util_check_col_names("data_source", "Peak")
+
+      p_res <-
+        p_res +
+        ggplot2::geom_point(
+          data = data_source_filter %>%
+            dplyr::filter(Peak == TRUE),
+          color = "green",
+          alpha = 1,
+          size = 1
+        )
     }
 
     return(p_res)
