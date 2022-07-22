@@ -6,10 +6,10 @@
 \usage{
 fc_plot_RoC_sequence(
   data_source,
-  age_threshold = FALSE,
-  Roc_threshold = FALSE,
+  age_threshold = NULL,
+  Roc_threshold = NULL,
   Peaks = FALSE,
-  trend = FALSE
+  trend = NULL
 )
 }
 \arguments{
@@ -48,45 +48,49 @@ and/or peak-points in present.
 \examples{
 \dontrun{
 
-example_data <-  RRatepol::example_data
+example_data <- RRatepol::example_data
 
 # example 1
-sequence_01 <- 
-fc_estimate_RoC(
-data_source_community = example_data$pollen_data[[1]],
-data_source_age = example_data$sample_age[[1]],
-age_uncertainty = FALSE,
-smooth_method = "shep",
-Working_Units = "MW",
-rand = 1e3,
-treads = TRUE,
-DC = "chisq")
+sequence_01 <-
+  fc_estimate_RoC(
+    data_source_community = example_data$pollen_data[[1]],
+    data_source_age = example_data$sample_age[[1]],
+    age_uncertainty = FALSE,
+    smooth_method = "shep",
+    Working_Units = "MW",
+    rand = 1e3,
+    treads = TRUE,
+    DC = "chisq"
+  )
 
 fc_plot_RoC_sequence(
-sequence_01,
-age_threshold = 8e3,
-Roc_threshold = 1)
+  sequence_01,
+  age_threshold = 8e3,
+  Roc_threshold = 1
+)
 
 # example 2
-sequence_02 <- 
-fc_estimate_RoC(
-data_source_community = example_data$pollen_data[[2]],
-data_source_age = example_data$sample_age[[2]],
-age_uncertainty = FALSE,
-smooth_method = "shep",
-Working_Units = "MW",
-rand = 1e3,
-treads = TRUE,
-DC = "chisq")
+sequence_02 <-
+  fc_estimate_RoC(
+    data_source_community = example_data$pollen_data[[2]],
+    data_source_age = example_data$sample_age[[2]],
+    age_uncertainty = FALSE,
+    smooth_method = "shep",
+    Working_Units = "MW",
+    rand = 1e3,
+    treads = TRUE,
+    DC = "chisq"
+  )
 
 sequence_02_peak <-
-fc_detect_peak_points(sequence_01, method = "trend_non_linear")
+  fc_detect_peak_points(sequence_01, sel_method = "trend_non_linear")
 
 fc_plot_RoC_sequence(
-sequence_02_peak,
-age_threshold = 8e3,
-Roc_threshold = 2,
-Peaks = TRUE,
-trend = "trend_non_linear")
+  sequence_02_peak,
+  age_threshold = 8e3,
+  Roc_threshold = 2,
+  Peaks = TRUE,
+  trend = "trend_non_linear"
+)
 }
 }
