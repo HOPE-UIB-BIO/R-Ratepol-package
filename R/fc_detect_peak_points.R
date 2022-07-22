@@ -180,12 +180,9 @@ fc_detect_peak_points <-
       # mark points that are abowe the linear model
       #   (exactly sd_threshold SD higher than prediction)
       data_source$pred_linear <-
-        stats::predict.glm(
-          stats::glm(ROC ~ Age,
-            data = data_source,
-            family = mgcv::Tweedie(p = 2)
-          ),
-          type = "response"
+        util_make_trend(
+          data_source = data_source,
+          sel_method = "linear"
         )
 
       data_source$residuals <-
@@ -206,14 +203,9 @@ fc_detect_peak_points <-
       # mark points that are abowe the GAM model
       #   (exactly sd_threshold SD higher than GAM prediction)
       data_source$pred_gam <-
-        mgcv::predict.gam(
-          mgcv::gam(
-            ROC ~ s(Age, k = 3),
-            data = data_source,
-            family = mgcv::Tweedie(p = 2),
-            method = "REML"
-          ),
-          type = "response"
+        util_make_trend(
+          data_source = data_source,
+          sel_method = "non_linear"
         )
 
       data_source$residuals <-
@@ -266,14 +258,9 @@ fc_detect_peak_points <-
 
       # create GAM
       pred_gam <-
-        mgcv::predict.gam(
-          mgcv::gam(
-            ROC ~ s(Age, k = 3),
-            data = data_source,
-            family = mgcv::Tweedie(p = 2),
-            method = "REML"
-          ),
-          type = "response"
+        util_make_trend(
+          data_source = data_source,
+          sel_method = "non_linear"
         )
 
       # calculate SNI (singal to noise ratio)
