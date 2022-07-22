@@ -109,7 +109,7 @@ fc_make_bins <-
         res <-
             res_df %>%
             dplyr::mutate(
-                age_diff = .data$bin_size,
+                age_diff = bin_size,
                 start = .data$name,
                 end = .data$start + bin_size,
                 res_age = (.data$end + .data$start) / 2,
