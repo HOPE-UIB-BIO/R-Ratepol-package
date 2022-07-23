@@ -38,7 +38,7 @@ of pollen grains in sequence.}
 proportion during calculations?}
 
 \item{DC}{Character. Dissimilarity coefficient. Type of calculation of differences
-between Working Units
+between Working Units. See \code{vegan::vegdist} for more details.
 \itemize{
 \item \code{"euc"} - Euclidean distance
 \item \code{"euc.sd"} - Standardised Euclidean distance
