@@ -10,7 +10,7 @@ fc_calculate_DC(data_source_DC, DC = "chord", verbose = FALSE)
 \item{data_source_DC}{Data.frame with taxons as columns}
 
 \item{DC}{Character. Dissimilarity coefficient. Type of calculation of differences
-between Working Units
+between Working Units. See \code{vegan::vegdist} for more details.
 \itemize{
 \item \code{"euc"} - Euclidean distance
 \item \code{"euc.sd"} - Standardised Euclidean distance
@@ -31,8 +31,8 @@ Five in-built dissimilarity coefficients are available:
 \item Euclidean distance (\code{DC} = \code{"euc"})
 \item standardised Euclidean distance (\code{DC} = \code{"euc.sd"})
 \item Chord distance (\code{DC} = \code{"chord"})
-\item Chi-squared coefficient (\code{DC} = \code{"chisq"}; Prentice, 1980)
-\item Gower's distance (\code{DC} = \code{"gower"};Gower, 1971)
+\item Chi-squared coefficient (\code{DC} = \code{"chisq"})
+\item Gower's distance (\code{DC} = \code{"gower"})
 \item Bray-Curtis distance (\code{DC} = \code{"bray"})
 }
 The choice of DC depends on the type of assemblage data. In addition, RoC
@@ -43,4 +43,7 @@ the number of samples for which RoC can be calculated within a sequence,
 which varies in terms of sample resolution, but may still introduce
 biases related to the RoC estimation as a result of the varying
 inter-sample distances.
+}
+\seealso{
+\code{\link[vegan:vegdist]{vegan::vegdist()}}
 }

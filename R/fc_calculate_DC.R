@@ -8,8 +8,8 @@
 #' \item Euclidean distance (`DC` = `"euc"`)
 #' \item standardised Euclidean distance (`DC` = `"euc.sd"`)
 #' \item Chord distance (`DC` = `"chord"`)
-#' \item Chi-squared coefficient (`DC` = `"chisq"`; Prentice, 1980)
-#' \item Gower's distance (`DC` = `"gower"`;Gower, 1971)
+#' \item Chi-squared coefficient (`DC` = `"chisq"`)
+#' \item Gower's distance (`DC` = `"gower"`)
 #' \item Bray-Curtis distance (`DC` = `"bray"`)
 #' }
 #' The choice of DC depends on the type of assemblage data. In addition, RoC
@@ -20,6 +20,7 @@
 #' which varies in terms of sample resolution, but may still introduce
 #' biases related to the RoC estimation as a result of the varying
 #' inter-sample distances.
+#' @seealso [vegan::vegdist()]
 fc_calculate_DC <-
   function(data_source_DC,
            DC = "chord",
