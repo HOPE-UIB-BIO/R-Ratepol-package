@@ -240,7 +240,7 @@ fc_plot_RoC_sequence <-
         p_res +
         ggplot2::geom_point(
           data = data_source_filter %>%
-            dplyr::filter(Peak == TRUE),
+            dplyr::filter(.data$Peak == TRUE),
           color = "green",
           alpha = 1,
           size = 1
