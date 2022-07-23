@@ -1,31 +1,31 @@
-# R-Ratepol package
+# RRatepol package
 
-## Current version: 0.6.1.
+## Current version: 1.0.0
 
 What is new in the package? See
 [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)
 
 ## Description
 
-R-Ratepol is an R package for estimating rate of change (RoC) from
+RRatepol is an R package for estimating rate of change (RoC) from
 community data in time series.
 
-R-Ratepol is written as an R package and includes a range of possible
+RRatepol is written as an R package and includes a range of possible
 settings including a novel method to evaluate RoC in a single
 stratigraphical sequence using assemblage data and age uncertainties for
 each level. There are multiple built-in dissimilarity coefficients (DC)
 for different types of assemblage data, and various levels of data
 smoothing that can be applied depending on the type and variance of the
-data. In addition, R-Ratepol can use randomisation, accompanied by use
-of age uncertainties of each level and taxon standardisation to detect
-RoC patterns in datasets with high data noise or variability
-(i.e. numerous rapid changes in composition or sedimentation rates).
+data. In addition, RRatepol can use randomisation, accompanied by use of
+age uncertainties of each level and taxon standardisation to detect RoC
+patterns in datasets with high data noise or variability (i.e. numerous
+rapid changes in composition or sedimentation rates).
 
 ## Instaling package
 
     devtools::install_github("HOPE-UIB-BIO/R-Ratepol-package")
 
-## Cite as:
+## Cite as
 
     citation(package = "RRatepol")
 
@@ -92,8 +92,8 @@ to focus on the period of most substantial human impact.
     dplyr::glimpse(example_data)
     #> Rows: 4
     #> Columns: 7
-    #> $ dataset.id        <chr> "4012", "40951", "45314", "17334"
-    #> $ collection.handle <chr> "DALLICAN", "STEERMOS", "KILOALA", "GL"
+    #> $ dataset_id        <chr> "4012", "40951", "45314", "17334"
+    #> $ collection_handle <chr> "DALLICAN", "STEERMOS", "KILOALA", "GL"
     #> $ lat               <dbl> 60.38736, 47.80567, 67.96611, 53.00735
     #> $ long              <dbl> -1.096480, 8.200150, 20.460278, -6.348035
     #> $ pollen_data       <list> [<tbl_df[63 x 51]>], [<tbl_df[273 x 104]>], [<tbl_df~
@@ -135,14 +135,21 @@ uncertainties from *Bchron* will not be used.
       RRatepol::fc_estimate_RoC(
         data_source_community = example_data$pollen_data[[1]],
         data_source_age = example_data$sample_age[[1]],
-        age_uncertainty = FALSE,
         smooth_method = "shep",
         DC = "chisq",
-        Working_Units = "levels",
-        standardise = FALSE,
-        rand = 1)
+        Working_Units = "levels"
+        )
+    #> #----------------------------------------------------------#
+    #> i RRatepol started 2022-07-23 10:38:35
+    #> #----------------------------------------------------------#
+    #> i RoC will be estimated between individual subsequent levels
+    #> i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
+    #> #----------------------------------------------------------#
+    #> i RRatepol finished 2022-07-23 10:38:36 taking 1.25 secs
+    #> #----------------------------------------------------------#
 
-    RRatepol::fc_plot_RoC_sequence(sequence_01, Peaks = F, trend = F)
+    RRatepol::fc_plot_RoC_sequence(
+      data_source = sequence_01)
 
 ![](man/figures/README-plot_1-1.png)
 
@@ -150,8 +157,9 @@ uncertainties from *Bchron* will not be used.
 
 Now try to standardise pollen data in each sample to a maximum of 150
 pollen grains and use age uncertainties from *age-depth model*. Process
-will be repeated 1000 times on multiple cores using *parallel package*.
-This will produce error *wrapper* showing 95th percent quantile.
+will be repeated 1000 times on multiple cores using parallel
+computation. This will produce error *wrapper* showing 95th percent
+quantile.
 
     sequence_02 <-
       RRatepol::fc_estimate_RoC(
@@ -164,12 +172,19 @@ This will produce error *wrapper* showing 95th percent quantile.
         standardise = TRUE,
         N_individuals = 150,
         rand = 1000,
-        treads = TRUE)
+        use_parallel = TRUE)
+    #> #----------------------------------------------------------#
+    #> i RRatepol started 2022-07-23 10:38:37
+    #> #----------------------------------------------------------#
+    #> i RoC will be estimated between individual subsequent levels
+    #> i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
+    #> i Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
+    #> #----------------------------------------------------------#
+    #> i RRatepol finished 2022-07-23 10:39:42 taking 1.09 mins
+    #> #----------------------------------------------------------#
 
     RRatepol::fc_plot_RoC_sequence(
-      data_source = sequence_02,
-      Peaks = FALSE,
-      trend = FALSE)
+      data_source = sequence_02)
 
 ![](man/figures/README-plot_2-1.png)
 
@@ -191,12 +206,20 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and
         standardise = TRUE,
         N_individuals = 150,
         rand = 1000,
-        treads = TRUE)
+        use_parallel = TRUE)
+    #> #----------------------------------------------------------#
+    #> i RRatepol started 2022-07-23 10:39:42
+    #> #----------------------------------------------------------#
+    #> i RoC will be estimated using 'binning with the mowing window' of 500 yr time bin over 5 number of window shifts
+    #> i Sample will randomly selected for each bin
+    #> i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
+    #> i Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
+    #> #----------------------------------------------------------#
+    #> i RRatepol finished 2022-07-23 10:42:29 taking 2.77 mins
+    #> #----------------------------------------------------------#
 
     RRatepol::fc_plot_RoC_sequence(
-      data_source = sequence_03,
-      Peaks = FALSE,
-      trend = FALSE)
+      data_source = sequence_03)
 
 ![](man/figures/README-plot_3-1.png)
 
@@ -204,13 +227,13 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and
 
 Detect the *peak points* using *trend\_non\_linear* method.
 
-    sequence_03_peaks <-
+    sequence_03_with_peaks <-
       RRatepol::fc_detect_peak_points(
         data_source = sequence_03,
-        method = "trend_non_linear")
+        sel_method = "trend_non_linear")
 
     RRatepol::fc_plot_RoC_sequence(
-      data_source = sequence_03_peaks,
+      data_source = sequence_03_with_peaks,
       Peaks = TRUE,
       trend = "trend_non_linear")
 

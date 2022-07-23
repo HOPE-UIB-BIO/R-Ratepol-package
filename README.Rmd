@@ -13,35 +13,35 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-")
 ```
 
-# R-Ratepol package
+# RRatepol package
 
-## Current version: 0.6.1.
+## Current version: 1.0.0
 
 What is new in the package? See [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)
 
 ## Description
 
-R-Ratepol is an R package for estimating rate of change (RoC) from community data in time series.
+RRatepol is an R package for estimating rate of change (RoC) from community data in time series.
 
-R-Ratepol is written as an R package and includes a range of possible settings including a novel method to evaluate RoC in a single stratigraphical sequence using assemblage data and age uncertainties for each level. There are multiple built-in dissimilarity coefficients (DC) for different types of assemblage data, and various levels of data smoothing that can be applied depending on the type and variance of the data. In addition, R-Ratepol can use randomisation, accompanied by use of age uncertainties of each level and taxon standardisation to detect RoC patterns in datasets with high data noise or variability (i.e. numerous rapid changes in composition or sedimentation rates). 
+RRatepol is written as an R package and includes a range of possible settings including a novel method to evaluate RoC in a single stratigraphical sequence using assemblage data and age uncertainties for each level. There are multiple built-in dissimilarity coefficients (DC) for different types of assemblage data, and various levels of data smoothing that can be applied depending on the type and variance of the data. In addition, RRatepol can use randomisation, accompanied by use of age uncertainties of each level and taxon standardisation to detect RoC patterns in datasets with high data noise or variability (i.e. numerous rapid changes in composition or sedimentation rates).
 
 ## Instaling package
 
 ```{r install, eval = FALSE}
 devtools::install_github("HOPE-UIB-BIO/R-Ratepol-package")
 ```
-
-## Cite as:
+## Cite as
 
 ```{r cite, eval = FALSE}
 citation(package = "RRatepol")
 ```
 
 Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new approach
-Review of Palaeobotany and Palynology 293, 
-doi: https://doi.org/10.1016/j.revpalbo.2021.104483
+Review of Palaeobotany and Palynology 293,
+doi: <https://doi.org/10.1016/j.revpalbo.2021.104483>
 
 ## Package website
+
 More detailed information can be found on [RRatepol package website](https://hope-uib-bio.github.io/R-Ratepol-package/)
 
 This include description of the individual steps for RoC estimation [Package Description](https://hope-uib-bio.github.io/R-Ratepol-package/articles/package-description.html)
@@ -49,33 +49,36 @@ This include description of the individual steps for RoC estimation [Package Des
 ## Examples
 
 ### Workflow
+
 Example of workflow showing full strength of RRatepol package, with as step by step guidance starting from downloading dataset from Neotoma, building age-depth models, to estimating rate-of-change using age uncertainty.
 [Example of full workflow](https://hope-uib-bio.github.io/R-Ratepol-package/articles/workflow-example.html)
 
 ### Seminar Day of PalaeoSIG
-For additional examples of RRatepol setting, see [Materials for Seminar Day of PalaeoSIG: Data Manipulation & Statistical Analysis in Palaeoecology](https://github.com/OndrejMottl/palaeoR_R-Ratepol_workshop) 
 
-### Build-in example 
-Pollen data from four European sequences the *Neotoma database* (Goring et al., 2015) were obtained. Taxa were standardised to the taxonomically highest pollen morphotype (Level = MHVar2) using the pollen harmonisation table in Giesecke et al. (2019). 
+For additional examples of RRatepol setting, see [Materials for Seminar Day of PalaeoSIG: Data Manipulation & Statistical Analysis in Palaeoecology](https://github.com/OndrejMottl/palaeoR_R-Ratepol_workshop)
 
-Age-depth models were developed using the pre-selected radiometric control points provided in Giesecke et al. (2014) and calibrated the radiocarbon dates using the IntCal13 Northern Hemisphere calibration curve (Reimer et al., 2013). For each sequence,  an age-depth model was constructed using the *Bchron R package* (Haslett & Parnell, 2008) to generate 1000 possible age predictions (i.e. age uncertainties) for all levels. We calculated the median of all the uncertainties for each level to give the most probable age (default age) in calibrated years before present (cal yr BP, where 0 = 1950 CE). 
+### Build-in example
+
+Pollen data from four European sequences the *Neotoma database* (Goring et al., 2015) were obtained. Taxa were standardised to the taxonomically highest pollen morphotype (Level = MHVar2) using the pollen harmonisation table in Giesecke et al. (2019).
+
+Age-depth models were developed using the pre-selected radiometric control points provided in Giesecke et al. (2014) and calibrated the radiocarbon dates using the IntCal13 Northern Hemisphere calibration curve (Reimer et al., 2013). For each sequence,  an age-depth model was constructed using the *Bchron R package* (Haslett & Parnell, 2008) to generate 1000 possible age predictions (i.e. age uncertainties) for all levels. We calculated the median of all the uncertainties for each level to give the most probable age (default age) in calibrated years before present (cal yr BP, where 0 = 1950 CE).
 
 In each sequence, we excluded all levels that contained less than 150 pollen grain counts of the terrestrial taxa, and all levels beyond a 3000-years extrapolation of the oldest chronological control point. In addition, we excluded all levels with an age older than 8500 cal yr BP to focus on the period of most substantial human impact.
 
-```{r package, results = F, error=F, message=F, warning=F}
+```{r package, results = FALSE, error=FALSE, message=FALSE, warning=FALSE}
 library(RRatepol)
 library(tidyverse)
 ```
 
 
-```{r data, results = T}
+```{r data, results = TRUE}
 example_data <-  
   RRatepol::example_data
 
 dplyr::glimpse(example_data)
 ```
 
-```{r plot_data, echo=T}
+```{r plot_data, echo=TRUE}
 example_data %>%
   ggplot2::ggplot(
     ggplot2::aes(
@@ -103,30 +106,29 @@ example_data %>%
 
 Estimate RoC values for *Dallican Water* site using *Age-weighed smoothing* of the data and *Chord dissimilarity* coefficient. Pollen data will not standardised to a certain pollen count and age uncertainties from *Bchron* will not be used.  
 
-```{r sequence 1, results = F, warning=F}
+```{r sequence 1, results=FALSE, warning=FALSE}
 sequence_01 <- 
   RRatepol::fc_estimate_RoC(
     data_source_community = example_data$pollen_data[[1]],
     data_source_age = example_data$sample_age[[1]],
-    age_uncertainty = FALSE,
     smooth_method = "shep",
     DC = "chisq",
-    Working_Units = "levels",
-    standardise = FALSE,
-    rand = 1)
+    Working_Units = "levels"
+    )
 ```
 
-```{r plot_1, echo=T}
-RRatepol::fc_plot_RoC_sequence(sequence_01, Peaks = F, trend = F)
+```{r plot_1, echo=TRUE}
+RRatepol::fc_plot_RoC_sequence(
+  data_source = sequence_01)
 ```
 
 #### Example 2
 
 Now try to standardise pollen data in each sample to a maximum of 150 pollen grains and use age uncertainties from *age-depth model*.
-Process will be repeated 1000 times on multiple cores using *parallel package*.
+Process will be repeated 1000 times on multiple cores using parallel computation.
 This will produce error *wrapper* showing 95th percent quantile.
 
-```{r sequence 2, results = F, warning=F}
+```{r sequence 2, results=FALSE, warning=FALSE}
 sequence_02 <-
   RRatepol::fc_estimate_RoC(
     data_source_community = example_data$pollen_data[[1]],
@@ -138,21 +140,19 @@ sequence_02 <-
     standardise = TRUE,
     N_individuals = 150,
     rand = 1000,
-    treads = TRUE)
+    use_parallel = TRUE)
 ```
 
-```{r plot_2, echo=T}
+```{r plot_2, echo=TRUE}
 RRatepol::fc_plot_RoC_sequence(
-  data_source = sequence_02,
-  Peaks = FALSE,
-  trend = FALSE)
+  data_source = sequence_02)
 ```
 
 #### Example 3
 
-Use *Binning with the mowing window* approach with `bin_size` = 500 and `Number_of_shifts` = 5. 
+Use *Binning with the mowing window* approach with `bin_size` = 500 and `Number_of_shifts` = 5.
 
-```{r sequence 3, results = F, warning=F}
+```{r sequence 3, results=FALSE, warning=FALSE}
 sequence_03 <-
     RRatepol::fc_estimate_RoC(
     data_source_community = example_data$pollen_data[[1]],
@@ -166,29 +166,26 @@ sequence_03 <-
     standardise = TRUE,
     N_individuals = 150,
     rand = 1000,
-    treads = TRUE)
+    use_parallel = TRUE)
 ```
 
-```{r plot_3, echo=T}
+```{r plot_3, echo=TRUE}
 RRatepol::fc_plot_RoC_sequence(
-  data_source = sequence_03,
-  Peaks = FALSE,
-  trend = FALSE)
+  data_source = sequence_03)
 ```
 
 #### Example 4
 
 Detect the *peak points* using *trend_non_linear* method.
 
-```{r plot_4, echo=T}
-sequence_03_peaks <-
+```{r plot_4, echo=TRUE}
+sequence_03_with_peaks <-
   RRatepol::fc_detect_peak_points(
     data_source = sequence_03,
-    method = "trend_non_linear")
+    sel_method = "trend_non_linear")
 
 RRatepol::fc_plot_RoC_sequence(
-  data_source = sequence_03_peaks,
+  data_source = sequence_03_with_peaks,
   Peaks = TRUE,
   trend = "trend_non_linear")
 ```
-
