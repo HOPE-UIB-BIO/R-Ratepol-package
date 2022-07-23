@@ -55,10 +55,11 @@ fc_run_iteration <-
         ) {
             # select only community data
             com_data_sums <-
-                util_subset_community(
-                    data_source = data_subset
-                ) %>%
-                rowSums(.data, na.rm = TRUE)
+                rowSums(
+                    util_subset_community(
+                      data_source = data_subset
+                ),
+                na.rm = TRUE)
 
             # adjust the value to a minimal of presented values
             N_individuals <-
