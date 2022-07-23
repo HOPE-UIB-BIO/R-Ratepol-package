@@ -22,7 +22,7 @@ fc_estimate_RoC(
   tranform_to_proportions = TRUE,
   rand = NULL,
   treads = NULL,
-  use_parallel = TRUE,
+  use_parallel = FALSE,
   interest_threshold = NULL,
   only_subsequent = TRUE,
   time_standardisation = NULL,
@@ -96,7 +96,7 @@ The \code{N_individual} is automatically adjusted to the smallest number
 of pollen grains in sequence.}
 
 \item{DC}{Character. Dissimilarity coefficient. Type of calculation of differences
-between Working Units
+between Working Units. See \code{vegan::vegdist} for more details.
 \itemize{
 \item \code{"euc"} - Euclidean distance
 \item \code{"euc.sd"} - Standardised Euclidean distance
@@ -185,8 +185,8 @@ dissimilarity coefficients are available:
 \item Euclidean distance (\code{DC} = \code{"euc"})
 \item standardised Euclidean distance (\code{DC} = \code{"euc.sd"})
 \item Chord distance (\code{DC} = \code{"chord"})
-\item Chi-squared coefficient (\code{DC} = \code{"chisq"}; Prentice, 1980)
-\item Gower's distance (\code{DC} = \code{"gower"};Gower, 1971)
+\item Chi-squared coefficient (\code{DC} = \code{"chisq"})
+\item Gower's distance (\code{DC} = \code{"gower"})
 \item Bray-Curtis distance (\code{DC} = \code{"bray"})
 }
 The choice of DC depends on the type of assemblage data. In addition, RoC
@@ -295,16 +295,9 @@ Analysis. Academic Press, London.
 Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed.
 J. Wiley & Sons, New York.
 
-Gower, J.C., 1971. A general coefficient of similarity and some of its
-properties. Biometrics 27, 857–871.
-
 Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt
 climate changes during the past 18000 years in eastern North America.
 Clim. Dyn. 6, 179–184.
-
-Prentice, I.C., 1980. Multidimensional scaling as a research tool in
-Quaternary palynology: A review of theory and methods. Rev. Palaeobot.
-Palynol. 31, 71–104. https://doi.org/10.1016/0034-6667(80)90023-8
 
 Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
 USA 37. https://doi.org/10.2307/2669493

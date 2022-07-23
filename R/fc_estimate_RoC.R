@@ -66,7 +66,7 @@
 #' of pollen grains in sequence.
 #' @param DC
 #' Character. Dissimilarity coefficient. Type of calculation of differences
-#' between Working Units
+#' between Working Units. See `vegan::vegdist` for more details.
 #' \itemize{
 #' \item `"euc"` - Euclidean distance
 #' \item `"euc.sd"` - Standardised Euclidean distance
@@ -152,8 +152,8 @@
 #' \item Euclidean distance (`DC` = `"euc"`)
 #' \item standardised Euclidean distance (`DC` = `"euc.sd"`)
 #' \item Chord distance (`DC` = `"chord"`)
-#' \item Chi-squared coefficient (`DC` = `"chisq"`; Prentice, 1980)
-#' \item Gower's distance (`DC` = `"gower"`;Gower, 1971)
+#' \item Chi-squared coefficient (`DC` = `"chisq"`)
+#' \item Gower's distance (`DC` = `"gower"`)
 #' \item Bray-Curtis distance (`DC` = `"bray"`)
 #' }
 #' The choice of DC depends on the type of assemblage data. In addition, RoC
@@ -231,16 +231,9 @@
 #' Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed.
 #' J. Wiley & Sons, New York.
 #'
-#' Gower, J.C., 1971. A general coefficient of similarity and some of its
-#' properties. Biometrics 27, 857–871.
-#'
 #' Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt
 #' climate changes during the past 18000 years in eastern North America.
 #' Clim. Dyn. 6, 179–184.
-#'
-#' Prentice, I.C., 1980. Multidimensional scaling as a research tool in
-#' Quaternary palynology: A review of theory and methods. Rev. Palaeobot.
-#' Palynol. 31, 71–104. https://doi.org/10.1016/0034-6667(80)90023-8
 #'
 #' Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
 #' USA 37. https://doi.org/10.2307/2669493
@@ -285,7 +278,7 @@ fc_estimate_RoC <-
            tranform_to_proportions = TRUE,
            rand = NULL,
            treads = NULL,
-           use_parallel = TRUE,
+           use_parallel = FALSE,
            interest_threshold = NULL,
            only_subsequent = TRUE,
            time_standardisation = NULL,
@@ -339,6 +332,8 @@ fc_estimate_RoC <-
       util_check_class("bin_selection", "character")
 
       util_check_vector_values("bin_selection", c("first", "random"))
+      
+      bin_selection <- match.arg(bin_selection)
 
       util_check_class("only_subsequent", "logical")
 
@@ -686,23 +681,10 @@ fc_estimate_RoC <-
       )
     }
 
-    # select the prefetred number of cores for of cores for parallel computation
+    # select the preferred number of cores for of cores for parallel computation
     if (
-      use_parallel == FALSE
+      use_parallel == TRUE
     ) {
-      result_list <-
-        lapply(
-          X = data_to_run,
-          FUN = fc_run_iteration,
-          bin_selection = bin_selection,
-          standardise = standardise,
-          N_individuals = N_individuals,
-          tranform_to_proportions = tranform_to_proportions,
-          DC = DC,
-          time_standardisation = time_standardisation,
-          verbose = verbose
-        )
-    } else {
       if (
         class(use_parallel) == "numeric"
       ) {
@@ -712,39 +694,44 @@ fc_estimate_RoC <-
         n_cores <-
           parallel::detectCores() # detect number
       }
-
+      
       # create cluster
       cl <-
         parallel::makeCluster(n_cores)
-
+      
       # eval packages
       parallel::clusterEvalQ(cl, {
         library("tidyverse")
         library("RRatepol")
       })
-
-      result_list <-
-        pbapply::pblapply(
-          X = data_to_run,
-          FUN = fc_run_iteration,
-          cl = cl,
-          bin_selection = bin_selection,
-          standardise = standardise,
-          N_individuals = N_individuals,
-          tranform_to_proportions = tranform_to_proportions,
-          DC = DC,
-          time_standardisation = time_standardisation,
-          verbose = verbose
-        )
-
-      # close progress bar and cluster
-      if (!is.null(cl)) {
-        parallel::stopCluster(cl)
-        cl <- NULL
-      }
-      gc(verbose = FALSE)
+      
+        
+    } else {
+     cl <- NULL
     }
 
+    # run the estimation with progress bar
+    result_list <-
+      pbapply::pblapply(
+        X = data_to_run,
+        FUN = fc_run_iteration,
+        cl = cl,
+        bin_selection = bin_selection,
+        standardise = standardise,
+        N_individuals = N_individuals,
+        tranform_to_proportions = tranform_to_proportions,
+        DC = DC,
+        time_standardisation = time_standardisation,
+        verbose = verbose
+      )
+    
+    # close progress bar and cluster
+    if (!is.null(cl)) {
+      parallel::stopCluster(cl)
+      cl <- NULL
+    }
+    gc(verbose = FALSE)
+    
     #----------------------------------------------------------#
     # 5. Results Summary -----
     #----------------------------------------------------------#
