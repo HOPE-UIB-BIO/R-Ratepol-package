@@ -243,7 +243,7 @@ fc_plot_RoC_sequence <-
             dplyr::filter(.data$Peak == TRUE),
           color = "green",
           alpha = 1,
-          size = 1
+          size = 3
         )
     }
 
