@@ -26,7 +26,7 @@
 #' \itemize{
 #' \item SNI = the SNI computed for each sample
 #' \item winInd = indexes of the first and last samples included in each moving
-#' window. E.g. SNI_output$winInd(X) == [A, B] indicates that the
+#' window. E.g. SNI_output$winInd(X) == (A, B) indicates that the
 #' moving window used to calculate SNI for the Xth sample contained all
 #' samples between A and B, inclusive.
 #' \item popN = the CHAR values of all samples in the noise (N) population
