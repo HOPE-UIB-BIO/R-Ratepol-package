@@ -140,12 +140,12 @@ uncertainties from *Bchron* will not be used.
         Working_Units = "levels"
         )
     #> #----------------------------------------------------------#
-    #> i RRatepol started 2022-07-23 10:38:35
+    #> i RRatepol started 2022-07-26 10:24:40
     #> #----------------------------------------------------------#
     #> i RoC will be estimated between individual subsequent levels
     #> i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
     #> #----------------------------------------------------------#
-    #> i RRatepol finished 2022-07-23 10:38:36 taking 1.25 secs
+    #> i RRatepol finished 2022-07-26 10:24:41 taking 1.37 secs
     #> #----------------------------------------------------------#
 
     RRatepol::fc_plot_RoC_sequence(
@@ -174,13 +174,13 @@ quantile.
         rand = 1000,
         use_parallel = TRUE)
     #> #----------------------------------------------------------#
-    #> i RRatepol started 2022-07-23 10:38:37
+    #> i RRatepol started 2022-07-26 10:24:42
     #> #----------------------------------------------------------#
     #> i RoC will be estimated between individual subsequent levels
     #> i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
     #> i Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
     #> #----------------------------------------------------------#
-    #> i RRatepol finished 2022-07-23 10:39:42 taking 1.09 mins
+    #> i RRatepol finished 2022-07-26 10:25:51 taking 1.16 mins
     #> #----------------------------------------------------------#
 
     RRatepol::fc_plot_RoC_sequence(
@@ -208,14 +208,14 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and
         rand = 1000,
         use_parallel = TRUE)
     #> #----------------------------------------------------------#
-    #> i RRatepol started 2022-07-23 10:39:42
+    #> i RRatepol started 2022-07-26 10:25:52
     #> #----------------------------------------------------------#
     #> i RoC will be estimated using 'binning with the mowing window' of 500 yr time bin over 5 number of window shifts
     #> i Sample will randomly selected for each bin
     #> i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
     #> i Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
     #> #----------------------------------------------------------#
-    #> i RRatepol finished 2022-07-23 10:42:29 taking 2.77 mins
+    #> i RRatepol finished 2022-07-26 10:28:58 taking 3.1 mins
     #> #----------------------------------------------------------#
 
     RRatepol::fc_plot_RoC_sequence(

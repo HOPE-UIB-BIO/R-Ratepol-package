@@ -1,7 +1,6 @@
 ---
 title: "RRatepol"
 author: "Ondrej Mottl"
-date: "16/06/2021"
 output: md_document
 ---
 
