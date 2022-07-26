@@ -12,3 +12,4 @@
 ^\.github$
 ^.vscode
 ^R.css
+^CRAN-SUBMISSION$
