@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 # General description
-The computation of RoC in R-Ratepol is performed using the following steps:
+The computation of RoC in RRatepol is performed using the following steps:
 
 1. Assemblage and age-model data are extracted from the original source and should be compiled together, i.e. depth, age, variable (taxon) 1, variable (taxon) 2, etc.
 
@@ -34,7 +34,7 @@ The computation of RoC in R-Ratepol is performed using the following steps:
 
 - (optional) Standardisation of assemblage data in each WU 
 
-- Calculation of RoC between WUs: RoC is calculated as the dissimilarity coefficient (DC) standardised by age differences between WUs. Several in-built dissimilarity coefficients are available: Euclidean distance (`DC = "euc`), standardised Euclidean distance (`DC = "euc.sd`), Chord distance (`DC = "chord`), Chi-squared coefficient (`DC = "chisq`; Prentice, 1980), Gower’s distance (`DC = "gower`; Gower, 1971), Bray-Curtis(`DC = "bray`). The choice of DC depends on the type of assemblage data. In addition, RoC between WUs be calculated using every consecutive WU (`only_subsequent = FALSE`), or alternatively, calculation of RoC can be restricted to only directly adjacent WUs (`only_subsequent = TRUE`). Using the former increases the number of samples for which RoC can be calculated within a sequence, which varies in terms of sample resolution, but may still introduce biases related to the RoC estimation as a result of the varying inter-sample distances.
+- Calculation of RoC between WUs: RoC is calculated as the dissimilarity coefficient (DC) standardised by age differences between WUs. Several in-built dissimilarity coefficients are available: Euclidean distance (`DC = "euc`), standardised Euclidean distance (`DC = "euc.sd`), Chord distance (`DC = "chord`), Chi-squared coefficient (`DC = "chisq`), Gower’s distance (`DC = "gower`), Bray-Curtis(`DC = "bray`). See `vegan::vegdist`for more details. The choice of DC depends on the type of assemblage data.
     
 - The summary of a single run is produced based on all moving windows
 
@@ -51,7 +51,7 @@ The computation of RoC in R-Ratepol is performed using the following steps:
 
 RoC is calculated between consecutive Working Units (WU). Traditionally, these WUs represent individual stratigraphical levels. However, changes in sedimentation rates and sampling strategies can result in an uneven temporal distribution of levels within a time sequence, which in turn makes the comparison of RoC between sequences problematic. There are various methods that attempt to minimise such problems. The first is interpolation of levels to evenly spaced time intervals, and the use of the interpolated data as WUs. This can lead to a loss of information when the density of levels is high. Second is binning of levels: assemblage data are pooled into age brackets of various size (i.e. time bins) and these serve as WUs. Here, the issue is a lower resolution of WUs and their uneven size in terms of total assemblage count (bins with more levels have higher assemblage counts). Third is selective binning: like classical binning, bins of selected size are created, but instead of pooling assemblage data together, only one level per time bin is selected as representative of each bin. This results in an even number of WUs in bins with a similar count size in the assemblage. However, the issue of low resolution remains. 
 Therefore, we propose a new method of binning with a moving window, which is a compromise between using individual levels and selective binning. This method follows a simple sequence: time bins are created, levels are selected as in selective binning, and RoC between bins is calculated. However, the brackets of the time bin (window) are then moved forward by a selected amount of time (Z), levels are selected again (subset into bins), and RoC calculated for the new set of WUs. This is repeated X times (where X is the bin size divided by Z) while retaining all the results. 
-R-Ratepol currently provides several options for selecting WU, namely as individual levels (`Working_Units = "levels"`), selective binning of levels (`Working_Units = "bins"`), and our new method of binning with a moving window (`Working_Units = "MW"`), which is summarised in figure.
+RRatepol currently provides several options for selecting WU, namely as individual levels (`Working_Units = "levels"`), selective binning of levels (`Working_Units = "bins"`), and our new method of binning with a moving window (`Working_Units = "MW"`), which is summarised in figure.
 
 ```{r Scheme, echo=FALSE, out.width = "100%", fig.cap="Shematics of individual steps"}
 knitr::include_graphics("data/figures/Fig_Scheme.png")
@@ -60,7 +60,7 @@ knitr::include_graphics("data/figures/Fig_Scheme.png")
 
 ## Randomisation
 
-Due to the inherent statistical errors in uncertainties in the age estimates from age-depth and the assemblage datasets (e.g. pollen counts in each level; Birks and Gordon, 1985), R-Ratepol can be run several times and the results summarised (Steps 5-6). Therefore, two optional settings are available by using age uncertainties and assemblage data standardisation.  
+Due to the inherent statistical errors in uncertainties in the age estimates from age-depth and the assemblage datasets (e.g. pollen counts in each level; Birks and Gordon, 1985), RRatepol can be run several times and the results summarised (Steps 5-6). Therefore, two optional settings are available by using age uncertainties and assemblage data standardisation.  
 
 ### Age uncertainties (Step 4a)
 
@@ -72,7 +72,7 @@ For each run, a single age sequence from the age uncertainties is randomly selec
 Variables (taxa) in the assemblage dataset can be standardised to a certain count (e.g. number of pollen grains in each WU) by rarefaction. Random sampling without replacement is used to draw a selected number of individuals from each WU (e.g. 150 pollen grains).
 
 ## Detection of peak-points in RoC sequence (Step 8)
-A rapid change in composition or relative abundances of variables within the sequence can provide a means of comparing RoC between sequences and interpreting the potential drivers of assemblage change. To detect such significant peak-points of RoC scores in each sequence, each point is tested to see if it represents a significant increase in RoC values. There are various ways to detect peak-points in a time series and R-Ratepol is able to detect peak-points using five methods:
+A rapid change in composition or relative abundances of variables within the sequence can provide a means of comparing RoC between sequences and interpreting the potential drivers of assemblage change. To detect such significant peak-points of RoC scores in each sequence, each point is tested to see if it represents a significant increase in RoC values. There are various ways to detect peak-points in a time series and RRatepol is able to detect peak-points using five methods:
 
 - Threshold (`method = "threshold`): Each point in the RoC sequence is compared to a median of all RoC scores from the whole sequence (i.e. threshold value). The ROC value for a point is considered significant if the 95th quantile of the RoC scores from all calculations is higher than the threshold value. 
 
@@ -89,13 +89,9 @@ Birks, H.J.B., Gordon, A.D., 1985. Numerical Methods in Quaternary Pollen Analys
 
 Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed. J. Wiley & Sons, New York.
 
-Gower, J.C., 1971. A general coefficient of similarity and some of its properties. Biometrics 27, 857–871.
-
 Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt climate changes during the past 18000 years in eastern North America. Clim. Dyn. 6, 179–184.
 
 Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A signal-to-noise index to quantify the potential for peak detection in sediment-charcoal records. Quat. Res. 75, 11–17. https://doi.org/10.1016/j.yqres.2010.07.011
-
-Prentice, I.C., 1980. Multidimensional scaling as a research tool in Quaternary palynology: A review of theory and methods. Rev. Palaeobot. Palynol. 31, 71–104. https://doi.org/10.1016/0034-6667(80)90023-8
 
 Simpson, G.L., 2019. gratia: graceful’ggplot’–based graphics and other functions for GAMs fitted using “mgcv.” R Packag. version 0.2–1.
 
