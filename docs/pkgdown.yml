@@ -1,11 +1,11 @@
-pandoc: '2.13'
-pkgdown: 1.6.1
+pandoc: 2.17.1.1
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   package-description: package-description.html
   workflow-example: workflow-example.html
-last_built: 2021-10-29T10:46Z
+last_built: 2022-07-26T15:27Z
 urls:
-  reference: https://hope-uib-bio.github.io/R-Ratepol-package//reference
-  article: https://hope-uib-bio.github.io/R-Ratepol-package//articles
+  reference: https://hope-uib-bio.github.io/R-Ratepol-package/reference
+  article: https://hope-uib-bio.github.io/R-Ratepol-package/articles
 

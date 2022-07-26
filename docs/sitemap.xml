@@ -1,27 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//index.html</loc>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/404.html</loc>
   </url>
   <url>
-    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//reference/example_data.html</loc>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//reference/fc_detect_peak_points.html</loc>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/articles/package-description.html</loc>
   </url>
   <url>
-    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//reference/fc_estimate_RoC.html</loc>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/articles/workflow-example.html</loc>
   </url>
   <url>
-    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//reference/fc_plot_RoC_sequence.html</loc>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/authors.html</loc>
   </url>
   <url>
-    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//reference/RRatepolList-class.html</loc>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/index.html</loc>
   </url>
   <url>
-    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//articles/package-description.html</loc>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://hope-uib-bio.github.io/R-Ratepol-package//articles/workflow-example.html</loc>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/example_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_calculate_DC.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_CharSNI.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_check_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_detect_peak_points.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_estimate_RoC.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_extract_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_make_bins.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_plot_RoC_sequence.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_prepare_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_reduce.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_reduce_simple.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_run_iteration.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_smooth_community_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_standardise_community_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_subset_samples.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_transfer_into_proportions.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/RRatepol-package.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_check_class.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_check_col_names.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_check_if_integer.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_check_vector_values.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_flatten_by_one.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_make_trend.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_output_comment.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_output_heading.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_output_warning.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_paste_as_vector.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_subset_community.html</loc>
   </url>
 </urlset>
