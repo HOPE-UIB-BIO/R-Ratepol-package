@@ -20,6 +20,8 @@ This workflow should show full strength of *RRatepol package* and serve as step 
 step guidance starting from downloading dataset from Neotoma, building age-depth
 models, to estimating rate-of-change using age uncertainty.
 
+:warning: **This workflow is only meant as example**: There are several additional steps for data reparation which should be done to really use the data from Neotoma!
+
 ## import packages
 
 ```{r setup, results='hide', warning=FALSE, message=FALSE}
@@ -34,13 +36,15 @@ library(janitor)
 ## Download the dataset *Glendalough Valley* from Neotoma
 
 ```{r download_of_data, results='hide', warning=FALSE, message=FALSE}
-gl_dataset_download <- neotoma::get_download(17334)
+gl_dataset_download <- 
+  neotoma::get_download(17334)
 
 chronology_id <- 
   gl_dataset_download[[1]]$sample.meta$chronology.id %>% 
   unique()
 
-gl_chron_control_table_download <- neotoma::get_chroncontrol(chronology_id)
+gl_chron_control_table_download <- 
+  neotoma::get_chroncontrol(chronology_id)
 
 ```
 
@@ -50,11 +54,11 @@ gl_chron_control_table_download <- neotoma::get_chroncontrol(chronology_id)
 gl_counts <- 
   gl_dataset_download[[1]]$counts 
 
-gl_taxon_lits <- 
+gl_taxon_list <- 
   gl_dataset_download[[1]]$taxon.list
 
-gl_taxon_lits_selected <- 
-gl_taxon_lits %>% 
+gl_taxon_list_selected <- 
+gl_taxon_list %>% 
   dplyr::filter(variable.element == "pollen")
 
 gl_counts_selected <-
@@ -62,7 +66,7 @@ gl_counts_selected <-
   as.data.frame() %>% 
   tibble::rownames_to_column(., var = "sample_id") %>% 
   tibble::as_tibble() %>% 
-  dplyr::select(sample_id, dplyr::any_of(gl_taxon_lits_selected$taxon.name)) %>% 
+  dplyr::select(sample_id, dplyr::any_of(gl_taxon_list_selected$taxon.name)) %>% 
   janitor::clean_names() 
 
 head(gl_counts_selected)[,1:5]
@@ -105,7 +109,7 @@ pander::pandoc.table(head(gl_level))
 ### Age depth modelling
 
 We will recalculate new age-depth model 'de novo' using *Bchron* package. In this 
-toy example we will use only iteration multiplier (*i_multiplier*) of 1 to 
+toy example we will use only iteration multiplier (*i_multiplier*) of 0.5 to 
 reduce the computation time. However, we strongly recommend to increase it to 5
 for any normal age-depth model construction.
 
@@ -221,7 +225,8 @@ gl_roc <-
       standardise = TRUE,
       N_individuals = 150,
       rand = randomisations,
-      treads = FALSE) # treads = TRUE to use parallel calculation
+      use_parallel = FALSE # use_parallel = TRUE to use parallel calculation
+      ) 
 
 ```
 
@@ -233,7 +238,7 @@ We will detect significant peak-points using *Non-linear* method
 gl_roc_peaks <-
   RRatepol::fc_detect_peak_points(
     data_source = gl_roc,
-    method = "trend_non_linear")
+    sel_method = "trend_non_linear")
 ```
 
 Plot the estimates with showing both the peak-points 
@@ -241,8 +246,6 @@ Plot the estimates with showing both the peak-points
 ```{r roc_figure, results='markup', echo=TRUE}
 RRatepol::fc_plot_RoC_sequence(
   data_source = gl_roc_peaks,
-  age_threshold = 8e3,
-  Roc_threshold = 0.5,
   Peaks = TRUE,
   trend = "trend_non_linear")
 ```
