@@ -93,16 +93,7 @@
 #' Numeric. Optional. Age, after which all results of RoC are excluded.
 #' @param only_subsequent
 #' `r lifecycle::badge("deprecated")`
-#' Logical.
-#' \itemize{
-#' \item `FALSE` - RoC between WUs can be calculated using every consecutive WU
-#' \item `TRUE` -  calculation of RoC can be restricted to only directly adjacent WUs
-#' }
-#' Using the former increases the number of samples for which RoC can be calculated
-#' within a sequence, which varies in terms of sample resolution, but may still
-#' introduce biases related to the RoC estimation as a result of the varying inter-sample distances.
-#' Recommended setting is `only_subsequent` = `TRUE`.
-#' Only `only_subsequent` = `TRUE` will be kept in the next version.
+#' Only `only_subsequent` = `TRUE` is kept in the current version.
 #' @param time_standardisation
 #' Numeric. Units scaling for result RoC values. For example,
 #' if `time_standardisation` = 100, the RoC will be reported as
@@ -156,14 +147,6 @@
 #' \item Gower's distance (`DC` = `"gower"`)
 #' \item Bray-Curtis distance (`DC` = `"bray"`)
 #' }
-#' The choice of DC depends on the type of assemblage data. In addition, RoC
-#' between WUs be calculated using every consecutive WU (`only_subsequent` = `FALSE`),
-#' or alternatively, calculation of RoC can be restricted to only directly
-#' adjacent WUs (`only_subsequent` = `TRUE`). Using the former increases
-#' the number of samples for which RoC can be calculated within a sequence,
-#' which varies in terms of sample resolution, but may still introduce
-#' biases related to the RoC estimation as a result of the varying
-#' inter-sample distances.
 #' }
 #' \item Step 4 is repeated multiple times (e.g. 10,000 times).
 #' \item Validation and summary of results from all runs of RoC calculation are produced.

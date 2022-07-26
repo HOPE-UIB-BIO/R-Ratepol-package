@@ -123,16 +123,7 @@ proportion during calculations?}
 \item{interest_threshold}{Numeric. Optional. Age, after which all results of RoC are excluded.}
 
 \item{only_subsequent}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-Logical.
-\itemize{
-\item \code{FALSE} - RoC between WUs can be calculated using every consecutive WU
-\item \code{TRUE} -  calculation of RoC can be restricted to only directly adjacent WUs
-}
-Using the former increases the number of samples for which RoC can be calculated
-within a sequence, which varies in terms of sample resolution, but may still
-introduce biases related to the RoC estimation as a result of the varying inter-sample distances.
-Recommended setting is \code{only_subsequent} = \code{TRUE}.
-Only \code{only_subsequent} = \code{TRUE} will be kept in the next version.}
+Only \code{only_subsequent} = \code{TRUE} is kept in the current version.}
 
 \item{time_standardisation}{Numeric. Units scaling for result RoC values. For example,
 if \code{time_standardisation} = 100, the RoC will be reported as
@@ -189,14 +180,6 @@ dissimilarity coefficients are available:
 \item Gower's distance (\code{DC} = \code{"gower"})
 \item Bray-Curtis distance (\code{DC} = \code{"bray"})
 }
-The choice of DC depends on the type of assemblage data. In addition, RoC
-between WUs be calculated using every consecutive WU (\code{only_subsequent} = \code{FALSE}),
-or alternatively, calculation of RoC can be restricted to only directly
-adjacent WUs (\code{only_subsequent} = \code{TRUE}). Using the former increases
-the number of samples for which RoC can be calculated within a sequence,
-which varies in terms of sample resolution, but may still introduce
-biases related to the RoC estimation as a result of the varying
-inter-sample distances.
 }
 \item Step 4 is repeated multiple times (e.g. 10,000 times).
 \item Validation and summary of results from all runs of RoC calculation are produced.
