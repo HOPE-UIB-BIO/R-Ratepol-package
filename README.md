@@ -1,4 +1,11 @@
-# RRatepol package
+# RRatepol package <img src="man/figures/RRatepol_logo.png" align="right" width="200" />
+
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/RRatepol)](https://CRAN.R-project.org/package=RRatepol)
+[![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions)
+<!-- badges: end -->
 
 ## Current version: 1.0.0
 
@@ -33,7 +40,7 @@ Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J.
 Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H.
 John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new
 approach Review of Palaeobotany and Palynology 293, doi:
-<https://doi.org/10.1016/j.revpalbo.2021.104483>
+[![](https://img.shields.io/badge/doi-10.1016/j.revpalbo.2021.104483-yellow.svg)](https://doi.org/10.1016/j.revpalbo.2021.104483)
 
 ## Package website
 
@@ -140,12 +147,12 @@ uncertainties from *Bchron* will not be used.
         Working_Units = "levels"
         )
     #> #----------------------------------------------------------#
-    #> i RRatepol started 2022-07-26 10:24:40
+    #> i RRatepol started 2022-07-26 15:44:23
     #> #----------------------------------------------------------#
     #> i RoC will be estimated between individual subsequent levels
     #> i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
     #> #----------------------------------------------------------#
-    #> i RRatepol finished 2022-07-26 10:24:41 taking 1.37 secs
+    #> i RRatepol finished 2022-07-26 15:44:25 taking 2.04 secs
     #> #----------------------------------------------------------#
 
     RRatepol::fc_plot_RoC_sequence(
@@ -174,13 +181,13 @@ quantile.
         rand = 1000,
         use_parallel = TRUE)
     #> #----------------------------------------------------------#
-    #> i RRatepol started 2022-07-26 10:24:42
+    #> i RRatepol started 2022-07-26 15:44:26
     #> #----------------------------------------------------------#
     #> i RoC will be estimated between individual subsequent levels
     #> i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
     #> i Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
     #> #----------------------------------------------------------#
-    #> i RRatepol finished 2022-07-26 10:25:51 taking 1.16 mins
+    #> i RRatepol finished 2022-07-26 15:45:56 taking 1.51 mins
     #> #----------------------------------------------------------#
 
     RRatepol::fc_plot_RoC_sequence(
@@ -208,14 +215,14 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and
         rand = 1000,
         use_parallel = TRUE)
     #> #----------------------------------------------------------#
-    #> i RRatepol started 2022-07-26 10:25:52
+    #> i RRatepol started 2022-07-26 15:45:56
     #> #----------------------------------------------------------#
     #> i RoC will be estimated using 'binning with the mowing window' of 500 yr time bin over 5 number of window shifts
     #> i Sample will randomly selected for each bin
     #> i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
     #> i Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
     #> #----------------------------------------------------------#
-    #> i RRatepol finished 2022-07-26 10:28:58 taking 3.1 mins
+    #> i RRatepol finished 2022-07-26 15:49:38 taking 3.7 mins
     #> #----------------------------------------------------------#
 
     RRatepol::fc_plot_RoC_sequence(

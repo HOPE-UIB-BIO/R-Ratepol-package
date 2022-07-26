@@ -12,7 +12,12 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-")
 ```
 
-# RRatepol package
+# RRatepol package <img src="man/figures/RRatepol_logo.png" align="right" width="200" />
+
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/RRatepol)](https://CRAN.R-project.org/package=RRatepol)
+[![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions)
+<!-- badges: end -->
 
 ## Current version: 1.0.0
 
@@ -37,7 +42,7 @@ citation(package = "RRatepol")
 
 Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new approach
 Review of Palaeobotany and Palynology 293,
-doi: <https://doi.org/10.1016/j.revpalbo.2021.104483>
+doi: `r badger::badge_doi("10.1016/j.revpalbo.2021.104483", "yellow")`
 
 ## Package website
 
