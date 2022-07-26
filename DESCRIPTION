@@ -1,7 +1,7 @@
 Package: RRatepol
 Type: Package
 Title: R–Ratepol: Estimating Rate of Change in Temporal Sequences
-Version: 0.6.1
+Version: 1.0.0
 Maintainer: Ondrej Mottl <ondrej.mottl@gmail.com>
 Description: R-Ratepol is an R package for estimating rate of change (RoC) from community data in time series.
 License: MIT + file LICENSE
@@ -11,22 +11,24 @@ Language: en-GB
 Authors@R: person("Ondrej", "Mottl", email = "ondrej.mottl@gmail.com", role = c("aut","cre"))
 Imports:
     assertthat,
-    doParallel,
     dplyr,
-    foreach,
     ggplot2,
     gratia,
+    lifecycle,
     magrittr,
     methods,
     mgcv,
     parallel,
+    pbapply,
+    purrr,
     rlang,
     stats,
     tibble,
     tidyr,
+    usethis,
     utils,
     vegan
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Depends: 
     R (>= 2.10)
 Suggests: 
@@ -40,3 +42,4 @@ Suggests:
     tidyverse
 VignetteBuilder: knitr
 URL: https://hope-uib-bio.github.io/R-Ratepol-package/
+Roxygen: list(markdown = TRUE)

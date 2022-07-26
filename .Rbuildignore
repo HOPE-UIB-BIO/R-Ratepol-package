@@ -10,3 +10,6 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^.vscode
+^R.css
+^CRAN-SUBMISSION$
