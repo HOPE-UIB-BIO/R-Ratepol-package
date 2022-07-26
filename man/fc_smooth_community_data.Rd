@@ -61,7 +61,7 @@ climate changes during the past 18000 years in eastern North America.
 Clim. Dyn. 6, 179–184.
 
 Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
-USA 37. https://doi.org/10.2307/2669493
+USA 37.
 }
 \seealso{
 \code{\link[=fc_estimate_RoC]{fc_estimate_RoC()}}

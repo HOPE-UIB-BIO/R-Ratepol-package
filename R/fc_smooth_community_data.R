@@ -28,7 +28,7 @@
 #' Clim. Dyn. 6, 179–184.
 #'
 #' Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
-#' USA 37. https://doi.org/10.2307/2669493
+#' USA 37.
 fc_smooth_community_data <-
   function(data_source_smooth,
            smooth_method = c("m.avg", "grim", "age.w", "shep"),

@@ -98,4 +98,4 @@ Simpson, G.L., 2019. gratia: graceful’ggplot’–based graphics and other fun
 Simpson, G.L., 2018. Modelling palaeoecological time series using generalised additive models. Front. Ecol. Evol. 6, 1–21. https://doi.org/10.3389/fevo.2018.00149
 
 Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York, USA 37. https://doi.org/10.2307/2669493
-Wood, S.N., 2011. Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models. J. R. Stat. Soc. Ser. B Stat. Methodol. 73, 3–36. https://doi.org/10.1111/j.1467-9868.2010.00749.x
+Wood, S.N., 2011. Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models. J. R. Stat. Soc. Ser. B Stat. Methodol. 73, 3–36.

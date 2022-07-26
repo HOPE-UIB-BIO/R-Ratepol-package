@@ -219,7 +219,7 @@
 #' Clim. Dyn. 6, 179–184.
 #'
 #' Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
-#' USA 37. https://doi.org/10.2307/2669493
+#' USA 37.
 #' @export
 #' @examples
 #' \dontrun{
@@ -669,7 +669,7 @@ fc_estimate_RoC <-
       use_parallel == TRUE
     ) {
       if (
-        class(use_parallel) == "numeric"
+        methods::is(use_parallel, "numeric")
       ) {
         n_cores <-
           as.numeric(use_parallel) # set value
@@ -741,7 +741,7 @@ fc_estimate_RoC <-
 
     # reduce results by the focus age time
     if (
-      class(interest_threshold) == "numeric"
+      methods::is(interest_threshold, "numeric")
     ) {
       results_full <-
       results_full  %>% 

@@ -64,19 +64,19 @@ de Beaulieu, J.L., Binney, H., Fyfe, R.M., Gaillard, M.J., Gil-Romera, G.,
 van der Knaap, W.O., Kuneš, P., Kühl, N., van Leeuwen, J.F.N., Leydet, M.,
 Lotter, A.F., Ortu, E., Semmler, M., Bradshaw, R.H.W., 2013. Towards mapping
 the late Quaternary vegetation change of Europe. Veg. Hist. Archaeobot. 23,
-75–86. https://doi.org/10.1007/s00334-012-0390-y
+75–86.
 
 Giesecke, T., Wolters, S., van Leeuwen, J.F.N., van der Knaap, P.W.O.,
 Leydet, M., Brewer, S., 2019. Postglacial change of the floristic diversity
-gradient in Europe. Nat. Commun. 10. https://doi.org/10.1038/s41467-019-13233-y
+gradient in Europe. Nat. Commun. 10.
 
 Goring, S., Dawson, A., Simpson, G.L., Ram, K., Graham, R.W., Grimm, E.C.,
 Williams, J.W., 2015. Neotoma: A programmatic interface to the Neotoma
-paleoecological database. Open Quat. 1, 1–17. https://doi.org/10.5334/oq.ab
+paleoecological database. Open Quat. 1, 1–17.
 
 Haslett, J., Parnell, A., 2008. A simple monotone process with application
 to radiocarbon-dated depth chronologies. J. R. Stat. Soc. Ser. C Appl. Stat.
-57, 399–418. https://doi.org/10.1111/j.1467-9876.2008.00623.x
+57, 399–418.
 
 Reimer, P.J., Bard, E., Bayliss, A., Beck, J.W., Blackwell, P.G., Ramsey,
 C.B., Buck, C.E., Cheng, H., Edwards, R.L., Friedrich, M., Grootes, P.M.,
@@ -87,6 +87,5 @@ Kaiser, K.F., Kromer, B., Manning, S.W., Niu, M., Reimer, R.W., Richards,
 D.A., Scott, E.M., Southon, J.R., Staff, R.A., Turney, C.S.M.,
 van der Plicht, J., 2013. IntCal13 and Marine13 Radiocarbon Age Calibration
 Curves 0–50,000 years cal BP. Radiocarbon 55, 1869–1887.
-https://doi.org/10.2458/azu_js_rc.55.16947
 }
 \keyword{datasets}

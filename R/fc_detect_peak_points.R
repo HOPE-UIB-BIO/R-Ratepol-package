@@ -64,18 +64,17 @@
 #' @references
 #' Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A signal-to-noise
 #' index to quantify the potential for peak detection in sediment-charcoal records.
-#' Quat. Res. 75, 11–17. https://doi.org/10.1016/j.yqres.2010.07.011
+#' Quat. Res. 75, 11–17.
 #'
 #' Simpson, G.L., 2019. gratia: graceful'ggplot'–based graphics and other functions
 #' for GAMs fitted using “mgcv.” R Packag. version 0.2–1.
 #'
 #' Simpson, G.L., 2018. Modelling palaeoecological time series using generalised
-#' additive models. Front. Ecol. Evol. 6, 1–21. https://doi.org/10.3389/fevo.2018.00149
+#' additive models. Front. Ecol. Evol. 6, 1–21.
 #'
 #' Wood, S.N., 2011. Fast stable restricted maximum likelihood and marginal
 #' likelihood estimation of semiparametric generalized linear models.
 #' J. R. Stat. Soc. Ser. B Stat. Methodol. 73, 3–36.
-#' https://doi.org/10.1111/j.1467-9868.2010.00749.x
 #' @export
 #'
 #' @examples
