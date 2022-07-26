@@ -28,7 +28,7 @@ age uncertainties of each level and taxon standardisation to detect RoC
 patterns in datasets with high data noise or variability (i.e. numerous
 rapid changes in composition or sedimentation rates).
 
-## Instaling package
+## Installing package
 
     devtools::install_github("HOPE-UIB-BIO/R-Ratepol-package")
 
