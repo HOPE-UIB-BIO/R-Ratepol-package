@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   package-description: package-description.html
   workflow-example: workflow-example.html
-last_built: 2022-07-26T16:03Z
+last_built: 2022-07-27T07:58Z
 urls:
   reference: https://hope-uib-bio.github.io/R-Ratepol-package/reference
   article: https://hope-uib-bio.github.io/R-Ratepol-package/articles
