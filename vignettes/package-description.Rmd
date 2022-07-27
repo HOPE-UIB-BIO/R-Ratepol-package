@@ -46,7 +46,7 @@ RoC is calculated between consecutive Working Units (WU). Traditionally, these W
 Therefore, we propose a new method of binning with a moving window, which is a compromise between using individual levels and selective binning. This method follows a simple sequence: time bins are created, levels are selected as in selective binning, and RoC between bins is calculated. However, the brackets of the time bin (window) are then moved forward by a selected amount of time (Z), levels are selected again (subset into bins), and RoC calculated for the new set of WUs. This is repeated X times (where X is the bin size divided by Z) while retaining all the results. 
 RRatepol currently provides several options for selecting WU, namely as individual levels (`Working_Units = "levels"`), selective binning of levels (`Working_Units = "bins"`), and our new method of binning with a moving window (`Working_Units = "MW"`), which is summarised in figure.
 
-![](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/blob/master/man/figures/FIG_Scheme.png)
+<img src="https://raw.githubusercontent.com/HOPE-UIB-BIO/R-Ratepol-package/master/man/figures/FIG_Scheme.png" alt="RRatepol scheme" align="middle" width="600"/>
 
 ## Randomisation
 
