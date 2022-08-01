@@ -74,13 +74,8 @@
 
     
     
-<p>This workflow should show full strength of <em>RRatepol package</em>
-and serve as step by step guidance starting from downloading dataset
-from Neotoma, building age-depth models, to estimating rate-of-change
-using age uncertainty.</p>
-<p>:warning: <strong>This workflow is only meant as example</strong>:
-There are several additional steps for data reparation which should be
-done to really use the data from Neotoma!</p>
+<p>This workflow should show full strength of <em>RRatepol package</em> and serve as step by step guidance starting from downloading dataset from Neotoma, building age-depth models, to estimating rate-of-change using age uncertainty.</p>
+<p>:warning: <strong>This workflow is only meant as example</strong>: There are several additional steps for data reparation which should be done to really use the data from Neotoma!</p>
 <div class="section level2">
 <h2 id="import-packages">import packages<a class="anchor" aria-label="anchor" href="#import-packages"></a>
 </h2>
@@ -189,9 +184,7 @@ done to really use the data from Neotoma!</p>
 </tr>
 </tbody>
 </table>
-<p>Here, we strongly advocate that attention should be paid to the
-section of ecological ecological group, as well, as harmonisation of the
-pollen taxa. However, that is not subject of this workflow.</p>
+<p>Here, we strongly advocate that attention should be paid to the section of ecological ecological group, as well, as harmonisation of the pollen taxa. However, that is not subject of this workflow.</p>
 </div>
 <div class="section level2">
 <h2 id="preparation-of-the-levels">Preparation of the levels<a class="anchor" aria-label="anchor" href="#preparation-of-the-levels"></a>
@@ -249,15 +242,8 @@ pollen taxa. However, that is not subject of this workflow.</p>
 <div class="section level3">
 <h3 id="age-depth-modelling">Age depth modelling<a class="anchor" aria-label="anchor" href="#age-depth-modelling"></a>
 </h3>
-<p>We will recalculate new age-depth model ‘de novo’ using
-<em>Bchron</em> package. In this toy example we will use only iteration
-multiplier (<em>i_multiplier</em>) of 0.5 to reduce the computation
-time. However, we strongly recommend to increase it to 5 for any normal
-age-depth model construction.</p>
-<p>Prepare chron.control table and run Bchron Here we only present few
-of the important steps of preparation of chron.control table. There are
-many more potential issues issues but solving those is not the focus of
-this workflow.</p>
+<p>We will recalculate new age-depth model ‘de novo’ using <em>Bchron</em> package. In this toy example we will use only iteration multiplier (<em>i_multiplier</em>) of 0.5 to reduce the computation time. However, we strongly recommend to increase it to 5 for any normal age-depth model construction.</p>
+<p>Prepare chron.control table and run Bchron Here we only present few of the important steps of preparation of chron.control table. There are many more potential issues issues but solving those is not the focus of this workflow.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gl_chron_control_table</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">gl_chron_control_table_download</span><span class="op">$</span><span class="va">chron.control</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -471,17 +457,17 @@ this workflow.</p>
 <tr class="even">
 <td align="center">161511</td>
 <td align="center">24</td>
-<td align="center">135</td>
+<td align="center">134</td>
 </tr>
 <tr class="odd">
 <td align="center">161512</td>
 <td align="center">32</td>
-<td align="center">195</td>
+<td align="center">194</td>
 </tr>
 <tr class="even">
 <td align="center">161513</td>
 <td align="center">40</td>
-<td align="center">255</td>
+<td align="center">254.5</td>
 </tr>
 </tbody>
 </table>
@@ -490,13 +476,7 @@ this workflow.</p>
 <div class="section level2">
 <h2 id="estimation-rate-of-change">Estimation Rate-of-Change<a class="anchor" aria-label="anchor" href="#estimation-rate-of-change"></a>
 </h2>
-<p>Here we use the the prepared data to estimate the rate of vegetation
-change. We will use the method of the <em>binning with the mowing
-window</em>, <em>Shepard’s 5-term filter</em> as data smoothing
-<em>Chi-squared coefficient</em> as dissimilarity coefficient. This is
-again a toy example for a quick computation and we would recommend
-increasing the <em>randomisations</em> to 10.000 for any real
-estimation.</p>
+<p>Here we use the the prepared data to estimate the rate of vegetation change. We will use the method of the <em>binning with the mowing window</em>, <em>Shepard’s 5-term filter</em> as data smoothing <em>Chi-squared coefficient</em> as dissimilarity coefficient. This is again a toy example for a quick computation and we would recommend increasing the <em>randomisations</em> to 10.000 for any real estimation.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">randomisations</span> <span class="op">&lt;-</span> <span class="fl">100</span> <span class="co"># increase to 10e3</span></span>
 <span></span>
@@ -518,8 +498,7 @@ estimation.</p>
 <div class="section level3">
 <h3 id="detect-peak-points-and-plot-the-results">Detect peak-points and plot the results<a class="anchor" aria-label="anchor" href="#detect-peak-points-and-plot-the-results"></a>
 </h3>
-<p>We will detect significant peak-points using <em>Non-linear</em>
-method</p>
+<p>We will detect significant peak-points using <em>Non-linear</em> method</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gl_roc_peaks</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">RRatepol</span><span class="fu">::</span><span class="fu"><a href="../reference/fc_detect_peak_points.html">fc_detect_peak_points</a></span><span class="op">(</span></span>
