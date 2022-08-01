@@ -77,191 +77,69 @@
 <div class="section level2">
 <h2 id="general-description">General description<a class="anchor" aria-label="anchor" href="#general-description"></a>
 </h2>
-<p>The computation of RoC in RRatepol is performed using the following
-steps:</p>
+<p>The computation of RoC in RRatepol is performed using the following steps:</p>
 <ol style="list-style-type: decimal">
-<li><p>Assemblage and age-model data are extracted from the original
-source and should be compiled together, i.e. depth, age, variable
-(taxon) 1, variable (taxon) 2, etc.</p></li>
-<li><p>(optional) Smoothing of assemblage data: Each variable within the
-assemblage data is smoothed using one of five in-built smoothing
-methods: none (<code>smooth_method = "none"</code>), Shepard’s 5-term
-filter (<code>smooth_method = "shep"</code>; Davis, 1986; Wilkinson,
-2005), moving average (<code>smooth_method = "m.avg"</code>),
-age-weighted average (<code>smooth_method = "age.w"</code>), Grimm’s
-smoothing (<code>smooth_method = "grim"</code>; Grimm and Jacobson,
-1992).</p></li>
-<li><p>Creation of time bins: A template for all time bins in all window
-movements is created.</p></li>
+<li><p>Assemblage and age-model data are extracted from the original source and should be compiled together, i.e. depth, age, variable (taxon) 1, variable (taxon) 2, etc.</p></li>
+<li><p>(optional) Smoothing of assemblage data: Each variable within the assemblage data is smoothed using one of five in-built smoothing methods: none (<code>smooth_method = "none"</code>), Shepard’s 5-term filter (<code>smooth_method = "shep"</code>; Davis, 1986; Wilkinson, 2005), moving average (<code>smooth_method = "m.avg"</code>), age-weighted average (<code>smooth_method = "age.w"</code>), Grimm’s smoothing (<code>smooth_method = "grim"</code>; Grimm and Jacobson, 1992).</p></li>
+<li><p>Creation of time bins: A template for all time bins in all window movements is created.</p></li>
 <li><p>A single run (an individual loop) is computed:</p></li>
 </ol>
 <ul>
-<li><p>(optional) Selection of one time series from age uncertainties
-(see section 2.1.1.2. on randomisation)</p></li>
-<li><p>Subsetting levels in each bin: Here the working units (WU) are
-defined</p></li>
+<li><p>(optional) Selection of one time series from age uncertainties (see section 2.1.1.2. on randomisation)</p></li>
+<li><p>Subsetting levels in each bin: Here the working units (WU) are defined</p></li>
 <li><p>(optional) Standardisation of assemblage data in each WU</p></li>
-<li><p>Calculation of RoC between WUs: RoC is calculated as the
-dissimilarity coefficient (DC) standardised by age differences between
-WUs. Several in-built dissimilarity coefficients are available:
-Euclidean distance (<code>DC = "euc</code>), standardised Euclidean
-distance (<code>DC = "euc.sd</code>), Chord distance
-(<code>DC = "chord</code>), Chi-squared coefficient
-(<code>DC = "chisq</code>), Gower’s distance (<code>DC = "gower</code>),
-Bray-Curtis(<code>DC = "bray</code>). See <code><a href="https://rdrr.io/pkg/vegan/man/vegdist.html" class="external-link">vegan::vegdist</a></code>for
-more details. The choice of DC depends on the type of assemblage
-data.</p></li>
-<li><p>The summary of a single run is produced based on all moving
-windows</p></li>
+<li><p>Calculation of RoC between WUs: RoC is calculated as the dissimilarity coefficient (DC) standardised by age differences between WUs. Several in-built dissimilarity coefficients are available: Euclidean distance (<code>DC = "euc</code>), standardised Euclidean distance (<code>DC = "euc.sd</code>), Chord distance (<code>DC = "chord</code>), Chi-squared coefficient (<code>DC = "chisq</code>), Gower’s distance (<code>DC = "gower</code>), Bray-Curtis(<code>DC = "bray</code>). See <code><a href="https://rdrr.io/pkg/vegan/man/vegdist.html" class="external-link">vegan::vegdist</a></code>for more details. The choice of DC depends on the type of assemblage data.</p></li>
+<li><p>The summary of a single run is produced based on all moving windows</p></li>
 </ul>
 <ol start="5" style="list-style-type: decimal">
 <li><p>Step 4 is repeated multiple times (e.g. 10,000 times).</p></li>
-<li><p>Validation and summary of results from all runs of RoC
-calculation are produced.</p></li>
+<li><p>Validation and summary of results from all runs of RoC calculation are produced.</p></li>
 <li><p>(Optional) Data beyond a certain age can be excluded.</p></li>
-<li><p>Detection and validation of significant peak-points. There are
-five in-built methods to detect significant peak-points: Threshold
-(<code>method = "threshold</code>), Linear trend
-(<code>method = "trend_linear</code>), Non-linear trend
-(<code>method = "trend_non_linear</code>), first derivative of a
-generalised additive model (<code>method = "GAM_deriv</code>; f-deriv
-GAM; Simpson, 2018), and Signal-to-Noise Index
-(<code>method = "SNI</code>; Kelly et al., 2011).</p></li>
+<li><p>Detection and validation of significant peak-points. There are five in-built methods to detect significant peak-points: Threshold (<code>method = "threshold</code>), Linear trend (<code>method = "trend_linear</code>), Non-linear trend (<code>method = "trend_non_linear</code>), first derivative of a generalised additive model (<code>method = "GAM_deriv</code>; f-deriv GAM; Simpson, 2018), and Signal-to-Noise Index (<code>method = "SNI</code>; Kelly et al., 2011).</p></li>
 </ol>
 <div class="section level3">
 <h3 id="selection-of-working-units">Selection of working units<a class="anchor" aria-label="anchor" href="#selection-of-working-units"></a>
 </h3>
-<p>RoC is calculated between consecutive Working Units (WU).
-Traditionally, these WUs represent individual stratigraphical levels.
-However, changes in sedimentation rates and sampling strategies can
-result in an uneven temporal distribution of levels within a time
-sequence, which in turn makes the comparison of RoC between sequences
-problematic. There are various methods that attempt to minimise such
-problems. The first is interpolation of levels to evenly spaced time
-intervals, and the use of the interpolated data as WUs. This can lead to
-a loss of information when the density of levels is high. Second is
-binning of levels: assemblage data are pooled into age brackets of
-various size (i.e. time bins) and these serve as WUs. Here, the issue is
-a lower resolution of WUs and their uneven size in terms of total
-assemblage count (bins with more levels have higher assemblage counts).
-Third is selective binning: like classical binning, bins of selected
-size are created, but instead of pooling assemblage data together, only
-one level per time bin is selected as representative of each bin. This
-results in an even number of WUs in bins with a similar count size in
-the assemblage. However, the issue of low resolution remains. Therefore,
-we propose a new method of binning with a moving window, which is a
-compromise between using individual levels and selective binning. This
-method follows a simple sequence: time bins are created, levels are
-selected as in selective binning, and RoC between bins is calculated.
-However, the brackets of the time bin (window) are then moved forward by
-a selected amount of time (Z), levels are selected again (subset into
-bins), and RoC calculated for the new set of WUs. This is repeated X
-times (where X is the bin size divided by Z) while retaining all the
-results. RRatepol currently provides several options for selecting WU,
-namely as individual levels (<code>Working_Units = "levels"</code>),
-selective binning of levels (<code>Working_Units = "bins"</code>), and
-our new method of binning with a moving window
-(<code>Working_Units = "MW"</code>), which is summarised in figure.</p>
+<p>RoC is calculated between consecutive Working Units (WU). Traditionally, these WUs represent individual stratigraphical levels. However, changes in sedimentation rates and sampling strategies can result in an uneven temporal distribution of levels within a time sequence, which in turn makes the comparison of RoC between sequences problematic. There are various methods that attempt to minimise such problems. The first is interpolation of levels to evenly spaced time intervals, and the use of the interpolated data as WUs. This can lead to a loss of information when the density of levels is high. Second is binning of levels: assemblage data are pooled into age brackets of various size (i.e. time bins) and these serve as WUs. Here, the issue is a lower resolution of WUs and their uneven size in terms of total assemblage count (bins with more levels have higher assemblage counts). Third is selective binning: like classical binning, bins of selected size are created, but instead of pooling assemblage data together, only one level per time bin is selected as representative of each bin. This results in an even number of WUs in bins with a similar count size in the assemblage. However, the issue of low resolution remains. Therefore, we propose a new method of binning with a moving window, which is a compromise between using individual levels and selective binning. This method follows a simple sequence: time bins are created, levels are selected as in selective binning, and RoC between bins is calculated. However, the brackets of the time bin (window) are then moved forward by a selected amount of time (Z), levels are selected again (subset into bins), and RoC calculated for the new set of WUs. This is repeated X times (where X is the bin size divided by Z) while retaining all the results. RRatepol currently provides several options for selecting WU, namely as individual levels (<code>Working_Units = "levels"</code>), selective binning of levels (<code>Working_Units = "bins"</code>), and our new method of binning with a moving window (<code>Working_Units = "MW"</code>), which is summarised in figure.</p>
 <p><img src="https://raw.githubusercontent.com/HOPE-UIB-BIO/R-Ratepol-package/master/man/figures/FIG_Scheme.png" alt="RRatepol scheme" align="middle" width="600"></p>
 </div>
 <div class="section level3">
 <h3 id="randomisation">Randomisation<a class="anchor" aria-label="anchor" href="#randomisation"></a>
 </h3>
-<p>Due to the inherent statistical errors in uncertainties in the age
-estimates from age-depth and the assemblage datasets (e.g. pollen counts
-in each level; Birks and Gordon, 1985), RRatepol can be run several
-times and the results summarised (Steps 5-6). Therefore, two optional
-settings are available by using age uncertainties and assemblage data
-standardisation.</p>
+<p>Due to the inherent statistical errors in uncertainties in the age estimates from age-depth and the assemblage datasets (e.g. pollen counts in each level; Birks and Gordon, 1985), RRatepol can be run several times and the results summarised (Steps 5-6). Therefore, two optional settings are available by using age uncertainties and assemblage data standardisation.</p>
 <div class="section level4">
 <h4 id="age-uncertainties-step-4a">Age uncertainties (Step 4a)<a class="anchor" aria-label="anchor" href="#age-uncertainties-step-4a"></a>
 </h4>
-<p>For each run, a single age sequence from the age uncertainties is
-randomly selected. The calculation between two consecutive WUs (i.e. one
-working-unit combination) results in a RoC score and a time position
-(which is calculated as the mean age position of the two WUs). However,
-due to random sampling of the age sequence, each WU combination will
-result in multiple RoC values. The final RoC value for a single WU
-combination is calculated as the median of the scores from all
-randomisations. In addition, the 95th quantile from all randomisations
-is calculated as an error estimate.</p>
+<p>For each run, a single age sequence from the age uncertainties is randomly selected. The calculation between two consecutive WUs (i.e. one working-unit combination) results in a RoC score and a time position (which is calculated as the mean age position of the two WUs). However, due to random sampling of the age sequence, each WU combination will result in multiple RoC values. The final RoC value for a single WU combination is calculated as the median of the scores from all randomisations. In addition, the 95th quantile from all randomisations is calculated as an error estimate.</p>
 </div>
 <div class="section level4">
 <h4 id="data-standardisation-step-4b">Data standardisation (Step 4b)<a class="anchor" aria-label="anchor" href="#data-standardisation-step-4b"></a>
 </h4>
-<p>Variables (taxa) in the assemblage dataset can be standardised to a
-certain count (e.g. number of pollen grains in each WU) by rarefaction.
-Random sampling without replacement is used to draw a selected number of
-individuals from each WU (e.g. 150 pollen grains).</p>
+<p>Variables (taxa) in the assemblage dataset can be standardised to a certain count (e.g. number of pollen grains in each WU) by rarefaction. Random sampling without replacement is used to draw a selected number of individuals from each WU (e.g. 150 pollen grains).</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="detection-of-peak-points-in-roc-sequence-step-8">Detection of peak-points in RoC sequence (Step 8)<a class="anchor" aria-label="anchor" href="#detection-of-peak-points-in-roc-sequence-step-8"></a>
 </h3>
-<p>A rapid change in composition or relative abundances of variables
-within the sequence can provide a means of comparing RoC between
-sequences and interpreting the potential drivers of assemblage change.
-To detect such significant peak-points of RoC scores in each sequence,
-each point is tested to see if it represents a significant increase in
-RoC values. There are various ways to detect peak-points in a time
-series and RRatepol is able to detect peak-points using five
-methods:</p>
+<p>A rapid change in composition or relative abundances of variables within the sequence can provide a means of comparing RoC between sequences and interpreting the potential drivers of assemblage change. To detect such significant peak-points of RoC scores in each sequence, each point is tested to see if it represents a significant increase in RoC values. There are various ways to detect peak-points in a time series and RRatepol is able to detect peak-points using five methods:</p>
 <ul>
-<li><p>Threshold (<code>method = "threshold</code>): Each point in the
-RoC sequence is compared to a median of all RoC scores from the whole
-sequence (i.e. threshold value). The ROC value for a point is considered
-significant if the 95th quantile of the RoC scores from all calculations
-is higher than the threshold value.</p></li>
-<li><p>Linear trend (<code>method = "trend_linear</code>): A linear
-model is fitted between the RoC values and their ages. Differences
-between the model and each point are calculated (residuals). The
-standard deviation (SD) is calculated from all the residuals. A peak is
-considered significant if it is 1.5 SD higher than the model
-(<code>sd_threshold = 1.5</code>).</p></li>
-<li><p>Non-linear trend (<code>method = "trend_non_linear</code>): A
-conservative generalised additive model (GAM) is fitted through the RoC
-scores and their ages (GAM= RoC ~ s(age,k=3) using the mgcv package
-(Wood, 2011). The distance between each point and the fitted value is
-calculated (residuals). The standard deviation (SD) is calculated from
-all the residuals. A peak is considered significant if it is 1.5 SD
-higher than the model (<code>sd_threshold = 1.5</code>).</p></li>
-<li><p>F-deriv GAM (<code>method = "GAM_deriv</code>): A smooth GAM
-model is fitted to the RoC scores and their ages (GAM= RoC ~ s(age). The
-first derivative as well as continuous confidence intervals are
-calculated from the model using the gratia package (Simpson, 2019). A
-peak is considered significant if the confidence intervals of the first
-derivative differ from 0 (for more information see Simpson,
-2018).</p></li>
-<li><p>Signal-to-noise method (<code>method = "SNI</code>): We adapted
-SNI from Kelly et al. (2011), which was developed to detect changes in
-charcoal stratigraphical records. SNI is calculated for the whole RoC
-sequence and a peak-point is considered significant if it has an SNI
-value higher than 3.</p></li>
+<li><p>Threshold (<code>method = "threshold</code>): Each point in the RoC sequence is compared to a median of all RoC scores from the whole sequence (i.e. threshold value). The ROC value for a point is considered significant if the 95th quantile of the RoC scores from all calculations is higher than the threshold value.</p></li>
+<li><p>Linear trend (<code>method = "trend_linear</code>): A linear model is fitted between the RoC values and their ages. Differences between the model and each point are calculated (residuals). The standard deviation (SD) is calculated from all the residuals. A peak is considered significant if it is 1.5 SD higher than the model (<code>sd_threshold = 1.5</code>).</p></li>
+<li><p>Non-linear trend (<code>method = "trend_non_linear</code>): A conservative generalised additive model (GAM) is fitted through the RoC scores and their ages (GAM= RoC ~ s(age,k=3) using the mgcv package (Wood, 2011). The distance between each point and the fitted value is calculated (residuals). The standard deviation (SD) is calculated from all the residuals. A peak is considered significant if it is 1.5 SD higher than the model (<code>sd_threshold = 1.5</code>).</p></li>
+<li><p>F-deriv GAM (<code>method = "GAM_deriv</code>): A smooth GAM model is fitted to the RoC scores and their ages (GAM= RoC ~ s(age). The first derivative as well as continuous confidence intervals are calculated from the model using the gratia package (Simpson, 2019). A peak is considered significant if the confidence intervals of the first derivative differ from 0 (for more information see Simpson, 2018).</p></li>
+<li><p>Signal-to-noise method (<code>method = "SNI</code>): We adapted SNI from Kelly et al. (2011), which was developed to detect changes in charcoal stratigraphical records. SNI is calculated for the whole RoC sequence and a peak-point is considered significant if it has an SNI value higher than 3.</p></li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
-<p>Birks, H.J.B., Gordon, A.D., 1985. Numerical Methods in Quaternary
-Pollen Analysis. Academic Press, London.</p>
-<p>Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn.
-ed. J. Wiley &amp; Sons, New York.</p>
-<p>Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt
-climate changes during the past 18000 years in eastern North America.
-Clim. Dyn. 6, 179–184.</p>
-<p>Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A
-signal-to-noise index to quantify the potential for peak detection in
-sediment-charcoal records. Quat. Res. 75, 11–17. <a href="https://doi.org/10.1016/j.yqres.2010.07.011" class="external-link uri">https://doi.org/10.1016/j.yqres.2010.07.011</a></p>
-<p>Simpson, G.L., 2019. gratia: graceful’ggplot’–based graphics and
-other functions for GAMs fitted using “mgcv.” R Packag. version
-0.2–1.</p>
-<p>Simpson, G.L., 2018. Modelling palaeoecological time series using
-generalised additive models. Front. Ecol. Evol. 6, 1–21. <a href="https://doi.org/10.3389/fevo.2018.00149" class="external-link uri">https://doi.org/10.3389/fevo.2018.00149</a></p>
-<p>Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New
-York, USA 37. <a href="https://doi.org/10.2307/2669493" class="external-link uri">https://doi.org/10.2307/2669493</a> Wood, S.N., 2011. Fast
-stable restricted maximum likelihood and marginal likelihood estimation
-of semiparametric generalized linear models. J. R. Stat. Soc. Ser. B
-Stat. Methodol. 73, 3–36.</p>
+<p>Birks, H.J.B., Gordon, A.D., 1985. Numerical Methods in Quaternary Pollen Analysis. Academic Press, London.</p>
+<p>Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed. J. Wiley &amp; Sons, New York.</p>
+<p>Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt climate changes during the past 18000 years in eastern North America. Clim. Dyn. 6, 179–184.</p>
+<p>Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A signal-to-noise index to quantify the potential for peak detection in sediment-charcoal records. Quat. Res. 75, 11–17. <a href="https://doi.org/10.1016/j.yqres.2010.07.011" class="external-link uri">https://doi.org/10.1016/j.yqres.2010.07.011</a></p>
+<p>Simpson, G.L., 2019. gratia: graceful’ggplot’–based graphics and other functions for GAMs fitted using “mgcv.” R Packag. version 0.2–1.</p>
+<p>Simpson, G.L., 2018. Modelling palaeoecological time series using generalised additive models. Front. Ecol. Evol. 6, 1–21. <a href="https://doi.org/10.3389/fevo.2018.00149" class="external-link uri">https://doi.org/10.3389/fevo.2018.00149</a></p>
+<p>Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York, USA 37. <a href="https://doi.org/10.2307/2669493" class="external-link uri">https://doi.org/10.2307/2669493</a> Wood, S.N., 2011. Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models. J. R. Stat. Soc. Ser. B Stat. Methodol. 73, 3–36.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
