@@ -1,9 +1,10 @@
+
 # RRatepol package <img src="man/figures/RRatepol_logo.png" align="right" width="200" />
 
 <!-- badges: start -->
 
 [![CRAN
-status](https://www.r-pkg.org/badges/version/RRatepol)](https://CRAN.R-project.org/package=RRatepol)
+status](https://www.r-pkg.org/badges/version/RRatepol.png)](https://CRAN.R-project.org/package=RRatepol)
 [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions)
 <!-- badges: end -->
 
@@ -11,6 +12,11 @@ status](https://www.r-pkg.org/badges/version/RRatepol)](https://CRAN.R-project.o
 
 What is new in the package? See
 [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)
+
+### New logo
+
+The original sketch for logo was done by [Vanesa
+Surtkova](https://www.instagram.com/vavatattoo/). Check her out!
 
 ## Description
 
