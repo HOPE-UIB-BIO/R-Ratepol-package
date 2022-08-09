@@ -1,7 +1,5 @@
 ---
-title: "RRatepol"
-author: "Ondrej Mottl"
-output: md_document
+format: gfm
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
@@ -23,6 +21,9 @@ knitr::opts_chunk$set(
 
 What is new in the package? See [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)
 
+### New logo
+The original sketch for logo was done by [Vanesa Surtkova](https://www.instagram.com/vavatattoo/). Check her out!
+
 ## Description
 
 RRatepol is an R package for estimating rate of change (RoC) from community data in time series.
@@ -30,7 +31,6 @@ RRatepol is an R package for estimating rate of change (RoC) from community data
 RRatepol is written as an R package and includes a range of possible settings including a novel method to evaluate RoC in a single stratigraphical sequence using assemblage data and age uncertainties for each level. There are multiple built-in dissimilarity coefficients (DC) for different types of assemblage data, and various levels of data smoothing that can be applied depending on the type and variance of the data. In addition, RRatepol can use randomisation, accompanied by use of age uncertainties of each level and taxon standardisation to detect RoC patterns in datasets with high data noise or variability (i.e. numerous rapid changes in composition or sedimentation rates).
 
 ## Installing package
-
 ```{r install, eval = FALSE}
 devtools::install_github("HOPE-UIB-BIO/R-Ratepol-package")
 ```
