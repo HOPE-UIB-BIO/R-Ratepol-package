@@ -746,7 +746,7 @@ fc_estimate_RoC <-
       results_full <-
       results_full  %>% 
         dplyr::filter(
-          .data$age_position <= interest_threshold
+          .data$Age <= interest_threshold
         )
     }
 
