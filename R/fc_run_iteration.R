@@ -57,9 +57,10 @@ fc_run_iteration <-
             com_data_sums <-
                 rowSums(
                     util_subset_community(
-                      data_source = data_subset
-                ),
-                na.rm = TRUE)
+                        data_source = data_subset
+                    ),
+                    na.rm = TRUE
+                )
 
             # adjust the value to a minimal of presented values
             N_individuals <-
@@ -113,12 +114,20 @@ fc_run_iteration <-
                 data_source_reduce = data_sd
             )
 
-        # tunr into proportion
-        data_sd_prop <-
-            fc_transfer_into_proportions(
-                data_source_trans = data_sd,
-                sel_method = "proportions"
-            )
+        if (
+            isTRUE(tranform_to_proportions)
+        ) {
+            # tunr into proportion
+            data_sd_prop <-
+                fc_transfer_into_proportions(
+                    data_source_trans = data_sd,
+                    sel_method = "proportions"
+                )
+        } else {
+            data_sd_prop <-
+                data_sd
+        }
+
 
         #----------------------------------------------------------#
         # 4.3 DC Calculation -----
