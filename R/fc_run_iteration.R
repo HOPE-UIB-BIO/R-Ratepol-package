@@ -148,7 +148,7 @@ fc_run_iteration <-
 
         #  calculate DC standardise by time
         roc_res <-
-            data_sd_prop[1:length(dc_res), ] %>%
+            data_sd_prop[seq_along(dc_res), ] %>%
             dplyr::mutate(
                 dc = dc_res,
                 age_diff_st = .data$age_diff / time_standardisation,
