@@ -14,7 +14,7 @@ fc_subset_samples <-
     ) {
       res <-
         data_source_bins %>%
-        dplyr::select(.data$label, .data$age_diff, .data$res_age, .data$start) %>%
+        dplyr::select("label", "age_diff", "res_age", "start") %>%
         dplyr::inner_join(
           data_source_subset %>%
             tibble::rownames_to_column("start"),
@@ -24,7 +24,7 @@ fc_subset_samples <-
           age_diff = c(diff(.data$age), Inf),
           res_age = .data$age
         ) %>%
-        dplyr::select(-c(.data$start, .data$age))
+        dplyr::select(-c("start", "age"))
 
       return(res)
     }
@@ -77,7 +77,7 @@ fc_subset_samples <-
     res <-
       dplyr::bind_cols(
         data_source_bins %>%
-          dplyr::select(.data$label, .data$age_diff, .data$res_age),
+          dplyr::select("label", "age_diff", "res_age"),
         res_com
       )
 

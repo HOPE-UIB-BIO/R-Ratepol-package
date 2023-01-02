@@ -143,7 +143,7 @@ fc_extract_data <-
     # select only variable 'age' and 'sample id'
     dat_age <-
       dat_age %>%
-      dplyr::select(.data$sample_id, .data$age)
+      dplyr::select("sample_id", "age")
 
     # 2.2 Row.names  -----
 

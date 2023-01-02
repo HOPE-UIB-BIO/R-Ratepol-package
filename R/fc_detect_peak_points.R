@@ -285,12 +285,12 @@ fc_detect_peak_points <-
     data_result <-
       data_source %>%
       dplyr::select(
-        .data$Working_Unit,
-        .data$Age,
-        .data$ROC,
-        .data$ROC_up,
-        .data$ROC_dw,
-        .data$Peak
+        "Working_Unit",
+        "Age",
+        "ROC",
+        "ROC_up",
+        "ROC_dw",
+        "Peak"
       )
 
     return(data_result)

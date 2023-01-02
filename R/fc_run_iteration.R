@@ -154,7 +154,7 @@ fc_run_iteration <-
                 age_diff_st = .data$age_diff / time_standardisation,
                 roc = .data$dc / .data$age_diff_st
             ) %>%
-            dplyr::select(.data$label, .data$res_age, .data$roc)
+            dplyr::select("label", "res_age", "roc")
 
 
         #----------------------------------------------------------#

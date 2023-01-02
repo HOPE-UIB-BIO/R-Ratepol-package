@@ -735,8 +735,8 @@ fc_estimate_RoC <-
         ROC_dw = stats::quantile(.data$roc, 0.025, na.rm = TRUE)
       ) %>%
       dplyr::select(
-        Working_Unit = .data$label,
-        .data$Age, .data$ROC, .data$ROC_up, .data$ROC_dw
+        Working_Unit = "label",
+        "Age", "ROC", "ROC_up", "ROC_dw"
       )
 
     # reduce results by the focus age time
