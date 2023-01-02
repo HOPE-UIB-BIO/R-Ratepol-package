@@ -1,4 +1,3 @@
-
 #' @title Run a single interation of RoC estimation
 #'
 #' @param data_source_run
