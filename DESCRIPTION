@@ -28,18 +28,20 @@ Imports:
     usethis,
     utils,
     vegan
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Depends: 
     R (>= 2.10)
 Suggests: 
     Bchron,
     janitor,
     knitr,
-    neotoma,
+    neotoma2,
     pander,
     qpdf,
     rmarkdown,
     tidyverse
+Remotes:
+    NeotomaDB/neotoma2,
 VignetteBuilder: knitr
 URL: https://hope-uib-bio.github.io/R-Ratepol-package/
 Roxygen: list(markdown = TRUE)
