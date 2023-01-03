@@ -12,6 +12,7 @@
 #' using the `mgcv` package (Wood, 2011).
 #' }
 #' @seealso [fc_detect_peak_points()]
+#' @keywords internal
 util_make_trend <-
     function(data_source,
              sel_method = c("linear", "non_linear")) {

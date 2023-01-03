@@ -3,6 +3,7 @@
 #' @inheritParams fc_estimate_RoC
 #' @param data_source_bins
 #' List with `community` and `age`
+#' @keywords internal
 fc_make_bins <-
     function(data_source_bins,
              Working_Units = c("levels", "bins", "MW"),

@@ -21,3 +21,4 @@ percentage (\code{percentages}).}
 \description{
 Tranform pollen data into proportions (or percentages)
 }
+\keyword{internal}

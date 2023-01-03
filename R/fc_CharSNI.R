@@ -10,6 +10,7 @@
 #' }
 #' @param BandWidth = Width of moving window for computing SNI
 #' @description Code obtained and from Kelly et al. 2010
+#' @keywords internal
 #' @details
 #' This function computes SNI as described in Kelly et al. 2010.
 #' Note that your data must be interpolated to constant sample resolution 

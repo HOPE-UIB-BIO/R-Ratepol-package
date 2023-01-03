@@ -5,6 +5,7 @@
 #' @description
 #' Check the community dataset for redundnat taxa and levels
 #' and filter them out.
+#' @keywords internal
 fc_reduce <-
   function(data_source_reduce,
            check_taxa = TRUE,

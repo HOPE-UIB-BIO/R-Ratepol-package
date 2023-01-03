@@ -6,6 +6,7 @@
 #' @description
 #' Create a single list with all information needed to estimate RoC.
 #' This is done because such list can be then evaluated in parallel.
+#' @keywords internal
 fc_prepare_data <-
     function(data_source_prep,
              Working_Units = c("levels", "bins", "MW"),

@@ -13,6 +13,7 @@
 #' standardised by age differences between WUs.
 #' }
 #' @seealso [fc_estimate_RoC()]
+#' @keywords internal
 fc_run_iteration <-
     function(data_source_run,
              bin_selection = "first",

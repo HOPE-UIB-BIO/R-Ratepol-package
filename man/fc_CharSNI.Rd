@@ -55,3 +55,4 @@ Kelly RF, Higuera PE, Barrett CM, Feng Sheng H. 2011 A signal-to-noise index
 to quantify the potential for peak detection in sediment-charcoal records.
 Quat. Res. 75, 11–17. (doi:10.1016/j.yqres.2010.07.011)
 }
+\keyword{internal}

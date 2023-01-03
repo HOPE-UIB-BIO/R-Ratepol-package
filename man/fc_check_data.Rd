@@ -12,3 +12,4 @@ fc_check_data(data_source_check)
 \description{
 Output summary information about the data
 }
+\keyword{internal}

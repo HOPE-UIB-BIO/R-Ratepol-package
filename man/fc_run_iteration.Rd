@@ -67,3 +67,4 @@ standardised by age differences between WUs.
 \seealso{
 \code{\link[=fc_estimate_RoC]{fc_estimate_RoC()}}
 }
+\keyword{internal}

@@ -5,6 +5,7 @@
 #' @param data_source_bins
 #' Data.frame with individual WU to use
 #' @inheritParams fc_estimate_RoC
+#' @keywords internal
 fc_subset_samples <-
   function(data_source_subset,
            data_source_bins,
