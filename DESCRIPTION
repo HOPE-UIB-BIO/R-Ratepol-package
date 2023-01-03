@@ -22,6 +22,7 @@ Imports:
     pbapply,
     purrr,
     rlang,
+    RUtilpol,
     stats,
     tibble,
     tidyr,
@@ -41,6 +42,7 @@ Suggests:
     rmarkdown,
     tidyverse
 Remotes:
+    HOPE-UIB-BIO/R-Utilpol-package
     NeotomaDB/neotoma2,
 VignetteBuilder: knitr
 URL: https://hope-uib-bio.github.io/R-Ratepol-package/
