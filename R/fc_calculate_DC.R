@@ -2,7 +2,7 @@
 #'
 #' @inheritParams fc_estimate_RoC
 #' @param data_source_DC Data.frame with taxons as columns
-#' @details 
+#' @details
 #' Five in-built dissimilarity coefficients are available:
 #' \itemize{
 #' \item Euclidean distance (`DC` = `"euc"`)

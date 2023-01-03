@@ -315,7 +315,7 @@ fc_estimate_RoC <-
       RUtilpol::check_class("bin_selection", "character")
 
       RUtilpol::check_vector_values("bin_selection", c("first", "random"))
-      
+
       bin_selection <- match.arg(bin_selection)
 
       RUtilpol::check_class("only_subsequent", "logical")
@@ -677,20 +677,18 @@ fc_estimate_RoC <-
         n_cores <-
           parallel::detectCores() # detect number
       }
-      
+
       # create cluster
       cl <-
         parallel::makeCluster(n_cores)
-      
+
       # eval packages
       parallel::clusterEvalQ(cl, {
         library("tidyverse")
         library("RRatepol")
       })
-      
-        
     } else {
-     cl <- NULL
+      cl <- NULL
     }
 
     # run the estimation with progress bar
@@ -707,14 +705,14 @@ fc_estimate_RoC <-
         time_standardisation = time_standardisation,
         verbose = verbose
       )
-    
+
     # close progress bar and cluster
     if (!is.null(cl)) {
       parallel::stopCluster(cl)
       cl <- NULL
     }
     gc(verbose = FALSE)
-    
+
     #----------------------------------------------------------#
     # 5. Results Summary -----
     #----------------------------------------------------------#
@@ -744,7 +742,7 @@ fc_estimate_RoC <-
       methods::is(interest_threshold, "numeric")
     ) {
       results_full <-
-      results_full  %>% 
+        results_full %>%
         dplyr::filter(
           .data$Age <= interest_threshold
         )

@@ -5,9 +5,9 @@
 #' @param round_results
 #' Logical. Should smoothed values be rounded to integers?
 #' @inheritParams fc_estimate_RoC
-#' @description 
+#' @description
 #' A function to apply one of the 4 smoothers.
-#' @details 
+#' @details
 #' Smoothing of assemblage data: Each variable within the
 #' assemblage data is smoothed using one of five in-built smoothing methods:
 #' \itemize{
@@ -19,7 +19,7 @@
 #'  Grimm and Jacobson, 1992)
 #' }
 #' @seealso [fc_estimate_RoC()]
-#' @references 
+#' @references
 #' Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed.
 #' J. Wiley & Sons, New York.
 #'

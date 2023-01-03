@@ -13,8 +13,8 @@
 #' @keywords internal
 #' @details
 #' This function computes SNI as described in Kelly et al. 2010.
-#' Note that your data must be interpolated to constant sample resolution 
-#' (yr/sample) before input to the function. The function makes no assumption 
+#' Note that your data must be interpolated to constant sample resolution
+#' (yr/sample) before input to the function. The function makes no assumption
 #' about prior analysis on the input CHAR series, i.e. any background and
 #' threshold methods may be used.  However, input data should still be
 #' consistent with the interpretation that a CHAR value (column 2) greater
