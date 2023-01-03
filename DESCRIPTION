@@ -1,7 +1,7 @@
 Package: RRatepol
 Type: Package
 Title: R–Ratepol: Estimating Rate of Change in Temporal Sequences
-Version: 1.0.1
+Version: 1.1.0
 Maintainer: Ondrej Mottl <ondrej.mottl@gmail.com>
 Description: R-Ratepol is an R package for estimating rate of change (RoC) from community data in time series.
 License: MIT + file LICENSE
