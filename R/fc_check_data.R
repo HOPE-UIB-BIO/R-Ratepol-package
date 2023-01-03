@@ -6,9 +6,9 @@
 #' @description Output summary information about the data
 fc_check_data <-
   function(data_source_check) {
-    util_check_class("data_source_check", "list")
+    RUtilpol::check_class("data_source_check", "list")
 
-    util_output_comment(
+    RUtilpol::output_comment(
       paste(
         "Community data have", ncol(data_source_check$community),
         "taxa and", nrow(data_source_check$community), "samples.",
@@ -16,7 +16,7 @@ fc_check_data <-
       )
     )
 
-    util_output_comment(
+    RUtilpol::output_comment(
       paste0(
         "Age data has values of min ", round(min(data_source_check$age$age)),
         ", max ", round(max(data_source_check$age$age)),

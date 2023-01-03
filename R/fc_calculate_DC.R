@@ -50,7 +50,7 @@ fc_calculate_DC <-
       if (
         verbose == TRUE
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Standardised Euclidan distance will be used as DC"
         )
       }
@@ -118,7 +118,7 @@ fc_calculate_DC <-
       if (
         verbose == TRUE
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Euclidan distance will be used as DC"
         )
       }
@@ -141,7 +141,7 @@ fc_calculate_DC <-
       if (
         verbose == TRUE
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Chord distance will be used as DC"
         )
       }
@@ -168,7 +168,7 @@ fc_calculate_DC <-
       if (
         verbose == TRUE
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Chi-squared coeficient will be used as DC"
         )
       }
@@ -195,7 +195,7 @@ fc_calculate_DC <-
       if (
         verbose == TRUE
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Gower's distance will be used as DC"
         )
       }
@@ -221,7 +221,7 @@ fc_calculate_DC <-
       if (
         verbose == TRUE
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Bray-Curtis distance will be used as DC"
         )
       }

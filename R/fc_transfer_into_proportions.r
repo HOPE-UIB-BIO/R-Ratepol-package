@@ -11,18 +11,18 @@ fc_transfer_into_proportions <-
     function(data_source_trans,
              sel_method = c("proportions", "percentages"),
              verbose = FALSE) {
-        util_check_class("data_source_trans", "data.frame")
+        RUtilpol::check_class("data_source_trans", "data.frame")
 
-        util_check_class("sel_method", "character")
+        RUtilpol::check_class("sel_method", "character")
 
-        util_check_vector_values("sel_method", c("percentages", "proportions"))
+        RUtilpol::check_vector_values("sel_method", c("percentages", "proportions"))
 
         sel_method <- match.arg(sel_method)
 
-        util_check_class("verbose", "logical")
+        RUtilpol::check_class("verbose", "logical")
 
         if (verbose == TRUE) {
-            util_output_comment(
+            RUtilpol::output_comment(
                 "Community data values are being converted to proportions"
             )
         }

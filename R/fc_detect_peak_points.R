@@ -116,9 +116,9 @@ fc_detect_peak_points <-
            ),
            method = NULL,
            sd_threshold = 2) {
-    util_check_class("data_source", "data.frame")
+    RUtilpol::check_class("data_source", "data.frame")
 
-    util_check_col_names("data_source", "ROC")
+    RUtilpol::check_col_names("data_source", "ROC")
 
     if (
       is.null(method) == FALSE
@@ -132,9 +132,9 @@ fc_detect_peak_points <-
       sel_method <- method
     }
 
-    util_check_class("sel_method", "character")
+    RUtilpol::check_class("sel_method", "character")
 
-    util_check_vector_values(
+    RUtilpol::check_vector_values(
       "sel_method",
       c(
         "trend_linear", "trend_non_linear",
@@ -144,7 +144,7 @@ fc_detect_peak_points <-
 
     sel_method <- match.arg(sel_method)
 
-    util_check_class("sd_threshold", "numeric")
+    RUtilpol::check_class("sd_threshold", "numeric")
 
     assertthat::assert_that(
       sd_threshold > 0,
@@ -157,7 +157,7 @@ fc_detect_peak_points <-
     if (
       sel_method == "threshold"
     ) {
-      util_check_col_names("data_source", "ROC_dw")
+      RUtilpol::check_col_names("data_source", "ROC_dw")
 
       # threshold for RoC peaks is set as median of all RoC in dataset
       r_threshold <-
@@ -174,7 +174,7 @@ fc_detect_peak_points <-
     if (
       sel_method == "trend_linear"
     ) {
-      util_check_col_names("data_source", "Age")
+      RUtilpol::check_col_names("data_source", "Age")
 
       # mark points that are abowe the linear model
       #   (exactly sd_threshold SD higher than prediction)
@@ -198,7 +198,7 @@ fc_detect_peak_points <-
     if (
       sel_method == "trend_non_linear"
     ) {
-      util_check_col_names("data_source", "Age")
+      RUtilpol::check_col_names("data_source", "Age")
       # mark points that are abowe the GAM model
       #   (exactly sd_threshold SD higher than GAM prediction)
       data_source$pred_gam <-
@@ -221,7 +221,7 @@ fc_detect_peak_points <-
     if (
       sel_method == "GAM_deriv"
     ) {
-      util_check_col_names("data_source", "Age")
+      RUtilpol::check_col_names("data_source", "Age")
       # fit gam well smother gam model and use first derivative of the function
       #   to detect signifiant increases in the function
       gam_model <-
@@ -251,7 +251,7 @@ fc_detect_peak_points <-
     if (
       sel_method == "SNI"
     ) {
-      util_check_col_names("data_source", "Age")
+      RUtilpol::check_col_names("data_source", "Age")
       # set moving window of 5 times higher than average distance between samples
       mean_age_window <- 5 * mean(diff(data_source$Age))
 

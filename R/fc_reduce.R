@@ -9,11 +9,11 @@ fc_reduce <-
   function(data_source_reduce,
            check_taxa = TRUE,
            check_levels = TRUE) {
-    util_check_class("data_source_reduce", "list")
+    RUtilpol::check_class("data_source_reduce", "list")
 
-    util_check_class("check_taxa", "logical")
+    RUtilpol::check_class("check_taxa", "logical")
 
-    util_check_class("check_levels", "logical")
+    RUtilpol::check_class("check_levels", "logical")
 
     if (
       check_taxa == TRUE

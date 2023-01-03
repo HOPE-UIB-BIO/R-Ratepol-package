@@ -42,11 +42,11 @@ fc_smooth_community_data <-
     # SETUP -----
     # ----------------------------------------------
 
-    util_check_class("data_source_smooth", "list")
+    RUtilpol::check_class("data_source_smooth", "list")
 
-    util_check_class("smooth_method", "character")
+    RUtilpol::check_class("smooth_method", "character")
 
-    util_check_vector_values(
+    RUtilpol::check_vector_values(
       "smooth_method",
       c("m.avg", "grim", "age.w", "shep")
     )
@@ -64,7 +64,7 @@ fc_smooth_community_data <-
       if (
         smooth_method != "m.avg"
       ) {
-        util_check_class("smooth_age_range", "numeric")
+        RUtilpol::check_class("smooth_age_range", "numeric")
 
         if (
           smooth_method == "grim"
@@ -129,7 +129,7 @@ fc_smooth_community_data <-
     if (verbose == TRUE) {
       switch(smooth_method,
         "m.avg" = {
-          util_output_comment(
+          RUtilpol::output_comment(
             paste(
               "Data will be smoothed by 'moving average' over", smooth_N_points,
               "points"
@@ -137,7 +137,7 @@ fc_smooth_community_data <-
           )
         },
         "grim" = {
-          util_output_comment(
+          RUtilpol::output_comment(
             paste(
               "Data will be smoothed by 'Grimm method' with min samples",
               smooth_N_points,
@@ -147,7 +147,7 @@ fc_smooth_community_data <-
           )
         },
         "age.w" = {
-          util_output_comment(
+          RUtilpol::output_comment(
             paste(
               "Data will be smoothed by 'age-weighed average' over",
               smooth_N_points,
@@ -156,7 +156,7 @@ fc_smooth_community_data <-
           )
         },
         "shep" = {
-          util_output_comment(
+          RUtilpol::output_comment(
             paste(
               "Data will be smoothed by 'Shepard's 5-term filter'"
             )

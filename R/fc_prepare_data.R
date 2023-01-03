@@ -12,19 +12,19 @@ fc_prepare_data <-
              bin_size = 500,
              Number_of_shifts = 5,
              rand = NULL) {
-        util_check_class("data_source_prep", "list")
+        RUtilpol::check_class("data_source_prep", "list")
 
-        util_check_class("Working_Units", "character")
+        RUtilpol::check_class("Working_Units", "character")
 
-        util_check_vector_values("Working_Units", c("levels", "bins", "MW"))
+        RUtilpol::check_vector_values("Working_Units", c("levels", "bins", "MW"))
 
         Working_Units <- match.arg(Working_Units)
 
-        util_check_class("bin_size", "numeric")
+        RUtilpol::check_class("bin_size", "numeric")
 
-        util_check_if_integer("bin_size")
+        RUtilpol::check_if_integer("bin_size")
 
-        util_check_class("rand", c("NULL", "numeric"))
+        RUtilpol::check_class("rand", c("NULL", "numeric"))
 
         # check the condition
         is_shift_present <-
@@ -35,8 +35,8 @@ fc_prepare_data <-
         ) {
             Number_of_shifts <- 1
         } else {
-            util_check_class("Number_of_shifts", "numeric")
-            util_check_if_integer("Number_of_shifts")
+            RUtilpol::check_class("Number_of_shifts", "numeric")
+            RUtilpol::check_if_integer("Number_of_shifts")
         }
 
         is_rand_present <-
@@ -45,7 +45,7 @@ fc_prepare_data <-
         if (
             is_rand_present == TRUE
         ) {
-            util_check_if_integer("rand")
+            RUtilpol::check_if_integer("rand")
         } else {
             rand <- 1
         }
