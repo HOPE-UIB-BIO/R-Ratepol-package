@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RRatepol</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +46,34 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.0" id="rratepol-110">RRatepol 1.1.0<a class="anchor" aria-label="anchor" href="#rratepol-110"></a></h2>
+<div class="section level3">
+<h3 id="neotoma---neotoma2-1-1-0">
+<code>neotoma</code> -&gt; <code>neotoma2</code>
+<a class="anchor" aria-label="anchor" href="#neotoma---neotoma2-1-1-0"></a></h3>
+<ul><li>update the vignette to use <code>neotoma2</code> package (<code>neotoma</code> was deprecated)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="utility-functions-internal-checks-1-1-0">utility functions Internal checks<a class="anchor" aria-label="anchor" href="#utility-functions-internal-checks-1-1-0"></a></h3>
+<ul><li>change <code>util_*</code> functions to use <a href="https://github.com/HOPE-UIB-BIO/R-Utilpol-package" class="external-link"><code>RUtilpol</code> package</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="function-references-1-1-0">Function references<a class="anchor" aria-label="anchor" href="#function-references-1-1-0"></a></h3>
+<p>flagged several functions as <code>internal</code></p>
+</div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
+<ul><li>correctly not transform to proportions when selected by a user.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-1-1-0">Other<a class="anchor" aria-label="anchor" href="#other-1-1-0"></a></h3>
+<ul><li>within <code><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select()</a></code> replace <code>.data$foo</code> with <code>"foo"</code> (suggested in <code>tidyselect</code>)</li>
+<li>replace <code>1:length(...</code> with <code>seq_along</code>
+</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="rratepol-100">RRatepol 1.0.0<a class="anchor" aria-label="anchor" href="#rratepol-100"></a></h2>
 <div class="section level3">
 <h3 id="general-1-0-0">General<a class="anchor" aria-label="anchor" href="#general-1-0-0"></a></h3>
@@ -56,7 +84,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="dissimilarity-calculation-1-0-0">Dissimilarity calculation<a class="anchor" aria-label="anchor" href="#dissimilarity-calculation-1-0-0"></a></h3>
-<ul><li>use <code>vegan</code> package to calculate all dissimilarities except of standardised euclidean.</li></ul></div>
+<ul><li>use <code>vegan</code> package to calculate all dissimilarities except of standardised euclidean.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="parallel-computation-1-0-0">parallel computation<a class="anchor" aria-label="anchor" href="#parallel-computation-1-0-0"></a></h3>
 <ul><li>use the <code>pbapply</code> package</li>
@@ -66,16 +95,19 @@
 <div class="section level3">
 <h3 id="example-data-1-0-0">example data<a class="anchor" aria-label="anchor" href="#example-data-1-0-0"></a></h3>
 <ul><li>names for example columns as been adjusted to avoid using <code>.</code>
-</li></ul></div>
+</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.1" id="rratepol-061">RRatepol 0.6.1<a class="anchor" aria-label="anchor" href="#rratepol-061"></a></h2>
 <div class="section level3">
 <h3 id="dissimilarity-calculation-0-6-1">Dissimilarity calculation<a class="anchor" aria-label="anchor" href="#dissimilarity-calculation-0-6-1"></a></h3>
-<ul><li>use <code>vegan</code> package to calculate Gower and Bray-Curtis (new) dissimilarity</li></ul></div>
+<ul><li>use <code>vegan</code> package to calculate Gower and Bray-Curtis (new) dissimilarity</li>
+</ul></div>
 <div class="section level3">
 <h3 id="univariate-roc-estimation-0-6-1">Univariate RoC estimation<a class="anchor" aria-label="anchor" href="#univariate-roc-estimation-0-6-1"></a></h3>
-<ul><li>fix issues when using only single-taxon dataset</li></ul></div>
+<ul><li>fix issues when using only single-taxon dataset</li>
+</ul></div>
 <div class="section level3">
 <h3 id="code-cosmetics-changes-0-6-1">Code cosmetics changes<a class="anchor" aria-label="anchor" href="#code-cosmetics-changes-0-6-1"></a></h3>
 <ul><li>TRUE/FALSE written as full</li>
@@ -99,8 +131,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="doparallel-0-6-0">doParallel<a class="anchor" aria-label="anchor" href="#doparallel-0-6-0"></a></h3>
-<p>have been curated by you during the last years packages <code>doSNOW</code> and <code>snow</code> are replaced by <code>doParallel</code> * progress bar for randomisation is currently not present</p>
-</div>
+<p>have been curated by you during the last years packages <code>doSNOW</code> and <code>snow</code> are replaced by <code>doParallel</code></p>
+<ul><li>progress bar for randomisation is currently not present</li>
+</ul></div>
 <div class="section level3">
 <h3 id="other-0-6-0">Other<a class="anchor" aria-label="anchor" href="#other-0-6-0"></a></h3>
 <ul><li>Added various checks for correct argument selection</li>

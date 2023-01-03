@@ -1,3 +1,26 @@
+# RRatepol 1.1.0
+
+## `neotoma` -> `neotoma2`
+
+* update the vignette to use `neotoma2` package (`neotoma` was deprecated)
+
+## utility functions  Internal checks
+
+* change `util_*` functions to use [`RUtilpol` package](https://github.com/HOPE-UIB-BIO/R-Utilpol-package)
+
+## Function references
+
+flagged several functions as `internal`
+
+## Bug fixes
+
+* correctly not transform to proportions when selected by a user.
+
+## Other
+
+* within `select()` replace `.data$foo` with `"foo"` (suggested in `tidyselect`)
+* replace `1:length(...` with `seq_along`
+
 # RRatepol 1.0.0
 
 ## General
