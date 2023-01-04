@@ -25,6 +25,7 @@ jobs:
         run: |
           utils::install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
+          utils::install.packages("rcmdcheck")
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
