@@ -19,7 +19,7 @@ fc_reduce_simple <-
             )
 
         if (
-            check_taxa == TRUE
+            isTRUE(check_taxa)
         ) {
             valid_taxa <-
                 (colSums(data_com, na.rm = TRUE) > 0)
@@ -37,7 +37,7 @@ fc_reduce_simple <-
         }
 
         if (
-            check_levels == TRUE
+            isTRUE(check_levels)
         ) {
             valid_levels <-
                 (rowSums(data_com, na.rm = TRUE) > 0)

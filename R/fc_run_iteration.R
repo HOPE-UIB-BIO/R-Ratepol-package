@@ -51,7 +51,7 @@ fc_run_iteration <-
 
         # standardisation of community data to N_individuals
         if (
-            standardise == TRUE
+            isTRUE(standardise)
         ) {
             # select only community data
             com_data_sums <-
@@ -88,7 +88,7 @@ fc_run_iteration <-
                 )
 
             if (
-                verbose == TRUE
+                isTRUE(verbose)
             ) {
                 assertthat::assert_that(
                     all(

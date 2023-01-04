@@ -121,7 +121,7 @@ fc_detect_peak_points <-
     RUtilpol::check_col_names("data_source", "ROC")
 
     if (
-      is.null(method) == FALSE
+      isFALSE(is.null(method))
     ) {
       lifecycle::deprecate_warn(
         "1.0.0",

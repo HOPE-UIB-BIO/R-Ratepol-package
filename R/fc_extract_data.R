@@ -34,7 +34,7 @@ fc_extract_data <-
     RUtilpol::check_class("verbose", "logical")
 
     if (
-      verbose == TRUE
+      isTRUE(verbose)
     ) {
       RUtilpol::output_heading(
         paste(
@@ -79,7 +79,9 @@ fc_extract_data <-
     )
 
     # age
-    if ("sample.id" %in% names(data_age_extract)) {
+    if (
+      "sample.id" %in% names(data_age_extract)
+    ) {
       usethis::ui_oops(
         paste(
           "'sample.id' was detected in 'data_age' but 'sample_id' is prefered.",
@@ -111,7 +113,7 @@ fc_extract_data <-
     )
 
     if (
-      is.unsorted(data_age_extract$age) == FALSE
+      isFALSE(is.unsorted(data_age_extract$age))
     ) {
       # order of the age
       data_age_extract <-
@@ -160,7 +162,7 @@ fc_extract_data <-
 
     # if age_uncertainty is used
     if (
-      is.null(age_uncertainty) == FALSE
+      isFALSE(is.null(age_uncertainty))
     ) {
       RUtilpol::check_class("age_uncertainty", "matrix")
 
@@ -236,7 +238,7 @@ fc_extract_data <-
       )
 
     if (
-      verbose == TRUE
+      isTRUE(verbose)
     ) {
       fc_check_data(
         data_source_check = dat_merge

@@ -99,7 +99,7 @@ fc_plot_RoC_sequence <-
 
 
     if (
-      is.null(age_threshold) == TRUE
+      isTRUE(is.null(age_threshold))
     ) {
       age_threshold <- max(data_source$Age)
     }
@@ -112,7 +112,7 @@ fc_plot_RoC_sequence <-
     RUtilpol::check_class("Roc_threshold", c("NULL", "numeric"))
 
     if (
-      is.null(Roc_threshold) == TRUE
+      isTRUE(is.null(Roc_threshold))
     ) {
       Roc_threshold <- max(data_source$ROC_up)
     }
@@ -163,7 +163,7 @@ fc_plot_RoC_sequence <-
       )
 
     if (
-      is.null(trend) == FALSE
+      isFALSE(is.null(trend))
     ) {
       RUtilpol::check_vector_values(
         "trend",
@@ -171,7 +171,7 @@ fc_plot_RoC_sequence <-
       )
 
       if (
-        Peaks == FALSE
+        isFALSE(Peaks)
       ) {
         RUtilpol::output_comment(
           msg = paste(
@@ -232,7 +232,7 @@ fc_plot_RoC_sequence <-
     }
 
     if (
-      Peaks == TRUE
+      isTRUE(Peaks)
     ) {
       RUtilpol::check_col_names("data_source", "Peak")
 

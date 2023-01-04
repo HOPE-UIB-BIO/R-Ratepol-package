@@ -54,7 +54,7 @@ fc_smooth_community_data <-
     smooth_method <- match.arg(smooth_method)
 
     if (
-      !smooth_method != "shep"
+      smooth_method != "shep"
     ) {
       assertthat::assert_that(
         smooth_N_points %% 2 != 0,
@@ -126,7 +126,9 @@ fc_smooth_community_data <-
     # Additional information -----
     # ----------------------------------------------
 
-    if (verbose == TRUE) {
+    if (
+      isTRUE(verbose)
+    ) {
       switch(smooth_method,
         "m.avg" = {
           RUtilpol::output_comment(
@@ -372,7 +374,7 @@ fc_smooth_community_data <-
     }
 
     if (
-      round_results == TRUE
+      isTRUE(round_results)
     ) {
       dat_community <- round(dat_community)
     }

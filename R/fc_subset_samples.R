@@ -53,7 +53,9 @@ fc_subset_samples <-
           data_source_subset$age < data_source_bins$end[i], ]
 
       # If selected subset has at least one sample
-      if (nrow(subset_w) > 0) {
+      if (
+        nrow(subset_w) > 0
+      ) {
         if (
           bin_selection == "random"
         ) {

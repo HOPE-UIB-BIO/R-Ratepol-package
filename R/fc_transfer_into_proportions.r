@@ -22,7 +22,9 @@ fc_transfer_into_proportions <-
 
         RUtilpol::check_class("verbose", "logical")
 
-        if (verbose == TRUE) {
+        if (
+            isTRUE(verbose)
+        ) {
             RUtilpol::output_comment(
                 "Community data values are being converted to proportions"
             )

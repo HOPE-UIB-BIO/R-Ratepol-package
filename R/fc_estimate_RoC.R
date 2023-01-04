@@ -321,7 +321,7 @@ fc_estimate_RoC <-
       RUtilpol::check_class("only_subsequent", "logical")
 
       if (
-        only_subsequent == FALSE
+        isFALSE(only_subsequent)
       ) {
         lifecycle::deprecate_stop("1.0.0", "fc_estimate_RoC(only_subsequent)")
       }
@@ -338,7 +338,7 @@ fc_estimate_RoC <-
     RUtilpol::check_class("standardise", "logical")
 
     if (
-      standardise == TRUE
+      isTRUE(standardise)
     ) {
       RUtilpol::check_class("N_individuals", "numeric")
 
@@ -399,13 +399,13 @@ fc_estimate_RoC <-
     RUtilpol::check_class("rand", c("NULL", "numeric"))
 
     if (
-      is.null(rand) == FALSE
+      isFALSE(is.null(rand))
     ) {
       RUtilpol::check_if_integer("rand")
     }
 
     if (
-      is.null(treads) == FALSE
+      isFALSE(is.null(treads))
     ) {
       lifecycle::deprecate_warn(
         "1.0.0",
@@ -424,7 +424,7 @@ fc_estimate_RoC <-
     }
 
     if (
-      is.null(Debug) == FALSE
+      isFALSE(is.null(Debug))
     ) {
       lifecycle::deprecate_warn(
         "1.0.0",
@@ -449,13 +449,14 @@ fc_estimate_RoC <-
     )
 
     if (
-      is.null(age_uncertainty == FALSE)
+      isFALSE(is.null(age_uncertainty))
     ) {
       RUtilpol::output_comment(
         "'age_uncertainty' will be used for in the RoC estimation"
       )
 
-      if (rand < 100) {
+      if (
+        rand < 100) {
         RUtilpol::output_warning(
           paste(
             "'age_uncertainty' was selected to be used with low number",
@@ -537,7 +538,7 @@ fc_estimate_RoC <-
     }
 
     if (
-      standardise == TRUE
+      isTRUE(standardise)
     ) {
       RUtilpol::output_comment(
         paste(
@@ -546,7 +547,9 @@ fc_estimate_RoC <-
         )
       )
 
-      if (rand < 100) {
+      if (
+        rand < 100
+      ) {
         RUtilpol::output_warning(
           paste(
             "'standardise' was selected as 'TRUE' with low number of replication.",
@@ -616,7 +619,7 @@ fc_estimate_RoC <-
       )
 
     if (
-      verbose == TRUE
+      isTRUE(verbose)
     ) {
       fc_check_data(data_work)
     }
@@ -628,12 +631,12 @@ fc_estimate_RoC <-
 
     if (
       is.null(age_uncertainty) &&
-        standardise == FALSE &&
-        is.null(rand) == FALSE &&
+        isFALSE(standardise) &&
+        isFALSE(is.null(rand)) &&
         (Working_Units == "levels" || bin_selection == "first")
     ) {
       if (
-        verbose == TRUE
+        isTRUE(verbose)
       ) {
         RUtilpol::output_comment(
           msg = paste(
@@ -665,7 +668,7 @@ fc_estimate_RoC <-
 
 
     if (
-      verbose == TRUE
+      isTRUE(verbose)
     ) {
       RUtilpol::output_heading(
         msg = "Start of estimation",
@@ -681,7 +684,7 @@ fc_estimate_RoC <-
 
     # select the preferred number of cores for of cores for parallel computation
     if (
-      use_parallel == TRUE
+      isTRUE(use_parallel)
     ) {
       if (
         methods::is(use_parallel, "numeric")
@@ -722,7 +725,9 @@ fc_estimate_RoC <-
       )
 
     # close progress bar and cluster
-    if (!is.null(cl)) {
+    if (
+      isFALSE(is.null(cl))
+    ) {
       parallel::stopCluster(cl)
       cl <- NULL
     }

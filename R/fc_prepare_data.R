@@ -32,7 +32,7 @@ fc_prepare_data <-
             Working_Units == "MW" && (Number_of_shifts != 0)
 
         if (
-            is_shift_present == FALSE
+            isFALSE(is_shift_present)
         ) {
             Number_of_shifts <- 1
         } else {
@@ -41,10 +41,10 @@ fc_prepare_data <-
         }
 
         is_rand_present <-
-            (is.null(rand) == FALSE)
+            isFALSE(is.null(rand))
 
         if (
-            is_rand_present == TRUE
+            isTRUE(is_rand_present)
         ) {
             RUtilpol::check_if_integer("rand")
         } else {
@@ -60,7 +60,7 @@ fc_prepare_data <-
                     Working_Units = "levels"
                 )
         } else if (
-            is_shift_present == TRUE
+            isTRUE(is_shift_present)
         ) {
             bin_dummy <-
                 fc_make_bins(
@@ -79,13 +79,13 @@ fc_prepare_data <-
         }
 
         is_uncertit_present <-
-            (is.null(data_source_prep$age_un) == FALSE)
+            isFALSE(is.null(data_source_prep$age_un))
 
         if (
-            is_uncertit_present == TRUE
+            isTRUE(is_uncertit_present)
         ) {
             if (
-                is_rand_present == TRUE
+                isTRUE(is_rand_present)
             ) {
                 random_value <-
                     sample(
@@ -133,7 +133,7 @@ fc_prepare_data <-
 
         if (
             # is_rand_present is TRUE
-            is_uncertit_present == FALSE
+            isFALSE(is_uncertit_present)
         ) {
             rand_vec %>%
                 purrr::map(
