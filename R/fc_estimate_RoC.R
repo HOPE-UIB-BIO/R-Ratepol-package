@@ -571,6 +571,21 @@ fc_estimate_RoC <-
         verbose = verbose
       )
 
+    if (
+      ncol(data_extract$community) == 1 && isTRUE(tranform_to_proportions)
+    ) {
+      RUtilpol::output_warning(
+        msg = paste(
+          "Community data has only 1 variable and `tranform_to_proportions`",
+          "is set to `TRUE`.",
+          "This will result in 0 RoC.",
+          "Therefore, `tranform_to_proportions` will be set to `FALSE`"
+        )
+      )
+
+      tranform_to_proportions <- FALSE
+    }
+
 
     #----------------------------------------------------------#
     # 2. Data smoothing -----
