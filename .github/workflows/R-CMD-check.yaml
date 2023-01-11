@@ -27,9 +27,8 @@ jobs:
       - name: Install dependencies using remotes
         run: |
           utils::install.packages("remotes")
-          utils::install.packages("rmarkdown")
           utils::install.packages("rcmdcheck")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
-      - uses: r-lib/actions/check-r-package@v2
+      - uses: r-lib/actions/check-r-package@v1
