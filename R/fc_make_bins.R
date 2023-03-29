@@ -3,16 +3,17 @@
 #' @inheritParams fc_estimate_RoC
 #' @param data_source_bins
 #' List with `community` and `age`
+#' @keywords internal
 fc_make_bins <-
     function(data_source_bins,
              Working_Units = c("levels", "bins", "MW"),
              bin_size = 500,
              Number_of_shifts = 5) {
-        util_check_class("data_source_bins", "list")
+        RUtilpol::check_class("data_source_bins", "list")
 
-        util_check_class("Working_Units", "character")
+        RUtilpol::check_class("Working_Units", "character")
 
-        util_check_vector_values(
+        RUtilpol::check_vector_values(
             "Working_Units",
             c("levels", "bins", "MW")
         )
@@ -60,9 +61,9 @@ fc_make_bins <-
             return(res)
         }
 
-        util_check_class("bin_size", "numeric")
+        RUtilpol::check_class("bin_size", "numeric")
 
-        util_check_if_integer("bin_size")
+        RUtilpol::check_if_integer("bin_size")
 
         bin_oldest <-
             ceiling(
@@ -89,9 +90,9 @@ fc_make_bins <-
                     shift = 1
                 )
         } else {
-            util_check_class("Number_of_shifts", "numeric")
+            RUtilpol::check_class("Number_of_shifts", "numeric")
 
-            util_check_if_integer("Number_of_shifts")
+            RUtilpol::check_if_integer("Number_of_shifts")
         }
 
         if (

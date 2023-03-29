@@ -6,6 +6,7 @@
 #' @description
 #' Check the community dataset for redundnat taxa and levels
 #' and filter them out. This function is simplified due to performance.
+#' @keywords internal
 fc_reduce_simple <-
     function(data_source_reduce,
              ommit_vars = c("label", "res_age", "age_diff"),
@@ -18,7 +19,7 @@ fc_reduce_simple <-
             )
 
         if (
-            check_taxa == TRUE
+            isTRUE(check_taxa)
         ) {
             valid_taxa <-
                 (colSums(data_com, na.rm = TRUE) > 0)
@@ -36,7 +37,7 @@ fc_reduce_simple <-
         }
 
         if (
-            check_levels == TRUE
+            isTRUE(check_levels)
         ) {
             valid_levels <-
                 (rowSums(data_com, na.rm = TRUE) > 0)

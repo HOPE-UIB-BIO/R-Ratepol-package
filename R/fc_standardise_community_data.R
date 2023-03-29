@@ -1,9 +1,9 @@
 #' @title Standardise the community data
 #'
-#' @param data_source_standard 
+#' @param data_source_standard
 #' Data.frame with taxons as columns
 #' @inheritParams fc_estimate_RoC
-#' @description 
+#' @description
 #' Taxa in the assemblage dataset can be standardised to a certain count
 #' (e.g. number of pollen grains in each WU) by rarefaction. Random sampling
 #' without replacement is used to draw a selected number of individuals from
@@ -12,7 +12,7 @@ fc_standardise_community_data <-
   function(data_source_standard,
            N_individuals = 150) {
     data_community <-
-      util_subset_community(data_source_standard)  %>% 
+      util_subset_community(data_source_standard) %>%
       round()
 
     n_taxa <-

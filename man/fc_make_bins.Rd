@@ -32,3 +32,4 @@ in Moving window method}
 \description{
 Create template for RoC estimations
 }
+\keyword{internal}

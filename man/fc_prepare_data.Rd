@@ -36,3 +36,4 @@ in Moving window method}
 Create a single list with all information needed to estimate RoC.
 This is done because such list can be then evaluated in parallel.
 }
+\keyword{internal}

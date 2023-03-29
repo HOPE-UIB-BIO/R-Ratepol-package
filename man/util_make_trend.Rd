@@ -24,3 +24,4 @@ Predict data for certain trend
 \seealso{
 \code{\link[=fc_detect_peak_points]{fc_detect_peak_points()}}
 }
+\keyword{internal}

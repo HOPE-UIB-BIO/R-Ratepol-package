@@ -2,7 +2,7 @@
 #'
 #' @inheritParams fc_estimate_RoC
 #' @param data_source_DC Data.frame with taxons as columns
-#' @details 
+#' @details
 #' Five in-built dissimilarity coefficients are available:
 #' \itemize{
 #' \item Euclidean distance (`DC` = `"euc"`)
@@ -48,9 +48,9 @@ fc_calculate_DC <-
       DC == "euc.sd"
     ) {
       if (
-        verbose == TRUE
+        isTRUE(verbose)
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Standardised Euclidan distance will be used as DC"
         )
       }
@@ -85,7 +85,9 @@ fc_calculate_DC <-
         for (j in 1:ncol(df_work)) {
 
           # check if the standard deviation is not equal zero
-          if (df_sp_supp_work[j] != 0) {
+          if (
+            df_sp_supp_work[j] != 0
+          ) {
             a <-
               .subset2(df_work, j)[1]
             b <-
@@ -116,9 +118,9 @@ fc_calculate_DC <-
       DC == "euc"
     ) {
       if (
-        verbose == TRUE
+        isTRUE(verbose)
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Euclidan distance will be used as DC"
         )
       }
@@ -139,9 +141,9 @@ fc_calculate_DC <-
       DC == "chord"
     ) {
       if (
-        verbose == TRUE
+        isTRUE(verbose)
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Chord distance will be used as DC"
         )
       }
@@ -166,9 +168,9 @@ fc_calculate_DC <-
       DC == "chisq"
     ) {
       if (
-        verbose == TRUE
+        isTRUE(verbose)
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Chi-squared coeficient will be used as DC"
         )
       }
@@ -193,9 +195,9 @@ fc_calculate_DC <-
       DC == "gower"
     ) {
       if (
-        verbose == TRUE
+        isTRUE(verbose)
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Gower's distance will be used as DC"
         )
       }
@@ -219,9 +221,9 @@ fc_calculate_DC <-
       DC == "bray"
     ) {
       if (
-        verbose == TRUE
+        isTRUE(verbose)
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           "Bray-Curtis distance will be used as DC"
         )
       }

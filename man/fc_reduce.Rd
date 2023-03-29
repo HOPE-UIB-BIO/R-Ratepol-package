@@ -17,3 +17,4 @@ fc_reduce(data_source_reduce, check_taxa = TRUE, check_levels = TRUE)
 Check the community dataset for redundnat taxa and levels
 and filter them out.
 }
+\keyword{internal}

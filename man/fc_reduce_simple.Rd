@@ -24,3 +24,4 @@ fc_reduce_simple(
 Check the community dataset for redundnat taxa and levels
 and filter them out. This function is simplified due to performance.
 }
+\keyword{internal}

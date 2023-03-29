@@ -5,18 +5,19 @@
 #' @description
 #' Check the community dataset for redundnat taxa and levels
 #' and filter them out.
+#' @keywords internal
 fc_reduce <-
   function(data_source_reduce,
            check_taxa = TRUE,
            check_levels = TRUE) {
-    util_check_class("data_source_reduce", "list")
+    RUtilpol::check_class("data_source_reduce", "list")
 
-    util_check_class("check_taxa", "logical")
+    RUtilpol::check_class("check_taxa", "logical")
 
-    util_check_class("check_levels", "logical")
+    RUtilpol::check_class("check_levels", "logical")
 
     if (
-      check_taxa == TRUE
+      isTRUE(check_taxa)
     ) {
       valid_taxa <-
         (colSums(data_source_reduce$community, na.rm = TRUE) > 0)
@@ -31,7 +32,7 @@ fc_reduce <-
     }
 
     if (
-      check_levels == TRUE # if filter out samples without individuals
+      isTRUE(check_levels) # if filter out samples without individuals
     ) {
       valid_levels <-
         (rowSums(data_source_reduce$community, na.rm = TRUE) > 0)
@@ -53,7 +54,7 @@ fc_reduce <-
         tibble::column_to_rownames("sample_id")
 
       if (
-        is.null(data_source_reduce$age_un) == FALSE
+        isFALSE(is.null(data_source_reduce$age_un))
       ) {
         data_source_reduce$age_un <-
           data_source_reduce$age_un[, valid_levels]

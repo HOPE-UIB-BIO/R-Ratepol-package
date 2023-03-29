@@ -17,3 +17,4 @@ util_subset_community(
 \description{
 Subset data to only contain community (taxa)
 }
+\keyword{internal}

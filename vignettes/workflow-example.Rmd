@@ -13,7 +13,8 @@ vignette: >
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>")
+  comment = "#>"
+)
 ```
 
 This workflow should show full strength of *RRatepol package* and serve as step by 
@@ -28,7 +29,7 @@ models, to estimating rate-of-change using age uncertainty.
 library(tidyverse)
 library(pander)
 library(RRatepol)
-library(neotoma)
+library(neotoma2)
 library(Bchron)
 library(janitor)
 ```
@@ -36,46 +37,45 @@ library(janitor)
 ## Download the dataset *Glendalough Valley* from Neotoma
 
 ```{r download_of_data, results='hide', warning=FALSE, message=FALSE}
-gl_dataset_download <- 
-  neotoma::get_download(17334)
+gl_dataset_download <-
+  neotoma2::get_downloads(17334)
 
-chronology_id <- 
-  gl_dataset_download[[1]]$sample.meta$chronology.id %>% 
-  unique()
-
-gl_chron_control_table_download <- 
-  neotoma::get_chroncontrol(chronology_id)
-
+gl_chron_control_table_download <-
+  neotoma2::chroncontrols(gl_dataset_download)
 ```
 
 ## Prepare the pollen counts
 
 ```{r count_preparation, results='hide', warning=FALSE}
-gl_counts <- 
-  gl_dataset_download[[1]]$counts 
+gl_counts <-
+  neotoma2::samples(gl_dataset_download)
 
-gl_taxon_list <- 
-  gl_dataset_download[[1]]$taxon.list
-
-gl_taxon_list_selected <- 
-gl_taxon_list %>% 
-  dplyr::filter(variable.element == "pollen")
+gl_taxon_list_selected <-
+  neotoma2::taxa(gl_dataset_download) %>%
+  dplyr::filter(element == "pollen") %>%
+  purrr::pluck("variablename")
 
 gl_counts_selected <-
-  gl_counts %>% 
-  as.data.frame() %>% 
-  tibble::rownames_to_column(., var = "sample_id") %>% 
-  tibble::as_tibble() %>% 
-  dplyr::select(sample_id, dplyr::any_of(gl_taxon_list_selected$taxon.name)) %>% 
-  janitor::clean_names() 
+  gl_counts %>%
+  as.data.frame() %>%
+  dplyr::mutate(sample_id = as.character(sampleid)) %>%
+  tibble::as_tibble() %>%
+  dplyr::select("sample_id", "value", "variablename") %>%
+  dplyr::filter(
+    variablename %in% gl_taxon_list_selected
+  ) %>%
+  janitor::clean_names() %>%
+  tidyr::pivot_wider(
+    names_from = "variablename",
+    values_from = "value",
+    values_fill = 0
+  )
 
-head(gl_counts_selected)[,1:5]
-
+head(gl_counts_selected)[, 1:5]
 ```
 
 ```{r count_diplay, echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-pander::pandoc.table(head(gl_counts_selected)[,1:5])
-
+pander::pandoc.table(head(gl_counts_selected)[, 1:5])
 ```
 
 Here, we strongly advocate that attention should be paid to the section of 
@@ -90,19 +90,17 @@ Extract depth for each level
 
 ```{r level_preparion, results='hide', warning=FALSE}
 gl_level <-
-  gl_dataset_download[[1]]$sample.meta %>% 
-  tibble::as_tibble() %>% 
-  dplyr::rename(sample_id = sample.id) %>% 
-  dplyr::select(sample_id, depth) %>% 
-  dplyr::mutate_if(is.integer, as.character)
+  neotoma2::samples(gl_dataset_download) %>%
+  tibble::as_tibble() %>%
+  dplyr::mutate(sample_id = as.character(sampleid)) %>%
+  dplyr::distinct(sample_id, depth)  %>% 
+  dplyr::relocate(sample_id)
 
 head(gl_level)
-
 ```
 
 ```{r level_diplay, echo=FALSE, results='asis', warning=FALSE, message=FALSE}
 pander::pandoc.table(head(gl_level))
-
 ```
 
 
@@ -120,25 +118,33 @@ the focus of this workflow.
 
 ```{r chron_control_prepare, results='hide', warning=FALSE}
 gl_chron_control_table <-
-  gl_chron_control_table_download$chron.control %>% 
-   # here we calculate the error as the avarage as the age.old and age age.young
+  gl_chron_control_table_download %>%
+  dplyr::filter(chronologyid == 9691) %>% 
+  tibble::as_tibble() %>%
+  # here we calculate the error as the avarage as the agelimitolder and
+  #   agelimityounger
   dplyr::mutate(
-    error = round((age.old - age.young) / 2)) %>% 
-  # as Bchron cannot accept error of 0, we need to replace the value with 1 
+    error = round((agelimitolder - agelimityounger) / 2)
+  ) %>%
+  # as Bchron cannot accept error of 0, we need to replace the value with 1
   dplyr::mutate(
-    error = replace(error, error == 0, 1)) %>% 
+    error = replace(error, error == 0, 1)
+  ) %>%
   # we need to specifify which calibration curve should be used for what point
   dplyr::mutate(
-    curve = ifelse(control.type == "Radiocarbon", "intcal20", "normal")) %>% 
-  dplyr::select(chron.control.id, age, error, depth, thickness, control.type, curve)
+    curve = ifelse(chroncontrolid == "Radiocarbon", "intcal20", "normal")
+  ) %>%
+  tibble::column_to_rownames("chroncontrolid") %>%
+  dplyr::select(
+    chroncontrolage, error, depth, thickness, chroncontroltype, curve
+  )
 
-gl_chron_control_table
-
+head(gl_chron_control_table)
 ```
 
 
 ```{r chron_control_show, echo=FALSE, results='asis', warning=FALSE, message=FALSE}
-pander::pandoc.table(gl_chron_control_table)
+pander::pandoc.table(head(gl_chron_control_table))
 ```
 
 ```{r bchron, results='hide', warning=FALSE, message=FALSE}
@@ -152,17 +158,17 @@ n_iteration <- n_iteration_default * i_multiplier
 n_burn <- n_burn_default * i_multiplier
 n_thin <- n_thin_default * i_multiplier
 
-gl_bchron <- 
+gl_bchron <-
   Bchron::Bchronology(
-    ages = gl_chron_control_table$age,
+    ages = gl_chron_control_table$chroncontrolage,
     ageSds = gl_chron_control_table$error,
     positions = gl_chron_control_table$depth,
     calCurves = gl_chron_control_table$curve,
     positionThicknesses = gl_chron_control_table$thickness,
     iterations = n_iteration,
     burn = n_burn,
-    thin = n_thin)
-
+    thin = n_thin
+  )
 ```
 
 ```{r bchron_figure, results='markup', warning=FALSE}
@@ -172,33 +178,32 @@ plot(gl_bchron)
 Predict ages
 
 ```{r predic_ages, results='hide', warning=FALSE}
-age_position <- 
-  Bchron:::predict.BchronologyRun(gl_bchron, newPositions = gl_level$depth)
-  
-age_uncertainties <- 
-  age_position %>% 
-  as.data.frame() %>% 
-  dplyr::mutate_all(., as.integer) %>% 
+age_position <-
+  Bchron:::predict.BchronologyRun(object = gl_bchron, newPositions = gl_level$depth)
+
+age_uncertainties <-
+  age_position %>%
+  as.data.frame() %>%
+  dplyr::mutate_all(., as.integer) %>%
   as.matrix()
-  
+
 colnames(age_uncertainties) <- gl_level$sample_id
 
-gl_level_predicted <- 
-  gl_level %>% 
+gl_level_predicted <-
+  gl_level %>%
   dplyr::mutate(
     age = apply(
-    age_uncertainties, 2,
-    stats::quantile,
-    probs = 0.5)
+      age_uncertainties, 2,
+      stats::quantile,
+      probs = 0.5
+    )
   )
 
 head(gl_level_predicted)
-
 ```
 
 ```{r level_predicted_diplay, echo=FALSE, results='asis', warning=FALSE, message=FALSE}
 pander::pandoc.table(head(gl_level_predicted))
-
 ```
 
 ## Estimation Rate-of-Change
@@ -213,21 +218,20 @@ increasing the *randomisations* to 10.000 for any real estimation.
 randomisations <- 100 # increase to 10e3
 
 gl_roc <-
-    RRatepol::fc_estimate_RoC(
-      data_source_community = gl_counts_selected,
-      data_source_age = gl_level_predicted,
-      age_uncertainty = age_uncertainties,
-      smooth_method = "shep",
-      DC = "chisq",
-      Working_Units = "MW",
-      bin_size = 500,
-      Number_of_shifts  = 5,
-      standardise = TRUE,
-      N_individuals = 150,
-      rand = randomisations,
-      use_parallel = FALSE # use_parallel = TRUE to use parallel calculation
-      ) 
-
+  RRatepol::fc_estimate_RoC(
+    data_source_community = gl_counts_selected,
+    data_source_age = gl_level_predicted,
+    age_uncertainty = age_uncertainties,
+    smooth_method = "shep",
+    DC = "chisq",
+    Working_Units = "MW",
+    bin_size = 500,
+    Number_of_shifts = 5,
+    standardise = TRUE,
+    N_individuals = 150,
+    rand = randomisations,
+    use_parallel = FALSE # use_parallel = TRUE to use parallel calculation
+  )
 ```
 
 ### Detect peak-points and plot the results
@@ -238,7 +242,8 @@ We will detect significant peak-points using *Non-linear* method
 gl_roc_peaks <-
   RRatepol::fc_detect_peak_points(
     data_source = gl_roc,
-    sel_method = "trend_non_linear")
+    sel_method = "trend_non_linear"
+  )
 ```
 
 Plot the estimates with showing both the peak-points 
@@ -247,6 +252,7 @@ Plot the estimates with showing both the peak-points
 RRatepol::fc_plot_RoC_sequence(
   data_source = gl_roc_peaks,
   Peaks = TRUE,
-  trend = "trend_non_linear")
+  trend = "trend_non_linear"
+)
 ```
 

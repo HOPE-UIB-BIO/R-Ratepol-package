@@ -1,4 +1,3 @@
-
 #' @title Run a single interation of RoC estimation
 #'
 #' @param data_source_run
@@ -14,6 +13,7 @@
 #' standardised by age differences between WUs.
 #' }
 #' @seealso [fc_estimate_RoC()]
+#' @keywords internal
 fc_run_iteration <-
     function(data_source_run,
              bin_selection = "first",
@@ -51,15 +51,16 @@ fc_run_iteration <-
 
         # standardisation of community data to N_individuals
         if (
-            standardise == TRUE
+            isTRUE(standardise)
         ) {
             # select only community data
             com_data_sums <-
                 rowSums(
                     util_subset_community(
-                      data_source = data_subset
-                ),
-                na.rm = TRUE)
+                        data_source = data_subset
+                    ),
+                    na.rm = TRUE
+                )
 
             # adjust the value to a minimal of presented values
             N_individuals <-
@@ -87,7 +88,7 @@ fc_run_iteration <-
                 )
 
             if (
-                verbose == TRUE
+                isTRUE(verbose)
             ) {
                 assertthat::assert_that(
                     all(
@@ -113,12 +114,20 @@ fc_run_iteration <-
                 data_source_reduce = data_sd
             )
 
-        # tunr into proportion
-        data_sd_prop <-
-            fc_transfer_into_proportions(
-                data_source_trans = data_sd,
-                sel_method = "proportions"
-            )
+        if (
+            isTRUE(tranform_to_proportions)
+        ) {
+            # tunr into proportion
+            data_sd_prop <-
+                fc_transfer_into_proportions(
+                    data_source_trans = data_sd,
+                    sel_method = "proportions"
+                )
+        } else {
+            data_sd_prop <-
+                data_sd
+        }
+
 
         #----------------------------------------------------------#
         # 4.3 DC Calculation -----
@@ -139,13 +148,13 @@ fc_run_iteration <-
 
         #  calculate DC standardise by time
         roc_res <-
-            data_sd_prop[1:length(dc_res), ] %>%
+            data_sd_prop[seq_along(dc_res), ] %>%
             dplyr::mutate(
                 dc = dc_res,
                 age_diff_st = .data$age_diff / time_standardisation,
                 roc = .data$dc / .data$age_diff_st
             ) %>%
-            dplyr::select(.data$label, .data$res_age, .data$roc)
+            dplyr::select("label", "res_age", "roc")
 
 
         #----------------------------------------------------------#

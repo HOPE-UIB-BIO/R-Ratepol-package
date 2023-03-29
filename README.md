@@ -8,7 +8,7 @@ status](https://www.r-pkg.org/badges/version/RRatepol.png)](https://CRAN.R-proje
 [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions)
 <!-- badges: end -->
 
-## Current version: 1.0.0
+## Current version: 1.1.0
 
 What is new in the package? See
 [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)

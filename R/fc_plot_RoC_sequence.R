@@ -88,18 +88,18 @@ fc_plot_RoC_sequence <-
            trend = NULL) {
 
     # age_threshold
-    util_check_class("data_source", "data.frame")
+    RUtilpol::check_class("data_source", "data.frame")
 
-    util_check_col_names(
+    RUtilpol::check_col_names(
       "data_source",
       c("Age", "ROC", "ROC_up", "ROC_dw")
     )
 
-    util_check_class("age_threshold", c("NULL", "numeric"))
+    RUtilpol::check_class("age_threshold", c("NULL", "numeric"))
 
 
     if (
-      is.null(age_threshold) == TRUE
+      isTRUE(is.null(age_threshold))
     ) {
       age_threshold <- max(data_source$Age)
     }
@@ -109,17 +109,17 @@ fc_plot_RoC_sequence <-
       dplyr::filter(.data$Age <= age_threshold)
 
     # Roc_threshold
-    util_check_class("Roc_threshold", c("NULL", "numeric"))
+    RUtilpol::check_class("Roc_threshold", c("NULL", "numeric"))
 
     if (
-      is.null(Roc_threshold) == TRUE
+      isTRUE(is.null(Roc_threshold))
     ) {
       Roc_threshold <- max(data_source$ROC_up)
     }
 
-    util_check_class("Peaks", "logical")
+    RUtilpol::check_class("Peaks", "logical")
 
-    util_check_class("trend", c("NULL", "character"))
+    RUtilpol::check_class("trend", c("NULL", "character"))
 
     p_res <-
       ggplot2::ggplot(
@@ -163,17 +163,17 @@ fc_plot_RoC_sequence <-
       )
 
     if (
-      is.null(trend) == FALSE
+      isFALSE(is.null(trend))
     ) {
-      util_check_vector_values(
+      RUtilpol::check_vector_values(
         "trend",
         c("threshold", "trend_linear", "trend_non_linear")
       )
 
       if (
-        Peaks == FALSE
+        isFALSE(Peaks)
       ) {
-        util_output_comment(
+        RUtilpol::output_comment(
           msg = paste(
             "'trend' has been set to NOT 'NULL',",
             "'Peaks' will be plotted"
@@ -232,9 +232,9 @@ fc_plot_RoC_sequence <-
     }
 
     if (
-      Peaks == TRUE
+      isTRUE(Peaks)
     ) {
-      util_check_col_names("data_source", "Peak")
+      RUtilpol::check_col_names("data_source", "Peak")
 
       p_res <-
         p_res +

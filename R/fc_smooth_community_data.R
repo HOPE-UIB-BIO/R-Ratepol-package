@@ -5,9 +5,9 @@
 #' @param round_results
 #' Logical. Should smoothed values be rounded to integers?
 #' @inheritParams fc_estimate_RoC
-#' @description 
+#' @description
 #' A function to apply one of the 4 smoothers.
-#' @details 
+#' @details
 #' Smoothing of assemblage data: Each variable within the
 #' assemblage data is smoothed using one of five in-built smoothing methods:
 #' \itemize{
@@ -19,7 +19,7 @@
 #'  Grimm and Jacobson, 1992)
 #' }
 #' @seealso [fc_estimate_RoC()]
-#' @references 
+#' @references
 #' Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed.
 #' J. Wiley & Sons, New York.
 #'
@@ -42,11 +42,11 @@ fc_smooth_community_data <-
     # SETUP -----
     # ----------------------------------------------
 
-    util_check_class("data_source_smooth", "list")
+    RUtilpol::check_class("data_source_smooth", "list")
 
-    util_check_class("smooth_method", "character")
+    RUtilpol::check_class("smooth_method", "character")
 
-    util_check_vector_values(
+    RUtilpol::check_vector_values(
       "smooth_method",
       c("m.avg", "grim", "age.w", "shep")
     )
@@ -54,7 +54,7 @@ fc_smooth_community_data <-
     smooth_method <- match.arg(smooth_method)
 
     if (
-      !smooth_method != "shep"
+      smooth_method != "shep"
     ) {
       assertthat::assert_that(
         smooth_N_points %% 2 != 0,
@@ -64,7 +64,7 @@ fc_smooth_community_data <-
       if (
         smooth_method != "m.avg"
       ) {
-        util_check_class("smooth_age_range", "numeric")
+        RUtilpol::check_class("smooth_age_range", "numeric")
 
         if (
           smooth_method == "grim"
@@ -126,10 +126,12 @@ fc_smooth_community_data <-
     # Additional information -----
     # ----------------------------------------------
 
-    if (verbose == TRUE) {
+    if (
+      isTRUE(verbose)
+    ) {
       switch(smooth_method,
         "m.avg" = {
-          util_output_comment(
+          RUtilpol::output_comment(
             paste(
               "Data will be smoothed by 'moving average' over", smooth_N_points,
               "points"
@@ -137,7 +139,7 @@ fc_smooth_community_data <-
           )
         },
         "grim" = {
-          util_output_comment(
+          RUtilpol::output_comment(
             paste(
               "Data will be smoothed by 'Grimm method' with min samples",
               smooth_N_points,
@@ -147,7 +149,7 @@ fc_smooth_community_data <-
           )
         },
         "age.w" = {
-          util_output_comment(
+          RUtilpol::output_comment(
             paste(
               "Data will be smoothed by 'age-weighed average' over",
               smooth_N_points,
@@ -156,7 +158,7 @@ fc_smooth_community_data <-
           )
         },
         "shep" = {
-          util_output_comment(
+          RUtilpol::output_comment(
             paste(
               "Data will be smoothed by 'Shepard's 5-term filter'"
             )
@@ -372,7 +374,7 @@ fc_smooth_community_data <-
     }
 
     if (
-      round_results == TRUE
+      isTRUE(round_results)
     ) {
       dat_community <- round(dat_community)
     }
