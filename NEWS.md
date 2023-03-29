@@ -10,7 +10,7 @@
 
 ## Function references
 
-flagged several functions as `internal`
+* remove several functions references by flagging them as `internal`
 
 ## Bug fixes
 
