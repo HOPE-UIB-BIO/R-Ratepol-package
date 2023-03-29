@@ -1,14 +1,16 @@
-Package: RRatepol
 Type: Package
+Package: RRatepol
 Title: R–Ratepol: Estimating Rate of Change in Temporal Sequences
 Version: 1.1.0
+Authors@R: 
+    person("Ondrej", "Mottl", , "ondrej.mottl@gmail.com", role = c("aut", "cre"))
 Maintainer: Ondrej Mottl <ondrej.mottl@gmail.com>
-Description: R-Ratepol is an R package for estimating rate of change (RoC) from community data in time series.
+Description: R-Ratepol is an R package for estimating rate of change (RoC)
+    from community data in time series.
 License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-Language: en-GB
-Authors@R: person("Ondrej", "Mottl", email = "ondrej.mottl@gmail.com", role = c("aut","cre"))
+URL: https://hope-uib-bio.github.io/R-Ratepol-package/
+Depends: 
+    R (>= 2.10)
 Imports:
     assertthat,
     dplyr,
@@ -29,9 +31,6 @@ Imports:
     usethis,
     utils,
     vegan
-RoxygenNote: 7.2.1
-Depends: 
-    R (>= 2.10)
 Suggests: 
     Bchron,
     janitor,
@@ -42,9 +41,13 @@ Suggests:
     remotes,
     rmarkdown,
     tidyverse
-Remotes:
+VignetteBuilder: 
+    knitr
+Remotes: 
     github::HOPE-UIB-BIO/R-Utilpol-package,
     github::NeotomaDB/neotoma2
-VignetteBuilder: knitr
-URL: https://hope-uib-bio.github.io/R-Ratepol-package/
+Encoding: UTF-8
+Language: en-GB
+LazyData: true
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
