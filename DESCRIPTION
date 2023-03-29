@@ -10,7 +10,7 @@ Description: R-Ratepol is an R package for estimating rate of change (RoC)
 License: MIT + file LICENSE
 URL: https://hope-uib-bio.github.io/R-Ratepol-package/
 Depends: 
-    R (>= 2.10)
+    R (>= 4.0)
 Imports:
     assertthat,
     dplyr,
