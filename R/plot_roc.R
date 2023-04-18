@@ -70,7 +70,7 @@
 #'   )
 #'
 #' sequence_02_peak <-
-#'   fc_detect_peak_points(sequence_01, sel_method = "trend_non_linear")
+#'   detect_peak_points(sequence_01, sel_method = "trend_non_linear")
 #'
 #' plot_roc(
 #'   sequence_02_peak,
