@@ -229,10 +229,10 @@
 #'     dissimilarity_coefficient = "chisq"
 #'   )
 #'
-#' fc_plot_RoC_sequence(
+#' plot_roc(
 #'   sequence_01,
 #'   age_threshold = 8e3,
-#'   Roc_threshold = 1
+#'   roc_threshold = 1
 #' )
 #' }
 estimate_roc <-
