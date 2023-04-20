@@ -25,7 +25,7 @@
 #' This function was deprecated, please use [estimate_roc()].
 #' @seealso [estimate_roc()]
 #' @keywords internal
-#' @export 
+#' @export
 fc_estimate_RoC <-
   function(data_source_community,
            data_source_age,

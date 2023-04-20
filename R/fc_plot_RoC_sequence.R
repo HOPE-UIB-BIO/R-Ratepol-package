@@ -45,7 +45,7 @@ fc_plot_RoC_sequence <-
       )
       peaks <- Peaks
     }
-    
+
     plot_roc(
       data_source = data_source,
       age_threshold = age_threshold,
