@@ -60,9 +60,9 @@ This include description of the individual steps for RoC estimation [Package Des
 Example of workflow showing full strength of RRatepol package, with as step by step guidance starting from downloading dataset from Neotoma, building age-depth models, to estimating rate-of-change using age uncertainty.
 [Example of full workflow](https://hope-uib-bio.github.io/R-Ratepol-package/articles/workflow-example.html)
 
-### Seminar Day of PalaeoSIG
+### APD R-Ratepol workshop
 
-For additional examples of RRatepol setting, see [Materials for Seminar Day of PalaeoSIG: Data Manipulation & Statistical Analysis in Palaeoecology](https://github.com/OndrejMottl/palaeoR_R-Ratepol_workshop)
+For additional examples of RRatepol setting, see [Materials for R-Ratepol workshop with an African focus (APD data users)](https://ondrejmottl.github.io/APD_R-Ratepol_workshop/)
 
 ### Build-in example
 

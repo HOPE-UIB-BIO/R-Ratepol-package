@@ -3,9 +3,7 @@
 
 <!-- badges: start -->
 
-[![CRAN status](https://www.r-pkg.org/badges/version/RRatepol.png)](https://CRAN.R-project.org/package=RRatepol)
-[![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions)
-<!-- badges: end -->
+[![CRAN status](https://www.r-pkg.org/badges/version/RRatepol.png)](https://CRAN.R-project.org/package=RRatepol) [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions) <!-- badges: end -->
 
 ## Current version: 1.2.0
 
@@ -33,9 +31,7 @@ devtools::install_github("HOPE-UIB-BIO/R-Ratepol-package")
 citation(package = "RRatepol")
 ```
 
-Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new approach
-Review of Palaeobotany and Palynology 293,
-doi: [![](https://img.shields.io/badge/doi-10.1016/j.revpalbo.2021.104483-yellow.svg)](https://doi.org/10.1016/j.revpalbo.2021.104483)
+Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new approach Review of Palaeobotany and Palynology 293, doi: [![](https://img.shields.io/badge/doi-10.1016/j.revpalbo.2021.104483-yellow.svg)](https://doi.org/10.1016/j.revpalbo.2021.104483)
 
 ## Package website
 
@@ -47,12 +43,11 @@ This include description of the individual steps for RoC estimation [Package Des
 
 ### Workflow
 
-Example of workflow showing full strength of RRatepol package, with as step by step guidance starting from downloading dataset from Neotoma, building age-depth models, to estimating rate-of-change using age uncertainty.
-[Example of full workflow](https://hope-uib-bio.github.io/R-Ratepol-package/articles/workflow-example.html)
+Example of workflow showing full strength of RRatepol package, with as step by step guidance starting from downloading dataset from Neotoma, building age-depth models, to estimating rate-of-change using age uncertainty. [Example of full workflow](https://hope-uib-bio.github.io/R-Ratepol-package/articles/workflow-example.html)
 
-### Seminar Day of PalaeoSIG
+### APD R-Ratepol workshop
 
-For additional examples of RRatepol setting, see [Materials for Seminar Day of PalaeoSIG: Data Manipulation & Statistical Analysis in Palaeoecology](https://github.com/OndrejMottl/palaeoR_R-Ratepol_workshop)
+For additional examples of RRatepol setting, see [Materials for R-Ratepol workshop with an African focus (APD data users)](https://ondrejmottl.github.io/APD_R-Ratepol_workshop/)
 
 ### Build-in example
 
@@ -123,12 +118,12 @@ sequence_01 <-
     working_units = "levels"
     )
 #> #----------------------------------------------------------#
-#> ℹ RRatepol started 2023-04-20 12:35:32
+#> ℹ RRatepol started 2023-04-20 14:19:55
 #> #----------------------------------------------------------#
 #> ℹ RoC will be estimated between individual subsequent levels
 #> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
 #> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2023-04-20 12:35:33 taking 1.72 secs
+#> ℹ RRatepol finished 2023-04-20 14:19:58 taking 2.84 secs
 #> #----------------------------------------------------------#
 ```
 
@@ -141,9 +136,7 @@ RRatepol::plot_roc(
 
 #### Example 2
 
-Now try to standardise pollen data in each sample to a maximum of 150 pollen grains and use age uncertainties from *age-depth model*.
-Process will be repeated 1000 times on multiple cores using parallel computation.
-This will produce error *wrapper* showing 95th percent quantile.
+Now try to standardise pollen data in each sample to a maximum of 150 pollen grains and use age uncertainties from *age-depth model*. Process will be repeated 1000 times on multiple cores using parallel computation. This will produce error *wrapper* showing 95th percent quantile.
 
 ``` r
 sequence_02 <-
@@ -159,14 +152,14 @@ sequence_02 <-
     rand = 1000,
     use_parallel = TRUE)
 #> #----------------------------------------------------------#
-#> ℹ RRatepol started 2023-04-20 12:35:34
+#> ℹ RRatepol started 2023-04-20 14:19:59
 #> #----------------------------------------------------------#
 #> ℹ 'age_uncertainty' will be used for in the RoC estimation
 #> ℹ RoC will be estimated between individual subsequent levels
 #> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
 #> ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
 #> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2023-04-20 12:37:21 taking 1.79 mins
+#> ℹ RRatepol finished 2023-04-20 14:22:19 taking 2.33 mins
 #> #----------------------------------------------------------#
 ```
 
@@ -197,7 +190,7 @@ sequence_03 <-
     rand = 1000,
     use_parallel = TRUE)
 #> #----------------------------------------------------------#
-#> ℹ RRatepol started 2023-04-20 12:37:22
+#> ℹ RRatepol started 2023-04-20 14:22:19
 #> #----------------------------------------------------------#
 #> ℹ 'age_uncertainty' will be used for in the RoC estimation
 #> ℹ RoC will be estimated using 'binning with the mowing window' of 500 yr time bin over 5 number of window shifts
@@ -205,7 +198,7 @@ sequence_03 <-
 #> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
 #> ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
 #> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2023-04-20 12:41:56 taking 4.56 mins
+#> ℹ RRatepol finished 2023-04-20 14:26:52 taking 4.54 mins
 #> #----------------------------------------------------------#
 ```
 
