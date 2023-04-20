@@ -71,37 +71,40 @@ library(janitor) # string cleaning
 ```{r download_of_data, results='hide', warning=FALSE, message=FALSE}
 gl_dataset_download <-
   neotoma2::get_downloads(17334)
-
-gl_chron_control_table_download <-
-  neotoma2::chroncontrols(gl_dataset_download)
 ```
 
 ## Prepare the pollen counts
 
 ```{r count_preparation, results='hide', warning=FALSE}
+# get samples
 gl_counts <-
   neotoma2::samples(gl_dataset_download)
 
+# select only "pollen" taxa
 gl_taxon_list_selected <-
   neotoma2::taxa(gl_dataset_download) %>%
   dplyr::filter(element == "pollen") %>%
   purrr::pluck("variablename")
 
+# prepare taxa table
 gl_counts_selected <-
   gl_counts %>%
   as.data.frame() %>%
   dplyr::mutate(sample_id = as.character(sampleid)) %>%
   tibble::as_tibble() %>%
   dplyr::select("sample_id", "value", "variablename") %>%
+  # only include selected taxons
   dplyr::filter(
     variablename %in% gl_taxon_list_selected
   ) %>%
-  janitor::clean_names() %>%
+  # turn into the wider format
   tidyr::pivot_wider(
     names_from = "variablename",
     values_from = "value",
     values_fill = 0
-  )
+  ) %>%
+  # clean names
+  janitor::clean_names()
 
 head(gl_counts_selected)[, 1:5]
 ```
@@ -110,9 +113,7 @@ head(gl_counts_selected)[, 1:5]
 pander::pandoc.table(head(gl_counts_selected)[, 1:5])
 ```
 
-Here, we strongly advocate that attention should be paid to the section of 
-ecological ecological group, as well, as harmonisation of the pollen taxa.
-However, that is not subject of this workflow.
+Here, we strongly advocate that attention should be paid to the selection of the ecological groups as well as the harmonisation of the pollen taxa. However, that is not the subject of this workflow, but any analysis to be published needs careful preparation of the fossil pollen datasets before using R-Ratepol!
 
 ## Preparation of the levels
 
@@ -125,7 +126,7 @@ gl_level <-
   neotoma2::samples(gl_dataset_download) %>%
   tibble::as_tibble() %>%
   dplyr::mutate(sample_id = as.character(sampleid)) %>%
-  dplyr::distinct(sample_id, depth)  %>% 
+  dplyr::distinct(sample_id, depth) %>%
   dplyr::relocate(sample_id)
 
 head(gl_level)
@@ -149,9 +150,12 @@ table. There are many more potential issues issues but solving those is not
 the focus of this workflow.
 
 ```{r chron_control_prepare, results='hide', warning=FALSE}
+gl_chron_control_table_download <-
+  neotoma2::chroncontrols(gl_dataset_download)
+
 gl_chron_control_table <-
   gl_chron_control_table_download %>%
-  dplyr::filter(chronologyid == 9691) %>% 
+  dplyr::filter(chronologyid == 9691) %>%
   tibble::as_tibble() %>%
   # here we calculate the error as the avarage as the agelimitolder and
   #   agelimityounger
