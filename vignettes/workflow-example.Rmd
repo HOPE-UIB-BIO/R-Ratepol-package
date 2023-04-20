@@ -218,17 +218,17 @@ increasing the *randomisations* to 10.000 for any real estimation.
 randomisations <- 100 # increase to 10e3
 
 gl_roc <-
-  RRatepol::fc_estimate_RoC(
+  RRatepol::estimate_roc(
     data_source_community = gl_counts_selected,
     data_source_age = gl_level_predicted,
     age_uncertainty = age_uncertainties,
     smooth_method = "shep",
-    DC = "chisq",
-    Working_Units = "MW",
+    dissimilarity_coefficient = "chisq",
+    working_units = "MW",
     bin_size = 500,
-    Number_of_shifts = 5,
+    number_of_shifts = 5,
     standardise = TRUE,
-    N_individuals = 150,
+    n_individuals = 150,
     rand = randomisations,
     use_parallel = FALSE # use_parallel = TRUE to use parallel calculation
   )
@@ -240,7 +240,7 @@ We will detect significant peak-points using *Non-linear* method
 
 ```{r peak_points, results='hide', warning=FALSE}
 gl_roc_peaks <-
-  RRatepol::fc_detect_peak_points(
+  RRatepol::detect_peak_points(
     data_source = gl_roc,
     sel_method = "trend_non_linear"
   )
@@ -249,9 +249,9 @@ gl_roc_peaks <-
 Plot the estimates with showing both the peak-points 
 
 ```{r roc_figure, results='markup', echo=TRUE}
-RRatepol::fc_plot_RoC_sequence(
+RRatepol::plot_roc(
   data_source = gl_roc_peaks,
-  Peaks = TRUE,
+  peaks = TRUE,
   trend = "trend_non_linear"
 )
 ```
