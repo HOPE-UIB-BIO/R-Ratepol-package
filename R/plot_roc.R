@@ -202,7 +202,7 @@ plot_roc <-
           p_res +
           ggplot2::geom_line(
             data = data.frame(
-              ROC = util_make_trend(
+              ROC = make_trend(
                 data_source = data_source,
                 sel_method = "linear"
               ),
@@ -219,7 +219,7 @@ plot_roc <-
           p_res +
           ggplot2::geom_line(
             data = data.frame(
-              ROC = util_make_trend(
+              ROC = make_trend(
                 data_source = data_source,
                 sel_method = "non_linear"
               ),
