@@ -28,7 +28,7 @@
     
     <a class="navbar-brand me-2" href="index.html">RRatepol</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@
 <!-- badges: start -->
 
 <div class="section level2">
-<h2 id="current-version-110">Current version: 1.1.0<a class="anchor" aria-label="anchor" href="#current-version-110"></a>
+<h2 id="current-version-120">Current version: 1.2.0<a class="anchor" aria-label="anchor" href="#current-version-120"></a>
 </h2>
 <p>What is new in the package? See <a href="https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html">NEWS</a></p>
 <div class="section level3">
@@ -81,17 +81,19 @@
 <h2 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
 </h2>
 <p>RRatepol is an R package for estimating rate of change (RoC) from community data in time series.</p>
-<p>RRatepol is written as an R package and includes a range of possible settings including a novel method to evaluate RoC in a single stratigraphical sequence using assemblage data and age uncertainties for each level. There are multiple built-in dissimilarity coefficients (DC) for different types of assemblage data, and various levels of data smoothing that can be applied depending on the type and variance of the data. In addition, RRatepol can use randomisation, accompanied by use of age uncertainties of each level and taxon standardisation to detect RoC patterns in datasets with high data noise or variability (i.e. numerous rapid changes in composition or sedimentation rates).</p>
+<p>RRatepol is written as an R package and includes a range of possible settings including a novel method to evaluate RoC in a single stratigraphical sequence using assemblage data and age uncertainties for each level. There are multiple built-in dissimilarity coefficients (dissimilarity_coefficient) for different types of assemblage data, and various levels of data smoothing that can be applied depending on the type and variance of the data. In addition, RRatepol can use randomisation, accompanied by use of age uncertainties of each level and taxon standardisation to detect RoC patterns in datasets with high data noise or variability (i.e. numerous rapid changes in composition or sedimentation rates).</p>
 </div>
 <div class="section level2">
 <h2 id="installing-package">Installing package<a class="anchor" aria-label="anchor" href="#installing-package"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"HOPE-UIB-BIO/R-Ratepol-package"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"HOPE-UIB-BIO/R-Ratepol-package"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="cite-as">Cite as<a class="anchor" aria-label="anchor" href="#cite-as"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="at">package =</span> <span class="st">"RRatepol"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"RRatepol"</span><span class="op">)</span></span></code></pre></div>
 <p>Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new approach Review of Palaeobotany and Palynology 293, doi: <a href="https://doi.org/10.1016/j.revpalbo.2021.104483" class="external-link"><img src="https://img.shields.io/badge/doi-10.1016/j.revpalbo.2021.104483-yellow.svg"></a></p>
 </div>
 <div class="section level2">
@@ -109,9 +111,9 @@
 <p>Example of workflow showing full strength of RRatepol package, with as step by step guidance starting from downloading dataset from Neotoma, building age-depth models, to estimating rate-of-change using age uncertainty. <a href="https://hope-uib-bio.github.io/R-Ratepol-package/articles/workflow-example.html">Example of full workflow</a></p>
 </div>
 <div class="section level3">
-<h3 id="seminar-day-of-palaeosig">Seminar Day of PalaeoSIG<a class="anchor" aria-label="anchor" href="#seminar-day-of-palaeosig"></a>
+<h3 id="apd-r-ratepol-workshop">APD R-Ratepol workshop<a class="anchor" aria-label="anchor" href="#apd-r-ratepol-workshop"></a>
 </h3>
-<p>For additional examples of RRatepol setting, see <a href="https://github.com/OndrejMottl/palaeoR_R-Ratepol_workshop" class="external-link">Materials for Seminar Day of PalaeoSIG: Data Manipulation &amp; Statistical Analysis in Palaeoecology</a></p>
+<p>For additional examples of RRatepol setting, see <a href="https://ondrejmottl.github.io/APD_R-Ratepol_workshop/" class="external-link">Materials for R-Ratepol workshop with an African focus (APD data users)</a></p>
 </div>
 <div class="section level3">
 <h3 id="build-in-example">Build-in example<a class="anchor" aria-label="anchor" href="#build-in-example"></a>
@@ -119,146 +121,153 @@
 <p>Pollen data from four European sequences the <em>Neotoma database</em> (Goring et al., 2015) were obtained. Taxa were standardised to the taxonomically highest pollen morphotype (Level = MHVar2) using the pollen harmonisation table in Giesecke et al. (2019).</p>
 <p>Age-depth models were developed using the pre-selected radiometric control points provided in Giesecke et al. (2014) and calibrated the radiocarbon dates using the IntCal13 Northern Hemisphere calibration curve (Reimer et al., 2013). For each sequence, an age-depth model was constructed using the <em>Bchron R package</em> (Haslett &amp; Parnell, 2008) to generate 1000 possible age predictions (i.e. age uncertainties) for all levels. We calculated the median of all the uncertainties for each level to give the most probable age (default age) in calibrated years before present (cal yr BP, where 0 = 1950 CE).</p>
 <p>In each sequence, we excluded all levels that contained less than 150 pollen grain counts of the terrestrial taxa, and all levels beyond a 3000-years extrapolation of the oldest chronological control point. In addition, we excluded all levels with an age older than 8500 cal yr BP to focus on the period of most substantial human impact.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RRatepol)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>example_data <span class="ot">&lt;-</span>  </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  RRatepol<span class="sc">::</span>example_data</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(example_data)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 4</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 7</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ dataset_id        &lt;chr&gt; "4012", "40951", "45314", "17334"</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ collection_handle &lt;chr&gt; "DALLICAN", "STEERMOS", "KILOALA", "GL"</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ lat               &lt;dbl&gt; 60.38736, 47.80567, 67.96611, 53.00735</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ long              &lt;dbl&gt; -1.096480, 8.200150, 20.460278, -6.348035</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ pollen_data       &lt;list&gt; [&lt;tbl_df[63 x 51]&gt;], [&lt;tbl_df[273 x 104]&gt;], [&lt;tbl_df~</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ sample_age        &lt;named list&gt; [&lt;data.frame[63 x 3]&gt;], [&lt;data.frame[273 x 3]&gt;], [&lt;d~</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ age_uncertainty   &lt;named list&gt; &lt;&lt;matrix[1000 x 63]&gt;&gt;, &lt;&lt;matrix[1000 x 273]&gt;&gt;, &lt;&lt;mat~</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>example_data <span class="sc">%&gt;%</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> long,</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> lat)) <span class="sc">+</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">borders</span>(</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"gray90"</span>,</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="dv">0</span>,</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="dv">20</span>,</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">coord_quickmap</span>(</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">25</span>),</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">47</span>, <span class="dv">70</span>)) <span class="sc">+</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Longitude"</span>,</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Latitude"</span>) <span class="sc">+</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_classic</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hope-uib-bio.github.io/R-Ratepol-package/">RRatepol</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">example_data</span> <span class="op">&lt;-</span>  </span>
+<span>  <span class="fu">RRatepol</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span></span>
+<span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 4</span></span>
+<span><span class="co">#&gt; Columns: 7</span></span>
+<span><span class="co">#&gt; $ dataset_id        &lt;chr&gt; "4012", "40951", "45314", "17334"</span></span>
+<span><span class="co">#&gt; $ collection_handle &lt;chr&gt; "DALLICAN", "STEERMOS", "KILOALA", "GL"</span></span>
+<span><span class="co">#&gt; $ lat               &lt;dbl&gt; 60.38736, 47.80567, 67.96611, 53.00735</span></span>
+<span><span class="co">#&gt; $ long              &lt;dbl&gt; -1.096480, 8.200150, 20.460278, -6.348035</span></span>
+<span><span class="co">#&gt; $ pollen_data       &lt;list&gt; [&lt;tbl_df[63 x 51]&gt;], [&lt;tbl_df[273 x 104]&gt;], [&lt;tbl_df…</span></span>
+<span><span class="co">#&gt; $ sample_age        &lt;named list&gt; [&lt;data.frame[63 x 3]&gt;], [&lt;data.frame[273 x 3]&gt;], [&lt;d…</span></span>
+<span><span class="co">#&gt; $ age_uncertainty   &lt;named list&gt; &lt;&lt;matrix[1000 x 63]&gt;&gt;, &lt;&lt;matrix[1000 x 273]&gt;&gt;, &lt;&lt;mat…</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">example_data</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">long</span>,</span>
+<span>      y <span class="op">=</span> <span class="va">lat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/borders.html" class="external-link">borders</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"gray90"</span>,</span>
+<span>    colour <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>    shape <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>    shape <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_map.html" class="external-link">coord_quickmap</a></span><span class="op">(</span></span>
+<span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="fl">25</span><span class="op">)</span>,</span>
+<span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">47</span>, <span class="fl">70</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"Longitude"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Latitude"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-plot_data-1.png"></p>
 <div class="section level4">
 <h4 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
 </h4>
 <p>Estimate RoC values for <em>Dallican Water</em> site using <em>Age-weighed smoothing</em> of the data and <em>Chord dissimilarity</em> coefficient. Pollen data will not standardised to a certain pollen count and age uncertainties from <em>Bchron</em> will not be used.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sequence_01 <span class="ot">&lt;-</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  RRatepol<span class="sc">::</span><span class="fu">fc_estimate_RoC</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_source_community =</span> example_data<span class="sc">$</span>pollen_data[[<span class="dv">1</span>]],</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_source_age =</span> example_data<span class="sc">$</span>sample_age[[<span class="dv">1</span>]],</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">smooth_method =</span> <span class="st">"shep"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">DC =</span> <span class="st">"chisq"</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Working_Units =</span> <span class="st">"levels"</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i RRatepol started 2022-07-26 15:44:23</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i RoC will be estimated between individual subsequent levels</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i RRatepol finished 2022-07-26 15:44:25 taking 2.04 secs</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>RRatepol<span class="sc">::</span><span class="fu">fc_plot_RoC_sequence</span>(</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_source =</span> sequence_01)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sequence_01</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">RRatepol</span><span class="fu">::</span><span class="fu"><a href="reference/estimate_roc.html">estimate_roc</a></span><span class="op">(</span></span>
+<span>    data_source_community <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">pollen_data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    data_source_age <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">sample_age</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    smooth_method <span class="op">=</span> <span class="st">"shep"</span>,</span>
+<span>    dissimilarity_coefficient <span class="op">=</span> <span class="st">"chisq"</span>,</span>
+<span>    working_units <span class="op">=</span> <span class="st">"levels"</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span>
+<span><span class="co">#&gt; ℹ RRatepol started 2023-04-20 14:19:55</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span>
+<span><span class="co">#&gt; ℹ RoC will be estimated between individual subsequent levels</span></span>
+<span><span class="co">#&gt; ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span>
+<span><span class="co">#&gt; ℹ RRatepol finished 2023-04-20 14:19:58 taking 2.84 secs</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">RRatepol</span><span class="fu">::</span><span class="fu"><a href="reference/plot_roc.html">plot_roc</a></span><span class="op">(</span></span>
+<span>  data_source <span class="op">=</span> <span class="va">sequence_01</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-plot_1-1.png"></p>
 </div>
 <div class="section level4">
 <h4 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h4>
 <p>Now try to standardise pollen data in each sample to a maximum of 150 pollen grains and use age uncertainties from <em>age-depth model</em>. Process will be repeated 1000 times on multiple cores using parallel computation. This will produce error <em>wrapper</em> showing 95th percent quantile.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sequence_02 <span class="ot">&lt;-</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  RRatepol<span class="sc">::</span><span class="fu">fc_estimate_RoC</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_source_community =</span> example_data<span class="sc">$</span>pollen_data[[<span class="dv">1</span>]],</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_source_age =</span> example_data<span class="sc">$</span>sample_age[[<span class="dv">1</span>]],</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_uncertainty =</span> example_data<span class="sc">$</span>age_uncertainty[[<span class="dv">1</span>]],</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">smooth_method =</span> <span class="st">"shep"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">DC =</span> <span class="st">"chisq"</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Working_Units =</span> <span class="st">"levels"</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">standardise =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">N_individuals =</span> <span class="dv">150</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">rand =</span> <span class="dv">1000</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">use_parallel =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i RRatepol started 2022-07-26 15:44:26</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i RoC will be estimated between individual subsequent levels</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Data will be standardise in each Working unit to 150 or the lowest number detected in dataset</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i RRatepol finished 2022-07-26 15:45:56 taking 1.51 mins</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>RRatepol<span class="sc">::</span><span class="fu">fc_plot_RoC_sequence</span>(</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_source =</span> sequence_02)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sequence_02</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">RRatepol</span><span class="fu">::</span><span class="fu"><a href="reference/estimate_roc.html">estimate_roc</a></span><span class="op">(</span></span>
+<span>    data_source_community <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">pollen_data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    data_source_age <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">sample_age</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    age_uncertainty <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">age_uncertainty</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    smooth_method <span class="op">=</span> <span class="st">"shep"</span>,</span>
+<span>    dissimilarity_coefficient <span class="op">=</span> <span class="st">"chisq"</span>,</span>
+<span>    working_units <span class="op">=</span> <span class="st">"levels"</span>,</span>
+<span>    standardise <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    n_individuals <span class="op">=</span> <span class="fl">150</span>,</span>
+<span>    rand <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>    use_parallel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span>
+<span><span class="co">#&gt; ℹ RRatepol started 2023-04-20 14:19:59</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span>
+<span><span class="co">#&gt; ℹ 'age_uncertainty' will be used for in the RoC estimation</span></span>
+<span><span class="co">#&gt; ℹ RoC will be estimated between individual subsequent levels</span></span>
+<span><span class="co">#&gt; ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.</span></span>
+<span><span class="co">#&gt; ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span>
+<span><span class="co">#&gt; ℹ RRatepol finished 2023-04-20 14:22:19 taking 2.33 mins</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">RRatepol</span><span class="fu">::</span><span class="fu"><a href="reference/plot_roc.html">plot_roc</a></span><span class="op">(</span></span>
+<span>  data_source <span class="op">=</span> <span class="va">sequence_02</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-plot_2-1.png"></p>
 </div>
 <div class="section level4">
 <h4 id="example-3">Example 3<a class="anchor" aria-label="anchor" href="#example-3"></a>
 </h4>
-<p>Use <em>Binning with the mowing window</em> approach with <code>bin_size</code> = 500 and <code>Number_of_shifts</code> = 5.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sequence_03 <span class="ot">&lt;-</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    RRatepol<span class="sc">::</span><span class="fu">fc_estimate_RoC</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_source_community =</span> example_data<span class="sc">$</span>pollen_data[[<span class="dv">1</span>]],</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_source_age =</span> example_data<span class="sc">$</span>sample_age[[<span class="dv">1</span>]],</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_uncertainty =</span> example_data<span class="sc">$</span>age_uncertainty[[<span class="dv">1</span>]],</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">smooth_method =</span> <span class="st">"shep"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">DC =</span> <span class="st">"chisq"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Working_Units =</span> <span class="st">"MW"</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">bin_size =</span> <span class="dv">500</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Number_of_shifts  =</span> <span class="dv">5</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">standardise =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">N_individuals =</span> <span class="dv">150</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">rand =</span> <span class="dv">1000</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">use_parallel =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i RRatepol started 2022-07-26 15:45:56</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i RoC will be estimated using 'binning with the mowing window' of 500 yr time bin over 5 number of window shifts</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Sample will randomly selected for each bin</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Data will be standardise in each Working unit to 150 or the lowest number detected in dataset</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i RRatepol finished 2022-07-26 15:49:38 taking 3.7 mins</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #----------------------------------------------------------#</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>RRatepol<span class="sc">::</span><span class="fu">fc_plot_RoC_sequence</span>(</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_source =</span> sequence_03)</span></code></pre></div>
+<p>Use <em>Binning with the mowing window</em> approach with <code>bin_size</code> = 500 and <code>number_of_shifts</code> = 5.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sequence_03</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu">RRatepol</span><span class="fu">::</span><span class="fu"><a href="reference/estimate_roc.html">estimate_roc</a></span><span class="op">(</span></span>
+<span>    data_source_community <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">pollen_data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    data_source_age <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">sample_age</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    age_uncertainty <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">age_uncertainty</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    smooth_method <span class="op">=</span> <span class="st">"shep"</span>,</span>
+<span>    dissimilarity_coefficient <span class="op">=</span> <span class="st">"chisq"</span>,</span>
+<span>    working_units <span class="op">=</span> <span class="st">"MW"</span>,</span>
+<span>    bin_size <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>    number_of_shifts  <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>    standardise <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    n_individuals <span class="op">=</span> <span class="fl">150</span>,</span>
+<span>    rand <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>    use_parallel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span>
+<span><span class="co">#&gt; ℹ RRatepol started 2023-04-20 14:22:19</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span>
+<span><span class="co">#&gt; ℹ 'age_uncertainty' will be used for in the RoC estimation</span></span>
+<span><span class="co">#&gt; ℹ RoC will be estimated using 'binning with the mowing window' of 500 yr time bin over 5 number of window shifts</span></span>
+<span><span class="co">#&gt; ℹ Sample will randomly selected for each bin</span></span>
+<span><span class="co">#&gt; ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.</span></span>
+<span><span class="co">#&gt; ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span>
+<span><span class="co">#&gt; ℹ RRatepol finished 2023-04-20 14:26:52 taking 4.54 mins</span></span>
+<span><span class="co">#&gt; #----------------------------------------------------------#</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">RRatepol</span><span class="fu">::</span><span class="fu"><a href="reference/plot_roc.html">plot_roc</a></span><span class="op">(</span></span>
+<span>  data_source <span class="op">=</span> <span class="va">sequence_03</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-plot_3-1.png"></p>
 </div>
 <div class="section level4">
 <h4 id="example-4">Example 4<a class="anchor" aria-label="anchor" href="#example-4"></a>
 </h4>
 <p>Detect the <em>peak points</em> using <em>trend_non_linear</em> method.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sequence_03_with_peaks <span class="ot">&lt;-</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  RRatepol<span class="sc">::</span><span class="fu">fc_detect_peak_points</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_source =</span> sequence_03,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sel_method =</span> <span class="st">"trend_non_linear"</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>RRatepol<span class="sc">::</span><span class="fu">fc_plot_RoC_sequence</span>(</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_source =</span> sequence_03_with_peaks,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Peaks =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">trend =</span> <span class="st">"trend_non_linear"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sequence_03_with_peaks</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">RRatepol</span><span class="fu">::</span><span class="fu"><a href="reference/detect_peak_points.html">detect_peak_points</a></span><span class="op">(</span></span>
+<span>    data_source <span class="op">=</span> <span class="va">sequence_03</span>,</span>
+<span>    sel_method <span class="op">=</span> <span class="st">"trend_non_linear"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">RRatepol</span><span class="fu">::</span><span class="fu"><a href="reference/plot_roc.html">plot_roc</a></span><span class="op">(</span></span>
+<span>  data_source <span class="op">=</span> <span class="va">sequence_03_with_peaks</span>,</span>
+<span>  peaks <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  trend <span class="op">=</span> <span class="st">"trend_non_linear"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-plot_4-1.png"></p>
 </div>
 </div>

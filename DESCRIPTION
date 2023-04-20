@@ -1,7 +1,7 @@
 Type: Package
 Package: RRatepol
 Title: R–Ratepol: Estimating Rate of Change in Temporal Sequences
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: 
     person("Ondrej", "Mottl", , "ondrej.mottl@gmail.com", role = c("aut", "cre"))
 Maintainer: Ondrej Mottl <ondrej.mottl@gmail.com>
@@ -50,4 +50,4 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3

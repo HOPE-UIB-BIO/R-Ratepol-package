@@ -4,6 +4,8 @@ output:
   rmarkdown::html_vignette:
     fig_width: 7
     fig_height: 6
+    keep_md: yes
+    self_contained: yes
 vignette: >
   %\VignetteIndexEntry{General RRatepol package description}
   %\VignetteEngine{knitr::rmarkdown}
@@ -27,7 +29,7 @@ The computation of RoC in RRatepol is performed using the following steps:
 
 - (optional) Standardisation of assemblage data in each WU 
 
-- Calculation of RoC between WUs: RoC is calculated as the dissimilarity coefficient (DC) standardised by age differences between WUs. Several in-built dissimilarity coefficients are available: Euclidean distance (`DC = "euc`), standardised Euclidean distance (`DC = "euc.sd`), Chord distance (`DC = "chord`), Chi-squared coefficient (`DC = "chisq`), Gower’s distance (`DC = "gower`), Bray-Curtis(`DC = "bray`). See `vegan::vegdist`for more details. The choice of DC depends on the type of assemblage data.
+- Calculation of RoC between WUs: RoC is calculated as the dissimilarity coefficient (dissimilarity_coefficient) standardised by age differences between WUs. Several in-built dissimilarity coefficients are available: Euclidean distance (`dissimilarity_coefficient = "euc`), standardised Euclidean distance (`dissimilarity_coefficient = "euc.sd`), Chord distance (`dissimilarity_coefficient = "chord`), Chi-squared coefficient (`dissimilarity_coefficient = "chisq`), Gower’s distance (`dissimilarity_coefficient = "gower`), Bray-Curtis(`dissimilarity_coefficient = "bray`). See `vegan::vegdist`for more details. The choice of dissimilarity_coefficient depends on the type of assemblage data.
     
 - The summary of a single run is produced based on all moving windows
 
@@ -44,7 +46,7 @@ The computation of RoC in RRatepol is performed using the following steps:
 
 RoC is calculated between consecutive Working Units (WU). Traditionally, these WUs represent individual stratigraphical levels. However, changes in sedimentation rates and sampling strategies can result in an uneven temporal distribution of levels within a time sequence, which in turn makes the comparison of RoC between sequences problematic. There are various methods that attempt to minimise such problems. The first is interpolation of levels to evenly spaced time intervals, and the use of the interpolated data as WUs. This can lead to a loss of information when the density of levels is high. Second is binning of levels: assemblage data are pooled into age brackets of various size (i.e. time bins) and these serve as WUs. Here, the issue is a lower resolution of WUs and their uneven size in terms of total assemblage count (bins with more levels have higher assemblage counts). Third is selective binning: like classical binning, bins of selected size are created, but instead of pooling assemblage data together, only one level per time bin is selected as representative of each bin. This results in an even number of WUs in bins with a similar count size in the assemblage. However, the issue of low resolution remains. 
 Therefore, we propose a new method of binning with a moving window, which is a compromise between using individual levels and selective binning. This method follows a simple sequence: time bins are created, levels are selected as in selective binning, and RoC between bins is calculated. However, the brackets of the time bin (window) are then moved forward by a selected amount of time (Z), levels are selected again (subset into bins), and RoC calculated for the new set of WUs. This is repeated X times (where X is the bin size divided by Z) while retaining all the results. 
-RRatepol currently provides several options for selecting WU, namely as individual levels (`Working_Units = "levels"`), selective binning of levels (`Working_Units = "bins"`), and our new method of binning with a moving window (`Working_Units = "MW"`), which is summarised in figure.
+RRatepol currently provides several options for selecting WU, namely as individual levels (`working_units = "levels"`), selective binning of levels (`working_units = "bins"`), and our new method of binning with a moving window (`working_units = "MW"`), which is summarised in figure.
 
 <img src="https://raw.githubusercontent.com/HOPE-UIB-BIO/R-Ratepol-package/master/man/figures/FIG_Scheme.png" alt="RRatepol scheme" align="middle" width="600"/>
 

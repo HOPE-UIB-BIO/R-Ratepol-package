@@ -7,22 +7,30 @@
 fc_plot_RoC_sequence(
   data_source,
   age_threshold = NULL,
-  Roc_threshold = NULL,
-  Peaks = FALSE,
+  roc_threshold = NULL,
+  Roc_threshold = lifecycle::deprecated(),
+  peaks = FALSE,
+  Peaks = lifecycle::deprecated(),
   trend = NULL
 )
 }
 \arguments{
-\item{data_source}{Data.frame. Output of \code{fc_estimate_RoC} function}
+\item{data_source}{Data.frame. Output of \code{estimate_roc} function}
 
 \item{age_threshold}{Numeric. Cut-off value used as maximum age.}
 
-\item{Roc_threshold}{Numeric Cut-off value used as maximum RoC value.}
+\item{roc_threshold}{Numeric Cut-off value used as maximum RoC value.}
 
-\item{Peaks}{Logical. If peak-points are presented in the dataset and \code{Peaks} == \code{TRUE},
+\item{Roc_threshold}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{Roc_threshold} is no
+longer supported; please use \code{roc_threshold}}
+
+\item{peaks}{Logical. If peak-points are presented in the dataset and \code{peaks} == \code{TRUE},
 then peak points will be displayed}
 
-\item{trend}{If peak-points are presented in the dataset and \code{Peaks} == \code{TRUE},
+\item{Peaks}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{Peaks} is no
+longer supported; please use \code{peaks}}
+
+\item{trend}{If peak-points are presented in the dataset and \code{peaks} == \code{TRUE},
 then one of the three method can be used to visualise the process of peak detection:
 \itemize{
 \item \code{"threshold"} - Each point in the RoC sequence is compared to a median
@@ -42,55 +50,11 @@ is 2 SD higher than the model.
 }}
 }
 \description{
-Plot Rate-of-Change sequence with a error estimate and trend
-and/or peak-points in present.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated, please use \code{\link[=plot_roc]{plot_roc()}}.
 }
-\examples{
-\dontrun{
-
-example_data <- RRatepol::example_data
-
-# example 1
-sequence_01 <-
-  fc_estimate_RoC(
-    data_source_community = example_data$pollen_data[[1]],
-    data_source_age = example_data$sample_age[[1]],
-    age_uncertainty = FALSE,
-    smooth_method = "shep",
-    Working_Units = "MW",
-    rand = 1e3,
-    treads = TRUE,
-    DC = "chisq"
-  )
-
-fc_plot_RoC_sequence(
-  sequence_01,
-  age_threshold = 8e3,
-  Roc_threshold = 1
-)
-
-# example 2
-sequence_02 <-
-  fc_estimate_RoC(
-    data_source_community = example_data$pollen_data[[2]],
-    data_source_age = example_data$sample_age[[2]],
-    age_uncertainty = FALSE,
-    smooth_method = "shep",
-    Working_Units = "MW",
-    rand = 1e3,
-    treads = TRUE,
-    DC = "chisq"
-  )
-
-sequence_02_peak <-
-  fc_detect_peak_points(sequence_01, sel_method = "trend_non_linear")
-
-fc_plot_RoC_sequence(
-  sequence_02_peak,
-  age_threshold = 8e3,
-  Roc_threshold = 2,
-  Peaks = TRUE,
-  trend = "trend_non_linear"
-)
+\seealso{
+\code{\link[=plot_roc]{plot_roc()}}
 }
-}
+\keyword{internal}

@@ -4,6 +4,8 @@ output:
   rmarkdown::html_vignette:
     fig_width: 7
     fig_height: 6
+    keep_md: yes
+    self_contained: yes
 vignette: >
   %\VignetteIndexEntry{Example of full workflow}
   %\VignetteEngine{knitr::rmarkdown}
@@ -23,15 +25,45 @@ models, to estimating rate-of-change using age uncertainty.
 
 :warning: **This workflow is only meant as example**: There are several additional steps for data reparation which should be done to really use the data from Neotoma!
 
-## import packages
+
+## Install packages
+
+Make a list of packages needed from CRAN
+
+```{r pkg-list, results='hide', warning=FALSE, message=FALSE}
+package_list <-
+  c(
+    "tidyverse", # general data wrangling and visualisation
+    "pander", # nice tables
+    "Bchron", # age-depth modelling
+    "janitor", # string cleaning
+    "remotes" # installing packages from GitHub
+  )
+```
+
+Install all packages from CRAN
+
+```{r pkg-install, eval = FALSE}
+lapply(
+  package_list, utils::install.packages
+)
+```
+
+Install neotoma2 from GitHub
+
+```{r pkg-install-gh, eval = FALSE}
+remotes::install_github("NeotomaDB/neotoma2")
+```
+
+## Attach packages
 
 ```{r setup, results='hide', warning=FALSE, message=FALSE}
-library(tidyverse)
-library(pander)
-library(RRatepol)
-library(neotoma2)
-library(Bchron)
-library(janitor)
+library(tidyverse) # general data wrangling and visualisation
+library(pander) # nice tables
+library(RRatepol) # rate-of-vegetation change
+library(neotoma2) # obtain data from the Neotoma database
+library(Bchron) # age-depth modeling
+library(janitor) # string cleaning
 ```
 
 ## Download the dataset *Glendalough Valley* from Neotoma
@@ -39,37 +71,40 @@ library(janitor)
 ```{r download_of_data, results='hide', warning=FALSE, message=FALSE}
 gl_dataset_download <-
   neotoma2::get_downloads(17334)
-
-gl_chron_control_table_download <-
-  neotoma2::chroncontrols(gl_dataset_download)
 ```
 
 ## Prepare the pollen counts
 
 ```{r count_preparation, results='hide', warning=FALSE}
+# get samples
 gl_counts <-
   neotoma2::samples(gl_dataset_download)
 
+# select only "pollen" taxa
 gl_taxon_list_selected <-
   neotoma2::taxa(gl_dataset_download) %>%
   dplyr::filter(element == "pollen") %>%
   purrr::pluck("variablename")
 
+# prepare taxa table
 gl_counts_selected <-
   gl_counts %>%
   as.data.frame() %>%
   dplyr::mutate(sample_id = as.character(sampleid)) %>%
   tibble::as_tibble() %>%
   dplyr::select("sample_id", "value", "variablename") %>%
+  # only include selected taxons
   dplyr::filter(
     variablename %in% gl_taxon_list_selected
   ) %>%
-  janitor::clean_names() %>%
+  # turn into the wider format
   tidyr::pivot_wider(
     names_from = "variablename",
     values_from = "value",
     values_fill = 0
-  )
+  ) %>%
+  # clean names
+  janitor::clean_names()
 
 head(gl_counts_selected)[, 1:5]
 ```
@@ -78,9 +113,7 @@ head(gl_counts_selected)[, 1:5]
 pander::pandoc.table(head(gl_counts_selected)[, 1:5])
 ```
 
-Here, we strongly advocate that attention should be paid to the section of 
-ecological ecological group, as well, as harmonisation of the pollen taxa.
-However, that is not subject of this workflow.
+Here, we strongly advocate that attention should be paid to the selection of the ecological groups as well as the harmonisation of the pollen taxa. However, that is not the subject of this workflow, but any analysis to be published needs careful preparation of the fossil pollen datasets before using R-Ratepol!
 
 ## Preparation of the levels
 
@@ -93,7 +126,7 @@ gl_level <-
   neotoma2::samples(gl_dataset_download) %>%
   tibble::as_tibble() %>%
   dplyr::mutate(sample_id = as.character(sampleid)) %>%
-  dplyr::distinct(sample_id, depth)  %>% 
+  dplyr::distinct(sample_id, depth) %>%
   dplyr::relocate(sample_id)
 
 head(gl_level)
@@ -106,33 +139,44 @@ pander::pandoc.table(head(gl_level))
 
 ### Age depth modelling
 
-We will recalculate new age-depth model 'de novo' using *Bchron* package. In this 
-toy example we will use only iteration multiplier (*i_multiplier*) of 0.5 to 
-reduce the computation time. However, we strongly recommend to increase it to 5
-for any normal age-depth model construction.
+e will recalculate the age-depth model 'de novo' using the [*Bchron* package](http://andrewcparnell.github.io/Bchron/). 
 
-Prepare chron.control table and run Bchron
-Here we only present few of the important steps of preparation of chron.control 
-table. There are many more potential issues issues but solving those is not 
-the focus of this workflow.
+#### Prepare chron.control table and run Bchron
+The chronology control table contains all the dates (mostly radiocarbon) to create the age-depth model.
+
+Here we only present a few of the important steps of preparation of the chronology control table. There are many more potential issues, but solving those is not the focus of this workflow.
+
+```{r chron_prepare, results='hide'}
+# First, get the chronologies and check which we want to use used
+gl_chron_control_table_download <-
+  neotoma2::chroncontrols(gl_dataset_download)
+
+print(gl_chron_control_table_download)
+```
+```{r chron_prepare_show, echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+pander::pandoc.table(head(gl_chron_control_table_download))
+```
 
 ```{r chron_control_prepare, results='hide', warning=FALSE}
+# prepare the table
 gl_chron_control_table <-
   gl_chron_control_table_download %>%
-  dplyr::filter(chronologyid == 9691) %>% 
+  dplyr::filter(chronologyid == 9691) %>%
   tibble::as_tibble() %>%
-  # here we calculate the error as the avarage as the agelimitolder and
-  #   agelimityounger
+  # Here we calculate the error as the average of the age `limitolder` and
+  #   `agelimityounger`
   dplyr::mutate(
     error = round((agelimitolder - agelimityounger) / 2)
   ) %>%
-  # as Bchron cannot accept error of 0, we need to replace the value with 1
+  # As Bchron cannot accept a error of 0, we need to replace the value with 1
   dplyr::mutate(
-    error = replace(error, error == 0, 1)
+    error = replace(error, error == 0, 1),
+    error = ifelse(is.na(error), 1, error)
   ) %>%
-  # we need to specifify which calibration curve should be used for what point
+  # We need to specify which calibration curve should be used for what point
   dplyr::mutate(
-    curve = ifelse(chroncontrolid == "Radiocarbon", "intcal20", "normal")
+    curve = ifelse(as.data.frame(gl_dataset_download)["lat"] > 0, "intcal20", "shcal20"),
+    curve = ifelse(chroncontroltype != "Radiocarbon", "normal", curve)
   ) %>%
   tibble::column_to_rownames("chroncontrolid") %>%
   dplyr::select(
@@ -147,16 +191,20 @@ head(gl_chron_control_table)
 pander::pandoc.table(head(gl_chron_control_table))
 ```
 
-```{r bchron, results='hide', warning=FALSE, message=FALSE}
-i_multiplier <- 0.5 # increase to 5
+As this is just a toy example, we will use only the iteration multiplier (`i_multiplier`) of `0.1` to reduce the computation time. However, we strongly recommend increasing it to 5 for any normal age-depth model construction.
 
+```{r bchron, results='hide', warning=FALSE, message=FALSE}
+i_multiplier <- 0.1 # increase to 5
+
+# Those are default values suggested by the Bchron package
 n_iteration_default <- 10e3
 n_burn_default <- 2e3
 n_thin_default <- 8
 
+# Let's multiply them by our i_multiplier
 n_iteration <- n_iteration_default * i_multiplier
 n_burn <- n_burn_default * i_multiplier
-n_thin <- n_thin_default * i_multiplier
+n_thin <- max(c(1, n_thin_default * i_multiplier))
 
 gl_bchron <-
   Bchron::Bchronology(
@@ -171,11 +219,15 @@ gl_bchron <-
   )
 ```
 
+Visually check the age-depth models
+
 ```{r bchron_figure, results='markup', warning=FALSE}
 plot(gl_bchron)
 ```
 
-Predict ages
+#### Predict ages
+
+Let's first extract posterior ages from the age-depth model (i.e. possible ages
 
 ```{r predic_ages, results='hide', warning=FALSE}
 age_position <-
@@ -208,39 +260,40 @@ pander::pandoc.table(head(gl_level_predicted))
 
 ## Estimation Rate-of-Change
 
-Here we use the the prepared data to estimate the rate of vegetation change. We
-will use the method of the *binning with the mowing window*, *Shepard's 5-term filter* 
-as data smoothing *Chi-squared coefficient* as dissimilarity coefficient.
-This is again a toy example for a quick computation and we would recommend 
-increasing the *randomisations* to 10.000 for any real estimation. 
+Here we use the the prepared data to estimate the rate of vegetation change. 
+We will we will be using the *Chi-squared coefficient* as dissimilarity coefficient (works best for pollen data, `dissimilarity_coefficient` = `"chisq"`), and `time_standardisation` == 500 (this means that all ROC values are 'change per 500 yr').
+We will add smoothing of the pollen data using `smooth_method` = `"shep"` (i.e. *Shepard's 5-term filter*).
+Finally, we will use the method of the "*binning with the mowing window*" (`working_units` = `"MW"`).
+This is again a toy example for a quick computation and we would recommend increasing the *set_randomisations* to 10.000 for any real estimation. 
 
 ```{r roc, results='hide', warning=FALSE, message=FALSE}
-randomisations <- 100 # increase to 10e3
+set_randomisations <- 100 # increase to 10e3
 
 gl_roc <-
-  RRatepol::fc_estimate_RoC(
+  RRatepol::estimate_roc(
     data_source_community = gl_counts_selected,
     data_source_age = gl_level_predicted,
-    age_uncertainty = age_uncertainties,
-    smooth_method = "shep",
-    DC = "chisq",
-    Working_Units = "MW",
-    bin_size = 500,
-    Number_of_shifts = 5,
-    standardise = TRUE,
-    N_individuals = 150,
-    rand = randomisations,
+    age_uncertainty = age_uncertainties, # Add the uncertainty matrix
+    smooth_method = "shep", # Shepard's 5-term filter
+    dissimilarity_coefficient = "chisq",
+    working_units = "MW", # set to "MW" to apply the "moving window"
+    bin_size = 500, # size of a time bin
+    number_of_shifts = 5,
+    standardise = TRUE,  # set the taxa standardisation
+    n_individuals = 150, # set the number of pollen grains
+    rand = set_randomisations, # set number of randomisations
     use_parallel = FALSE # use_parallel = TRUE to use parallel calculation
   )
 ```
 
 ### Detect peak-points and plot the results
 
-We will detect significant peak-points using *Non-linear* method
+We will detect significant increase of RoC values (i.e. *peak-points*).
+Specifically, we will use "Non-linear" method, which will detect significant change from a non-linear trend of RoC
 
 ```{r peak_points, results='hide', warning=FALSE}
 gl_roc_peaks <-
-  RRatepol::fc_detect_peak_points(
+  RRatepol::detect_peak_points(
     data_source = gl_roc,
     sel_method = "trend_non_linear"
   )
@@ -249,9 +302,9 @@ gl_roc_peaks <-
 Plot the estimates with showing both the peak-points 
 
 ```{r roc_figure, results='markup', echo=TRUE}
-RRatepol::fc_plot_RoC_sequence(
+RRatepol::plot_roc(
   data_source = gl_roc_peaks,
-  Peaks = TRUE,
+  peaks = TRUE,
   trend = "trend_non_linear"
 )
 ```
