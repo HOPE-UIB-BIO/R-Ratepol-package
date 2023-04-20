@@ -44,7 +44,7 @@
 #' to quantify the potential for peak detection in sediment-charcoal records.
 #' Quat. Res. 75, 11–17. (doi:10.1016/j.yqres.2010.07.011)
 
-fc_CharSNI <-
+detect_sni <-
   function(CharData,
            BandWidth) {
     # Data setup
