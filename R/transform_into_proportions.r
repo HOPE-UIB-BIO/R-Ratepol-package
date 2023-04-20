@@ -8,7 +8,7 @@
 #' @param verbose Logical. Should additional information be output?
 #' @description Tranform pollen data into proportions (or percentages)
 #' @keywords internal
-fc_transfer_into_proportions <-
+transform_into_proportions <-
     function(data_source_trans,
              sel_method = c("proportions", "percentages"),
              verbose = FALSE) {
@@ -31,7 +31,7 @@ fc_transfer_into_proportions <-
         }
 
         data_com <-
-            util_subset_community(data_source_trans)
+            subset_community(data_source_trans)
 
         # convert the values community data to proportion of sum of each sample
         data_rowsums <-
