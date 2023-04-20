@@ -21,7 +21,7 @@
 #' Logical. If `TRUE`, function will output messages about internal processes
 #' @description
 #' Function for general preparation of input data
-fc_extract_data <-
+extract_data <-
   function(data_community_extract,
            data_age_extract,
            age_uncertainty = NULL,
@@ -231,7 +231,7 @@ fc_extract_data <-
 
     #  exclude redundnat rows and columns
     dat_merge <-
-      fc_reduce(
+      reduce_data(
         data_source_reduce = dat_merge,
         check_taxa = TRUE,
         check_levels = TRUE
@@ -240,7 +240,7 @@ fc_extract_data <-
     if (
       isTRUE(verbose)
     ) {
-      fc_check_data(
+      check_data(
         data_source_check = dat_merge
       )
 
