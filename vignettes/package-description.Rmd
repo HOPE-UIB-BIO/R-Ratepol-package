@@ -4,6 +4,8 @@ output:
   rmarkdown::html_vignette:
     fig_width: 7
     fig_height: 6
+    keep_md: yes
+    self_contained: yes
 vignette: >
   %\VignetteIndexEntry{General RRatepol package description}
   %\VignetteEngine{knitr::rmarkdown}
