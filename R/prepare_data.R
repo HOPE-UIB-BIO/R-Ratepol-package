@@ -1,25 +1,25 @@
 #' @title Prepare data for single RoC estimation
 #'
-#' @inheritParams fc_estimate_RoC
+#' @inheritParams estimate_roc
 #' @param data_source_prep
 #' List with `community` and `age`
 #' @description
 #' Create a single list with all information needed to estimate RoC.
 #' This is done because such list can be then evaluated in parallel.
 #' @keywords internal
-fc_prepare_data <-
+prepare_data <-
     function(data_source_prep,
-             Working_Units = c("levels", "bins", "MW"),
+             working_units = c("levels", "bins", "MW"),
              bin_size = 500,
-             Number_of_shifts = 5,
+             number_of_shifts = 5,
              rand = NULL) {
         RUtilpol::check_class("data_source_prep", "list")
 
-        RUtilpol::check_class("Working_Units", "character")
+        RUtilpol::check_class("working_units", "character")
 
-        RUtilpol::check_vector_values("Working_Units", c("levels", "bins", "MW"))
+        RUtilpol::check_vector_values("working_units", c("levels", "bins", "MW"))
 
-        Working_Units <- match.arg(Working_Units)
+        working_units <- match.arg(working_units)
 
         RUtilpol::check_class("bin_size", "numeric")
 
@@ -29,15 +29,15 @@ fc_prepare_data <-
 
         # check the condition
         is_shift_present <-
-            Working_Units == "MW" && (Number_of_shifts != 0)
+            working_units == "MW" && (number_of_shifts != 0)
 
         if (
             isFALSE(is_shift_present)
         ) {
-            Number_of_shifts <- 1
+            number_of_shifts <- 1
         } else {
-            RUtilpol::check_class("Number_of_shifts", "numeric")
-            RUtilpol::check_if_integer("Number_of_shifts")
+            RUtilpol::check_class("number_of_shifts", "numeric")
+            RUtilpol::check_if_integer("number_of_shifts")
         }
 
         is_rand_present <-
@@ -52,28 +52,28 @@ fc_prepare_data <-
         }
 
         if (
-            Working_Units == "levels"
+            working_units == "levels"
         ) {
             bin_dummy <-
-                fc_make_bins(
+                make_bins(
                     data_source_bins = data_source_prep,
-                    Working_Units = "levels"
+                    working_units = "levels"
                 )
         } else if (
             isTRUE(is_shift_present)
         ) {
             bin_dummy <-
-                fc_make_bins(
+                make_bins(
                     data_source_bins = data_source_prep,
-                    Working_Units = "MW",
+                    working_units = "MW",
                     bin_size = bin_size,
-                    Number_of_shifts = Number_of_shifts
+                    number_of_shifts = number_of_shifts
                 )
         } else {
             bin_dummy <-
-                fc_make_bins(
+                make_bins(
                     data_source_bins = data_source_prep,
-                    Working_Units = "bins",
+                    working_units = "bins",
                     bin_size = bin_size
                 )
         }
@@ -120,9 +120,9 @@ fc_prepare_data <-
             tibble::column_to_rownames("row_name")
 
         shift_vec <-
-            c(1:Number_of_shifts) %>%
+            c(1:number_of_shifts) %>%
             rlang::set_names(
-                nm = as.character(1:Number_of_shifts)
+                nm = as.character(1:number_of_shifts)
             )
 
         rand_vec <-
