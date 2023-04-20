@@ -5,7 +5,7 @@
 #' List with `community` and `age`
 #' @description Output summary information about the data
 #' @keywords internal
-fc_check_data <-
+check_data <-
   function(data_source_check) {
     RUtilpol::check_class("data_source_check", "list")
 

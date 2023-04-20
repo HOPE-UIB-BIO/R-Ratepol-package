@@ -4,7 +4,7 @@
 #' @param data_source Data.frame wich shuld be cleaned.
 #' @param ommit_vars Vector with names of columns to ommit.
 #' @keywords internal
-util_subset_community <-
+subset_community <-
     function(data_source,
              ommit_vars = c("label", "res_age", "age_diff", "age")) {
         data_source %>%

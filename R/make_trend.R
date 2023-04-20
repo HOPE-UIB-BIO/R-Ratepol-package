@@ -11,9 +11,9 @@
 #' is fitted through the RoC scores and their ages (GAM = `RoC ~ s(age, k = 3)`
 #' using the `mgcv` package (Wood, 2011).
 #' }
-#' @seealso [fc_detect_peak_points()]
+#' @seealso [detect_peak_points()]
 #' @keywords internal
-util_make_trend <-
+make_trend <-
     function(data_source,
              sel_method = c("linear", "non_linear")) {
         RUtilpol::check_class("data_source", "data.frame")

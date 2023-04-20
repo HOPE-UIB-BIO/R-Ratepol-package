@@ -164,7 +164,7 @@ detect_peak_points <-
       # mark points that are abowe the linear model
       #   (exactly sd_threshold SD higher than prediction)
       data_source$pred_linear <-
-        util_make_trend(
+        make_trend(
           data_source = data_source,
           sel_method = "linear"
         )
@@ -187,7 +187,7 @@ detect_peak_points <-
       # mark points that are abowe the GAM model
       #   (exactly sd_threshold SD higher than GAM prediction)
       data_source$pred_gam <-
-        util_make_trend(
+        make_trend(
           data_source = data_source,
           sel_method = "non_linear"
         )
@@ -242,7 +242,7 @@ detect_peak_points <-
 
       # create GAM
       pred_gam <-
-        util_make_trend(
+        make_trend(
           data_source = data_source,
           sel_method = "non_linear"
         )

@@ -1,18 +1,18 @@
 #' @title Calculate the dissimilarity coeficient
 #'
-#' @inheritParams fc_estimate_RoC
-#' @param data_source_DC Data.frame with taxons as columns
+#' @inheritParams estimate_roc
+#' @param data_source_dc Data.frame with taxons as columns
 #' @details
 #' Five in-built dissimilarity coefficients are available:
 #' \itemize{
-#' \item Euclidean distance (`DC` = `"euc"`)
-#' \item standardised Euclidean distance (`DC` = `"euc.sd"`)
-#' \item Chord distance (`DC` = `"chord"`)
-#' \item Chi-squared coefficient (`DC` = `"chisq"`)
-#' \item Gower's distance (`DC` = `"gower"`)
-#' \item Bray-Curtis distance (`DC` = `"bray"`)
+#' \item Euclidean distance (`dissimilarity_coefficient` = `"euc"`)
+#' \item standardised Euclidean distance (`dissimilarity_coefficient` = `"euc.sd"`)
+#' \item Chord distance (`dissimilarity_coefficient` = `"chord"`)
+#' \item Chi-squared coefficient (`dissimilarity_coefficient` = `"chisq"`)
+#' \item Gower's distance (`dissimilarity_coefficient` = `"gower"`)
+#' \item Bray-Curtis distance (`dissimilarity_coefficient` = `"bray"`)
 #' }
-#' The choice of DC depends on the type of assemblage data. In addition, RoC
+#' The choice of dissimilarity_coefficient depends on the type of assemblage data. In addition, RoC
 #' between WUs be calculated using every consecutive WU (`only_subsequent` = `FALSE`),
 #' or alternatively, calculation of RoC can be restricted to only directly
 #' adjacent WUs (`only_subsequent` = `TRUE`). Using the former increases
@@ -21,12 +21,12 @@
 #' biases related to the RoC estimation as a result of the varying
 #' inter-sample distances.
 #' @seealso [vegan::vegdist()]
-fc_calculate_DC <-
-  function(data_source_DC,
-           DC = "chord",
+estimate_dissimilarity_coefficient <-
+  function(data_source_dc,
+           dissimilarity_coefficient = "chord",
            verbose = FALSE) {
     n_res <-
-      nrow(data_source_DC) - 1
+      nrow(data_source_dc) - 1
 
     # pre-allocate some space
     dat_res <-
@@ -36,7 +36,7 @@ fc_calculate_DC <-
       )
 
     data_com <-
-      util_subset_community(data_source_DC)
+      subset_community(data_source_dc)
 
     #----------------------------------------------------------#
     # Standardised euclidan distace -----
@@ -45,13 +45,13 @@ fc_calculate_DC <-
     # for euc.sd use custom made calculation
 
     if (
-      DC == "euc.sd"
+      dissimilarity_coefficient == "euc.sd"
     ) {
       if (
         isTRUE(verbose)
       ) {
         RUtilpol::output_comment(
-          "Standardised Euclidan distance will be used as DC"
+          "Standardised Euclidan distance will be used as dissimilarity_coefficient"
         )
       }
 
@@ -61,7 +61,7 @@ fc_calculate_DC <-
       df_sp_supp <-
         apply(data_com, 2, stats::sd)
 
-      # calculation of the DC
+      # calculation of the dissimilarity_coefficient
       # for each sample (except the last)
       for (i in 1:n_res) {
 
@@ -106,7 +106,7 @@ fc_calculate_DC <-
       return(dat_res)
     }
 
-    # for all other DC u se pre-made function from vegan package to
+    # for all other dissimilarity_coefficient u se pre-made function from vegan package to
     #   calculate correlation between all samples and then
     #   only include calculation between subsequent samples
 
@@ -115,13 +115,13 @@ fc_calculate_DC <-
     #----------------------------------------------------------#
 
     if (
-      DC == "euc"
+      dissimilarity_coefficient == "euc"
     ) {
       if (
         isTRUE(verbose)
       ) {
         RUtilpol::output_comment(
-          "Euclidan distance will be used as DC"
+          "Euclidan distance will be used as dissimilarity_coefficient"
         )
       }
 
@@ -138,13 +138,13 @@ fc_calculate_DC <-
     #----------------------------------------------------------#
 
     if (
-      DC == "chord"
+      dissimilarity_coefficient == "chord"
     ) {
       if (
         isTRUE(verbose)
       ) {
         RUtilpol::output_comment(
-          "Chord distance will be used as DC"
+          "Chord distance will be used as dissimilarity_coefficient"
         )
       }
 
@@ -165,13 +165,13 @@ fc_calculate_DC <-
     #----------------------------------------------------------#
 
     if (
-      DC == "chisq"
+      dissimilarity_coefficient == "chisq"
     ) {
       if (
         isTRUE(verbose)
       ) {
         RUtilpol::output_comment(
-          "Chi-squared coeficient will be used as DC"
+          "Chi-squared coeficient will be used as dissimilarity_coefficient"
         )
       }
 
@@ -192,13 +192,13 @@ fc_calculate_DC <-
     #----------------------------------------------------------#
 
     if (
-      DC == "gower"
+      dissimilarity_coefficient == "gower"
     ) {
       if (
         isTRUE(verbose)
       ) {
         RUtilpol::output_comment(
-          "Gower's distance will be used as DC"
+          "Gower's distance will be used as dissimilarity_coefficient"
         )
       }
 
@@ -218,13 +218,13 @@ fc_calculate_DC <-
     #----------------------------------------------------------#
 
     if (
-      DC == "bray"
+      dissimilarity_coefficient == "bray"
     ) {
       if (
         isTRUE(verbose)
       ) {
         RUtilpol::output_comment(
-          "Bray-Curtis distance will be used as DC"
+          "Bray-Curtis distance will be used as dissimilarity_coefficient"
         )
       }
 

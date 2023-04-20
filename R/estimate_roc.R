@@ -524,7 +524,7 @@ estimate_roc <-
     # extract data into working format
     # already include data check
     data_extract <-
-      fc_extract_data(
+      extract_data(
         data_community_extract = data_source_community,
         data_age_extract = data_source_age,
         age_uncertainty = age_uncertainty,
@@ -556,7 +556,7 @@ estimate_roc <-
     ) {
       # smooth data by selected smoothing type
       data_smooth <-
-        fc_smooth_community_data(
+        smooth_community_data(
           data_source_smooth = data_extract,
           smooth_method = smooth_method,
           smooth_n_points = smooth_n_points,
@@ -571,14 +571,14 @@ estimate_roc <-
 
     # reduce data dimentions
     data_work <-
-      fc_reduce(
+      reduce_data(
         data_smooth
       )
 
     if (
       isTRUE(verbose)
     ) {
-      fc_check_data(data_work)
+      check_data(data_work)
     }
 
 
@@ -607,7 +607,7 @@ estimate_roc <-
     }
 
     data_prepared <-
-      fc_prepare_data(
+      prepare_data(
         data_source_prep = data_work,
         working_units = working_units,
         bin_size = bin_size,
@@ -670,7 +670,7 @@ estimate_roc <-
     result_list <-
       pbapply::pblapply(
         X = data_to_run,
-        FUN = fc_run_iteration,
+        FUN = run_iteration,
         cl = cl,
         bin_selection = bin_selection,
         standardise = standardise,

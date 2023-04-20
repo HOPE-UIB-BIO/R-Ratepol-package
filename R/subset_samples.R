@@ -4,9 +4,9 @@
 #' Data.frame with community data
 #' @param data_source_bins
 #' Data.frame with individual WU to use
-#' @inheritParams fc_estimate_RoC
+#' @inheritParams estimate_roc
 #' @keywords internal
-fc_subset_samples <-
+subset_samples <-
   function(data_source_subset,
            data_source_bins,
            bin_selection = "first") {

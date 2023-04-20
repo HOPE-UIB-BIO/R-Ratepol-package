@@ -2,18 +2,18 @@
 #' @param data_source_reduce List with `community`, `age`, and `age_un`
 #' @param ommit_vars
 #' Character vector with names of columns to omit in community data.
-#' @inheritParams fc_reduce
+#' @inheritParams reduce_data
 #' @description
 #' Check the community dataset for redundnat taxa and levels
 #' and filter them out. This function is simplified due to performance.
 #' @keywords internal
-fc_reduce_simple <-
+reduce_data_simple <-
     function(data_source_reduce,
              ommit_vars = c("label", "res_age", "age_diff"),
              check_taxa = TRUE,
              check_levels = TRUE) {
         data_com <-
-            util_subset_community(
+            subset_community(
                 data_source_reduce,
                 ommit_vars = ommit_vars
             )

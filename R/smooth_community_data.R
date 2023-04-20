@@ -4,7 +4,7 @@
 #' List with `community`, and `age`
 #' @param round_results
 #' Logical. Should smoothed values be rounded to integers?
-#' @inheritParams fc_estimate_RoC
+#' @inheritParams estimate_roc
 #' @description
 #' A function to apply one of the 4 smoothers.
 #' @details
@@ -18,7 +18,7 @@
 #' \item Grimm's smoothing (`smooth_method` = `"grim"`;
 #'  Grimm and Jacobson, 1992)
 #' }
-#' @seealso [fc_estimate_RoC()]
+#' @seealso [estimate_roc()]
 #' @references
 #' Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed.
 #' J. Wiley & Sons, New York.
@@ -29,11 +29,11 @@
 #'
 #' Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
 #' USA 37.
-fc_smooth_community_data <-
+smooth_community_data <-
   function(data_source_smooth,
            smooth_method = c("m.avg", "grim", "age.w", "shep"),
-           smooth_N_points = 5,
-           smooth_N_max = 9,
+           smooth_n_points = 5,
+           smooth_n_max = 9,
            smooth_age_range = 500,
            round_results = FALSE,
            verbose = FALSE) {
@@ -57,8 +57,8 @@ fc_smooth_community_data <-
       smooth_method != "shep"
     ) {
       assertthat::assert_that(
-        smooth_N_points %% 2 != 0,
-        msg = "'smooth_N_points' must be an odd number"
+        smooth_n_points %% 2 != 0,
+        msg = "'smooth_n_points' must be an odd number"
       )
 
       if (
@@ -70,13 +70,13 @@ fc_smooth_community_data <-
           smooth_method == "grim"
         ) {
           assertthat::assert_that(
-            smooth_N_max %% 2 != 0,
-            msg = "'smooth_N_max' must be an odd number"
+            smooth_n_max %% 2 != 0,
+            msg = "'smooth_n_max' must be an odd number"
           )
 
           assertthat::assert_that(
-            smooth_N_points < smooth_N_max,
-            msg = "'smooth_N_max' must be bigger than 'smooth_N_points"
+            smooth_n_points < smooth_n_max,
+            msg = "'smooth_n_max' must be bigger than 'smooth_n_points"
           )
         }
       }
@@ -94,11 +94,11 @@ fc_smooth_community_data <-
 
     util_search_parameter <-
       function(A, B, smooth_age_range) {
-        for (k in 1:(smooth_N_max - smooth_N_points)) {
+        for (k in 1:(smooth_n_max - smooth_n_points)) {
           # create new search parameter that is lower by 1
           A_test <- A - 1
           if (
-            A_test > 0 && B - A_test < smooth_N_max
+            A_test > 0 && B - A_test < smooth_n_max
           ) { # i+N.active.test < nrow(dat_community) &
             if (
               abs(dat_age$age[A_test] - dat_age$age[B]) < smooth_age_range
@@ -110,7 +110,7 @@ fc_smooth_community_data <-
           # create new search parameter that higher by 1
           B_test <- B + 1
           if (
-            B_test < nrow(dat_community) && B - A_test < smooth_N_max
+            B_test < nrow(dat_community) && B - A_test < smooth_n_max
           ) {
             if (
               abs(dat_age$age[A] - dat_age$age[B_test]) < smooth_age_range
@@ -133,7 +133,7 @@ fc_smooth_community_data <-
         "m.avg" = {
           RUtilpol::output_comment(
             paste(
-              "Data will be smoothed by 'moving average' over", smooth_N_points,
+              "Data will be smoothed by 'moving average' over", smooth_n_points,
               "points"
             )
           )
@@ -142,8 +142,8 @@ fc_smooth_community_data <-
           RUtilpol::output_comment(
             paste(
               "Data will be smoothed by 'Grimm method' with min samples",
-              smooth_N_points,
-              "max samples", smooth_N_max, "and max age range of",
+              smooth_n_points,
+              "max samples", smooth_n_max, "and max age range of",
               smooth_age_range
             )
           )
@@ -152,7 +152,7 @@ fc_smooth_community_data <-
           RUtilpol::output_comment(
             paste(
               "Data will be smoothed by 'age-weighed average' over",
-              smooth_N_points,
+              smooth_n_points,
               "points with a threshold of", smooth_age_range
             )
           )
@@ -198,24 +198,24 @@ fc_smooth_community_data <-
 
           # Samples near beginning (moving window truncated)
           if (
-            i < round(0.5 * (smooth_N_points)) + 1
+            i < round(0.5 * (smooth_n_points)) + 1
           ) {
-            focus_par[i, ] <- c(1, (i + round(0.5 * (smooth_N_points))))
+            focus_par[i, ] <- c(1, (i + round(0.5 * (smooth_n_points))))
           } else {
             # Samples near end
             if (
-              i > nrow(dat_age) - round(0.5 * (smooth_N_points))
+              i > nrow(dat_age) - round(0.5 * (smooth_n_points))
             ) {
               focus_par[i, ] <-
                 c(
-                  (i - round(0.5 * (smooth_N_points))),
+                  (i - round(0.5 * (smooth_n_points))),
                   nrow(dat_age)
                 )
             } else {
               focus_par[i, ] <-
                 c(
-                  (i - round(0.5 * (smooth_N_points))),
-                  (i + round(0.5 * (smooth_N_points)))
+                  (i - round(0.5 * (smooth_n_points))),
+                  (i + round(0.5 * (smooth_n_points)))
                 )
             }
           }
@@ -232,12 +232,12 @@ fc_smooth_community_data <-
 
           # Samples near beginning (moving window truncated)
           if (
-            i < round(0.5 * (smooth_N_max)) + 1
+            i < round(0.5 * (smooth_n_max)) + 1
           ) {
             focus_par[i, 1] <- 1
 
             focus_par[i, 2] <-
-              (i + round(0.5 * (smooth_N_points)))
+              (i + round(0.5 * (smooth_n_points)))
 
             focus_par[i, ] <-
               util_search_parameter(
@@ -248,10 +248,10 @@ fc_smooth_community_data <-
           } else {
             # Samples near end
             if (
-              i > nrow(dat_age) - round(0.5 * (smooth_N_points))
+              i > nrow(dat_age) - round(0.5 * (smooth_n_points))
             ) {
               focus_par[i, 1] <-
-                (i - round(0.5 * (smooth_N_points)))
+                (i - round(0.5 * (smooth_n_points)))
 
               focus_par[i, 2] <-
                 nrow(dat_age)
@@ -264,10 +264,10 @@ fc_smooth_community_data <-
                 )
             } else {
               focus_par[i, 1] <-
-                (i - round(0.5 * (smooth_N_points)))
+                (i - round(0.5 * (smooth_n_points)))
 
               focus_par[i, 2] <-
-                (i + round(0.5 * (smooth_N_points)))
+                (i + round(0.5 * (smooth_n_points)))
 
               focus_par[i, ] <-
                 util_search_parameter(
@@ -290,28 +290,28 @@ fc_smooth_community_data <-
 
           # Samples near beginning (moving window truncated)
           if (
-            i < round(0.5 * (smooth_N_points)) + 1
+            i < round(0.5 * (smooth_n_points)) + 1
           ) {
             focus_par[i, ] <-
               c(
                 1,
-                (i + round(0.5 * (smooth_N_points)))
+                (i + round(0.5 * (smooth_n_points)))
               )
           } else {
             # Samples near end
             if (
-              i > nrow(dat_age) - round(0.5 * (smooth_N_points))
+              i > nrow(dat_age) - round(0.5 * (smooth_n_points))
             ) {
               focus_par[i, ] <-
                 c(
-                  (i - round(0.5 * (smooth_N_points))),
+                  (i - round(0.5 * (smooth_n_points))),
                   nrow(dat_age)
                 )
             } else {
               focus_par[i, ] <-
                 c(
-                  (i - round(0.5 * (smooth_N_points))),
-                  (i + round(0.5 * (smooth_N_points)))
+                  (i - round(0.5 * (smooth_n_points))),
+                  (i + round(0.5 * (smooth_n_points)))
                 )
             }
           }
@@ -347,12 +347,12 @@ fc_smooth_community_data <-
           smooth_method == "shep"
         ) {
           if (
-            i < round(0.5 * (smooth_N_points)) + 1
+            i < round(0.5 * (smooth_n_points)) + 1
           ) {
             col_res[i] <- col_work[i]
           } else {
             if (
-              i > nrow(dat_age) - round(0.5 * (smooth_N_points))
+              i > nrow(dat_age) - round(0.5 * (smooth_n_points))
             ) {
               col_res[i] <- col_work[i]
             } else {
