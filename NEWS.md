@@ -8,8 +8,8 @@
   - rename `fc_estimate_RoC()` to `estimate_roc()` ([#23](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/pull/23))
   - rename `fc_plot_RoC_sequence()` to `plot_roc()` ([#24](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/pull/24))
   - rename `fc_detect_peak_points()` to `detect_peak_points()` ([#25](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/pull/25))
-  - rename all internal functions ([#26](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/pull/23))
-- Update README ([#27](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/pull/23))
+  - rename all internal functions ([#26](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/pull/26))
+- Update README ([#27](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/pull/27))
 
 # RRatepol 1.1.0
 
