@@ -4,6 +4,8 @@ output:
   rmarkdown::html_vignette:
     fig_width: 7
     fig_height: 6
+    keep_md:yes
+    self_contained:yes
 vignette: >
   %\VignetteIndexEntry{Example of full workflow}
   %\VignetteEngine{knitr::rmarkdown}
@@ -23,15 +25,45 @@ models, to estimating rate-of-change using age uncertainty.
 
 :warning: **This workflow is only meant as example**: There are several additional steps for data reparation which should be done to really use the data from Neotoma!
 
-## import packages
+
+## Install packages
+
+Make a list of packages needed from CRAN
+
+```{r pkg-list, results='hide', warning=FALSE, message=FALSE}
+package_list <-
+  c(
+    "tidyverse", # general data wrangling and visualisation
+    "pander", # nice tables
+    "Bchron", # age-depth modelling
+    "janitor", # string cleaning
+    "remotes" # installing packages from GitHub
+  )
+```
+
+Install all packages from CRAN
+
+```{r pkg-install, eval = FALSE}
+lapply(
+  package_list, utils::install.packages
+)
+```
+
+Install neotoma2 from GitHub
+
+```{r pkg-install-gh, eval = FALSE}
+remotes::install_github("NeotomaDB/neotoma2")
+```
+
+## Attach packages
 
 ```{r setup, results='hide', warning=FALSE, message=FALSE}
-library(tidyverse)
-library(pander)
-library(RRatepol)
-library(neotoma2)
-library(Bchron)
-library(janitor)
+library(tidyverse) # general data wrangling and visualisation
+library(pander) # nice tables
+library(RRatepol) # rate-of-vegetation change
+library(neotoma2) # obtain data from the Neotoma database
+library(Bchron) # age-depth modeling
+library(janitor) # string cleaning
 ```
 
 ## Download the dataset *Glendalough Valley* from Neotoma
