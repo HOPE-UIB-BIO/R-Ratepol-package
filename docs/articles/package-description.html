@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RRatepol</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,14 +102,17 @@ movements is created.</p></li>
 defined</p></li>
 <li><p>(optional) Standardisation of assemblage data in each WU</p></li>
 <li><p>Calculation of RoC between WUs: RoC is calculated as the
-dissimilarity coefficient (DC) standardised by age differences between
-WUs. Several in-built dissimilarity coefficients are available:
-Euclidean distance (<code>DC = "euc</code>), standardised Euclidean
-distance (<code>DC = "euc.sd</code>), Chord distance
-(<code>DC = "chord</code>), Chi-squared coefficient
-(<code>DC = "chisq</code>), Gower’s distance (<code>DC = "gower</code>),
-Bray-Curtis(<code>DC = "bray</code>). See <code><a href="https://rdrr.io/pkg/vegan/man/vegdist.html" class="external-link">vegan::vegdist</a></code>for
-more details. The choice of DC depends on the type of assemblage
+dissimilarity coefficient (dissimilarity_coefficient) standardised by
+age differences between WUs. Several in-built dissimilarity coefficients
+are available: Euclidean distance
+(<code>dissimilarity_coefficient = "euc</code>), standardised Euclidean
+distance (<code>dissimilarity_coefficient = "euc.sd</code>), Chord
+distance (<code>dissimilarity_coefficient = "chord</code>), Chi-squared
+coefficient (<code>dissimilarity_coefficient = "chisq</code>), Gower’s
+distance (<code>dissimilarity_coefficient = "gower</code>),
+Bray-Curtis(<code>dissimilarity_coefficient = "bray</code>). See
+<code><a href="https://rdrr.io/pkg/vegan/man/vegdist.html" class="external-link">vegan::vegdist</a></code>for more details. The choice of
+dissimilarity_coefficient depends on the type of assemblage
 data.</p></li>
 <li><p>The summary of a single run is produced based on all moving
 windows</p></li>
@@ -158,10 +161,10 @@ a selected amount of time (Z), levels are selected again (subset into
 bins), and RoC calculated for the new set of WUs. This is repeated X
 times (where X is the bin size divided by Z) while retaining all the
 results. RRatepol currently provides several options for selecting WU,
-namely as individual levels (<code>Working_Units = "levels"</code>),
-selective binning of levels (<code>Working_Units = "bins"</code>), and
+namely as individual levels (<code>working_units = "levels"</code>),
+selective binning of levels (<code>working_units = "bins"</code>), and
 our new method of binning with a moving window
-(<code>Working_Units = "MW"</code>), which is summarised in figure.</p>
+(<code>working_units = "MW"</code>), which is summarised in figure.</p>
 <p><img src="https://raw.githubusercontent.com/HOPE-UIB-BIO/R-Ratepol-package/master/man/figures/FIG_Scheme.png" alt="RRatepol scheme" align="middle" width="600"></p>
 </div>
 <div class="section level3">

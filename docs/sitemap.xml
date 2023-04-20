@@ -28,7 +28,25 @@
     <loc>https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html</loc>
   </url>
   <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/check_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/detect_peak_points.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/detect_sni.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/estimate_dissimilarity_coefficient.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/estimate_roc.html</loc>
+  </url>
+  <url>
     <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/example_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/extract_data.html</loc>
   </url>
   <url>
     <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/fc_calculate_DC.html</loc>
@@ -82,10 +100,46 @@
     <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/make_bins.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/make_trend.html</loc>
+  </url>
+  <url>
     <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/pipe.html</loc>
   </url>
   <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/plot_roc.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/prepare_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/reduce_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/reduce_data_simple.html</loc>
+  </url>
+  <url>
     <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/RRatepol-package.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/run_iteration.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/smooth_community_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/standardise_community_data.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/subset_community.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/subset_samples.html</loc>
+  </url>
+  <url>
+    <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/transform_into_proportions.html</loc>
   </url>
   <url>
     <loc>https://hope-uib-bio.github.io/R-Ratepol-package/reference/util_check_class.html</loc>
