@@ -1,30 +1,30 @@
 #' @title Create template for RoC estimations
 #'
-#' @inheritParams fc_estimate_RoC
+#' @inheritParams estimate_roc
 #' @param data_source_bins
 #' List with `community` and `age`
 #' @keywords internal
-fc_make_bins <-
+make_bins <-
     function(data_source_bins,
-             Working_Units = c("levels", "bins", "MW"),
+             working_units = c("levels", "bins", "MW"),
              bin_size = 500,
-             Number_of_shifts = 5) {
+             number_of_shifts = 5) {
         RUtilpol::check_class("data_source_bins", "list")
 
-        RUtilpol::check_class("Working_Units", "character")
+        RUtilpol::check_class("working_units", "character")
 
         RUtilpol::check_vector_values(
-            "Working_Units",
+            "working_units",
             c("levels", "bins", "MW")
         )
 
-        Working_Units <- match.arg(Working_Units)
+        working_units <- match.arg(working_units)
 
         age_dat <-
             data_source_bins$age
 
         if (
-            Working_Units == "levels"
+            working_units == "levels"
         ) {
             n_levels <-
                 nrow(age_dat)
@@ -82,7 +82,7 @@ fc_make_bins <-
         )
 
         if (
-            Working_Units == "bins"
+            working_units == "bins"
         ) {
             res_df <-
                 data.frame(
@@ -90,26 +90,26 @@ fc_make_bins <-
                     shift = 1
                 )
         } else {
-            RUtilpol::check_class("Number_of_shifts", "numeric")
+            RUtilpol::check_class("number_of_shifts", "numeric")
 
-            RUtilpol::check_if_integer("Number_of_shifts")
+            RUtilpol::check_if_integer("number_of_shifts")
         }
 
         if (
-            Working_Units == "MW"
+            working_units == "MW"
         ) {
-            shift_value <- bin_size / Number_of_shifts
+            shift_value <- bin_size / number_of_shifts
 
             shift_increment <-
                 shift_value * sort(
-                    rep(0:(Number_of_shifts - 1), length(bin_breaks))
+                    rep(0:(number_of_shifts - 1), length(bin_breaks))
                 )
 
             res_df <-
                 data.frame(
-                    name = (rep(bin_breaks, Number_of_shifts) +
+                    name = (rep(bin_breaks, number_of_shifts) +
                         shift_increment),
-                    shift = sort(rep(c(1:Number_of_shifts), length(bin_breaks)))
+                    shift = sort(rep(c(1:number_of_shifts), length(bin_breaks)))
                 )
         }
 
