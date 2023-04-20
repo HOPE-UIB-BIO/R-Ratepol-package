@@ -1,5 +1,8 @@
 ---
-format: gfm
+format: 
+  gfm:
+    wrap: none
+
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
@@ -17,7 +20,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions)
 <!-- badges: end -->
 
-## Current version: 1.1.0
+## Current version: 1.2.0
 
 What is new in the package? See [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)
 
@@ -28,7 +31,7 @@ The original sketch for logo was done by [Vanesa Surtkova](https://www.instagram
 
 RRatepol is an R package for estimating rate of change (RoC) from community data in time series.
 
-RRatepol is written as an R package and includes a range of possible settings including a novel method to evaluate RoC in a single stratigraphical sequence using assemblage data and age uncertainties for each level. There are multiple built-in dissimilarity coefficients (DC) for different types of assemblage data, and various levels of data smoothing that can be applied depending on the type and variance of the data. In addition, RRatepol can use randomisation, accompanied by use of age uncertainties of each level and taxon standardisation to detect RoC patterns in datasets with high data noise or variability (i.e. numerous rapid changes in composition or sedimentation rates).
+RRatepol is written as an R package and includes a range of possible settings including a novel method to evaluate RoC in a single stratigraphical sequence using assemblage data and age uncertainties for each level. There are multiple built-in dissimilarity coefficients (dissimilarity_coefficient) for different types of assemblage data, and various levels of data smoothing that can be applied depending on the type and variance of the data. In addition, RRatepol can use randomisation, accompanied by use of age uncertainties of each level and taxon standardisation to detect RoC patterns in datasets with high data noise or variability (i.e. numerous rapid changes in composition or sedimentation rates).
 
 ## Installing package
 ```{r install, eval = FALSE}
@@ -112,17 +115,17 @@ Estimate RoC values for *Dallican Water* site using *Age-weighed smoothing* of t
 
 ```{r sequence 1, results=FALSE, warning=FALSE}
 sequence_01 <- 
-  RRatepol::fc_estimate_RoC(
+  RRatepol::estimate_roc(
     data_source_community = example_data$pollen_data[[1]],
     data_source_age = example_data$sample_age[[1]],
     smooth_method = "shep",
-    DC = "chisq",
-    Working_Units = "levels"
+    dissimilarity_coefficient = "chisq",
+    working_units = "levels"
     )
 ```
 
 ```{r plot_1, echo=TRUE}
-RRatepol::fc_plot_RoC_sequence(
+RRatepol::plot_roc(
   data_source = sequence_01)
 ```
 
@@ -134,47 +137,47 @@ This will produce error *wrapper* showing 95th percent quantile.
 
 ```{r sequence 2, results=FALSE, warning=FALSE}
 sequence_02 <-
-  RRatepol::fc_estimate_RoC(
+  RRatepol::estimate_roc(
     data_source_community = example_data$pollen_data[[1]],
     data_source_age = example_data$sample_age[[1]],
     age_uncertainty = example_data$age_uncertainty[[1]],
     smooth_method = "shep",
-    DC = "chisq",
-    Working_Units = "levels",
+    dissimilarity_coefficient = "chisq",
+    working_units = "levels",
     standardise = TRUE,
-    N_individuals = 150,
+    n_individuals = 150,
     rand = 1000,
     use_parallel = TRUE)
 ```
 
 ```{r plot_2, echo=TRUE}
-RRatepol::fc_plot_RoC_sequence(
+RRatepol::plot_roc(
   data_source = sequence_02)
 ```
 
 #### Example 3
 
-Use *Binning with the mowing window* approach with `bin_size` = 500 and `Number_of_shifts` = 5.
+Use *Binning with the mowing window* approach with `bin_size` = 500 and `number_of_shifts` = 5.
 
 ```{r sequence 3, results=FALSE, warning=FALSE}
 sequence_03 <-
-    RRatepol::fc_estimate_RoC(
+    RRatepol::estimate_roc(
     data_source_community = example_data$pollen_data[[1]],
     data_source_age = example_data$sample_age[[1]],
     age_uncertainty = example_data$age_uncertainty[[1]],
     smooth_method = "shep",
-    DC = "chisq",
-    Working_Units = "MW",
+    dissimilarity_coefficient = "chisq",
+    working_units = "MW",
     bin_size = 500,
-    Number_of_shifts  = 5,
+    number_of_shifts  = 5,
     standardise = TRUE,
-    N_individuals = 150,
+    n_individuals = 150,
     rand = 1000,
     use_parallel = TRUE)
 ```
 
 ```{r plot_3, echo=TRUE}
-RRatepol::fc_plot_RoC_sequence(
+RRatepol::plot_roc(
   data_source = sequence_03)
 ```
 
@@ -184,12 +187,12 @@ Detect the *peak points* using *trend_non_linear* method.
 
 ```{r plot_4, echo=TRUE}
 sequence_03_with_peaks <-
-  RRatepol::fc_detect_peak_points(
+  RRatepol::detect_peak_points(
     data_source = sequence_03,
     sel_method = "trend_non_linear")
 
-RRatepol::fc_plot_RoC_sequence(
+RRatepol::plot_roc(
   data_source = sequence_03_with_peaks,
-  Peaks = TRUE,
+  peaks = TRUE,
   trend = "trend_non_linear")
 ```
