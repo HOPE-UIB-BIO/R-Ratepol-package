@@ -1,26 +1,26 @@
 #' @title Run a single interation of RoC estimation
 #'
 #' @param data_source_run
-#' List with `data` and `bins` prepared by `fc_prepare_data`
-#' @inheritParams fc_estimate_RoC
+#' List with `data` and `bins` prepared by `prepare_data`
+#' @inheritParams estimate_roc
 #' @description
 #' A single run is computed following the simple steps:
 #' \itemize{
 #' \item Subsetting levels in each bin: Here the working units (WU) are defined
 #' \item Standardisation of assemblage data in each WU
-#' \item Calculation of calculated as the dissimilarity coefficient (DC)
-#' \item Calculation of RoC between WUs: RoC is calculated as (DC)
+#' \item Calculation of calculated as the dissimilarity coefficient (dissimilarity_coefficient)
+#' \item Calculation of RoC between WUs: RoC is calculated as (dissimilarity_coefficient)
 #' standardised by age differences between WUs.
 #' }
-#' @seealso [fc_estimate_RoC()]
+#' @seealso [estimate_roc()]
 #' @keywords internal
-fc_run_iteration <-
+run_iteration <-
     function(data_source_run,
              bin_selection = "first",
              standardise = FALSE,
-             N_individuals = 150,
+             n_individuals = 150,
              tranform_to_proportions = TRUE,
-             DC = "euc",
+             dissimilarity_coefficient = "euc",
              time_standardisation = 500,
              verbose = FALSE) {
 
@@ -32,7 +32,7 @@ fc_run_iteration <-
         # select one sample for each bin based on the age of the samples.
         # subset data
         data_subset <-
-            fc_subset_samples(
+            subset_samples(
                 data_source_subset = data_source_run$data,
                 data_source_bins = data_source_run$bins,
                 bin_selection = bin_selection
@@ -40,7 +40,7 @@ fc_run_iteration <-
 
         # reduce
         data_subset <-
-            fc_reduce_simple(
+            reduce_data_simple(
                 data_source_reduce = data_subset
             )
 
@@ -49,42 +49,42 @@ fc_run_iteration <-
         # 4.2 Data Standardisation -----
         #----------------------------------------------------------#
 
-        # standardisation of community data to N_individuals
+        # standardisation of community data to n_individuals
         if (
             isTRUE(standardise)
         ) {
             # select only community data
             com_data_sums <-
                 rowSums(
-                    util_subset_community(
+                    subset_community(
                         data_source = data_subset
                     ),
                     na.rm = TRUE
                 )
 
             # adjust the value to a minimal of presented values
-            N_individuals <-
+            n_individuals <-
                 min(
                     c(
                         com_data_sums,
-                        N_individuals
+                        n_individuals
                     )
                 )
 
-            # check if all samples has N_individuals of individuals
+            # check if all samples has n_individuals of individuals
             data_subset <-
-                data_subset[com_data_sums >= N_individuals, ]
+                data_subset[com_data_sums >= n_individuals, ]
 
             data_subset <-
-                fc_reduce_simple(
+                reduce_data_simple(
                     data_source_reduce = data_subset
                 )
 
             # standardisation
             data_sd <-
-                fc_standardise_community_data(
+                standardise_community_data(
                     data_source_standard = data_subset,
-                    N_individuals = N_individuals
+                    n_individuals = n_individuals
                 )
 
             if (
@@ -92,9 +92,9 @@ fc_run_iteration <-
             ) {
                 assertthat::assert_that(
                     all(
-                        N_individuals ==
+                        n_individuals ==
                             rowSums(
-                                util_subset_community(data_sd),
+                                subset_community(data_sd),
                                 na.rm = TRUE
                             )
                     ),
@@ -110,7 +110,7 @@ fc_run_iteration <-
 
         # data reduce
         data_sd <-
-            fc_reduce_simple(
+            reduce_data_simple(
                 data_source_reduce = data_sd
             )
 
@@ -119,7 +119,7 @@ fc_run_iteration <-
         ) {
             # tunr into proportion
             data_sd_prop <-
-                fc_transfer_into_proportions(
+                transform_into_proportions(
                     data_source_trans = data_sd,
                     sel_method = "proportions"
                 )
@@ -130,14 +130,14 @@ fc_run_iteration <-
 
 
         #----------------------------------------------------------#
-        # 4.3 DC Calculation -----
+        # 4.3 dissimilarity_coefficient Calculation -----
         #----------------------------------------------------------#
 
-        # calculate DC between each subsequent samples/bins
+        # calculate dissimilarity_coefficient between each subsequent samples/bins
         dc_res <-
-            fc_calculate_DC(
-                data_source_DC = data_sd_prop,
-                DC = DC,
+            estimate_dissimilarity_coefficient(
+                data_source_dc = data_sd_prop,
+                dissimilarity_coefficient = dissimilarity_coefficient,
                 verbose = verbose
             )
 
@@ -146,7 +146,7 @@ fc_run_iteration <-
         # 4.4 Rate of Change -----
         #----------------------------------------------------------#
 
-        #  calculate DC standardise by time
+        #  calculate dissimilarity_coefficient standardise by time
         roc_res <-
             data_sd_prop[seq_along(dc_res), ] %>%
             dplyr::mutate(
