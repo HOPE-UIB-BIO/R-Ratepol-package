@@ -1,3 +1,8 @@
+# RRatepol 1.2.1
+
+## Uncertainty sampling
+
+- fix an issue with error message for large number of iteration in sampling age-sequences
 
 # RRatepol 1.2.0
 
