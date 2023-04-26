@@ -92,7 +92,8 @@ prepare_data <-
                         c(
                             1:max(1, nrow(data_source_prep$age_un))
                         ),
-                        rand
+                        rand,
+                        replace = TRUE
                     )
 
                 random_age <-

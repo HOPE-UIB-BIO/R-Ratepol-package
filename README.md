@@ -5,7 +5,7 @@
 
 [![CRAN status](https://www.r-pkg.org/badges/version/RRatepol.png)](https://CRAN.R-project.org/package=RRatepol) [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions) <!-- badges: end -->
 
-## Current version: 1.2.0
+## Current version: 1.2.1
 
 What is new in the package? See [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)
 
@@ -118,12 +118,12 @@ sequence_01 <-
     working_units = "levels"
     )
 #> #----------------------------------------------------------#
-#> ℹ RRatepol started 2023-04-20 14:19:55
+#> ℹ RRatepol started 2023-04-26 12:37:19
 #> #----------------------------------------------------------#
 #> ℹ RoC will be estimated between individual subsequent levels
 #> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
 #> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2023-04-20 14:19:58 taking 2.84 secs
+#> ℹ RRatepol finished 2023-04-26 12:37:20 taking 1.77 secs
 #> #----------------------------------------------------------#
 ```
 
@@ -152,14 +152,14 @@ sequence_02 <-
     rand = 1000,
     use_parallel = TRUE)
 #> #----------------------------------------------------------#
-#> ℹ RRatepol started 2023-04-20 14:19:59
+#> ℹ RRatepol started 2023-04-26 12:37:21
 #> #----------------------------------------------------------#
 #> ℹ 'age_uncertainty' will be used for in the RoC estimation
 #> ℹ RoC will be estimated between individual subsequent levels
 #> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
 #> ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
 #> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2023-04-20 14:22:19 taking 2.33 mins
+#> ℹ RRatepol finished 2023-04-26 12:39:13 taking 1.87 mins
 #> #----------------------------------------------------------#
 ```
 
@@ -190,7 +190,7 @@ sequence_03 <-
     rand = 1000,
     use_parallel = TRUE)
 #> #----------------------------------------------------------#
-#> ℹ RRatepol started 2023-04-20 14:22:19
+#> ℹ RRatepol started 2023-04-26 12:39:14
 #> #----------------------------------------------------------#
 #> ℹ 'age_uncertainty' will be used for in the RoC estimation
 #> ℹ RoC will be estimated using 'binning with the mowing window' of 500 yr time bin over 5 number of window shifts
@@ -198,7 +198,7 @@ sequence_03 <-
 #> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
 #> ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
 #> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2023-04-20 14:26:52 taking 4.54 mins
+#> ℹ RRatepol finished 2023-04-26 12:44:21 taking 5.12 mins
 #> #----------------------------------------------------------#
 ```
 
