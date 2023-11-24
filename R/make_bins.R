@@ -51,6 +51,7 @@ make_bins <-
                         age_vec[1 + (1:n_levels)] -
                             age_vec[1:n_levels]
                     ),
+                    age_diff = ifelse(.data$age_diff == 0, 0.1, .data$age_diff),
                     start = as.character(.data$name),
                     end = as.character(
                         rownames(age_dat_longer)[1 + 1:n_levels]

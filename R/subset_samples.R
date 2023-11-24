@@ -23,6 +23,7 @@ subset_samples <-
         ) %>%
         dplyr::mutate(
           age_diff = c(diff(.data$age), Inf),
+          age_diff = ifelse(.data$age_diff == 0, 0.1, .data$age_diff),
           res_age = .data$age
         ) %>%
         dplyr::select(-c("start", "age"))
