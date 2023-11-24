@@ -33,5 +33,5 @@ jobs:
 
       - name: R-CMD-CHECK
         run: |
-          rcmdcheck::rcmdcheck(args =c("--no-vignettes", "--no-manual"))
+          rcmdcheck::rcmdcheck(build_args = c("--no-build-vignettes", "--no-manual"))
         shell: Rscript {0}
