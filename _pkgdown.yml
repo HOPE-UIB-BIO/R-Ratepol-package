@@ -1,4 +1,23 @@
+home:
+  title: "R–Ratepol: Estimating Rate of Change in Temporal Sequences"
+  description: "An R package for estimating rate of change (RoC)
+    from community data in time series"
+
 url: https://hope-uib-bio.github.io/R-Ratepol-package/
 template:
   bootstrap: 5
-
+  opengraph:
+    image:
+      src: man/figures/RRatepol_logo.png
+      alt: "The original sketch for logo was done by Vanesa Surtkova"
+    twitter:
+      creator: "@OndrejMottl"
+      card: summary_large_image
+navbar:
+  structure:
+    right: [search, twitter, github]
+  component:
+    twitter:
+      icon: fa-twitter
+      href: http://twitter.com/OndrejMottl
+      aria-label: Twitter

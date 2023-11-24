@@ -19,12 +19,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-This workflow should show full strength of *RRatepol package* and serve as step by 
-step guidance starting from downloading dataset from Neotoma, building age-depth
-models, to estimating rate-of-change using age uncertainty.
+This workflow should show the full strength of the *RRatepol package* and serve as step-by-step guidance starting from downloading dataset from Neotoma, building age-depth models, to estimating rate-of-change using age uncertainty.
 
-:warning: **This workflow is only meant as example**: There are several additional steps for data reparation which should be done to really use the data from Neotoma!
+⚠️**This workflow is only meant as an example**: There are several additional steps for data preparation, which should be done to properly implement RRatepol and assess the rate of change of a fossil pollen dataset from Neotoma!
 
+For an even more detailed step-by-step workflow with fossil pollen data, please see other package materials, such as [African Polled Database workshop](https://ondrejmottl.github.io/APD_R-Ratepol_workshop/index.html).
+
+Additionally, please see [**FOSSILPOL**](https://hope-uib-bio.github.io/FOSSILPOL-website/), an R-based modular workflow to process multiple fossil pollen records to create a comprehensive, standardized dataset compilation, ready for multi-record and multi-proxy analyses at various spatial and temporal scales.
+
+Finally, for workflows using other data types (e.g., geochemistry and XRF), see [Oeschger Centre for Climate Change Research Workshop](https://ondrejmottl.github.io/OCCR_R-Ratepol_workshop/).
 
 ## Install packages
 
@@ -34,6 +37,7 @@ Make a list of packages needed from CRAN
 package_list <-
   c(
     "tidyverse", # general data wrangling and visualisation
+    "neotoma2", # access to the Neotoma database
     "pander", # nice tables
     "Bchron", # age-depth modelling
     "janitor", # string cleaning
@@ -47,12 +51,6 @@ Install all packages from CRAN
 lapply(
   package_list, utils::install.packages
 )
-```
-
-Install neotoma2 from GitHub
-
-```{r pkg-install-gh, eval = FALSE}
-remotes::install_github("NeotomaDB/neotoma2")
 ```
 
 ## Attach packages
@@ -186,7 +184,6 @@ gl_chron_control_table <-
 head(gl_chron_control_table)
 ```
 
-
 ```{r chron_control_show, echo=FALSE, results='asis', warning=FALSE, message=FALSE}
 pander::pandoc.table(head(gl_chron_control_table))
 ```
@@ -227,7 +224,7 @@ plot(gl_bchron)
 
 #### Predict ages
 
-Let's first extract posterior ages from the age-depth model (i.e. possible ages
+Let's first extract posterior ages from the age-depth model (i.e. possible ages)
 
 ```{r predic_ages, results='hide', warning=FALSE}
 age_position <-
@@ -261,7 +258,7 @@ pander::pandoc.table(head(gl_level_predicted))
 ## Estimation Rate-of-Change
 
 Here we use the the prepared data to estimate the rate of vegetation change. 
-We will we will be using the *Chi-squared coefficient* as dissimilarity coefficient (works best for pollen data, `dissimilarity_coefficient` = `"chisq"`), and `time_standardisation` == 500 (this means that all ROC values are 'change per 500 yr').
+We will be using the *Chi-squared coefficient* as the dissimilarity coefficient (works best for pollen data, `dissimilarity_coefficient` = `"chisq"`), and `time_standardisation` == 500 (this means that all ROC values are 'change per 500 yr').
 We will add smoothing of the pollen data using `smooth_method` = `"shep"` (i.e. *Shepard's 5-term filter*).
 Finally, we will use the method of the "*binning with the mowing window*" (`working_units` = `"MW"`).
 This is again a toy example for a quick computation and we would recommend increasing the *set_randomisations* to 10.000 for any real estimation. 
@@ -279,7 +276,7 @@ gl_roc <-
     working_units = "MW", # set to "MW" to apply the "moving window"
     bin_size = 500, # size of a time bin
     number_of_shifts = 5,
-    standardise = TRUE,  # set the taxa standardisation
+    standardise = TRUE, # set the taxa standardisation
     n_individuals = 150, # set the number of pollen grains
     rand = set_randomisations, # set number of randomisations
     use_parallel = FALSE # use_parallel = TRUE to use parallel calculation
@@ -288,8 +285,8 @@ gl_roc <-
 
 ### Detect peak-points and plot the results
 
-We will detect significant increase of RoC values (i.e. *peak-points*).
-Specifically, we will use "Non-linear" method, which will detect significant change from a non-linear trend of RoC
+We will detect a significant increase in RoC values (i.e. *peak-points*).
+Specifically, we will use the "Non-linear" method, which will detect significant change from a non-linear trend of RoC
 
 ```{r peak_points, results='hide', warning=FALSE}
 gl_roc_peaks <-
@@ -299,7 +296,7 @@ gl_roc_peaks <-
   )
 ```
 
-Plot the estimates with showing both the peak-points 
+Plot the estimates showing the peak-points 
 
 ```{r roc_figure, results='markup', echo=TRUE}
 RRatepol::plot_roc(

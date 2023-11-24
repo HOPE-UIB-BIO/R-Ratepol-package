@@ -1,8 +1,14 @@
+# RRatepol 1.2.2
+
+- add more information about additional resources and workshops
+- use {neotoma2} from CRAN
+- fix an issue with a case, where the age difference between samples is zero. The zeros are replaced by arbitrary 0.1.
+
 # RRatepol 1.2.1
 
 ## Uncertainty sampling
 
-- fix an issue with error message for large number of iteration in sampling age-sequences
+- fix an issue with an error message for a large number of iterations in sampling age-sequence
 
 # RRatepol 1.2.0
 
