@@ -1,7 +1,7 @@
 Type: Package
 Package: RRatepol
 Title: R–Ratepol: Estimating Rate of Change in Temporal Sequences
-Version: 1.2.1
+Version: 1.2.2
 Authors@R: 
     person("Ondrej", "Mottl", , "ondrej.mottl@gmail.com", role = c("aut", "cre"))
 Maintainer: Ondrej Mottl <ondrej.mottl@gmail.com>
@@ -44,8 +44,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes: 
-    github::HOPE-UIB-BIO/R-Utilpol-package,
-    github::NeotomaDB/neotoma2
+    github::HOPE-UIB-BIO/R-Utilpol-package
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
