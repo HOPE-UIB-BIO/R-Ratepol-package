@@ -34,6 +34,7 @@ Make a list of packages needed from CRAN
 package_list <-
   c(
     "tidyverse", # general data wrangling and visualisation
+    "neotoma2", # access to the Neotoma database
     "pander", # nice tables
     "Bchron", # age-depth modelling
     "janitor", # string cleaning
@@ -47,12 +48,6 @@ Install all packages from CRAN
 lapply(
   package_list, utils::install.packages
 )
-```
-
-Install neotoma2 from GitHub
-
-```{r pkg-install-gh, eval = FALSE}
-remotes::install_github("NeotomaDB/neotoma2")
 ```
 
 ## Attach packages
@@ -186,7 +181,6 @@ gl_chron_control_table <-
 head(gl_chron_control_table)
 ```
 
-
 ```{r chron_control_show, echo=FALSE, results='asis', warning=FALSE, message=FALSE}
 pander::pandoc.table(head(gl_chron_control_table))
 ```
@@ -227,7 +221,7 @@ plot(gl_bchron)
 
 #### Predict ages
 
-Let's first extract posterior ages from the age-depth model (i.e. possible ages
+Let's first extract posterior ages from the age-depth model (i.e. possible ages)
 
 ```{r predic_ages, results='hide', warning=FALSE}
 age_position <-
@@ -279,7 +273,7 @@ gl_roc <-
     working_units = "MW", # set to "MW" to apply the "moving window"
     bin_size = 500, # size of a time bin
     number_of_shifts = 5,
-    standardise = TRUE,  # set the taxa standardisation
+    standardise = TRUE, # set the taxa standardisation
     n_individuals = 150, # set the number of pollen grains
     rand = set_randomisations, # set number of randomisations
     use_parallel = FALSE # use_parallel = TRUE to use parallel calculation
