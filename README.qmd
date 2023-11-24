@@ -2,7 +2,6 @@
 format: 
   gfm:
     wrap: none
-
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
@@ -10,7 +9,8 @@ knitr::opts_chunk$set(
   echo = TRUE,
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-")
+  fig.path = "man/figures/README-"
+)
 ```
 
 # RRatepol package <img src="man/figures/RRatepol_logo.png" align="right" width="200" />
@@ -20,11 +20,11 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions)
 <!-- badges: end -->
 
-## Current version: 1.2.1
+## Current version: 1.2.2
 
 What is new in the package? See [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)
 
-### New logo
+### Package logo
 The original sketch for logo was done by [Vanesa Surtkova](https://www.instagram.com/vavatattoo/). Check her out!
 
 ## Description
@@ -53,6 +53,10 @@ More detailed information can be found on [RRatepol package website](https://hop
 
 This include description of the individual steps for RoC estimation [Package Description](https://hope-uib-bio.github.io/R-Ratepol-package/articles/package-description.html)
 
+## FOSSILPOL
+
+If you are interested in estimating rate of change for several records, please see [**FOSSILPOL**](https://hope-uib-bio.github.io/FOSSILPOL-website/), an R-based modular workflow to process multiple fossil pollen records to create a comprehensive, standardized dataset compilation, ready for multi-record and multi-proxy analyses at various spatial and temporal scales.
+
 ## Examples
 
 ### Workflow
@@ -63,6 +67,10 @@ Example of workflow showing full strength of RRatepol package, with as step by s
 ### APD R-Ratepol workshop
 
 For additional examples of RRatepol setting, see [Materials for R-Ratepol workshop with an African focus (APD data users)](https://ondrejmottl.github.io/APD_R-Ratepol_workshop/)
+
+### OCCR R-Ratepol workshop
+
+For examples using other data types than fosssil pollen, see [Oeschger Centre for Climate Change Research Workshop](https://ondrejmottl.github.io/OCCR_R-Ratepol_workshop/) for workflows using geochemistry and XRF data.
 
 ### Build-in example
 
@@ -79,7 +87,7 @@ library(tidyverse)
 
 
 ```{r data, results = TRUE}
-example_data <-  
+example_data <-
   RRatepol::example_data
 
 dplyr::glimpse(example_data)
@@ -90,22 +98,29 @@ example_data %>%
   ggplot2::ggplot(
     ggplot2::aes(
       x = long,
-      y = lat)) +
+      y = lat
+    )
+  ) +
   ggplot2::borders(
     fill = "gray90",
-    colour = NA) +
+    colour = NA
+  ) +
   ggplot2::geom_point(
     shape = 0,
-    size = 2) +
+    size = 2
+  ) +
   ggplot2::geom_point(
     shape = 20,
-    size = 2) +
+    size = 2
+  ) +
   ggplot2::coord_quickmap(
     xlim = c(-10, 25),
-    ylim = c(47, 70)) +
+    ylim = c(47, 70)
+  ) +
   ggplot2::labs(
     x = "Longitude",
-    y = "Latitude") +
+    y = "Latitude"
+  ) +
   ggplot2::theme_classic()
 ```
 
@@ -114,19 +129,20 @@ example_data %>%
 Estimate RoC values for *Dallican Water* site using *Age-weighed smoothing* of the data and *Chord dissimilarity* coefficient. Pollen data will not standardised to a certain pollen count and age uncertainties from *Bchron* will not be used.  
 
 ```{r sequence 1, results=FALSE, warning=FALSE}
-sequence_01 <- 
+sequence_01 <-
   RRatepol::estimate_roc(
     data_source_community = example_data$pollen_data[[1]],
     data_source_age = example_data$sample_age[[1]],
     smooth_method = "shep",
     dissimilarity_coefficient = "chisq",
     working_units = "levels"
-    )
+  )
 ```
 
 ```{r plot_1, echo=TRUE}
 RRatepol::plot_roc(
-  data_source = sequence_01)
+  data_source = sequence_01
+)
 ```
 
 #### Example 2
@@ -147,12 +163,14 @@ sequence_02 <-
     standardise = TRUE,
     n_individuals = 150,
     rand = 1000,
-    use_parallel = TRUE)
+    use_parallel = TRUE
+  )
 ```
 
 ```{r plot_2, echo=TRUE}
 RRatepol::plot_roc(
-  data_source = sequence_02)
+  data_source = sequence_02
+)
 ```
 
 #### Example 3
@@ -161,7 +179,7 @@ Use *Binning with the mowing window* approach with `bin_size` = 500 and `number_
 
 ```{r sequence 3, results=FALSE, warning=FALSE}
 sequence_03 <-
-    RRatepol::estimate_roc(
+  RRatepol::estimate_roc(
     data_source_community = example_data$pollen_data[[1]],
     data_source_age = example_data$sample_age[[1]],
     age_uncertainty = example_data$age_uncertainty[[1]],
@@ -169,16 +187,18 @@ sequence_03 <-
     dissimilarity_coefficient = "chisq",
     working_units = "MW",
     bin_size = 500,
-    number_of_shifts  = 5,
+    number_of_shifts = 5,
     standardise = TRUE,
     n_individuals = 150,
     rand = 1000,
-    use_parallel = TRUE)
+    use_parallel = TRUE
+  )
 ```
 
 ```{r plot_3, echo=TRUE}
 RRatepol::plot_roc(
-  data_source = sequence_03)
+  data_source = sequence_03
+)
 ```
 
 #### Example 4
@@ -189,10 +209,12 @@ Detect the *peak points* using *trend_non_linear* method.
 sequence_03_with_peaks <-
   RRatepol::detect_peak_points(
     data_source = sequence_03,
-    sel_method = "trend_non_linear")
+    sel_method = "trend_non_linear"
+  )
 
 RRatepol::plot_roc(
   data_source = sequence_03_with_peaks,
   peaks = TRUE,
-  trend = "trend_non_linear")
+  trend = "trend_non_linear"
+)
 ```
