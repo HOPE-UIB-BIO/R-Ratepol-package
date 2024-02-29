@@ -28,6 +28,7 @@ jobs:
         run: |
           utils::install.packages("remotes")
           utils::install.packages("rcmdcheck")
+          utils::install.packages("neotoma2")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
