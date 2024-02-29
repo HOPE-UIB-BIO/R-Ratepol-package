@@ -572,7 +572,7 @@ estimate_roc <-
     # reduce data dimentions
     data_work <-
       reduce_data(
-        data_smooth
+        data_source_reduce = data_smooth
       )
 
     if (
