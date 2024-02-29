@@ -37,11 +37,13 @@ reduce_data <-
       valid_levels <-
         (rowSums(data_source_reduce$community, na.rm = TRUE) > 0)
 
+      valid_levels_reduced <- valid_levels[valid_levels]
+
       data_source_reduce$age <-
         data_source_reduce$age %>%
         tibble::rownames_to_column("sample_id") %>%
         dplyr::filter(
-          names(valid_levels) %in% .data$sample_id
+          .data$sample_id %in% names(valid_levels_reduced)
         ) %>%
         tibble::column_to_rownames("sample_id")
 
@@ -49,7 +51,7 @@ reduce_data <-
         data_source_reduce$community %>%
         tibble::rownames_to_column("sample_id") %>%
         dplyr::filter(
-          names(valid_levels) %in% .data$sample_id
+          .data$sample_id %in% names(valid_levels_reduced)
         ) %>%
         tibble::column_to_rownames("sample_id")
 
