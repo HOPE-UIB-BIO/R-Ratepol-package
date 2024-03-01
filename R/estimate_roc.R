@@ -117,7 +117,7 @@
 #' \itemize{
 #' \item none (`smooth_method` = `"none"`)
 #' \item Shepard's 5-term filter (`smooth_method` = `"shep"`; Davis, 1986; Wilkinson, 2005)
-#' \item moving average ´(`smooth_method` = `"m.avg"}`)
+#' \item moving average (`smooth_method` = `"m.avg"}`)
 #' \item age-weighted average (`smooth_method` = `"age.w"`)
 #' \item Grimm's smoothing (`smooth_method` = `"grim"`; Grimm and Jacobson, 1992)
 #' }
@@ -208,7 +208,7 @@
 #'
 #' Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt
 #' climate changes during the past 18000 years in eastern North America.
-#' Clim. Dyn. 6, 179–184.
+#' Clim. Dyn. 6, 179-184.
 #'
 #' Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
 #' USA 37.

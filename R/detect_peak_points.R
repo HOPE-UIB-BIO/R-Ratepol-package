@@ -13,7 +13,7 @@
 #' The standard deviation (SD) is calculated from all the residuals. A peak is considered
 #' significant if it is 2 SD higher than the model (`sd_threshold` = 2).
 #' \item `"trend_non_linear"` - A conservative generalised additive model (GAM)
-#' is fitted through the RoC scores and their ages (GAM = `RoC ~ s(age, k = 3)`
+#' is fitted through the RoC scores and their ages (GAM = `RoC ~ s(age, k = 3)`)
 #' using the `mgcv` package (Wood, 2011). The distance between each point and
 #' the fitted value is calculated (residuals). The standard deviation (SD) is
 #' calculated from all the residuals. A peak is considered significant if it
@@ -49,7 +49,7 @@
 #' The standard deviation (SD) is calculated from all the residuals. A peak is
 #' considered significant if it is 2 SD higher than the model (`sd_threshold` = 2).
 #' \item F-deriv GAM  (`sel_method` = `"GAM_deriv"`) - A smooth GAM model is fitted
-#' to the RoC scores and their ages (GAM = `RoC ~ s(age)`. The first derivative
+#' to the RoC scores and their ages (GAM = `RoC ~ s(age)`). The first derivative
 #' as well as continuous confidence intervals are calculated from the model
 #' using the `gratia` package (Simpson, 2019). A peak is considered significant
 #' if the confidence intervals of the first derivative differ from 0
@@ -62,17 +62,17 @@
 #' @references
 #' Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A signal-to-noise
 #' index to quantify the potential for peak detection in sediment-charcoal records.
-#' Quat. Res. 75, 11–17.
+#' Quat. Res. 75, 11-17.
 #'
-#' Simpson, G.L., 2019. gratia: graceful'ggplot'–based graphics and other functions
-#' for GAMs fitted using “mgcv.” R Packag. version 0.2–1.
+#' Simpson, G.L., 2019. gratia: graceful'ggplot'-based graphics and other functions
+#' for GAMs fitted using 'mgcv' R Packag. version 0.2-1.
 #'
 #' Simpson, G.L., 2018. Modelling palaeoecological time series using generalised
-#' additive models. Front. Ecol. Evol. 6, 1–21.
+#' additive models. Front. Ecol. Evol. 6, 1-21.
 #'
 #' Wood, S.N., 2011. Fast stable restricted maximum likelihood and marginal
 #' likelihood estimation of semiparametric generalized linear models.
-#' J. R. Stat. Soc. Ser. B Stat. Methodol. 73, 3–36.
+#' J. R. Stat. Soc. Ser. B Stat. Methodol. 73, 3-36.
 #' @export
 #'
 #' @examples

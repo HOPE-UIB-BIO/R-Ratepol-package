@@ -4,7 +4,7 @@
 \name{RRatepol-package}
 \alias{RRatepol}
 \alias{RRatepol-package}
-\title{RRatepol: R–Ratepol: Estimating Rate of Change in Temporal Sequences}
+\title{RRatepol: R-Ratepol: Estimating Rate of Change in Temporal Sequences}
 \description{
 R-Ratepol is an R package for estimating rate of change (RoC) from community data in time series.
 }

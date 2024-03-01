@@ -147,7 +147,7 @@ assemblage data is smoothed using one of five in-built smoothing methods:
 \itemize{
 \item none (\code{smooth_method} = \code{"none"})
 \item Shepard's 5-term filter (\code{smooth_method} = \code{"shep"}; Davis, 1986; Wilkinson, 2005)
-\item moving average ´(\code{smooth_method} = \verb{"m.avg"\}})
+\item moving average (\code{smooth_method} = \verb{"m.avg"\}})
 \item age-weighted average (\code{smooth_method} = \code{"age.w"})
 \item Grimm's smoothing (\code{smooth_method} = \code{"grim"}; Grimm and Jacobson, 1992)
 }
@@ -269,7 +269,7 @@ J. Wiley & Sons, New York.
 
 Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt
 climate changes during the past 18000 years in eastern North America.
-Clim. Dyn. 6, 179–184.
+Clim. Dyn. 6, 179-184.
 
 Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
 USA 37.
