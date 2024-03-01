@@ -1,5 +1,5 @@
 home:
-  title: "R–Ratepol: Estimating Rate of Change in Temporal Sequences"
+  title: "R-Ratepol: Estimating Rate of Change in Temporal Sequences"
   description: "An R package for estimating rate of change (RoC)
     from community data in time series"
 

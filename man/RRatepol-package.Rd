@@ -4,14 +4,14 @@
 \name{RRatepol-package}
 \alias{RRatepol}
 \alias{RRatepol-package}
-\title{RRatepol: R–Ratepol: Estimating Rate of Change in Temporal Sequences}
+\title{RRatepol: R-Ratepol: Estimating Rate of Change in Temporal Sequences}
 \description{
 R-Ratepol is an R package for estimating rate of change (RoC) from community data in time series.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://hope-uib-bio.github.io/R-Ratepol-package/}
+  \item \url{https://github.com/HOPE-UIB-BIO/R-Ratepol-package}
 }
 
 }

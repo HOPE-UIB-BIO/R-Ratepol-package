@@ -23,7 +23,7 @@ with one row for each row in the input variable CharData:
 \itemize{
 \item SNI = the SNI computed for each sample
 \item winInd = indexes of the first and last samples included in each moving
-window. E.g. SNI_output$winInd(X) == (A, B) indicates that the
+window. E.g. \code{SNI_output["winInd", X]} == (A, B) indicates that the
 moving window used to calculate SNI for the Xth sample contained all
 samples between A and B, inclusive.
 \item popN = the CHAR values of all samples in the noise (N) population
@@ -53,6 +53,6 @@ Refer to Kelly et al. 2010 for details and discussion.
 \references{
 Kelly RF, Higuera PE, Barrett CM, Feng Sheng H. 2011 A signal-to-noise index
 to quantify the potential for peak detection in sediment-charcoal records.
-Quat. Res. 75, 11–17. (doi:10.1016/j.yqres.2010.07.011)
+Quat. Res. 75, 11-17. (doi:10.1016/j.yqres.2010.07.011)
 }
 \keyword{internal}

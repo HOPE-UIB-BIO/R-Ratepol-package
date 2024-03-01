@@ -45,10 +45,10 @@
 #' @references
 #' Giesecke, T., Davis, B., Brewer, S., Finsinger, W., Wolters, S., Blaauw, M.,
 #' de Beaulieu, J.L., Binney, H., Fyfe, R.M., Gaillard, M.J., Gil-Romera, G.,
-#' van der Knaap, W.O., Kuneš, P., Kühl, N., van Leeuwen, J.F.N., Leydet, M.,
+#' van der Knaap, W.O., Kunes, P., Kuhl, N., van Leeuwen, J.F.N., Leydet, M.,
 #' Lotter, A.F., Ortu, E., Semmler, M., Bradshaw, R.H.W., 2013. Towards mapping
 #' the late Quaternary vegetation change of Europe. Veg. Hist. Archaeobot. 23,
-#' 75–86.
+#' 75-86.
 #'
 #' Giesecke, T., Wolters, S., van Leeuwen, J.F.N., van der Knaap, P.W.O.,
 #' Leydet, M., Brewer, S., 2019. Postglacial change of the floristic diversity
@@ -56,21 +56,21 @@
 #'
 #' Goring, S., Dawson, A., Simpson, G.L., Ram, K., Graham, R.W., Grimm, E.C.,
 #' Williams, J.W., 2015. Neotoma: A programmatic interface to the Neotoma
-#' paleoecological database. Open Quat. 1, 1–17.
+#' paleoecological database. Open Quat. 1, 1-17.
 #'
 #' Haslett, J., Parnell, A., 2008. A simple monotone process with application
 #' to radiocarbon-dated depth chronologies. J. R. Stat. Soc. Ser. C Appl. Stat.
-#' 57, 399–418.
+#' 57, 399-418.
 #'
 #' Reimer, P.J., Bard, E., Bayliss, A., Beck, J.W., Blackwell, P.G., Ramsey,
 #' C.B., Buck, C.E., Cheng, H., Edwards, R.L., Friedrich, M., Grootes, P.M.,
-#' Guilderson, T.P., Haflidason, H., Hajdas, I., Hatté, C., Heaton, T.J.,
+#' Guilderson, T.P., Haflidason, H., Hajdas, I., Hatte, C., Heaton, T.J.,
 #' Hoffmann, D.L., Hogg, A.G., Hughen, K.A.,
 #'
 #' Kaiser, K.F., Kromer, B., Manning, S.W., Niu, M., Reimer, R.W., Richards,
 #' D.A., Scott, E.M., Southon, J.R., Staff, R.A., Turney, C.S.M.,
 #' van der Plicht, J., 2013. IntCal13 and Marine13 Radiocarbon Age Calibration
-#' Curves 0–50,000 years cal BP. Radiocarbon 55, 1869–1887.
+#' Curves 0-50,000 years cal BP. Radiocarbon 55, 1869-1887.
 #' @examples
 #' \dontrun{
 #' data(example_data)
