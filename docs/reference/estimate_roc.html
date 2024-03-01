@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RRatepol</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -330,27 +330,28 @@ USA 37.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span><span class="va">example_data</span> <span class="op">&lt;-</span> <span class="fu">RRatepol</span><span class="fu">::</span><span class="va"><a href="example_data.html">example_data</a></span></span>
-<span></span>
-<span><span class="va">sequence_01</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">estimate_roc</span><span class="op">(</span></span>
-<span>    data_source_community <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">pollen_data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
-<span>    data_source_age <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">sample_age</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
-<span>    age_uncertainty <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    smooth_method <span class="op">=</span> <span class="st">"shep"</span>,</span>
-<span>    working_units <span class="op">=</span> <span class="st">"MW"</span>,</span>
-<span>    rand <span class="op">=</span> <span class="fl">1e3</span>,</span>
-<span>    use_parallel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    dissimilarity_coefficient <span class="op">=</span> <span class="st">"chisq"</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="plot_roc.html">plot_roc</a></span><span class="op">(</span></span>
-<span>  <span class="va">sequence_01</span>,</span>
-<span>  age_threshold <span class="op">=</span> <span class="fl">8e3</span>,</span>
-<span>  roc_threshold <span class="op">=</span> <span class="fl">1</span></span>
-<span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">example_data</span> <span class="op">&lt;-</span> <span class="fu">RRatepol</span><span class="fu">::</span><span class="va"><a href="example_data.html">example_data</a></span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sequence_01</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">estimate_roc</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    data_source_community <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">pollen_data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>    data_source_age <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">sample_age</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>    age_uncertainty <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>    smooth_method <span class="op">=</span> <span class="st">"shep"</span>,</span></span>
+<span class="r-in"><span>    working_units <span class="op">=</span> <span class="st">"MW"</span>,</span></span>
+<span class="r-in"><span>    rand <span class="op">=</span> <span class="fl">1e3</span>,</span></span>
+<span class="r-in"><span>    use_parallel <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>    dissimilarity_coefficient <span class="op">=</span> <span class="st">"chisq"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plot_roc.html">plot_roc</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">sequence_01</span>,</span></span>
+<span class="r-in"><span>  age_threshold <span class="op">=</span> <span class="fl">8e3</span>,</span></span>
+<span class="r-in"><span>  roc_threshold <span class="op">=</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
