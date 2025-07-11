@@ -1,12 +1,11 @@
-
 # Extract example data for testing
-example_community <- 
+example_community <-
   RRatepol::example_data$pollen_data[[1]]
 
-example_age <- 
+example_age <-
   RRatepol::example_data$sample_age[[1]]
 
-example_uncertainty <- 
+example_uncertainty <-
   RRatepol::example_data$age_uncertainty[[1]]
 
 
@@ -22,17 +21,19 @@ test_that("returns expected output structure", {
       verbose = FALSE
     )
 
+  # expect a named list
   expect_type(result, "list")
   expect_named(result, c("community", "age", "age_un"))
-  
+
+  # expect data.frames inside the list
   expect_s3_class(result$community, "data.frame")
   expect_s3_class(result$age, "data.frame")
   expect_s3_class(result$age_un, "data.frame")
-  
+
+  # test if sample_ids were correctly copied to column / row names
   expect_equal(row.names(result$community), example_community$sample_id)
   expect_equal(row.names(result$age), example_age$sample_id)
   expect_named(result$age_un, example_age$sample_id)
-  
 })
 
 
@@ -66,37 +67,54 @@ test_that("returns expected NA behaviour", {
       verbose = TRUE
     )
 
+  # test that there is no more NA in community
   expect_true(all(!is.na(result$community)))
+
+  # test that all NAs in community were replaced with 0
   expect_true(all(result$community[5:10, 2] == 0))
 
+  # expect a named list
   expect_type(result, "list")
   expect_named(result, c("community", "age", "age_un"))
-  
+
+  # expect data.frames inside the list
   expect_s3_class(result$community, "data.frame")
   expect_s3_class(result$age, "data.frame")
   expect_s3_class(result$age_un, "data.frame")
-  
+
+  # test if sample_ids were correctly copied to column / row names
   expect_equal(row.names(result$community), example_community_NA$sample_id)
   expect_equal(row.names(result$age), example_age_NA$sample_id)
   expect_named(result$age_un, example_age_NA$sample_id)
-  
 })
 
 
 
-# 3. Test if "sample.id" column works too 
+# 3. Test if "sample.id" column works too
 # if not provided as "sample_id":
 test_that("sample.id column is automatically renamed", {
   # rename sample_id to sample.id
-  comm <- example_community
-  names(comm)[1] <- "sample.id"
-  age <- example_age
-  names(age)[1] <- "sample.id"
-  
-  result <- extract_data(comm, age, verbose = FALSE)
+  comm <-
+    example_community
 
-  expect_equal(rownames(result$community), example_community$sample_id)
-  
+  names(comm)[1] <-
+    "sample.id"
+
+  age <-
+    example_age
+
+  names(age)[1] <-
+    "sample.id"
+
+  result <-
+    extract_data(
+      comm,
+      age,
+      verbose = FALSE
+    )
+
+  # test that sample.id column was used for rownames
+  expect_equal(rownames(result$community), comm$sample.id)
 })
 
 
@@ -104,29 +122,18 @@ test_that("sample.id column is automatically renamed", {
 # 4. Test error messages if sample_ids are not the same in age and community
 test_that("throws error if sample_ids do not match", {
   # test wrong sample IDs
-  broken_age <- example_age
-  broken_age$sample_id[3] <- "D"
+  broken_age <-
+    example_age
+
+  broken_age$sample_id[3] <-
+    "D"
+
   expect_error(
-    extract_data(example_community, broken_age),
+    extract_data( #
+      example_community,
+      broken_age
+    ),
     "Variable 'sample_id' must have same values in
     'data_age' and 'data_community'"
   )
-  
 })
-
-
-
-# 5. Test that age_uncertainty has sample_ids as row names
-test_that("age_uncertainty is handled correctly", {
-  result <- extract_data(
-    data_community_extract = example_community,
-    data_age_extract = example_age,
-    age_uncertainty = example_uncertainty,
-    verbose = FALSE
-  )
-  
-  expect_s3_class(result$age_un, "data.frame")
-  expect_named(result$age_un, example_age$sample_id)
-  
-})
-
