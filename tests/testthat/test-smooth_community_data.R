@@ -387,3 +387,23 @@ test_that("shep works without additional parameters", {
 })
 
 
+# ------------------------------------------ #
+# 3.1. shep requires smooth_n_points to be 
+#      >= 2
+# ------------------------------------------ #
+test_that("shep throws error message when smooth_n_points <= 2", {
+  # this should throw an error that is not programmed as
+  # error message into the function (yet)
+  # It is a placeholder test that fails until a less-cryptic error message
+  # is added to the smooth_community_data() function
+  
+  smooth_community_data(
+    data_source_smooth,
+    smooth_method = c("shep"),
+    smooth_n_points = 2, # even number
+    smooth_n_max = 9,
+    smooth_age_range = 500,
+    round_results = FALSE,
+    verbose = FALSE
+  )
+})
