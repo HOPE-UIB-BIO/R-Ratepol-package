@@ -351,3 +351,39 @@ test_that("NAs are handled correctly during smoothing", {
   if (!is.null(result_4$age_un)) expect_s3_class(result_4$age_un, "data.frame")
 })
 
+
+# -------------------------------- #
+# 3. Test Error messages
+# -------------------------------- #
+
+# ------------------------------------------ #
+# 3.0 shep works without parameter values for 
+#     smooth_n_max, smooth_age_range
+# ------------------------------------------ #
+
+test_that("shep works without additional parameters", {
+  res_shep <-
+    smooth_community_data(
+      data_source_smooth,
+      smooth_method = c("shep"),
+      smooth_n_points = 5,
+      smooth_n_max = NULL, # no n max
+      smooth_age_range = NULL, # no age range
+      round_results = FALSE,
+      verbose = FALSE
+    )
+  
+  expect_type(
+    res_shep,
+    "list"
+  )
+  
+  expect_false(
+    identical(
+      data_source_smooth,
+      res_shep
+    )
+  )
+})
+
+
