@@ -55,6 +55,11 @@ test_that("smoothing returns expected output structure", {
     "data.frame"
   )
   
+  expect_false(
+    is.null(
+      result)
+    )
+  
   if (!is.null(result$age_un)) expect_s3_class(result$age_un, "data.frame")
   
   # grim
@@ -68,6 +73,11 @@ test_that("smoothing returns expected output structure", {
       round_results = FALSE,
       verbose = FALSE
     )
+  
+  expect_false(
+    is.null(
+      result)
+  )
   
   expect_type(
     result,
@@ -103,6 +113,11 @@ test_that("smoothing returns expected output structure", {
       verbose = FALSE
     )
   
+  expect_false(
+    is.null(
+      result)
+  )
+  
   expect_type(
     result,
     "list"
@@ -136,6 +151,11 @@ test_that("smoothing returns expected output structure", {
       round_results = FALSE,
       verbose = FALSE
     )
+  
+  expect_false(
+    is.null(
+      result)
+  )
   
   expect_type(
     result,
@@ -197,6 +217,18 @@ test_that("NAs are handled correctly during smoothing", {
     )
   
   expect_false(
+    is.null(
+      result_1)
+  )
+  
+  expect_true(
+    all(
+      !is.na(
+        result_1$community)
+      )
+  )
+  
+  expect_false(
     identical(
       data_source_smooth_NA,
       result_1
@@ -237,6 +269,18 @@ test_that("NAs are handled correctly during smoothing", {
       round_results = FALSE,
       verbose = FALSE
     )
+  
+  expect_false(
+    is.null(
+      result_2)
+  )
+  
+  expect_true(
+    all(
+      !is.na(
+        result_2$community)
+    )
+  )
   
   expect_false(
     identical(
@@ -281,6 +325,11 @@ test_that("NAs are handled correctly during smoothing", {
     )
   
   expect_false(
+    is.null(
+      result_3)
+  )
+  
+  expect_false(
     identical(
       data_source_smooth_NA,
       result_3
@@ -320,6 +369,11 @@ test_that("NAs are handled correctly during smoothing", {
       round_results = FALSE,
       verbose = FALSE
     )
+  
+  expect_false(
+    is.null(
+      result_4)
+  )
   
   expect_false(
     identical(
@@ -373,6 +427,11 @@ test_that("shep works without additional parameters", {
       verbose = FALSE
     )
   
+  expect_false(
+    is.null(
+      res_shep)
+  )
+  
   expect_type(
     res_shep,
     "list"
@@ -424,6 +483,11 @@ test_that("Error messages are thrown when even smooth_n_points is supplied", {
       round_results = FALSE,
       verbose = FALSE
     )
+  
+  expect_false(
+    is.null(
+      res_shep)
+  )
   
   # no errors for shep
   expect_type(
@@ -502,6 +566,11 @@ test_that("Error is thrown if incorrect smooth_age_range is supplied", {
     )
   
   expect_false(
+    is.null(
+      res_mavg)
+  )
+  
+  expect_false(
     identical(
       data_source_smooth,
       res_mavg
@@ -517,6 +586,11 @@ test_that("Error is thrown if incorrect smooth_age_range is supplied", {
     smooth_age_range = "A",
     round_results = FALSE,
     verbose = FALSE
+  )
+  
+  expect_false(
+    is.null(
+      res_shep)
   )
   
   expect_false(
