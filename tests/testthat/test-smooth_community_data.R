@@ -407,3 +407,189 @@ test_that("shep throws error message when smooth_n_points <= 2", {
     verbose = FALSE
   )
 })
+
+# ------------------------------------------ #
+# 3.2. all but shep require 
+#      smooth_n_points to be odd
+# ------------------------------------------ #
+test_that("Error messages are thrown when even smooth_n_points is supplied", {
+  # no error for shep
+  res_shep <-
+    smooth_community_data(
+      data_source_smooth,
+      smooth_method = c("shep"),
+      smooth_n_points = 4, # even number
+      smooth_n_max = 9,
+      smooth_age_range = 500,
+      round_results = FALSE,
+      verbose = FALSE
+    )
+  
+  # no errors for shep
+  expect_type(
+    res_shep,
+    "list"
+  )
+  
+  expect_false(
+    identical(
+      data_source_smooth,
+      res_shep
+    )
+  )
+  
+  
+  # throws error for m.avg:
+  expect_error(
+    smooth_community_data(
+      data_source_smooth,
+      smooth_method = c("m.avg"),
+      smooth_n_points = 4, # even
+      smooth_n_max = 9,
+      smooth_age_range = 500,
+      round_results = FALSE,
+      verbose = FALSE
+    ),
+    "'smooth_n_points' must be an odd number"
+  )
+  
+  # throws error for grim:
+  expect_error(
+    smooth_community_data(
+      data_source_smooth,
+      smooth_method = c("grim"),
+      smooth_n_points = 4, # even
+      smooth_n_max = 9,
+      smooth_age_range = 500,
+      round_results = FALSE,
+      verbose = FALSE
+    ),
+    "'smooth_n_points' must be an odd number"
+  )
+  
+  # throws error for age.w
+  expect_error(
+    smooth_community_data(
+      data_source_smooth,
+      smooth_method = c("age.w"),
+      smooth_n_points = 4, # even
+      smooth_n_max = 9,
+      smooth_age_range = 500,
+      round_results = FALSE,
+      verbose = FALSE
+    ),
+    "'smooth_n_points' must be an odd number"
+  )
+})
+
+
+# ------------------------------------------ #
+# 3.3. all but m.avg & shep require 
+#      smooth_age_range to be numeric
+# ------------------------------------------ #
+# test that smooth_age_range = "A" throws error
+test_that("Error is thrown if incorrect smooth_age_range is supplied", {
+  # no error for m.avg & smooth_age_range = "A"
+  res_mavg <-
+    smooth_community_data(
+      data_source_smooth,
+      smooth_method = c("m.avg"),
+      smooth_n_points = 5,
+      smooth_n_max = 9,
+      smooth_age_range = "A",
+      round_results = FALSE,
+      verbose = FALSE
+    )
+  
+  expect_false(
+    identical(
+      data_source_smooth,
+      res_mavg
+    )
+  )
+  
+  # no error for shep & smooth_age_range = "A"
+  res_shep <- smooth_community_data(
+    data_source_smooth,
+    smooth_method = c("shep"),
+    smooth_n_points = 5,
+    smooth_n_max = 9,
+    smooth_age_range = "A",
+    round_results = FALSE,
+    verbose = FALSE
+  )
+  
+  expect_false(
+    identical(
+      data_source_smooth,
+      res_shep
+    )
+  )
+  
+  ## age.w throws error when smooth_age_range = "A"
+  expect_error(
+    smooth_community_data(
+      data_source_smooth,
+      smooth_method = c("age.w"),
+      smooth_n_points = 5,
+      smooth_n_max = 9,
+      smooth_age_range = "A",
+      round_results = FALSE,
+      verbose = FALSE
+    ),
+    "'smooth_age_range' must be one of the following: 'numeric'"
+  )
+  
+  ## grim throws error when smooth_age_range = "A"
+  expect_error(
+    smooth_community_data(
+      data_source_smooth,
+      smooth_method = c("grim"),
+      smooth_n_points = 5,
+      smooth_n_max = 9,
+      smooth_age_range = "A",
+      round_results = FALSE,
+      verbose = FALSE
+    ),
+    "'smooth_age_range' must be one of the following: 'numeric'"
+  )
+})
+
+
+# ------------------------------------------ #
+# 3.4 grim requires 
+#     smooth_n_max to be odd
+# ------------------------------------------ #
+test_that("grim throws error if smoth_n_max is even", {
+  expect_error(
+    smooth_community_data(
+      data_source_smooth,
+      smooth_method = c("grim"),
+      smooth_n_points = 5,
+      smooth_n_max = 8,
+      smooth_age_range = 500,
+      round_results = FALSE,
+      verbose = FALSE
+    ),
+    "'smooth_n_max' must be an odd number"
+  )
+})
+
+# ------------------------------------------ #
+# 3.5 grim requires 
+#     smooth_n_max to be > than smooth_n_points
+# ------------------------------------------ #
+test_that("grim throws error if smooth_n_points is > than smooth_n_max", {
+  expect_error(
+    smooth_community_data(
+      data_source_smooth,
+      smooth_method = c("grim"),
+      smooth_n_points = 5,
+      smooth_n_max = 3,
+      smooth_age_range = 500,
+      round_results = FALSE,
+      verbose = FALSE
+    ),
+    "'smooth_n_max' must be bigger than 'smooth_n_points"
+  )
+})
