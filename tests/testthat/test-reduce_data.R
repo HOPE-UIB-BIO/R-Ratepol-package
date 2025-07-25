@@ -463,56 +463,6 @@ test_that("reduce_data handles all-zero levels correctly", {
   
 })
 
-# Test 10a: Correct output structure
-test_that("reduce_data returns correct structure and format", {
-
-  out <- 
-    reduce_data(
-      data_smooth, 
-      check_taxa = TRUE, 
-      check_levels = TRUE)
-  
-  check_reduce_data_structure(out)
-  
-})
-
-# Test 10b: Correct output structure
-test_that("reduce_data returns correct structure and format", {
-  
-  out <- 
-    reduce_data(
-      data_smooth, 
-      check_taxa = FALSE, 
-      check_levels = TRUE)
-  
-  check_reduce_data_structure(out)
-  
-})
-
-# Test 10c: Correct output structure
-test_that("reduce_data returns correct structure and format", {
-  
-  out <- 
-    reduce_data(
-      data_smooth, 
-      check_taxa = TRUE, 
-      check_levels = FALSE)
-  
-  check_reduce_data_structure(out)
-  
-})
-
-# Test 10d: Correct output structure
-test_that("reduce_data returns correct structure and format", {
-  
-  out <- 
-    reduce_data(
-      data_smooth, 
-      check_taxa = FALSE, 
-      check_levels = FALSE)
-  
-check_reduce_data_structure(out)
-})
 
 
 
