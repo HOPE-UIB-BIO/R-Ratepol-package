@@ -34,63 +34,65 @@ check_reduce_data_structure <- function(out) {
   expect_type(
     out, "list"
   )
-  
+
   expect_named(
-    out, 
+    out,
     c("community", "age", "age_un")
   )
-  
+
   # ---- community ----
   expect_s3_class(
-    out$community, 
+    out$community,
     "data.frame"
   )
-  
+
   if (ncol(out$community) > 0) {
     expect_true(all(vapply(out$community, is.numeric, logical(1))))
   }
-  
+
   expect_true(
     !is.null(
       rownames(
-        out$community)
+        out$community
+      )
     )
   )
-  
+
   expect_true(
     !is.null(
       colnames(
-        out$community)
+        out$community
+      )
     )
   )
-  
+
   # ---- age ----
   expect_s3_class(
-    out$age, 
+    out$age,
     "data.frame"
   )
-  
+
   expect_true(
     "age" %in% colnames(out$age)
   )
-  
+
   expect_true(
     !is.null(
       rownames(out$age)
     )
   )
-  
+
   expect_equal(
-    rownames(out$age), 
+    rownames(out$age),
     rownames(out$community)
   )
-  
+
   # ---- age_un ----
   if (!is.null(out$age_un)) {
     expect_true(
       is.matrix(out$age_un) || is.data.frame(out$age_un)
     )
-    
+
     expect_equal(
       colnames(out$age_un), rownames(out$community)
     )
@@ -153,11 +155,6 @@ data_null_age_un$age_un <-
   NULL
 
 
-
-
-
-
-
 # --------------------------------------------------- #
 # Test 1: test taxa reduction only
 # --------------------------------------------------- #
@@ -185,9 +182,8 @@ test_that("reduce_data filters taxa correctly using smoothed example data", {
   expect_lte(
     ncol(out_taxa$community), length(full_taxa)
   )
-  
+
   check_reduce_data_structure(out_taxa)
-  
 })
 
 
@@ -223,9 +219,8 @@ test_that("reduce_data filters levels correctly using smoothed example data", {
   expect_equal(
     colnames(out_levels$age_un), rownames(out_levels$community)
   )
-  
+
   check_reduce_data_structure(out_levels)
-  
 })
 
 # --------------------------------------------------- #
@@ -265,11 +260,9 @@ test_that("reduce_data filters taxa and levels correctly using smoothed example 
       data_null_age_un
     )
   )
-  
+
   check_reduce_data_structure(out_both)
 })
-
-
 
 
 # --------------------------------------------------- #
@@ -288,7 +281,7 @@ test_that("reduce_data with both = FALSE doesn't change the data", {
     no_filter,
     data_smooth
   )
-  
+
   check_reduce_data_structure(no_filter)
 })
 
@@ -314,9 +307,8 @@ test_that("reduce_data handles taxa with all-zeros in samples correctly", {
     ncol(out_zeros$community),
     ncol(test_data_zeros$community)
   )
-  
+
   check_reduce_data_structure(out_zeros)
-  
 })
 
 
@@ -342,10 +334,8 @@ test_that("reduce_data handles levels with all-zeros in samples correctly", {
   expect_false(
     "fake_level" %in% colnames(out_empty_levels$age_un)
   )
-  
+
   check_reduce_data_structure(out_empty_levels)
-  
-  
 })
 # --------------------------------------------------- #
 # Test 7: NA taxa
@@ -362,9 +352,8 @@ test_that("reduce_data handles NA in taxon (community) correctly", {
   expect_false(
     "na_taxon" %in% colnames(out_NA_taxon$community)
   )
-  
+
   check_reduce_data_structure(out_NA_taxon)
-  
 })
 
 # --------------------------------------------------- #
@@ -425,9 +414,8 @@ test_that("reduce_data handles all-zero community data correctly", {
       out_all_zero_taxa$age_un
     ) == 0
   )
-  
+
   check_reduce_data_structure(out_all_zero_taxa)
-  
 })
 
 # --------------------------------------------------- #
@@ -458,13 +446,6 @@ test_that("reduce_data handles all-zero levels correctly", {
       out_all_zero_levels$age_un
     ), 0
   )
-  
+
   check_reduce_data_structure(out_all_zero_levels)
-  
 })
-
-
-
-
-
-
