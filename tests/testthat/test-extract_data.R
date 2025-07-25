@@ -64,7 +64,7 @@ test_that("returns expected NA behaviour", {
       example_community_NA,
       example_age_NA,
       example_uncertainty_NA,
-      verbose = TRUE
+      verbose = FALSE
     )
 
   # test that there is no more NA in community
