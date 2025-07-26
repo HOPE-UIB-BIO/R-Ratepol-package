@@ -60,8 +60,8 @@ extract_data <-
       usethis::ui_oops(
         paste(
           "'sample.id' was detected in 'data_community'",
-          "but 'sample_id' is preferred.",
-          "Consider renaming your data"
+          "but 'sample_id' is prefered.",
+          "Recommend renaming your data"
         )
       )
 
@@ -84,8 +84,8 @@ extract_data <-
     ) {
       usethis::ui_oops(
         paste(
-          "'sample.id' was detected in 'data_age' but 'sample_id' is preferred.",
-          "Consider renaming your data"
+          "'sample.id' was detected in 'data_age' but 'sample_id' is prefered.",
+          "Recomend renaming your data"
         )
       )
 
@@ -190,7 +190,7 @@ extract_data <-
       RUtilpol::output_warning(
         paste(
           "Missing data has been detected in community data",
-          "and was automatically replaced with '0'"
+          "and automatically replaces with '0'"
         )
       )
 
@@ -209,8 +209,8 @@ extract_data <-
     ) {
       RUtilpol::output_warning(
         paste(
-          "Missing 'age' values have been detected in age data",
-          "Such levels have been filtered out"
+          "Missing 'age' values has detected in age data",
+          "Such levels has been filtered out"
         )
       )
 
