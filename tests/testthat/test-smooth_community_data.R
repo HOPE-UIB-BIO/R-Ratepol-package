@@ -1601,7 +1601,8 @@ test_that(
         smooth_method = "shep",
         smooth_n_points = 2,
         verbose = FALSE
-      )
+      ),
+      "invalid smooth_n_points supplied to shep. Requires > 2 points"
     )
     
     # Test that shep works with smooth_n_points >= 3
