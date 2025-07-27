@@ -356,6 +356,23 @@ test_that(
 # 6. EMPTY AND MINIMAL DATA TESTING
 # ----------------------------------------------------------- #
 
+test_that(
+  "extract_data() throws no error if data is empty",
+  {
+    zero_community <-
+      RRatepol::example_data$pollen_data[[1]]
+    zero_community[,-1] <- 0
+
+    expect_no_error(
+      extract_data(
+        data_community_extract = zero_community,
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        verbose = FALSE
+      )
+    )
+  }
+)
+
 ## 6.1 Test empty community data frame throws no error
 test_that(
   "extract_data() throws no error if data is empty",
