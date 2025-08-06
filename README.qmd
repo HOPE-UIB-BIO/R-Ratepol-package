@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/RRatepol)](https://CRAN.R-project.org/package=RRatepol)
 [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions)
+[![Codecov-test-coverage](https://codecov.io/gh//HOPE-UIB-BIO/R-Ratepol-package/branch/main/graph/badge.svg)](https://app.codecov.io/gh//HOPE-UIB-BIO/R-Ratepol-package?branch=main)
+
 <!-- badges: end -->
 
 ## Current version: 1.2.3
