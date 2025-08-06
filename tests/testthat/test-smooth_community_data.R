@@ -1,8 +1,8 @@
 # ----------------------------------------------------------- #
-# 1. INPUT PARAMETER TYPE VALIDATION
+# 1. INPUT PARAMETER TYPE VALIDATION -----
 # ----------------------------------------------------------- #
 
-## 1.1 Test required parameter validation - wrong type
+## 1.1 Test required parameter validation - wrong type -----
 test_that(
   "smooth_community_data() throws error if data_source_smooth is not list",
   {
@@ -18,7 +18,7 @@ test_that(
   }
 )
 
-## 1.2 Test required parameter validation - NULL input
+## 1.2 Test required parameter validation - NULL input -----
 test_that(
   "smooth_community_data() throws error if data_source_smooth is NULL",
   {
@@ -34,7 +34,7 @@ test_that(
   }
 )
 
-## 1.3 Test optional parameter validation - wrong type
+## 1.3 Test optional parameter validation - wrong type -----
 test_that(
   "smooth_community_data() throws error if smooth_method is not character",
   {
@@ -56,7 +56,7 @@ test_that(
   }
 )
 
-## 1.4 Test smooth_n_points type validation
+## 1.4 Test smooth_n_points type validation -----
 test_that(
   "smooth_community_data() throws error if smooth_n_points is not numeric",
   {
@@ -78,7 +78,7 @@ test_that(
   }
 )
 
-## 1.5 Test smooth_n_max type validation
+## 1.5 Test smooth_n_max type validation -----
 test_that(
   "smooth_community_data() throws error if smooth_n_max is not numeric",
   {
@@ -102,7 +102,7 @@ test_that(
   }
 )
 
-## 1.6 Test smooth_age_range type validation for grim
+## 1.6 Test smooth_age_range type validation for grim -----
 test_that(
   "smooth_community_data() throws error if smooth_age_range is not numeric for grim",
   {
@@ -126,7 +126,7 @@ test_that(
   }
 )
 
-## 1.7 Test smooth_age_range type validation for age.w
+## 1.7 Test smooth_age_range type validation for age.w -----
 test_that(
   "smooth_community_data() throws error if smooth_age_range is not numeric for age.w",
   {
@@ -149,7 +149,7 @@ test_that(
   }
 )
 
-## 1.8 Test round_results type validation
+## 1.8 Test round_results type validation -----
 test_that(
   "smooth_community_data() throws error if round_results is not logical",
   {
@@ -172,7 +172,7 @@ test_that(
   }
 )
 
-## 1.9 Test verbose type validation
+## 1.9 Test verbose type validation -----
 test_that(
   "smooth_community_data() throws error if verbose is not logical",
   {
@@ -195,10 +195,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 2. INPUT PARAMETER VALUE VALIDATION
+# 2. INPUT PARAMETER VALUE VALIDATION -----
 # ----------------------------------------------------------- #
 
-## 2.1 Test parameter bounds - invalid smooth_method
+## 2.1 Test parameter bounds - invalid smooth_method -----
 test_that(
   "smooth_community_data() throws error if smooth_method is invalid",
   {
@@ -221,10 +221,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 3. INPUT DATA STRUCTURE VALIDATION
+# 3. INPUT DATA STRUCTURE VALIDATION -----
 # ----------------------------------------------------------- #
 
-## 3.1 Test required components presence
+## 3.1 Test required components presence -----
 test_that(
   "smooth_community_data() throws error if community component is missing",
   {
@@ -249,7 +249,7 @@ test_that(
   }
 )
 
-## 3.2 Test component data types
+## 3.2 Test component data types -----
 test_that(
   "smooth_community_data() handles community component as character matrix",
   {
@@ -276,7 +276,7 @@ test_that(
   }
 )
 
-## 3.3 Test data dimensions - empty data
+## 3.3 Test data dimensions - empty data -----
 test_that(
   "smooth_community_data() handles empty community data",
   {
@@ -302,7 +302,7 @@ test_that(
   }
 )
 
-## 3.4 Test data dimensions - single row
+## 3.4 Test data dimensions - single row -----
 test_that(
   "smooth_community_data() handles single row data",
   {
@@ -327,7 +327,7 @@ test_that(
   }
 )
 
-## 3.5 Test relationship between data inputs - dimension mismatch
+## 3.5 Test relationship between data inputs - dimension mismatch -----
 test_that(
   "smooth_community_data() throws error when community and age have incompatible dimensions",
   {
@@ -352,7 +352,7 @@ test_that(
   }
 )
 
-## 3.6 Test relationship between data inputs - row name mismatch
+## 3.6 Test relationship between data inputs - row name mismatch -----
 test_that(
   "smooth_community_data() throws no error when row names don't match between datasets",
   {
@@ -377,10 +377,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 4. INPUT DATA CONTENT VALIDATION
+# 4. INPUT DATA CONTENT VALIDATION -----
 # ----------------------------------------------------------- #
 
-## 4.1 Test missing values handling - all NA
+## 4.1 Test missing values handling - all NA -----
 test_that(
   "smooth_community_data() handles all NA values in community data without error",
   {
@@ -404,7 +404,7 @@ test_that(
   }
 )
 
-## 4.2 Test missing values handling - partial NA
+## 4.2 Test missing values handling - partial NA -----
 test_that(
   "smooth_community_data() handles partial NA values in community data",
   {
@@ -428,7 +428,7 @@ test_that(
   }
 )
 
-## 4.3 Test duplicate values handling
+## 4.3 Test duplicate values handling -----
 test_that(
   "smooth_community_data() handles duplicate values in age data",
   {
@@ -452,7 +452,7 @@ test_that(
   }
 )
 
-## 4.4 Test extreme values handling - very large
+## 4.4 Test extreme values handling - very large -----
 test_that(
   "smooth_community_data() handles very large values in community data",
   {
@@ -476,7 +476,7 @@ test_that(
   }
 )
 
-## 4.5 Test extreme values handling - very small
+## 4.5 Test extreme values handling - very small -----
 test_that(
   "smooth_community_data() handles very small values in community data",
   {
@@ -500,7 +500,7 @@ test_that(
   }
 )
 
-## 4.6 Test all-zero community data
+## 4.6 Test all-zero community data -----
 test_that(
   "smooth_community_data() handles all-zero community data",
   {
@@ -524,7 +524,7 @@ test_that(
   }
 )
 
-## 4.7 Test handling data with zeros without warnings
+## 4.7 Test handling data with zeros without warnings -----
 test_that(
   "smooth_community_data() handles data with zeros without warnings",
   {
@@ -549,10 +549,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 5. DATA FORMAT COMPATIBILITY
+# 5. DATA FORMAT COMPATIBILITY -----
 # ----------------------------------------------------------- #
 
-## 5.1 Test tibble vs data.frame handling - returns correct type
+## 5.1 Test tibble vs data.frame handling - returns correct type -----
 test_that(
   "smooth_community_data() handles tibble input - returns list",
   {
@@ -581,7 +581,7 @@ test_that(
   }
 )
 
-## 5.2 Test tibble vs data.frame handling - output structure
+## 5.2 Test tibble vs data.frame handling - output structure -----
 test_that(
   "smooth_community_data() handles tibble input - output community is data.frame",
   {
@@ -611,10 +611,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 6. BOOLEAN/LOGICAL PARAMETER TESTING
+# 6. BOOLEAN/LOGICAL PARAMETER TESTING -----
 # ----------------------------------------------------------- #
 
-## 6.1 Test boolean parameter - TRUE behavior
+## 6.1 Test boolean parameter - TRUE behavior -----
 test_that(
   "smooth_community_data() behaves correctly when round_results = TRUE",
   {
@@ -642,7 +642,7 @@ test_that(
   }
 )
 
-## 6.2 Test boolean parameter - FALSE behavior
+## 6.2 Test boolean parameter - FALSE behavior -----
 test_that(
   "smooth_community_data() behaves correctly when round_results = FALSE",
   {
@@ -664,7 +664,7 @@ test_that(
   }
 )
 
-## 6.3 Test verbose parameter - produces expected message
+## 6.3 Test verbose parameter - produces expected message -----
 test_that(
   "smooth_community_data() produces expected message when verbose = TRUE",
   {
@@ -686,7 +686,7 @@ test_that(
   }
 )
 
-## 6.4 Test verbose parameter - silent when FALSE
+## 6.4 Test verbose parameter - silent when FALSE -----
 test_that(
   "smooth_community_data() produces no messages when verbose = FALSE",
   {
@@ -708,10 +708,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 7. OUTPUT STRUCTURE VALIDATION
+# 7. OUTPUT STRUCTURE VALIDATION ----
 # ----------------------------------------------------------- #
 
-## 7.1 Test output type
+## 7.1 Test output type -----
 test_that(
   "smooth_community_data() returns correct output type",
   {
@@ -736,7 +736,7 @@ test_that(
   }
 )
 
-## 7.2 Test output class
+## 7.2 Test output class -----
 test_that(
   "smooth_community_data() returns community component as data.frame",
   {
@@ -760,7 +760,7 @@ test_that(
   }
 )
 
-## 7.3 Test output names/structure
+## 7.3 Test output names/structure -----
 test_that(
   "smooth_community_data() returns correctly named output",
   {
@@ -788,7 +788,7 @@ test_that(
   }
 )
 
-## 7.4 Test output dimensions
+## 7.4 Test output dimensions -----
 test_that(
   "smooth_community_data() returns output with correct dimensions",
   {
@@ -835,7 +835,7 @@ test_that(
   }
 )
 
-## 7.5 Test output component types
+## 7.5 Test output component types -----
 test_that(
   "smooth_community_data() returns age component with correct type",
   {
@@ -860,10 +860,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 8. OUTPUT CONTENT VALIDATION
+# 8. OUTPUT CONTENT VALIDATION -----
 # ----------------------------------------------------------- #
 
-## 8.1 Test output values - value ranges
+## 8.1 Test output values - value ranges -----
 test_that(
   "smooth_community_data() produces non-negative values",
   {
@@ -888,7 +888,7 @@ test_that(
   }
 )
 
-## 8.2 Test output values - no missing values
+## 8.2 Test output values - no missing values -----
 test_that(
   "smooth_community_data() produces no missing values in result",
   {
@@ -915,7 +915,7 @@ test_that(
   }
 )
 
-## 8.3 Test output consistency - reproducible results
+## 8.3 Test output consistency - reproducible results -----
 test_that(
   "smooth_community_data() produces consistent results across calls",
   {
@@ -947,10 +947,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 9. AGE UNCERTAINTY INTEGRATION
+# 9. AGE UNCERTAINTY INTEGRATION -----
 # ----------------------------------------------------------- #
 
-## 9.1 Test with age uncertainty preservation
+## 9.1 Test with age uncertainty preservation -----
 test_that(
   "smooth_community_data() preserves age uncertainty structure",
   {
@@ -1021,10 +1021,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 10. MOVING AVERAGE METHOD TESTS
+# 10. MOVING AVERAGE METHOD TESTS -----
 # ----------------------------------------------------------- #
 
-## 10.1 Test m.avg method basic functionality
+## 10.1 Test m.avg method basic functionality -----
 test_that(
   "smooth_community_data() works with m.avg method",
   {
@@ -1045,7 +1045,7 @@ test_that(
   }
 )
 
-## 10.2 Test m.avg parameter bounds - even smooth_n_points
+## 10.2 Test m.avg parameter bounds - even smooth_n_points -----
 test_that(
   "smooth_community_data() throws error if smooth_n_points is even for m.avg",
   {
@@ -1067,7 +1067,7 @@ test_that(
   }
 )
 
-## 10.3 Test m.avg parameter bounds - at boundaries (valid)
+## 10.3 Test m.avg parameter bounds - at boundaries (valid) -----
 test_that(
   "smooth_community_data() accepts smooth_n_points = 1 for m.avg",
   {
@@ -1088,7 +1088,7 @@ test_that(
   }
 )
 
-## 10.4 Test m.avg with uniform data
+## 10.4 Test m.avg with uniform data -----
 test_that(
   "smooth_community_data() produces identical values for uniform data with m.avg",
   {
@@ -1117,7 +1117,7 @@ test_that(
   }
 )
 
-## 10.5 Test m.avg ignores optional parameters
+## 10.5 Test m.avg ignores optional parameters -----
 test_that(
   "smooth_community_data() works with m.avg ignoring optional parameters",
   {
@@ -1140,7 +1140,7 @@ test_that(
   }
 )
 
-## 10.6 Test warning when smooth_n_points exceeds available data
+## 10.6 Test warning when smooth_n_points exceeds available data -----
 test_that(
   "smooth_community_data() handles smooth_n_points larger than available samples",
   {
@@ -1192,10 +1192,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 11. GRIM METHOD TESTS
+# 11. GRIM METHOD TESTS -----
 # ----------------------------------------------------------- #
 
-## 11.1 Test grim method basic functionality
+## 11.1 Test grim method basic functionality -----
 test_that(
   "smooth_community_data() works with grim method (no error)",
   {
@@ -1218,7 +1218,7 @@ test_that(
   }
 )
 
-## 11.2 Test grim parameter bounds - even smooth_n_points
+## 11.2 Test grim parameter bounds - even smooth_n_points -----
 test_that(
   "smooth_community_data() throws error if smooth_n_points is even for grim",
   {
@@ -1242,7 +1242,7 @@ test_that(
   }
 )
 
-## 11.3 Test grim smooth_n_max validation - even number
+## 11.3 Test grim smooth_n_max validation - even number -----
 test_that(
   "smooth_community_data() throws error if grim smooth_n_max is even",
   {
@@ -1266,7 +1266,7 @@ test_that(
   }
 )
 
-## 11.4 Test grim smooth_n_max must be bigger than smooth_n_points
+## 11.4 Test grim smooth_n_max must be bigger than smooth_n_points -----
 test_that(
   "smooth_community_data() throws error if grim smooth_n_max <= smooth_n_points",
   {
@@ -1290,7 +1290,7 @@ test_that(
   }
 )
 
-## 11.5 Test grim with very small age range
+## 11.5 Test grim with very small age range -----
 test_that(
   "smooth_community_data() handles very small smooth_age_range for grim",
   {
@@ -1312,7 +1312,7 @@ test_that(
   }
 )
 
-## 11.6 Test with very large smooth_n_max
+## 11.6 Test with very large smooth_n_max -----
 test_that(
   "smooth_community_data() handles large smooth_n_max values",
   {
@@ -1334,7 +1334,7 @@ test_that(
   }
 )
 
-## 11.7 Test grim minimum data requirements
+## 11.7 Test grim minimum data requirements -----
 test_that(
   "smooth_community_data() works with grim minimum data requirements",
   {
@@ -1356,7 +1356,7 @@ test_that(
   }
 )
 
-## 11.8 Test exact error messages - grim specific validation
+## 11.8 Test exact error messages - grim specific validation -----
 test_that(
   "smooth_community_data() produces exact expected error message for grim smooth_n_max",
   {
@@ -1382,10 +1382,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 12. AGE WEIGHTED METHOD TESTS
+# 12. AGE WEIGHTED METHOD TESTS -----
 # ----------------------------------------------------------- #
 
-## 12.1 Test age.w method basic functionality
+## 12.1 Test age.w method basic functionality -----
 test_that(
   "smooth_community_data() works with age.w method (no error)",
   {
@@ -1407,7 +1407,7 @@ test_that(
   }
 )
 
-## 12.2 Test age.w parameter bounds - even smooth_n_points
+## 12.2 Test age.w parameter bounds - even smooth_n_points -----
 test_that(
   "smooth_community_data() throws error if smooth_n_points is even for age.w",
   {
@@ -1430,7 +1430,7 @@ test_that(
   }
 )
 
-## 12.3 Test age.w with non-sequential age data
+## 12.3 Test age.w with non-sequential age data -----
 test_that(
   "smooth_community_data() handles non-sequential age data for age.w method",
   {
@@ -1457,7 +1457,7 @@ test_that(
   }
 )
 
-## 12.4 Test sorted vs unsorted age data for age.w
+## 12.4 Test sorted vs unsorted age data for age.w -----
 test_that(
   "smooth_community_data() returns identical results for sorted and unsorted age data",
   {
@@ -1466,12 +1466,12 @@ test_that(
 
     unsorted_age <-
       unsorted_age[order(
-        runif(
+        runif( # randomize order
           nrow(
             unsorted_age
           )
         )
-      ), ] # randomize order
+      ), ] 
 
     rownames(unsorted_age) <-
       NULL
@@ -1514,7 +1514,7 @@ test_that(
   }
 )
 
-## 12.5 Test age.w with identical age values
+## 12.5 Test age.w with identical age values -----
 test_that(
   "smooth_community_data() handles identical age values in age.w method",
   {
@@ -1540,10 +1540,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 13. SHEPARD METHOD TESTS
+# 13. SHEPARD METHOD TESTS -----
 # ----------------------------------------------------------- #
 
-## 13.1 Test shep method basic functionality
+## 13.1 Test shep method basic functionality -----
 test_that(
   "smooth_community_data() works with shep method (no error)",
   {
@@ -1564,7 +1564,7 @@ test_that(
   }
 )
 
-## 13.2 Test shep with even numbers
+## 13.2 Test shep with even numbers -----
 test_that(
   "smooth_community_data() accepts even smooth_n_points for shep",
   {
@@ -1585,7 +1585,7 @@ test_that(
   }
 )
 
-## 13.3 Test shep minimum valid smooth_n_points
+## 13.3 Test shep minimum valid smooth_n_points -----
 test_that(
   "smooth_community_data() handles shep method with minimum smooth_n_points requirements",
   {
@@ -1617,7 +1617,7 @@ test_that(
   }
 )
 
-## 13.4 Test shep works without optional parameters
+## 13.4 Test shep works without optional parameters -----
 test_that(
   "smooth_community_data() works with shep without additional parameters",
   {
@@ -1637,7 +1637,7 @@ test_that(
   }
 )
 
-## 13.5 Test shep with extreme values
+## 13.5 Test shep with extreme values -----
 test_that(
   "smooth_community_data() handles extreme values in shep method correctly",
   {
@@ -1667,7 +1667,7 @@ test_that(
   }
 )
 
-## 13.6 Test shep minimum data requirements
+## 13.6 Test shep minimum data requirements -----
 test_that(
   "smooth_community_data() works with shep minimum data requirements",
   {
@@ -1688,10 +1688,10 @@ test_that(
 )
 
 # ----------------------------------------------------------- #
-# 14. EDGE CASES AND BOUNDARY CONDITIONS
+# 14. EDGE CASES AND BOUNDARY CONDITIONS -----
 # ----------------------------------------------------------- #
 
-## 14.1 Test minimum valid input
+## 14.1 Test minimum valid input -----
 test_that(
   "smooth_community_data() handles minimum valid input",
   {
@@ -1712,7 +1712,7 @@ test_that(
   }
 )
 
-## 14.2 Test exact error messages - parameter validation
+## 14.2 Test exact error messages - parameter validation -----
 test_that(
   "smooth_community_data() produces exact expected error message for even smooth_n_points",
   {
