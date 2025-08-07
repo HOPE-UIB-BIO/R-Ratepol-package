@@ -262,7 +262,7 @@ test_that(
   expect_error(
     reduce_data(
     data_source_reduce = raw_data),
-    "no applicable method for 'select'"
+    "'x' must be an array of at least two dimensions"
   )
 })
 
@@ -282,7 +282,7 @@ test_that(
   expect_error(
     reduce_data(
     data_source_reduce = raw_data),
-    "no applicable method for 'select'"
+    "is not TRUE"
   )
 })
 
@@ -1144,3 +1144,4 @@ test_that(
     colnames(result$age_un), rownames(result$age)
   )
 })
+
