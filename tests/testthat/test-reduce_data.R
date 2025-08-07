@@ -6,835 +6,726 @@
 # which filters taxa and/or levels based on zero-sum criteria.
 #
 # Test structure:
-# 1. Basic Functionality Tests
-# 2. Edge Case Tests  
-# 3. Input Validation Tests
+# 1. Input Validation Tests
+# 2. No Filtering Tests (both FALSE)
+# 3. Taxa-Only Filtering Tests (check_taxa=TRUE, check_levels=FALSE)
+# 4. Levels-Only Filtering Tests (check_taxa=FALSE, check_levels=TRUE)
+# 5. Both Filtering Tests (check_taxa=TRUE, check_levels=TRUE)
 #
 # ==================================================================== #
 
 # --------------------------------------------------- #
-# 1. BASIC FUNCTIONALITY TESTS
+# 1. INPUT VALIDATION TESTS - ERRORS
 # --------------------------------------------------- #
 
-# --------------------------------------------------- #
-# 1.1 Taxa Reduction Only
-# --------------------------------------------------- #
+# 1.1 data_source_reduce validation
+test_that("reduce_data rejects NULL data_source_reduce", {
+  expect_error(
+    reduce_data(data_source_reduce = NULL),
+    "data_source_reduce.*list"
+  )
+})
 
-test_that("reduce_data preserves rownames when filtering taxa only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+test_that("reduce_data rejects string data_source_reduce", {
+  expect_error(
+    reduce_data(data_source_reduce = "invalid"),
+    "data_source_reduce.*list"
+  )
+})
+
+test_that("reduce_data rejects numeric data_source_reduce", {
+  expect_error(
+    reduce_data(data_source_reduce = 123),
+    "data_source_reduce.*list"
+  )
+})
+
+test_that("reduce_data rejects data.frame data_source_reduce", {
+  expect_error(
+    reduce_data(data_source_reduce = data.frame(x = 1)),
+    "data_source_reduce.*list"
+  )
+})
+
+test_that("reduce_data rejects empty list data_source_reduce", {
+  expect_error(
+    reduce_data(data_source_reduce = list())
+  )
+})
+
+# 1.2 check_taxa validation
+test_that("reduce_data rejects invalid check_taxa argument", {
+  raw_data <- 
+  extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  expect_error(
+    reduce_data(data_source_reduce = raw_data, check_taxa = "TRUE"),
+    "check_taxa.*logical"
+  )
+})
+
+test_that("reduce_data rejects invalid check_taxa argument", {
+  raw_data <- 
+  extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  expect_error(
+    reduce_data(data_source_reduce = raw_data, check_taxa = 123),
+    "check_taxa.*logical"
+  )
+})
+
+test_that("reduce_data rejects invalid check_taxa argument", {
+  raw_data <- 
+  extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  expect_error(
+    reduce_data(data_source_reduce = raw_data, check_taxa = NULL),
+    "check_taxa.*logical"
+  )
+})
+
+# 1.3 check_levels validation
+test_that("reduce_data rejects invalid check_levels argument", {
+  raw_data <- 
+  extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  expect_error(
+    reduce_data(data_source_reduce = raw_data, check_levels = "TRUE"),
+    "check_levels.*logical"
+  )
+})
+
+test_that("reduce_data rejects invalid check_levels argument", {
+  raw_data <- 
+  extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  expect_error(
+    reduce_data(data_source_reduce = raw_data, check_levels = 123),
+    "check_levels.*logical"
+  )
+})
+
+test_that("reduce_data rejects invalid check_levels argument", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  expect_error(
+    reduce_data(
+      data_source_reduce = raw_data, 
+      check_levels = NULL
+      ),
+    "check_levels.*logical"
+  )
+})
+
+# 1.4 data_source_reduce structure validation
+test_that("reduce_data rejects missing community component", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
 
-  out_taxa <-
+  incomplete_data <- list(age = raw_data$age, age_un = raw_data$age_un)
+  expect_error(
+    reduce_data(data_source_reduce = incomplete_data)
+  )
+})
+
+test_that("reduce_data rejects missing age component", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  incomplete_data <- list(community = raw_data$community, age_un = raw_data$age_un)
+  expect_error(
+    reduce_data(data_source_reduce = incomplete_data)
+  )
+})
+
+test_that("reduce_data rejects matrix community", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  raw_data$community <- as.matrix(raw_data$community)
+  expect_error(
+    reduce_data(data_source_reduce = raw_data)
+  )
+})
+
+test_that("reduce_data rejects community without rownames", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  rownames(raw_data$community) <- NULL
+  expect_error(
+    reduce_data(data_source_reduce = raw_data)
+  )
+})
+
+test_that("reduce_data rejects community with non-numeric columns", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  raw_data$community$text_col <- "NA"
+  expect_error(
+    reduce_data(data_source_reduce = raw_data),
+    "'x' must be numeric"
+  )
+})
+
+test_that("reduce_data rejects age without rownames", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  rownames(raw_data$age) <- NULL
+  expect_error(
+    reduce_data(data_source_reduce = raw_data)
+  )
+})
+
+
+# --------------------------------------------------- #
+# 2. NO FILTERING TESTS (check_taxa=FALSE, check_levels=FALSE)
+# --------------------------------------------------- #
+
+test_that("reduce_data with no filtering returns identical data", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  
+  # one zero column in community
+  raw_data$community[,1] <- 0  
+  # one zero row in community
+  raw_data$community[1,] <- 0 
+
+  result <- 
     reduce_data(
-      data_source_reduce = data_smooth,
+    data_source_reduce = raw_data,
+    check_taxa = FALSE,
+    check_levels = FALSE
+  )
+
+  expect_identical(raw_data, result)
+})
+
+# --------------------------------------------------- #
+# 3. TAXA-ONLY FILTERING TESTS (check_taxa=TRUE, check_levels=FALSE)
+# --------------------------------------------------- #
+test_that("taxa filtering drops taxa with zero column sums", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  
+  # one zero column in community
+  raw_data$community[,1] <- 0  
+
+  result <- 
+    reduce_data(
+      data_source_reduce = raw_data,
       check_taxa = TRUE,
       check_levels = FALSE
     )
 
-  expect_true(
-    all(rownames(data_smooth$community) == rownames(out_taxa$community))
-  )
+  expect_true(all(colSums(result$community, na.rm = TRUE) > 0))
+  expect_equal(ncol(result$community), ncol(raw_data$community) - 1)
 })
 
-test_that("reduce_data removes zero-sum taxa when filtering taxa only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+
+test_that("check_levels = FALSE preserves rownames / sample ids", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  
+  # one zero column in community
+  raw_data$community[,1] <- 0  
+  # one zero row in community
+  raw_data$community[1,] <- 0 
+
+  result <- 
+  reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = TRUE,
+    check_levels = FALSE
+  )
+  expect_equal(nrow(raw_data$community), nrow(result$community))
+  expect_identical(rownames(raw_data$community), rownames(result$community))
+  expect_identical(rownames(raw_data$age), rownames(result$age))
+  expect_identical(colnames(raw_data$age_un), colnames(result$age_un))
+
+})
+
+test_that("taxa filtering removes all-NA taxa", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
 
-  out_taxa <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = TRUE,
-      check_levels = FALSE
-    )
+  raw_data$community$na_taxon <- NA
 
-  expect_true(
-    all(colSums(out_taxa$community, na.rm = TRUE) > 0)
+  result <- reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = TRUE,
+    check_levels = FALSE
   )
+  
+  expect_false("na_taxon" %in% colnames(result$community))
 })
 
-test_that("reduce_data reduces or maintains number of taxa when filtering taxa only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+test_that("taxa filtering with all-zero community data returns empty community result", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
 
-  full_taxa <- ncol(data_smooth$community)
+  raw_data$community[,] <- 0
 
-  out_taxa <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = TRUE,
-      check_levels = FALSE
-    )
-
-  expect_lte(
-    ncol(out_taxa$community), full_taxa
+  result <- 
+  reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = TRUE,
+    check_levels = FALSE
   )
-})
-
-test_that("reduce_data returns valid structure when filtering taxa only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  out_taxa <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = TRUE,
-      check_levels = FALSE
-    )
-
-  expect_type(
-    out_taxa, "list"
-  )
+  
+  expect_equal(ncol(result$community), 0)
 })
 
 # --------------------------------------------------- #
-# 1.2 Level Reduction Only
+# 4. LEVELS-ONLY FILTERING TESTS (check_taxa=FALSE, check_levels=TRUE)
 # --------------------------------------------------- #
 
-test_that("reduce_data preserves colnames when filtering levels only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+test_that("levels filtering removes zero-sum levels from community", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
+  
+  # one zero column in community
+  raw_data$community[,1] <- 0  
+  # one zero row in community
+  raw_data$community[1,] <- 0
 
-  out_levels <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = FALSE,
-      check_levels = TRUE
-    )
+  first_level <- rownames(raw_data$community)[1]
+  raw_data$community[1,] <- 0
 
-  expect_true(
-    all(colnames(data_smooth$community) == colnames(out_levels$community))
+  result <- reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = FALSE,
+    check_levels = TRUE
   )
+  
+  expect_true(all(rowSums(result$community, na.rm = TRUE) > 0)) 
+  expect_false(first_level %in% rownames(result$community))
+  expect_false(first_level %in% rownames(result$age))
+  expect_false(first_level %in% colnames(result$age_un))
 })
 
-test_that("reduce_data removes zero-sum levels when filtering levels only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+test_that("levels filtering preserves community colnames", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-
-  out_levels <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = FALSE,
-      check_levels = TRUE
-    )
-
-  expect_true(
-    all(rowSums(out_levels$community, na.rm = TRUE) > 0)
+  
+  # one zero column in community
+  raw_data$community[,1] <- 0  
+  # one zero row in community
+  raw_data$community[1,] <- 0 
+  
+  result <- reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = FALSE,
+    check_levels = TRUE
   )
+
+  expect_identical(colnames(raw_data$community), colnames(result$community))
 })
 
-test_that("reduce_data reduces or maintains number of levels when filtering levels only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+test_that("levels filtering maintains matching rownames between community and age", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-
-  full_levels <- nrow(data_smooth$community)
-
-  out_levels <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = FALSE,
-      check_levels = TRUE
-    )
-
-  expect_lte(
-    nrow(out_levels$community), full_levels
+  
+  # one zero column in community
+  raw_data$community[,1] <- 0  
+  # one zero row in community
+  raw_data$community[1,] <- 0 
+  
+  result <- reduce_data(
+    data_source_reduce = data_smooth,
+    check_taxa = FALSE,
+    check_levels = TRUE
   )
+  
+  expect_identical(rownames(result$community), rownames(result$age))
+  expect_identical(rownames(result$community), colnames(result$age_un))
 })
 
-test_that("reduce_data maintains matching rownames between age and community when filtering levels only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+
+
+test_that("levels filtering with all zero levels returns empty result", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
 
-  out_levels <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = FALSE,
-      check_levels = TRUE
-    )
+  raw_data$community[,] <- 0
 
-  expect_equal(
-    rownames(out_levels$community), rownames(out_levels$age)
+  result <- reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = FALSE,
+    check_levels = TRUE
   )
+  
+  expect_equal(nrow(result$community), 0)
+  expect_equal(nrow(result$age), 0)
+  expect_equal(ncol(result$age_un), 0)
 })
 
-test_that("reduce_data maintains matching colnames between age_un and community when filtering levels only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+
+test_that("levels filtering handles NULL age_un", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
       verbose = FALSE
     )
 
-  out_levels <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = FALSE,
-      check_levels = TRUE
-    )
-
-  expect_equal(
-    colnames(out_levels$age_un), rownames(out_levels$community)
-  )
-})
-
-# --------------------------------------------------- #
-# 1.3 Both Taxa and Levels Filtering
-# --------------------------------------------------- #
-
-test_that("reduce_data removes zero-sum levels when filtering both taxa and levels", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  out_both <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = TRUE,
-      check_levels = TRUE
-    )
-
-  expect_true(
-    all(rowSums(out_both$community, na.rm = TRUE) > 0)
-  )
-})
-
-test_that("reduce_data removes zero-sum taxa when filtering both taxa and levels", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  out_both <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = TRUE,
-      check_levels = TRUE
-    )
-
-  expect_true(
-    all(colSums(out_both$community, na.rm = TRUE) > 0)
-  )
-})
-
-test_that("reduce_data maintains matching rownames between age and community when filtering both", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  out_both <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = TRUE,
-      check_levels = TRUE
-    )
-
-  expect_equal(
-    rownames(out_both$community), rownames(out_both$age)
-  )
-})
-
-test_that("reduce_data maintains matching colnames between age_un and community when filtering both", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  out_both <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = TRUE,
-      check_levels = TRUE
-    )
-
-  expect_equal(
-    colnames(out_both$age_un), rownames(out_both$community)
-  )
-})
-
-# --------------------------------------------------- #
-# 1.4 No Filtering
-# --------------------------------------------------- #
-
-test_that("reduce_data with both FALSE doesn't change the data", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  no_filter <-
-    reduce_data(
-      data_source_reduce = data_smooth,
-      check_taxa = FALSE,
-      check_levels = FALSE
-    )
-
-  expect_equal(
-    data_smooth, no_filter
-  )
-})
-
-# --------------------------------------------------- #
-# 2. EDGE CASE TESTS
-# --------------------------------------------------- #
-
-# --------------------------------------------------- #
-# 2.1 NULL age_un Handling
-# --------------------------------------------------- #
-
-test_that("reduce_data handles NULL age_un correctly when filtering both", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  data_null_age_un <- data_smooth
-
-  data_null_age_un$age_un <- NULL
-
+  raw_data$community[1,] <- 0
+  
   expect_no_error(
     reduce_data(
-      data_source_reduce = data_null_age_un,
-      check_taxa = TRUE,
-      check_levels = TRUE
-    )
-  )
-})
-
-# --------------------------------------------------- #
-# 2.2 Zero Taxa Handling
-# --------------------------------------------------- #
-
-test_that("reduce_data preserves rownames when removing zero taxa", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  test_data_zeros <- data_smooth
-
-  test_data_zeros$community$fake_taxon <- 0
-
-  out_zeros <-
-    reduce_data(
-      data_source_reduce = test_data_zeros,
-      check_taxa = TRUE,
-      check_levels = FALSE
-    )
-
-  expect_equal(
-    rownames(test_data_zeros$community), rownames(out_zeros$community)
-  )
-})
-
-test_that("reduce_data reduces number of columns when removing zero taxa", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  test_data_zeros <- data_smooth
-
-  test_data_zeros$community$fake_taxon <- 0
-
-  out_zeros <-
-    reduce_data(
-      data_source_reduce = test_data_zeros,
-      check_taxa = TRUE,
-      check_levels = FALSE
-    )
-
-  expect_lt(
-    ncol(out_zeros$community), ncol(test_data_zeros$community)
-  )
-})
-
-# --------------------------------------------------- #
-# 2.3 Zero Levels Handling
-# --------------------------------------------------- #
-
-test_that("reduce_data removes fake level from community when filtering levels", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  test_data_empty_levels <- data_smooth
-
-  test_data_empty_levels$community["fake_level", ] <- 0
-
-  test_data_empty_levels$age["fake_level", ] <- 9999
-
-  test_data_empty_levels$age_un <-
-    cbind(
-      test_data_empty_levels$age_un,
-      fake_level = rep(9999, nrow(test_data_empty_levels$age_un))
-    )
-
-  out_empty_levels <-
-    reduce_data(
-      data_source_reduce = test_data_empty_levels,
+      data_source_reduce = raw_data,
       check_taxa = FALSE,
       check_levels = TRUE
     )
-
-  expect_false(
-    "fake_level" %in% rownames(out_empty_levels$community)
-  )
-})
-
-test_that("reduce_data removes fake level from age when filtering levels", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  test_data_empty_levels <- data_smooth
-
-  test_data_empty_levels$community["fake_level", ] <- 0
-
-  test_data_empty_levels$age["fake_level", ] <- 9999
-
-  test_data_empty_levels$age_un <-
-    cbind(
-      test_data_empty_levels$age_un,
-      fake_level = rep(9999, nrow(test_data_empty_levels$age_un))
-    )
-
-  out_empty_levels <-
-    reduce_data(
-      data_source_reduce = test_data_empty_levels,
-      check_taxa = FALSE,
-      check_levels = TRUE
-    )
-
-  expect_false(
-    "fake_level" %in% rownames(out_empty_levels$age)
-  )
-})
-
-test_that("reduce_data removes fake level from age_un when filtering levels", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  test_data_empty_levels <- data_smooth
-
-  test_data_empty_levels$community["fake_level", ] <- 0
-
-  test_data_empty_levels$age["fake_level", ] <- 9999
-
-  test_data_empty_levels$age_un <-
-    cbind(
-      test_data_empty_levels$age_un,
-      fake_level = rep(9999, nrow(test_data_empty_levels$age_un))
-    )
-
-  out_empty_levels <-
-    reduce_data(
-      data_source_reduce = test_data_empty_levels,
-      check_taxa = FALSE,
-      check_levels = TRUE
-    )
-
-  expect_false(
-    "fake_level" %in% colnames(out_empty_levels$age_un)
   )
 })
 
 # --------------------------------------------------- #
-# 2.4 NA Taxa Handling
+# 5. BOTH FILTERING TESTS (check_taxa=TRUE, check_levels=TRUE)
 # --------------------------------------------------- #
 
-test_that("reduce_data removes NA taxon from community", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+test_that("both filtering removes zero-sum taxa", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-
-  test_data_NA_taxon <- data_smooth
-
-  test_data_NA_taxon$community$na_taxon <- NA
-
-  out_NA_taxon <-
-    reduce_data(
-      data_source_reduce = test_data_NA_taxon,
-      check_taxa = TRUE,
-      check_levels = FALSE
-    )
-
-  expect_false(
-    "na_taxon" %in% colnames(out_NA_taxon$community)
+  
+  # one zero column in community
+  raw_data$community[,1] <- 0  
+  # one zero row in community
+  raw_data$community[1,] <- 0 
+  
+  result <- reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = TRUE,
+    check_levels = TRUE
   )
+  
+  expect_false("zero_taxon" %in% colnames(result$community))
 })
 
-# --------------------------------------------------- #
-# 2.5 All Taxa Zero - Taxa Filtering Only
-# --------------------------------------------------- #
-
-test_that("reduce_data returns zero columns when all taxa are zero with taxa filtering only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+test_that("both filtering removes zero-sum levels", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
+  
+  first_level <- rownames(raw_data$community)[1]
+  raw_data$community[1,] <- 0
 
-  test_all_taxa_zero <- data_smooth
-
-  test_all_taxa_zero$community[, ] <- 0
-
-  out_all_zero_taxa <-
-    reduce_data(
-      data_source_reduce = test_all_taxa_zero,
-      check_taxa = TRUE,
-      check_levels = FALSE
-    )
-
-  expect_true(
-    ncol(out_all_zero_taxa$community) == 0
+  result <- reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = TRUE,
+    check_levels = TRUE
   )
+  
+  expect_false(first_level %in% rownames(result$community))
 })
 
-test_that("reduce_data preserves age rows when all taxa are zero with taxa filtering only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+test_that("both filtering removes taxa with zero observations", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
 
-  test_all_taxa_zero <- data_smooth
+  raw_data$community$zero_taxon <- 0
 
-  test_all_taxa_zero$community[, ] <- 0
-
-  out_all_zero_taxa <-
-    reduce_data(
-      data_source_reduce = test_all_taxa_zero,
-      check_taxa = TRUE,
-      check_levels = FALSE
-    )
-
-  expect_true(
-    nrow(out_all_zero_taxa$age) == nrow(data_smooth$age)
+  result <- reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = TRUE,
+    check_levels = TRUE
   )
+  
+  expect_true(all(colSums(result$community, na.rm = TRUE) > 0))
 })
 
-test_that("reduce_data preserves age_un columns when all taxa are zero with taxa filtering only", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+test_that("both filtering removes samples with zero taxa", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
 
-  test_all_taxa_zero <- data_smooth
+  raw_data$community[1,] <- 0
 
-  test_all_taxa_zero$community[, ] <- 0
-
-  out_all_zero_taxa <-
-    reduce_data(
-      data_source_reduce = test_all_taxa_zero,
-      check_taxa = TRUE,
-      check_levels = FALSE
-    )
-
-  expect_false(
-    is.null(out_all_zero_taxa$age_un)
+  result <- reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = TRUE,
+    check_levels = TRUE
   )
+  
+  expect_true(all(rowSums(result$community, na.rm = TRUE) > 0))
 })
 
-# --------------------------------------------------- #
-# 2.6 All Taxa Zero - Both Taxa and Levels Filtering
-# --------------------------------------------------- #
-
-test_that("reduce_data returns zero columns when all taxa are zero with both filtering", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+test_that("both filtering maintains matching rownames between community and age", {
+  raw_data <- 
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
 
-  test_all_taxa_zero <- data_smooth
+  raw_data$community$zero_taxon <- 0
+  raw_data$community[1,] <- 0
 
-  test_all_taxa_zero$community[, ] <- 0
-
-  out_all_zero_taxa <-
-    reduce_data(
-      data_source_reduce = test_all_taxa_zero,
-      check_taxa = TRUE,
-      check_levels = TRUE
-    )
-
-  expect_true(
-    ncol(out_all_zero_taxa$community) == 0
+  result <- reduce_data(
+    data_source_reduce = raw_data,
+    check_taxa = TRUE,
+    check_levels = TRUE
   )
+  
+  expect_identical(rownames(result$community), rownames(result$age))
+  expect_identical(colnames(result$age_un), rownames(result$community))
 })
 
-test_that("reduce_data returns zero rows when all taxa are zero with both filtering", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# WIP below
+
+
+test_that("both filtering maintains matching colnames between age_un and community", {
+  data_smooth <- smooth_community_data(
+    data_source_smooth = extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
-    )
+    ),
+    smooth_method = "m.avg",
+    verbose = FALSE
+  )
+  
+  data_smooth$community$zero_taxon <- 0
+  data_smooth$community[1,] <- 0
+  
+  result <- reduce_data(
+    data_source_reduce = data_smooth,
+    check_taxa = TRUE,
+    check_levels = TRUE
+  )
+  
+  expect_equal(colnames(result$age_un), rownames(result$community))
+})
 
-  test_all_taxa_zero <- data_smooth
+test_that("both filtering with all zero data returns empty community", {
+  data_smooth <- smooth_community_data(
+    data_source_smooth = extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    ),
+    smooth_method = "m.avg",
+    verbose = FALSE
+  )
+  
+  data_smooth$community[,] <- 0
+  
+  result <- reduce_data(
+    data_source_reduce = data_smooth,
+    check_taxa = TRUE,
+    check_levels = TRUE
+  )
+  
+  expect_equal(ncol(result$community), 0)
+  expect_equal(nrow(result$community), 0)
+})
 
-  test_all_taxa_zero$community[, ] <- 0
+test_that("both filtering with all zero data returns empty age", {
+  data_smooth <- smooth_community_data(
+    data_source_smooth = extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    ),
+    smooth_method = "m.avg",
+    verbose = FALSE
+  )
+  
+  data_smooth$community[,] <- 0
+  
+  result <- reduce_data(
+    data_source_reduce = data_smooth,
+    check_taxa = TRUE,
+    check_levels = TRUE
+  )
+  
+  expect_equal(nrow(result$age), 0)
+})
 
-  out_all_zero_taxa <-
+test_that("both filtering with all zero data handles age_un correctly", {
+  data_smooth <- smooth_community_data(
+    data_source_smooth = extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    ),
+    smooth_method = "m.avg",
+    verbose = FALSE
+  )
+  
+  data_smooth$community[,] <- 0
+  
+  result <- reduce_data(
+    data_source_reduce = data_smooth,
+    check_taxa = TRUE,
+    check_levels = TRUE
+  )
+  
+  expect_true(is.null(result$age_un) || ncol(result$age_un) == 0)
+})
+
+test_that("both filtering handles NULL age_un", {
+  data_smooth <- smooth_community_data(
+    data_source_smooth = extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      verbose = FALSE
+    ),
+    smooth_method = "m.avg",
+    verbose = FALSE
+  )
+  
+  data_smooth$age_un <- NULL
+  data_smooth$community$zero_taxon <- 0
+  data_smooth$community[1,] <- 0
+  
+  expect_no_error(
     reduce_data(
-      data_source_reduce = test_all_taxa_zero,
+      data_source_reduce = data_smooth,
       check_taxa = TRUE,
       check_levels = TRUE
     )
-
-  expect_true(
-    nrow(out_all_zero_taxa$community) == 0
-  )
-})
-
-test_that("reduce_data returns zero age_un columns when all taxa are zero with both filtering", {
-  data_smooth <-
-    smooth_community_data(
-      data_source_smooth =
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-          verbose = FALSE
-        ),
-      smooth_method = "m.avg",
-      verbose = FALSE
-    )
-
-  test_all_taxa_zero <- data_smooth
-
-  test_all_taxa_zero$community[, ] <- 0
-
-  out_all_zero_taxa <-
-    reduce_data(
-      data_source_reduce = test_all_taxa_zero,
-      check_taxa = TRUE,
-      check_levels = TRUE
-    )
-
-  expect_true(
-    is.null(out_all_zero_taxa$age_un) || ncol(out_all_zero_taxa$age_un) == 0
   )
 })
 
@@ -855,18 +746,18 @@ test_that("reduce_data returns zero community rows when all levels are zero", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   test_all_levels_zero <- data_smooth
-
+  
   test_all_levels_zero$community[, ] <- 0
-
+  
   out_all_zero_levels <-
     reduce_data(
       data_source_reduce = test_all_levels_zero,
       check_taxa = FALSE,
       check_levels = TRUE
     )
-
+  
   expect_equal(
     nrow(out_all_zero_levels$community), 0
   )
@@ -885,18 +776,18 @@ test_that("reduce_data returns zero age rows when all levels are zero", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   test_all_levels_zero <- data_smooth
-
+  
   test_all_levels_zero$community[, ] <- 0
-
+  
   out_all_zero_levels <-
     reduce_data(
       data_source_reduce = test_all_levels_zero,
       check_taxa = FALSE,
       check_levels = TRUE
     )
-
+  
   expect_equal(
     nrow(out_all_zero_levels$age), 0
   )
@@ -915,18 +806,18 @@ test_that("reduce_data returns zero age_un columns when all levels are zero", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   test_all_levels_zero <- data_smooth
-
+  
   test_all_levels_zero$community[, ] <- 0
-
+  
   out_all_zero_levels <-
     reduce_data(
       data_source_reduce = test_all_levels_zero,
       check_taxa = FALSE,
       check_levels = TRUE
     )
-
+  
   expect_equal(
     ncol(out_all_zero_levels$age_un), 0
   )
@@ -987,7 +878,7 @@ test_that("reduce_data validates missing community component", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   incomplete_data <- list(age = data_smooth$age, age_un = data_smooth$age_un)
   expect_error(
     reduce_data(data_source_reduce = incomplete_data)
@@ -1007,7 +898,7 @@ test_that("reduce_data validates missing age component", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   incomplete_data <- list(community = data_smooth$community, age_un = data_smooth$age_un)
   expect_error(
     reduce_data(data_source_reduce = incomplete_data)
@@ -1031,10 +922,10 @@ test_that("reduce_data validates community is not a matrix", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$community <- as.matrix(data_smooth$community)
-
-  expect_no_error(
+  
+  expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
 })
@@ -1052,9 +943,9 @@ test_that("reduce_data validates community is not a list", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$community <- list(x = 1)
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1073,9 +964,9 @@ test_that("reduce_data validates community has rows", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$community <- data_smooth$community[0, ]
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1094,9 +985,9 @@ test_that("reduce_data validates community has columns", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$community <- data_smooth$community[, 0]
-
+  
   expect_no_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1115,15 +1006,15 @@ test_that("reduce_data validates community contains only numeric columns", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$community$text_col <- "text"
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
 })
 
-test_that("reduce_data validates community must have rownames", {
+test_that("reduce_data validates community must have sampleID/levels/rownames", {
   data_smooth <-
     smooth_community_data(
       data_source_smooth =
@@ -1136,9 +1027,9 @@ test_that("reduce_data validates community must have rownames", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   rownames(data_smooth$community) <- NULL
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1157,9 +1048,9 @@ test_that("reduce_data validates community must have colnames", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   colnames(data_smooth$community) <- NULL
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1178,9 +1069,9 @@ test_that("reduce_data validates community cannot contain Inf values", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$community[1, 1] <- Inf
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1199,9 +1090,9 @@ test_that("reduce_data validates community cannot contain -Inf values", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$community[1, 1] <- -Inf
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1224,9 +1115,9 @@ test_that("reduce_data validates age is a data.frame", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$age <- as.matrix(data_smooth$age)
-
+  
   expect_no_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1245,9 +1136,9 @@ test_that("reduce_data validates age contains required age column", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$age$age <- NULL
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1266,15 +1157,15 @@ test_that("reduce_data validates age column is numeric", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$age$age <- as.character(data_smooth$age$age)
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
 })
 
-test_that("reduce_data validates age must have rownames", {
+test_that("reduce_data validates age must have sampleID/levels/rownames", {
   data_smooth <-
     smooth_community_data(
       data_source_smooth =
@@ -1287,9 +1178,9 @@ test_that("reduce_data validates age must have rownames", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   rownames(data_smooth$age) <- NULL
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1308,9 +1199,9 @@ test_that("reduce_data validates age column cannot contain NA values", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$age$age[1] <- NA
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1329,9 +1220,9 @@ test_that("reduce_data validates age column cannot contain Inf values", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$age$age[1] <- Inf
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1350,9 +1241,9 @@ test_that("reduce_data allows negative values in age", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$age$age[1] <- -1000
-
+  
   expect_no_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1375,9 +1266,9 @@ test_that("reduce_data validates age_un is not a list", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$age_un <- list(x = 1)
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1396,9 +1287,9 @@ test_that("reduce_data validates age_un is not a string", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$age_un <- "invalid"
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1421,15 +1312,15 @@ test_that("reduce_data validates community and age have same row counts", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$age <- data_smooth$age[-1, ]
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
 })
 
-test_that("reduce_data validates community and age have matching row names", {
+test_that("reduce_data validates community and age have matching sampleID/levels/rownames", {
   data_smooth <-
     smooth_community_data(
       data_source_smooth =
@@ -1442,9 +1333,9 @@ test_that("reduce_data validates community and age have matching row names", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   rownames(data_smooth$age)[1] <- "different_name"
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1463,15 +1354,15 @@ test_that("reduce_data validates age_un dimensions match community", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   data_smooth$age_un <- data_smooth$age_un[, -1]
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
 })
 
-test_that("reduce_data validates age_un column names match community row names", {
+test_that("reduce_data validates age_un column names match community sampleID/levels/rownames", {
   data_smooth <-
     smooth_community_data(
       data_source_smooth =
@@ -1484,9 +1375,9 @@ test_that("reduce_data validates age_un column names match community row names",
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   colnames(data_smooth$age_un)[1] <- "different_name"
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth)
   )
@@ -1509,7 +1400,7 @@ test_that("reduce_data validates check_taxa is not a string", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth, check_taxa = "invalid")
   )
@@ -1528,7 +1419,7 @@ test_that("reduce_data validates check_taxa is not numeric", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth, check_taxa = 123)
   )
@@ -1547,7 +1438,7 @@ test_that("reduce_data validates check_taxa is not NULL", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth, check_taxa = NULL)
   )
@@ -1566,7 +1457,7 @@ test_that("reduce_data validates check_taxa has length 1", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth, check_taxa = c(TRUE, FALSE))
   )
@@ -1585,7 +1476,7 @@ test_that("reduce_data validates check_levels is not a string", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth, check_levels = "invalid")
   )
@@ -1604,7 +1495,7 @@ test_that("reduce_data validates check_levels is not numeric", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth, check_levels = 123)
   )
@@ -1623,7 +1514,7 @@ test_that("reduce_data validates check_levels is not NULL", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth, check_levels = NULL)
   )
@@ -1642,7 +1533,18 @@ test_that("reduce_data validates check_levels has length 1", {
       smooth_method = "m.avg",
       verbose = FALSE
     )
-
+  
+  expect_error(
+    reduce_data(data_source_reduce = data_smooth, check_levels = c(TRUE, FALSE))
+  )
+})
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+          verbose = FALSE
+        ),
+      smooth_method = "m.avg",
+      verbose = FALSE
+    )
+  
   expect_error(
     reduce_data(data_source_reduce = data_smooth, check_levels = c(TRUE, FALSE))
   )
