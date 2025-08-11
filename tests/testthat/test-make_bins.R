@@ -1,34 +1,11 @@
-# Requirements for parameters:
-## levels  - requires nothing
-## MW - requires bin_size and number of shifts (> 0)
-## bins - requires bin_size
-
-
-# Example usage
-data_source_bins <-
-  extract_data(
-    data_community_extract = RRatepol::example_data$pollen_data[[1]],
-    data_age_extract = RRatepol::example_data$sample_age[[1]],
-    age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-    verbose = FALSE
-  )
-bins <-
-  make_bins(
-    data_source_bins,
-    working_units = c("levels", "bins", "MW"),
-    bin_size = 500,
-    number_of_shifts = 5
-  )
-
-
-
-# Input validation (Errors)
+# ---------------------------------------------------------- #
+#  1. Input validation (Errors)
+# ---------------------------------------------------------- #
 
 # ---------------------------------------------------------- #
 #               data_source_bins validation                  #
 # ---------------------------------------------------------- #
 
-## 1
 test_that("make_bins rejects missing age data in data_source_bins", {
   data_source_bins <-
     extract_data(
@@ -51,7 +28,7 @@ test_that("make_bins rejects missing age data in data_source_bins", {
     "`names` must be a character vector"
   )
 })
-## 2
+
 test_that("make_bins validates data input class == list", {
   data_source_bins <-
     extract_data(
@@ -103,7 +80,6 @@ test_that("make_bins rejects data input class == numeric", {
 #               working_unit validation                      #
 # ---------------------------------------------------------- #
 
-## 3
 test_that("make_bins validates that there is a working_unit as input", {
   data_source_bins <-
     extract_data(
@@ -121,7 +97,7 @@ test_that("make_bins validates that there is a working_unit as input", {
   )
 })
 
-## 4 (fails - it silently uses "bins" and default bin_size = 500
+## (fails - it silently uses "bins" and default bin_size = 500
 test_that("make_bins rejects no working_unit as input", {
   data_source_bins <-
     extract_data(
@@ -138,7 +114,6 @@ test_that("make_bins rejects no working_unit as input", {
   )
 })
 
-## 5
 test_that("make_bins validates that working_unit is not NULL", {
   data_source_bins <-
     extract_data(
@@ -156,7 +131,6 @@ test_that("make_bins validates that working_unit is not NULL", {
   )
 })
 
-## 6
 test_that("make_bins validates correct working_unit value as input", {
   data_source_bins <-
     extract_data(
@@ -174,8 +148,6 @@ test_that("make_bins validates correct working_unit value as input", {
   )
 })
 
-
-## 7
 test_that("make_bins validates correct working_unit value as input", {
   data_source_bins <-
     extract_data(
@@ -193,7 +165,6 @@ test_that("make_bins validates correct working_unit value as input", {
   )
 })
 
-## 8
 test_that("make_bins validates correct working_unit value as input", {
   data_source_bins <-
     extract_data(
@@ -211,7 +182,6 @@ test_that("make_bins validates correct working_unit value as input", {
   )
 })
 
-## 9
 test_that("make_bins validates correct working_unit value as input", {
   data_source_bins <-
     extract_data(
@@ -231,7 +201,7 @@ test_that("make_bins validates correct working_unit value as input", {
   )
 })
 
-## 10 (fails right now - it will take always the first method in the vector without error or warning)
+## (fails right now - it will take always the first method in the vector without error or warning)
 test_that("make_bins rejects multiple working_units as input", {
   data_source_bins <-
     extract_data(
@@ -252,7 +222,6 @@ test_that("make_bins rejects multiple working_units as input", {
   )
 })
 
-## 11
 test_that("make_bins rejects NULL values for all parameters (but data_source_bins)", {
   data_source_bins <-
     extract_data(
@@ -280,7 +249,6 @@ test_that("make_bins rejects NULL values for all parameters (but data_source_bin
 #               working_units = "levels"                     #
 # ---------------------------------------------------------- #
 
-## 12
 test_that("make_bins with working_units='levels' accepts data without age uncertainty", {
   data_source_bins <-
     extract_data(
@@ -318,7 +286,7 @@ test_that("make_bins with working_units='levels' works if there are 0s in age da
   )
 })
 
-## 13 (test fails - function works and produces invalid output)
+## (test fails - function works and produces invalid output)
 test_that("make_bins with working_units='levels' fails if there are no rownames in age data", {
   data_source_bins <-
     extract_data(
@@ -344,7 +312,6 @@ test_that("make_bins with working_units='levels' fails if there are no rownames 
   expect_false(bins$label[1] == "...1-...2")
 })
 
-## 14
 test_that("make_bins with working_units='levels' works if rownames in age are not numeric", {
   data_source_bins <-
     extract_data(
@@ -435,7 +402,6 @@ test_that("make_bins with working_units='bins' works if there are 0s in age data
   )
 })
 
-## 15
 test_that("make_bins fails with working_units='bins' and no bin_size", {
   data_source_bins <-
     extract_data(
@@ -457,8 +423,6 @@ test_that("make_bins fails with working_units='bins' and no bin_size", {
   )
 })
 
-
-## 16
 test_that("make_bins rejects non-numeric bin_size if working_units='bins'", {
   data_source_bins <-
     extract_data(
@@ -481,7 +445,7 @@ test_that("make_bins rejects non-numeric bin_size if working_units='bins'", {
 })
 
 
-## 17
+
 test_that("make_bins works with minimum valid bin_size if working_units='bins'", {
   data_source_bins <-
     extract_data(
@@ -503,7 +467,6 @@ test_that("make_bins works with minimum valid bin_size if working_units='bins'",
 })
 
 
-## 18
 test_that("make_bins works with maximum valid bin_size if working_units='bins'", {
   data_source_bins <-
     extract_data(
@@ -525,7 +488,6 @@ test_that("make_bins works with maximum valid bin_size if working_units='bins'",
 })
 
 
-## 18
 test_that("make_bins rejects Inf bin_size if working_units='bins'", {
   data_source_bins <-
     extract_data(
@@ -974,8 +936,10 @@ test_that("make_bins throws error if working_units='MW' and number_of_shifts = n
   )
 })
 
-
+# ---------------------------------------------------------- #
 # 2. Output validation
+# ---------------------------------------------------------- #
+
 test_that("make_bins returns the correct output", {
   data_source_bins <-
     extract_data(
