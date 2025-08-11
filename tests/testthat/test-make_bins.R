@@ -1348,10 +1348,10 @@ test_that("make_bins with no working_units as input returns valid output", {
 
 
   bins <- make_bins(
-      data_source_bins,
+    data_source_bins,
   )
 
-    # General output structure tests:
+  # General output structure tests:
   expect_s3_class(
     bins, "data.frame"
   )
@@ -1390,6 +1390,4 @@ test_that("make_bins with no working_units as input returns valid output", {
   expect_true(
     class(bins$label) == "character"
   )
-
-
 })
