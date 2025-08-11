@@ -1273,3 +1273,123 @@ test_that("make_bins returns the correct output with default parameters for 'MW'
     class(bins$label) == "character"
   )
 })
+
+
+## (test fails as long as function accepts invalid input without rownames)
+test_that("make_bins with working_units='levels' and no rownames in age data returns valid output", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  rownames(data_source_bins$age) <- NULL
+
+  bins <-
+    make_bins(
+      data_source_bins,
+      working_units = "levels",
+      bin_size = NULL,
+      number_of_shifts = NULL
+    )
+
+  # General output structure tests:
+  expect_s3_class(
+    bins, "data.frame"
+  )
+
+  expect_identical(
+    bins$name,
+    rownames(data_source_bins$age)
+  )
+
+  expect_true(
+    all(
+      c("name", "shift", "age_diff", "start", "end", "res_age", "label")
+      %in%
+        colnames(bins)
+    )
+  )
+
+  expect_true(
+    class(bins$name) == "character"
+  )
+  expect_true(
+    class(bins$shift) == "numeric"
+  )
+  expect_true(
+    class(bins$age_diff) == "numeric"
+  )
+  expect_true(
+    class(bins$start) == "character"
+  )
+  expect_true(
+    class(bins$end) == "character"
+  )
+  expect_true(
+    class(bins$res_age) == "numeric"
+  )
+  expect_true(
+    class(bins$label) == "character"
+  )
+})
+
+
+test_that("make_bins with no working_units as input returns valid output", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+
+  bins <- make_bins(
+      data_source_bins,
+  )
+
+    # General output structure tests:
+  expect_s3_class(
+    bins, "data.frame"
+  )
+
+  expect_identical(
+    bins$name,
+    rownames(data_source_bins$age)
+  )
+
+  expect_true(
+    all(
+      c("name", "shift", "age_diff", "start", "end", "res_age", "label")
+      %in%
+        colnames(bins)
+    )
+  )
+
+  expect_true(
+    class(bins$name) == "character"
+  )
+  expect_true(
+    class(bins$shift) == "numeric"
+  )
+  expect_true(
+    class(bins$age_diff) == "numeric"
+  )
+  expect_true(
+    class(bins$start) == "character"
+  )
+  expect_true(
+    class(bins$end) == "character"
+  )
+  expect_true(
+    class(bins$res_age) == "numeric"
+  )
+  expect_true(
+    class(bins$label) == "character"
+  )
+
+
+})
