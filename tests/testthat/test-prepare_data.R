@@ -1,33 +1,3 @@
-# takes result from reduce_data() as input
-# parameters: working_units, bin_size, number_of_shifts, rand
-# returns: a list?
-
-
-# steps:
-## 1. checks input classes
-## 2. if a shift is present,
-## check N of shifts as well and set it = 1 if it is NULL
-## 3. if working_units is "levels", call make_bins() with "levels"
-## check if shifts are present, if so make bins with MW
-## of make bins with "bins" and bin_size
-## 4. check for age_un, if it is present, sample from it (SEED??)
-
-example_data <-
-  extract_data(
-    data_community_extract = RRatepol::example_data$pollen_data[[1]],
-    data_age_extract = RRatepol::example_data$sample_age[[1]],
-    age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-    verbose = FALSE
-  )
-
-prepare_data(example_data,
-  working_units = c("levels", "bins", "MW"),
-  bin_size = 500,
-  number_of_shifts = 5,
-  rand = NULL
-)
-
-
 
 # ---------------------------------------------------------- #
 #               Data_source_prep Input Tests                 #
