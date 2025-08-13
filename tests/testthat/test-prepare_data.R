@@ -1,4 +1,3 @@
-
 # ---------------------------------------------------------- #
 #               Data_source_prep Input Tests                 #
 # ---------------------------------------------------------- #
@@ -91,7 +90,6 @@ test_that("prepare_data works if no age_uncertainty in data_source", {
 
 
 
-# to do: test with 0 and NAs in age/community data
 ## Community data
 # Zeros
 test_that("prepare_data with working_units='levels' works if there are 0s in community data", {
@@ -489,14 +487,14 @@ test_that("prepare_data with working_units='MW' returns NA in data if there is N
   example_data$age_un[1:3] <- NA
 
   expect_no_error(
-    res <-  
-    prepare_data(
-      example_data,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 5,
-      rand = 1
-    )
+    res <-
+      prepare_data(
+        example_data,
+        working_units = "MW",
+        bin_size = 500,
+        number_of_shifts = 5,
+        rand = 1
+      )
   )
 
   # returns NA in output$age
@@ -672,7 +670,154 @@ test_that("prepare_data validates working_units parameter is not NULL", {
 #                   Bin_size Input Tests                     #
 # ---------------------------------------------------------- #
 
-# 1.1 "bins"
+# 1.1 "levels"
+
+test_that("prepare_data validates bin_size is not NULL with working_unit='levels'", {
+  example_data <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  expect_error(
+    prepare_data(
+      data_source_prep = example_data,
+      working_units = "levels",
+      bin_size = NULL,
+      number_of_shifts = NULL,
+      rand = NULL
+    ),
+    "'bin_size' must be one of the following: 'numeric'"
+  )
+})
+
+test_that("prepare_data validates bin_size is not Inf with working_unit='levels'", {
+  example_data <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  expect_error(
+    prepare_data(
+      data_source_prep = example_data,
+      working_units = "levels",
+      bin_size = Inf,
+      number_of_shifts = NULL,
+      rand = NULL
+    ),
+    "'to' must be a finite number"
+  )
+})
+
+
+test_that("prepare_data validates bin_size is not negative with working_unit='levels'", {
+  example_data <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  expect_error(
+    prepare_data(
+      data_source_prep = example_data,
+      working_units = "levels",
+      bin_size = -500,
+      number_of_shifts = NULL,
+      rand = NULL
+    ),
+    "wrong sign in 'by' argument"
+  )
+})
+
+test_that("prepare_data validates bin_size is not NA with working_unit='levels'", {
+  example_data <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  expect_error(
+    prepare_data(
+      data_source_prep = example_data,
+      working_units = "levels",
+      bin_size = NA,
+      number_of_shifts = NULL,
+      rand = NULL
+    ),
+    "'bin_size' must be one of the following: 'numeric'"
+  )
+})
+
+test_that("prepare_data validates bin_size is integer with working_unit='levels'", {
+  example_data <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  expect_error(
+    prepare_data(
+      data_source_prep = example_data,
+      working_units = "levels",
+      bin_size = 500.5,
+      number_of_shifts = NULL,
+      rand = NULL
+    ),
+    "' bin_size ' must be a an integer"
+  )
+})
+
+test_that("prepare_data validates bin_size is not 0 with working_unit='levels'", {
+  example_data <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  expect_error(
+    prepare_data(
+      data_source_prep = example_data,
+      working_units = "levels",
+      bin_size = 0,
+      number_of_shifts = NULL,
+      rand = NULL
+    ),
+    "invalid"
+  )
+})
+
+
+test_that("prepare_data works with minimum bin_size (1) with working_unit='levels'", {
+  example_data <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  expect_no_error(
+    prepare_data(
+      data_source_prep = example_data,
+      working_units = "levels",
+      bin_size = 1,
+      number_of_shifts = NULL,
+      rand = NULL
+    )
+  )
+})
+
+# 1.2 "bins"
 
 test_that("prepare_data validates bin_size is numeric", {
   example_data <-
@@ -820,26 +965,7 @@ test_that("prepare_data works with minimum bin_size (1)", {
 })
 
 
-test_that("prepare_data works with minimum bin_size (1) and bins", {
-  example_data <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
-    )
-  expect_no_error(
-    prepare_data(
-      data_source_prep = example_data,
-      working_units = "bins",
-      bin_size = 100,
-      number_of_shifts = NULL,
-      rand = NULL
-    )
-  )
-})
-
-# 1.2 "MW"
+# 1.3 "MW"
 
 test_that("prepare_data validates bin_size is numeric (working_units=WM)", {
   example_data <-
@@ -1262,6 +1388,7 @@ test_that("prepare_data samples reproducibly if rand > 1 and seed set manually",
   expect_identical(res1, res2)
 })
 
+#fails currently
 test_that("prepare_data samples reproducibly if rand > 1 and no seed set manually", {
   example_data <-
     extract_data(
@@ -1292,6 +1419,7 @@ test_that("prepare_data samples reproducibly if rand > 1 and no seed set manuall
   expect_identical(res1, res2)
 })
 
+# fails currentöy
 test_that("prepare_data does not change age if no age_uncertainty in data", {
   example_data <-
     extract_data(
@@ -1316,3 +1444,169 @@ test_that("prepare_data does not change age if no age_uncertainty in data", {
   )
 })
 
+
+
+# WIP:
+# ---------------------------------------------------------- #
+#                  Output structure Tests                    #
+# ---------------------------------------------------------- #
+
+# with valid input:
+test_that("prepare_data returns the correct output structure with default parameters (levels)", {
+  example_data <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  res <-1
+  
+    prepare_data(
+      data_source_prep = example_data,
+      working_units = "levels",
+      bin_size = NULL,
+      number_of_shifts = NULL,
+      rand = NULL
+    )
+
+  # General output structure tests:
+  expect_type(
+    res, "list"
+  )
+
+  # Named list elements
+  expect_identical(
+    names(res[[1]][[1]]),
+    c("data", "bins")
+  )
+
+  # Named data object
+  expect_identical(
+    names(res[[1]][[1]]$data),
+    c("age", names(example_data$community))
+  )
+
+  # Named bins object
+  expect_true(
+    all(
+      c("name", "shift", "age_diff", "start", "end", "res_age", "label")
+      %in%
+        colnames(res[[1]][[1]]$bins)
+    )
+  )
+
+  # $data is not all 0 or empty
+  expect_false(all(res[[1]][[1]]$data == 0))
+  expect_false(length(res[[1]][[1]]$data) == 0)
+  # $bins is not all 0 or empty
+  expect_false(all(res[[1]][[1]]$bins == 0))
+  expect_false(nrow(res[[1]][[1]]$bins) == 0)
+})
+
+
+
+test_that("prepare_data returns the correct output structure with default parameters (MW)", {
+  example_data <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  res <-
+    prepare_data(
+      data_source_prep = example_data,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 5,
+      rand = NULL
+    )
+
+  # General output structure tests:
+  expect_type(
+    res, "list"
+  )
+
+  # Named list elements
+  expect_identical(
+    names(res[[1]][[1]]),
+    c("data", "bins")
+  )
+
+  # Named data object
+  expect_identical(
+    names(res[[1]][[1]]$data),
+    c("age", names(example_data$community))
+  )
+
+  # Named bins object
+  expect_true(
+    all(
+      c("name", "shift", "age_diff", "start", "end", "res_age", "label")
+      %in%
+        colnames(res[[1]][[1]]$bins)
+    )
+  )
+
+  # $data is not all 0 or empty
+  expect_false(all(res[[1]][[1]]$data == 0))
+  expect_false(length(res[[1]][[1]]$data) == 0)
+  # $bins is not all 0 or empty
+  expect_false(all(res[[1]][[1]]$bins == 0))
+  expect_false(nrow(res[[1]][[1]]$bins) == 0)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# General output structure tests:
+expect_type(
+  res, "list"
+)
+
+# Named list elements
+expect_identical(
+  names(res[[1]][[1]]),
+  c("data", "bins")
+)
+
+# Named data object
+expect_identical(
+  names(res[[1]][[1]]$data),
+  c("age", names(example_data$community))
+)
+
+# Named bins object
+expect_true(
+  all(
+    c("name", "shift", "age_diff", "start", "end", "res_age", "label")
+    %in%
+      colnames(res[[1]][[1]]$bins)
+  )
+)
+
+# $data is not all 0 or empty
+expect_false(all(res[[1]][[1]]$data == 0))
+expect_false(length(res[[1]][[1]]$data) == 0)
+# $bins is not all 0 or empty
+expect_false(all(res[[1]][[1]]$bins == 0))
+expect_false(nrow(res[[1]][[1]]$bins) == 0)
