@@ -251,7 +251,7 @@ test_that(
 
 ## 3.2 Test component data types -----
 test_that(
-  "smooth_community_data() handles community component as character matrix",
+  "smooth_community_data() throws warning if community component is a character matrix",
   {
     data_source_smooth <-
       extract_data(
@@ -264,14 +264,19 @@ test_that(
       invalid_data$community
     )
 
-    expect_warning(
+# Capture all warnings to verify the expected warning occurs
+    warnings_captured <- capture_warnings(
       smooth_community_data(
         data_source_smooth = invalid_data,
         smooth_method = "m.avg",
         smooth_n_points = 5,
         verbose = FALSE
-      ),
-      "argument is not numeric or logical"
+      )
+    )
+    
+    # Check that at least one warning matches our expected pattern
+    expect_true(
+      any(grepl("argument is not numeric or logical: returning NA", warnings_captured))
     )
   }
 )
@@ -1736,3 +1741,4 @@ test_that(
     )
   }
 )
+
