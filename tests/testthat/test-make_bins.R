@@ -76,6 +76,767 @@ test_that("make_bins rejects data input class == numeric", {
   )
 })
 
+# Additional tests:
+
+test_that("make_bins rejects empty data_source_bins", {
+  expect_error(
+    make_bins(
+      list(),
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "argument of length 0"
+  )
+})
+
+
+test_that("make_bins rejects NA data_source_bins", {
+  expect_error(
+    make_bins(
+      NA,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "'data_source_bins' must be one of the following: 'list'"
+  )
+})
+
+test_that("make_bins rejects matrix data_source_bins", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  data_source_bins <- as.matrix(data_source_bins)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "'data_source_bins' must be one of the following: 'list'"
+  )
+})
+
+test_that("make_bins rejects 0 data_source_bins", {
+  expect_error(
+    make_bins(
+      0,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "'data_source_bins' must be one of the following: 'list'"
+  )
+})
+
+test_that("make_bins works with default parameters", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    )
+  )
+})
+
+# Data specific validation:
+test_that("make_bins rejects data_source_bins with all empty elements in the list", {
+  data_source_bins <-
+    list(
+      community = data.frame(),
+      age = data.frame(age = numeric()),
+      age_un = data.frame()
+    )
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "`age_diff` must be size 1, not 2."
+  )
+})
+
+
+## A suite of tests that fail because
+## the function does not handle the community part of the data at all
+
+test_that("make_bins rejects data_source_bins without community in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$community <- NULL
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+
+test_that("make_bins rejects data_source_bins list community in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$community <- list(data_source_bins$community)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+test_that("make_bins rejects data_source_bins matrix community in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$community <- as.matrix(data_source_bins$community)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+
+test_that("make_bins rejects data_source_bins character community in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$community <- "my_community"
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+test_that("make_bins rejects data_source_bins numeric community in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$community <- 123
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+test_that("make_bins rejects data_source_bins NA community in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$community[, ] <- NA
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+test_that("make_bins rejects data_source_bins 0 community in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$community[, ] <- 0
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+test_that("make_bins rejects data_source_bins with community without rownames in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  rownames(data_source_bins$community) <- NULL
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+
+## Age:
+test_that("make_bins rejects data_source_bins without age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age <- NULL
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "`names` must be a character vector"
+  )
+})
+
+
+test_that("make_bins rejects data_source_bins list age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age <- list(data_source_bins$age)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "argument of length 0"
+  )
+})
+
+test_that("make_bins rejects data_source_bins matrix age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age <- as.matrix(data_source_bins$age)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "Argument 1 must be a data frame or a named atomic vector"
+  )
+})
+
+
+test_that("make_bins rejects data_source_bins character age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age <- "my_age"
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "Argument 1 must be a data frame or a named atomic vector"
+  )
+})
+
+test_that("make_bins rejects data_source_bins numeric age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age <- 123
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = c("levels", "bins", "MW"),
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "Argument 1 must be a data frame or a named atomic vector"
+  )
+})
+
+test_that("make_bins rejects data_source_bins NA age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age[, ] <- NA
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "levels",
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+test_that("make_bins rejects data_source_bins NA age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age[, ] <- NA
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "bins",
+      bin_size = 500
+    ),
+    "'from' must be a finite number"
+  )
+})
+
+test_that("make_bins rejects data_source_bins NA age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age[, ] <- NA
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    "'from' must be a finite number"
+  )
+})
+
+test_that("make_bins rejects data_source_bins 0 age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age[, ] <- 0
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "levels"
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+test_that("make_bins rejects data_source_bins 0 age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age[, ] <- 0
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "bins",
+      bin_size = 500
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+test_that("make_bins rejects data_source_bins 0 age in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age[, ] <- 0
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  rownames(data_source_bins$age) <- NULL
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "levels"
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+
+test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  rownames(data_source_bins$age) <- NULL
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "bins",
+      bin_size = 500
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+
+test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  rownames(data_source_bins$age) <- NULL
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 5
+    ),
+    # no error programmed into the function yet
+  )
+})
+
+
+# character values inside age
+test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "levels"
+    ),
+  )
+})
+
+test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "bins",
+      bin_size = 500
+    ),
+    "non-numeric argument to mathematical function"
+  )
+})
+
+test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts =
+      ),
+    "non-numeric argument to mathematical function"
+  )
+})
+
+test_that("make_bins accepts minimal age data (1 row)", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  data_source_bins$community <- data_source_bins$community[1, , drop = FALSE]
+  data_source_bins$age <- data_source_bins$age[1, , drop = FALSE]
+  data_source_bins$age_un <- data_source_bins$age_un[, 1, drop = FALSE]
+
+
+  expect_no_error(
+    make_bins(
+      data_source_bins,
+      working_units = "levels"
+    )
+  )
+})
+
+test_that("make_bins accepts minimal age data (1 row)", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  data_source_bins$community <- data_source_bins$community[1, , drop = FALSE]
+  data_source_bins$age <- data_source_bins$age[1, , drop = FALSE]
+  data_source_bins$age_un <- data_source_bins$age_un[, 1, drop = FALSE]
+
+
+  expect_no_error(
+    make_bins(
+      data_source_bins,
+      working_units = "bins",
+      bin_size = 500
+    )
+  )
+})
+
+test_that("make_bins accepts minimal age data (1 row)", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  data_source_bins$community <- data_source_bins$community[1, , drop = FALSE]
+  data_source_bins$age <- data_source_bins$age[1, , drop = FALSE]
+  data_source_bins$age_un <- data_source_bins$age_un[, 1, drop = FALSE]
+
+
+  expect_no_error(
+    make_bins(
+      data_source_bins,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 5
+    )
+  )
+})
+
+
+# age with character strings instead of numeric
+test_that("make_bins rejects age with character strings instead of numeric", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "levels"
+    ), #
+    "Can't combine"
+  )
+})
+
+test_that("make_bins rejects age with character strings instead of numeric", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "bins",
+      bin_size = 500
+    ), #
+    "non-numeric argument to mathematical function"
+  )
+})
+
+test_that("make_bins rejects age with character strings instead of numeric", {
+  data_source_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      verbose = FALSE
+    )
+
+  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+
+  expect_error(
+    make_bins(
+      data_source_bins,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 5
+    ), #
+    "non-numeric argument to mathematical function"
+  )
+})
+
+
 # ---------------------------------------------------------- #
 #               working_unit validation                      #
 # ---------------------------------------------------------- #
