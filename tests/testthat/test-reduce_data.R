@@ -2,8 +2,8 @@
 #                        TESTS FOR reduce_data()                      #
 # ==================================================================== #
 #
-# This file contains comprehensive tests for the reduce_data() function
-# which filters taxa and/or levels based on zero-sum criteria.
+# This file contains comprehensive tests for the reduce_data() function.
+# It filters taxa and/or levels based on zero-sum criteria in community.
 #
 # Test structure:
 # 1. Input Validation Tests (Errors)
@@ -358,10 +358,11 @@ test_that(
 
   rownames(raw_data$community) <-
     NULL
-  expect_condition(
+  expect_warning(
     result <-
       reduce_data(data_source_reduce = raw_data)
-  )
+  )  # ,
+  # no warning implemented yet
 })
 
 test_that(
@@ -378,7 +379,8 @@ test_that(
     NULL
   expect_warning(
     reduce_data(data_source_reduce = raw_data)
-  )
+  ) # , 
+  # no warning implemented yet
 })
 
 # --------------------------------------------------- #
@@ -795,7 +797,6 @@ test_that(
 })
 
 
-# WIP below
 
 
 test_that(
@@ -1144,4 +1145,5 @@ test_that(
     colnames(result$age_un), rownames(result$age)
   )
 })
+
 
