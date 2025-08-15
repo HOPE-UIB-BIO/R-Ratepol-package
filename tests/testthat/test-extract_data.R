@@ -1,5 +1,1102 @@
 # Comprehensive Test Suite for extract_data()
-# v3 - Complete edge case coverage
+# v4 - Complete edge case coverage
+
+
+# --------------------------------------------------- #
+# Test 0a: Default functionality of the function
+# --------------------------------------------------- #
+
+test_that("extract_data works with default parameters (age_uncertainty = NULL)",{
+    
+    expect_no_error(
+        res <-
+            extract_data(
+                data_community_extract = RRatepol::example_data$pollen_data[[1]],
+                data_age_extract = RRatepol::example_data$sample_age[[1]],
+                age_uncertainty = NULL,
+                verbose = FALSE
+            )
+    )
+    
+    # is the result a list?
+    expect_type(
+        res, "list"
+    )
+    
+    # are the list elements named as follows?
+    expect_named(
+        res,
+        c("community", "age", "age_un")
+    )
+    
+    # is community a data.frame?
+    expect_s3_class(
+        res$community,
+        "data.frame"
+    )
+    
+    # is age a data.frame?
+    expect_s3_class(
+        res$age,
+        "data.frame"
+    )
+    
+    # is age_un NULL?
+    expect_null(
+        res$age_un
+    )
+
+    # does community have more than 0 rows?
+    expect_gt(
+        nrow(res$community),
+        0
+    )
+
+    # does community have more than 0 columns?
+    expect_gt(
+        ncol(res$community),
+        0
+    )
+
+    # does age have more than 0 rows?
+    expect_gt(
+        nrow(res$age),
+        0
+    )
+
+    # are all elements of community numeric?
+    expect_true(
+        all(
+            sapply(
+                res$community,
+                is.numeric
+            )
+        )
+    )
+
+    # are all elements of age numeric?
+    expect_true(
+        all(
+            sapply(
+                res$age,
+                is.numeric
+            )
+        )
+    )
+
+    # Check for rownames (sample IDs)
+    expect_identical(
+        rownames(res$community),
+        rownames(res$age)
+    )
+
+    expect_identical(
+        RRatepol::example_data$pollen_data[[1]]$sample_id,
+        rownames(res$community)
+    )
+
+    expect_identical(
+        RRatepol::example_data$sample_age[[1]]$sample_id,
+        rownames(res$age)
+    )
+
+
+})
+
+# --------------------------------------------------- #
+# with age_uncertainty
+# --------------------------------------------------- #
+
+test_that("extract_data works with default parameters (with age_uncertainty)",{
+    
+    expect_no_error(
+        res <-
+            extract_data(
+                data_community_extract = RRatepol::example_data$pollen_data[[1]],
+                data_age_extract = RRatepol::example_data$sample_age[[1]],
+                age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+                verbose = FALSE
+            )
+    )
+    
+    # is the result a list?
+    expect_type(
+        res, "list"
+    )
+    
+    # are the list elements named as follows?
+    expect_named(
+        res,
+        c("community", "age", "age_un")
+    )
+    
+    # is community a data.frame?
+    expect_s3_class(
+        res$community,
+        "data.frame"
+    )
+    
+    # is age a data.frame?
+    expect_s3_class(
+        res$age,
+        "data.frame"
+    )
+    
+    # is age_un a data.frame?
+    expect_s3_class(
+        res$age_un,
+        "data.frame"
+    )
+
+    # does community have more than 0 rows?
+    expect_gt(
+        nrow(res$community),
+        0
+    )
+
+    # does community have more than 0 columns?
+    expect_gt(
+        ncol(res$community),
+        0
+    )
+
+    # does age have more than 0 rows?
+    expect_gt(
+        nrow(res$age),
+        0
+    )
+    
+    # does age_un have more than 0 rows?
+    expect_gt(
+        nrow(res$age_un),
+        0
+    )
+
+    # does age_un have more than 0 columns?
+    expect_gt(
+        ncol(res$age_un),
+        0
+    )
+
+    # are all elements of community numeric?
+    expect_true(
+        all(
+            sapply(
+                res$community,
+                is.numeric
+            )
+        )
+    )
+
+    # are all elements of age numeric?
+    expect_true(
+        all(
+            sapply(
+                res$age,
+                is.numeric
+            )
+        )
+    )
+
+    # are all elements of age_un numeric?
+    expect_true(
+        all(
+            sapply(
+                res$age_un,
+                is.numeric
+            )
+        )
+    )
+
+    # Check for rownames (sample IDs)
+
+    # same as in original data?
+    expect_identical(
+        RRatepol::example_data$pollen_data[[1]]$sample_id,
+        rownames(res$community)
+    )
+
+    expect_identical(
+        RRatepol::example_data$sample_age[[1]]$sample_id,
+        rownames(res$age)
+    )
+
+    # same in community and age?
+    expect_identical(
+        rownames(res$community),
+        rownames(res$age)
+    )
+
+    # same in age and age_uncertainty?
+    expect_identical(
+        rownames(res$age),
+        colnames(res$age_un)
+    )
+
+})
+
+
+# --------------------------------------------------- #
+# Test invalid input for "verbose"
+# --------------------------------------------------- #
+
+
+test_that("extract_data works without user-supplied verbose-argument", {
+    expect_no_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        )
+    )
+})
+
+
+test_that("extract_data fails if verbose = character",{
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL,
+            verbose = "TRUE"
+        ),
+        "'verbose' must be one of the following: 'logical'"
+    )
+})
+
+test_that("extract_data fails if verbose = numeric",{
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL,
+            verbose = 123
+        ),
+        "'verbose' must be one of the following: 'logical'"
+    )
+})
+
+test_that("extract_data fails if verbose = NULL", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL,
+            verbose = NULL
+        ),
+        "'verbose' must be one of the following: 'logical'"
+    )
+})
+
+test_that("extract_data fails if verbose = 0",{
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL,
+            verbose = 0
+        ),
+        "'verbose' must be one of the following: 'logical'"
+    )
+})
+
+# --------------------------------------------------- #
+# Test invalid input for "data_community_extract"
+# --------------------------------------------------- #
+
+test_that("extract_data fails if data_community_extract is NULL", {
+    expect_error(
+        extract_data(
+            data_community_extract = NULL,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'data_community_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails with empty community data.frame", {
+    expect_error(
+        extract_data(
+            data_community_extract = data.frame(),
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'data_community_extract' must contains following columns: 'sample_id'"
+    )
+})
+
+
+test_that("extract_data fails if data_community_extract is list", {
+    expect_error(
+        extract_data(
+            data_community_extract = list(RRatepol::example_data$pollen_data[[1]]),
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'data_community_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails if data_community_extract is character", {
+    expect_error(
+        extract_data(
+            data_community_extract = "my_data",
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'data_community_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails if data_community_extract is numeric", {
+    expect_error(
+        extract_data(
+            data_community_extract = 123,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'data_community_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails if data_community_extract is NA", {
+    expect_error(
+        extract_data(
+            data_community_extract = NA,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'data_community_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails if data_community_extract is matrix", {
+    expect_error(
+        extract_data(
+            data_community_extract = as.matrix(RRatepol::example_data$pollen_data[[1]]),
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'data_community_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails if data_community_extract is 0", {
+    expect_error(
+        extract_data(
+            data_community_extract = 0,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'data_community_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+# --------------------------------------------------- #
+# Community-specific edge-cases:
+# --------------------------------------------------- #
+
+# no sample_id
+test_that("extract_data fails if data_community_extract does not have sample_id or sample.id", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community <-
+        community[, -1] # remove sample_id column
+    expect_error(
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'data_community_extract' must contains following columns: 'sample_id'"
+    )
+})
+
+test_that("extract_data renames column if data_community_extract has sample.id instead", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community$sample.id <-
+        community$sample_id
+    community$sample_id <-
+        NULL # remove sample_id column
+    expect_message(
+        res <- extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'sample.id' was detected in 'data_community' but 'sample_id' is prefered. Recommend renaming your data"
+    )
+
+    expect_identical(
+        rownames(res$community), 
+        community$sample.id
+    )
+})
+
+
+test_that("extract_data fails if community has different sample_ids than age", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community$sample_id <-
+        paste0("ABC", community$sample_id)
+
+    expect_error(
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "Variable 'sample_id' must have same values in"
+    )
+})
+
+
+test_that("extract_data fails if community has numeric sample_ids", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community$sample_id <-
+        as.numeric(community$sample_id)
+
+     expect_error(
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "Variable 'sample_id' in 'data_community' must"
+    )
+})
+
+
+test_that("extract_data fails if community has factor sample_ids", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community$sample_id <-
+        as.factor(community$sample_id)
+
+     expect_error(
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "Variable 'sample_id' in 'data_community' must"
+    )
+})
+
+test_that("extract_data fails if community has character columns", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community[] <-
+        lapply(community, as.character)
+    expect_error(
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        "'x' must be numeric"
+    )
+})
+
+test_that("extract_data works with minimal data (1 sample)", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]][1, ]
+    expect_no_error(
+        res <- extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]][1,, drop = FALSE],
+            age_uncertainty = NULL
+        ),
+    )
+
+})
+
+test_that("extract_data works with minimal data (1 taxon)", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]][, 1:2]
+    expect_no_error(
+        res <-
+            extract_data(
+                data_community_extract = community,
+                data_age_extract = RRatepol::example_data$sample_age[[1]],
+                age_uncertainty = NULL
+            )
+    )
+})
+
+
+test_that("internal reduce_data function drops all-zero samples in community from data", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community[1, -1] <-
+        0 # make row all-zero
+    zero_sample <-
+        community[1, ]$sample_id
+    expect_no_error(
+        res <- 
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        )
+    )
+    valid_samples <-
+        c(unique(community$sample_id)[-1])
+
+    expect_identical(
+        rownames(res$community), 
+        valid_samples
+    )
+    expect_identical(
+        rownames(res$age), 
+        valid_samples
+    )
+    expect_identical(
+        colnames(res$age_un), 
+        valid_samples
+    )
+    
+})
+
+test_that("internal reduce_data drops all-zero taxa from community", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community$`Chenopodiaceae/Amaranthaceae` <-
+        0 # make column all-zero
+    expect_no_error(
+        res <- 
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        )
+    )
+    expect_false(
+        "Chenopodiaceae/Amaranthaceae" %in%
+        colnames(res$community)
+        
+    )
+})
+
+test_that("internal reduce_data function drops all-NA samples in community from data", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community[1, -1] <-
+        NA # make row all-zero
+    zero_sample <-
+        community[1, ]$sample_id
+    expect_no_error(
+        res <- 
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        )
+    )
+    
+    valid_samples <-
+        c(unique(community$sample_id)[-1])
+
+    expect_identical(
+        rownames(res$community), 
+        valid_samples
+    )
+    expect_identical(
+        rownames(res$age), 
+        valid_samples
+    )
+    expect_identical(
+        colnames(res$age_un), 
+        valid_samples
+    )
+    
+})
+
+test_that("internal reduce_data drops all-NA taxa from community", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community$`Chenopodiaceae/Amaranthaceae` <-
+        NA # make column all-NA
+    expect_no_error(
+        res <- 
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        )
+    )
+    expect_false(
+        "Chenopodiaceae/Amaranthaceae" %in%
+        colnames(res$community)
+        
+    )
+})
+
+# I would expect warnings for the following cases: (these tests fail)
+test_that("extract_data warns about all-zero community data", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community[, -1] <-
+        0
+    expect_warning(
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        # e.g.,:"'data_community_extract' must contain at least one non-zero value"
+    )
+})
+
+test_that("extract_data warns about all-NA community data", {
+    community <-
+        RRatepol::example_data$pollen_data[[1]]
+    community[, -1] <-
+        NA
+    expect_message(
+        extract_data(
+            data_community_extract = community,
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        ),
+        # e.g.:
+        "all-NA community data detected. Return empty result"
+    )
+})
+
+
+# --------------------------------------------------- #
+# Test invalid input for "data_age_extract"
+# --------------------------------------------------- #
+
+test_that("extract_data fails if data_age_extract is NULL", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = NULL,
+            age_uncertainty = NULL
+        ),
+        "'data_age_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails with empty age data.frame", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = data.frame(),
+            age_uncertainty = NULL
+        ),
+        "'data_age_extract' must contains following columns: 'sample_id'"
+    )
+})
+
+
+test_that("extract_data fails if data_age_extract is list", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = list(RRatepol::example_data$sample_age[[1]]),
+            age_uncertainty = NULL
+        ),
+        "'data_age_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails if data_age_extract is character", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = "my_age",
+            age_uncertainty = NULL
+        ),
+        "'data_age_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails if data_age_extract is numeric", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = 123,
+            age_uncertainty = NULL
+        ),
+        "'data_age_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails if data_age_extract is NA", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = NA,
+            age_uncertainty = NULL
+        ),
+        "'data_age_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails if data_age_extract is matrix", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = as.matrix(RRatepol::example_data$sample_age[[1]]),
+            age_uncertainty = NULL
+        ),
+        "'data_age_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+test_that("extract_data fails if data_age_extract is 0", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = 0,
+            age_uncertainty = NULL
+        ),
+        "'data_age_extract' must be one of the following: 'data.frame'"
+    )
+})
+
+# --------------------------------------------------- #
+# age-specific edge-cases:
+# --------------------------------------------------- #
+
+# no sample_id
+test_that("extract_data fails if data_age_extract does not have sample_id or sample.id", {
+    age <-
+        RRatepol::example_data$sample_age[[1]]
+    age <-
+        age[, -1] # remove sample_id column
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = age,
+            age_uncertainty = NULL
+        ),
+        "'data_age_extract' must contains following columns: 'sample_id'"
+    )
+})
+
+test_that("extract_data renames column if data_age_extract has sample.id instead", {
+    age <-
+        RRatepol::example_data$sample_age[[1]]
+    age$sample.id <-
+        age$sample_id
+    age$sample_id <-
+        NULL # remove sample_id column
+    expect_message(
+        res <- 
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = age,
+            age_uncertainty = NULL
+        ),
+        "'sample.id' was detected in 'data_age' but 'sample_id' is prefered. Recomend renaming your data"
+    )
+
+    expect_identical(
+        rownames(res$community), 
+        age$sample.id
+    )
+})
+
+
+test_that("extract_data fails if age has different sample_ids than community", {
+    age <-
+        RRatepol::example_data$sample_age[[1]]
+    age$sample_id <-
+        paste0("ABC", age$sample_id)
+
+    expect_error(
+        res <- 
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = age,
+            age_uncertainty = NULL
+        ),
+        "Variable 'sample_id' must have same values in"
+    )
+})
+
+# This one fails -  no assertions for character sample_id programmed into function
+test_that("extract_data fails if age has numeric sample_ids", {
+    age <-
+        RRatepol::example_data$sample_age[[1]]
+    age$sample_id <-
+        as.numeric(age$sample_id)
+
+     expect_error(
+        res <- 
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = age,
+            age_uncertainty = NULL
+        ),
+        "Variable 'sample_id' in 'data_age' must"
+    )
+})
+
+# This one fails too - no assertions for character sample_id programmed into function
+test_that("extract_data fails if age has factor sample_ids", {
+    age <-
+        RRatepol::example_data$sample_age[[1]]
+    age$sample_id <-
+        as.factor(age$sample_id)
+
+     expect_error(
+        res <- 
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = age,
+            age_uncertainty = NULL
+        ),
+        "Variable 'sample_id' in 'data_age' must"
+    )
+})
+
+test_that("extract_data fails if age has character columns", {
+    age <-
+        RRatepol::example_data$sample_age[[1]]
+    age[] <-
+        lapply(age, as.character)
+    expect_error(
+        res <- 
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = age,
+            age_uncertainty = NULL
+        ),
+        "Variable 'age' in 'data_source_age' must be a 'numeric'"
+    )
+})
+
+test_that("extract_data works with minimal data (1 sample)", {
+    age <-
+        RRatepol::example_data$sample_age[[1]][1,]
+    expect_no_error(
+        res <- 
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]][1,],
+            data_age_extract = age,
+            age_uncertainty = NULL
+        ),
+    )
+
+})
+
+## This might be a good improvement to the function: reduce two-way in case there are NAs in age
+test_that("internal reduce_data function drops all-NA samples in age from community?", {
+    age <-
+        RRatepol::example_data$sample_age[[1]]
+    age$age[1] <-
+        NA # make row all-NA
+    NA_sample <- 
+        age[1, ]$sample_id
+    valid_samples <- 
+        setdiff(age$sample_id, NA_sample)
+
+    expect_no_error(
+        res <- 
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = age,
+            age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        )
+        )
+
+    expect_identical(
+        rownames(res$community), 
+        valid_samples
+    )
+    expect_identical(
+        rownames(res$age), 
+        valid_samples
+    )
+    expect_identical(
+        colnames(res$age_un), 
+        valid_samples
+    )
+    
+})
+
+test_that("extract_data warns about all-NA age data", {
+    age <-
+        RRatepol::example_data$sample_age[[1]]
+    age[,-1] <- NA
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = age,
+            age_uncertainty = NULL
+        ),
+        "Variable 'age' in 'data_source_age' must be a 'numeric'"
+    )
+})
+
+
+# I would expect warnings for the following cases: (these tests fail)
+test_that("extract_data warns about all-zero age data", {
+    age <-
+        RRatepol::example_data$sample_age[[1]]
+    age[,-1] <- 0
+    expect_warning(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = age,
+            age_uncertainty = NULL
+        ),
+        # e.g.,:"'data_age_extract' must contain at least one non-zero age value"
+    )
+})
+
+
+## WIP: Same for age_uncertainty:
+
+
+
+# --------------------------------------------------- #
+# Test invalid input for "age_uncertainty"
+# --------------------------------------------------- #
+
+test_that("extract_data works if age_uncertainty is NULL", {
+    expect_no_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NULL
+        )
+    )
+})
+
+test_that("extract_data fails with empty age_uncertainty data.frame", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = data.frame()
+        ),
+        "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
+    )
+})
+
+test_that("extract_data fails if age_uncertainty is list", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = list(RRatepol::example_data$age_uncertainty[[1]])
+        ),
+        "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
+    )
+})
+
+
+test_that("extract_data fails if age_uncertainty is character", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = "age_uncertainty"
+        ),
+        "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
+    )
+})
+
+test_that("extract_data fails if age_uncertainty is numeric", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = 123
+        ),
+        "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
+    )
+})
+
+test_that("extract_data fails if age_uncertainty is NA", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = NA
+        ),
+        "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
+    )
+})
+
+test_that("extract_data works if age_uncertainty is matrix", {
+    expect_no_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = as.matrix(RRatepol::example_data$age_uncertainty[[1]])
+        ),
+    )
+})
+
+test_that("extract_data fails if age_uncertainty is 0", {
+    expect_error(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = 0
+        ),
+        "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
+    )
+})
+
+# --------------------------------------------------- #
+# age-specific edge-cases:
+# --------------------------------------------------- #
+
+
+test_that("extract_data works with minimal data (2 samples)", {
+    age_un <-
+        RRatepol::example_data$age_uncertainty[[1]][,1:2]
+
+    expect_no_error(
+        res <- 
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]][1:2,],
+            data_age_extract = RRatepol::example_data$sample_age[[1]][1:2,],
+            age_uncertainty = age_un
+        ),
+    )
+
+})
+
+# I would expect warnings for the following cases: (these tests fail)
+test_that("extract_data warns about all-zero age data", {
+    age_un <-
+        RRatepol::example_data$age_uncertainty[[1]]
+    age[,-1] <- 0
+    expect_warning(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = age_un
+        ),
+        # e.g.,:"'data_age_extract' must contain at least one non-zero age value"
+    )
+})
+
+test_that("extract_data warns about all-NA age_uncertainty data", {
+    age_un <-
+        RRatepol::example_data$age_uncertainty[[1]]
+    age_un[,] <- NA
+    expect_warning(
+        extract_data(
+            data_community_extract = RRatepol::example_data$pollen_data[[1]],
+            data_age_extract = RRatepol::example_data$sample_age[[1]],
+            age_uncertainty = age_un
+        ),
+        # e.g.,: "There are NAs in age_uncertainty"
+    )
+})
 
 # ----------------------------------------------------------- #
 # 1. VERBOSE PARAMETER TESTING
