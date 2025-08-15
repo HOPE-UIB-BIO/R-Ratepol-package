@@ -1742,3 +1742,73 @@ test_that(
   }
 )
 
+## Q: What happens if multiple smooth_methods are supplied by the user?
+test_that("smooth_community_data fails if more than one smooth_method is supplied", {
+
+data_source_smooth <-
+  extract_data(
+    RRatepol::example_data$pollen_data[[1]],
+    RRatepol::example_data$sample_age[[1]],
+    RRatepol::example_data$age_uncertainty[[1]]
+  )
+
+expect_error(
+  smooth_community_data(
+    data_source_smooth = data_source_smooth,
+    smooth_method = c("shep", "m.avg"),
+    smooth_n_points = 5
+  ), 
+  "'arg' must be of length 1"
+)
+
+})
+
+
+## Q: What happens if there are NA samples in the age data that are dropped?
+test_that("smooth_community_data can handle uneven samples across list elements", {
+  community <- 
+    RRatepol::example_data$pollen_data[[1]]
+  
+  age <- 
+    RRatepol::example_data$sample_age[[1]]
+  
+  # simulate dropping "NA" rows from age$age:
+  age[1:5,3] <- 
+    NA  
+ 
+  age_uncertainty <- 
+    RRatepol::example_data$age_uncertainty[[1]]
+
+
+expect_no_error(
+data_source_smooth <-
+  extract_data(
+    community,
+    age,
+    age_uncertainty
+  ))
+
+  expect_false(
+    any(is.na(data_source_smooth$age$age))
+  )
+
+  data_source_smooth$age <- na.omit(data_source_smooth$age)
+
+  expect_false(
+    any(is.na(data_source_smooth$age$age))
+  )
+
+  nrow(data_source_smooth$age)
+  nrow(data_source_smooth$community)
+  ncol(data_source_smooth$age_un)
+
+  expect_error(
+  res <- 
+  smooth_community_data(
+    data_source_smooth = data_source_smooth,
+    smooth_method = "shep",
+    smooth_n_points = 5
+  )
+  )
+
+})
