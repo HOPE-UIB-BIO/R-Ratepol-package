@@ -954,10 +954,6 @@ test_that("extract_data warns about all-zero age data", {
 })
 
 
-## WIP: Same for age_uncertainty:
-
-
-
 # --------------------------------------------------- #
 # Test invalid input for "age_uncertainty"
 # --------------------------------------------------- #
@@ -1070,10 +1066,10 @@ test_that("extract_data works with minimal data (2 samples)", {
 })
 
 # I would expect warnings for the following cases: (these tests fail)
-test_that("extract_data warns about all-zero age data", {
+test_that("extract_data warns about all-zero age_un data", {
     age_un <-
         RRatepol::example_data$age_uncertainty[[1]]
-    age[,-1] <- 0
+    age_un[,-1] <- 0
     expect_warning(
         extract_data(
             data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -2419,3 +2415,4 @@ test_that(
     expect_identical(names(result$age_un), expected_names)
   }
 )
+
