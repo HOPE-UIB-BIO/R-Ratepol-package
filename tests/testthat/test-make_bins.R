@@ -6,7 +6,8 @@
 #               data_source_bins validation                  #
 # ---------------------------------------------------------- #
 
-test_that("make_bins rejects missing age data in data_source_bins", {
+test_that(
+  "make_bins rejects missing age data in data_source_bins", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -29,7 +30,8 @@ test_that("make_bins rejects missing age data in data_source_bins", {
   )
 })
 
-test_that("make_bins validates data input class == list", {
+test_that(
+  "make_bins validates data input class == list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -38,7 +40,8 @@ test_that("make_bins validates data input class == list", {
       verbose = FALSE
     )
 
-  class(data_source_bins) <-
+  class(
+    data_source_bins) <-
     "data.frame"
 
   expect_error(
@@ -52,7 +55,8 @@ test_that("make_bins validates data input class == list", {
   )
 })
 
-test_that("make_bins rejects data input class == character", {
+test_that(
+  "make_bins rejects data input class == character", {
   expect_error(
     make_bins(
       "data",
@@ -64,7 +68,8 @@ test_that("make_bins rejects data input class == character", {
   )
 })
 
-test_that("make_bins rejects data input class == numeric", {
+test_that(
+  "make_bins rejects data input class == numeric", {
   expect_error(
     make_bins(
       123,
@@ -78,7 +83,8 @@ test_that("make_bins rejects data input class == numeric", {
 
 # Additional tests:
 
-test_that("make_bins rejects empty data_source_bins", {
+test_that(
+  "make_bins rejects empty data_source_bins", {
   expect_error(
     make_bins(
       list(),
@@ -91,7 +97,8 @@ test_that("make_bins rejects empty data_source_bins", {
 })
 
 
-test_that("make_bins rejects NA data_source_bins", {
+test_that(
+  "make_bins rejects NA data_source_bins", {
   expect_error(
     make_bins(
       NA,
@@ -103,7 +110,8 @@ test_that("make_bins rejects NA data_source_bins", {
   )
 })
 
-test_that("make_bins rejects matrix data_source_bins", {
+test_that(
+  "make_bins rejects matrix data_source_bins", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -112,7 +120,8 @@ test_that("make_bins rejects matrix data_source_bins", {
       verbose = FALSE
     )
 
-  data_source_bins <- as.matrix(data_source_bins)
+  data_source_bins <-
+    as.matrix(data_source_bins)
 
   expect_error(
     make_bins(
@@ -125,7 +134,8 @@ test_that("make_bins rejects matrix data_source_bins", {
   )
 })
 
-test_that("make_bins rejects 0 data_source_bins", {
+test_that(
+  "make_bins rejects 0 data_source_bins", {
   expect_error(
     make_bins(
       0,
@@ -137,7 +147,8 @@ test_that("make_bins rejects 0 data_source_bins", {
   )
 })
 
-test_that("make_bins works with default parameters", {
+test_that(
+  "make_bins works with default parameters", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -157,11 +168,14 @@ test_that("make_bins works with default parameters", {
 })
 
 # Data specific validation:
-test_that("make_bins rejects data_source_bins with all empty elements in the list", {
+test_that(
+  "make_bins rejects data_source_bins with all empty elements in the list", {
   data_source_bins <-
     list(
       community = data.frame(),
-      age = data.frame(age = numeric()),
+      age = data.frame(
+    age = numeric(
+    )),
       age_un = data.frame()
     )
 
@@ -180,7 +194,8 @@ test_that("make_bins rejects data_source_bins with all empty elements in the lis
 ## A suite of tests that fail because
 ## the function does not handle the community part of the data at all
 
-test_that("make_bins rejects data_source_bins without community in the list", {
+test_that(
+  "make_bins rejects data_source_bins without community in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -188,7 +203,8 @@ test_that("make_bins rejects data_source_bins without community in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$community <- NULL
+  data_source_bins$community <-
+    NULL
 
   expect_error(
     make_bins(
@@ -202,7 +218,8 @@ test_that("make_bins rejects data_source_bins without community in the list", {
 })
 
 
-test_that("make_bins rejects data_source_bins list community in the list", {
+test_that(
+  "make_bins rejects data_source_bins list community in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -210,7 +227,8 @@ test_that("make_bins rejects data_source_bins list community in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$community <- list(data_source_bins$community)
+  data_source_bins$community <-
+    list(data_source_bins$community)
 
   expect_error(
     make_bins(
@@ -223,7 +241,8 @@ test_that("make_bins rejects data_source_bins list community in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins matrix community in the list", {
+test_that(
+  "make_bins rejects data_source_bins matrix community in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -231,7 +250,8 @@ test_that("make_bins rejects data_source_bins matrix community in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$community <- as.matrix(data_source_bins$community)
+  data_source_bins$community <-
+    as.matrix(data_source_bins$community)
 
   expect_error(
     make_bins(
@@ -245,7 +265,8 @@ test_that("make_bins rejects data_source_bins matrix community in the list", {
 })
 
 
-test_that("make_bins rejects data_source_bins character community in the list", {
+test_that(
+  "make_bins rejects data_source_bins character community in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -253,7 +274,8 @@ test_that("make_bins rejects data_source_bins character community in the list", 
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$community <- "my_community"
+  data_source_bins$community <-
+    "my_community"
 
   expect_error(
     make_bins(
@@ -266,7 +288,8 @@ test_that("make_bins rejects data_source_bins character community in the list", 
   )
 })
 
-test_that("make_bins rejects data_source_bins numeric community in the list", {
+test_that(
+  "make_bins rejects data_source_bins numeric community in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -274,7 +297,8 @@ test_that("make_bins rejects data_source_bins numeric community in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$community <- 123
+  data_source_bins$community <-
+    123
 
   expect_error(
     make_bins(
@@ -287,7 +311,8 @@ test_that("make_bins rejects data_source_bins numeric community in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins NA community in the list", {
+test_that(
+  "make_bins rejects data_source_bins NA community in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -295,7 +320,8 @@ test_that("make_bins rejects data_source_bins NA community in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$community[, ] <- NA
+  data_source_bins$community[, ] <-
+    NA
 
   expect_error(
     make_bins(
@@ -308,7 +334,8 @@ test_that("make_bins rejects data_source_bins NA community in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins 0 community in the list", {
+test_that(
+  "make_bins rejects data_source_bins 0 community in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -316,7 +343,8 @@ test_that("make_bins rejects data_source_bins 0 community in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$community[, ] <- 0
+  data_source_bins$community[, ] <-
+    0
 
   expect_error(
     make_bins(
@@ -329,7 +357,8 @@ test_that("make_bins rejects data_source_bins 0 community in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins with community without rownames in the list", {
+test_that(
+  "make_bins rejects data_source_bins with community without rownames in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -337,7 +366,8 @@ test_that("make_bins rejects data_source_bins with community without rownames in
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  rownames(data_source_bins$community) <- NULL
+  rownames(data_source_bins$community) <-
+    NULL
 
   expect_error(
     make_bins(
@@ -352,7 +382,8 @@ test_that("make_bins rejects data_source_bins with community without rownames in
 
 
 ## Age:
-test_that("make_bins rejects data_source_bins without age in the list", {
+test_that(
+  "make_bins rejects data_source_bins without age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -360,7 +391,8 @@ test_that("make_bins rejects data_source_bins without age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age <- NULL
+  data_source_bins$age <-
+    NULL
 
   expect_error(
     make_bins(
@@ -374,7 +406,8 @@ test_that("make_bins rejects data_source_bins without age in the list", {
 })
 
 
-test_that("make_bins rejects data_source_bins list age in the list", {
+test_that(
+  "make_bins rejects data_source_bins list age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -382,7 +415,8 @@ test_that("make_bins rejects data_source_bins list age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age <- list(data_source_bins$age)
+  data_source_bins$age <-
+    list(data_source_bins$age)
 
   expect_error(
     make_bins(
@@ -395,7 +429,8 @@ test_that("make_bins rejects data_source_bins list age in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins matrix age in the list", {
+test_that(
+  "make_bins rejects data_source_bins matrix age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -403,7 +438,8 @@ test_that("make_bins rejects data_source_bins matrix age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age <- as.matrix(data_source_bins$age)
+  data_source_bins$age <-
+    as.matrix(data_source_bins$age)
 
   expect_error(
     make_bins(
@@ -417,7 +453,8 @@ test_that("make_bins rejects data_source_bins matrix age in the list", {
 })
 
 
-test_that("make_bins rejects data_source_bins character age in the list", {
+test_that(
+  "make_bins rejects data_source_bins character age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -425,7 +462,8 @@ test_that("make_bins rejects data_source_bins character age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age <- "my_age"
+  data_source_bins$age <-
+    "my_age"
 
   expect_error(
     make_bins(
@@ -438,7 +476,8 @@ test_that("make_bins rejects data_source_bins character age in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins numeric age in the list", {
+test_that(
+  "make_bins rejects data_source_bins numeric age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -446,7 +485,8 @@ test_that("make_bins rejects data_source_bins numeric age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age <- 123
+  data_source_bins$age <-
+    123
 
   expect_error(
     make_bins(
@@ -459,7 +499,8 @@ test_that("make_bins rejects data_source_bins numeric age in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins NA age in the list", {
+test_that(
+  "make_bins rejects data_source_bins NA age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -467,7 +508,8 @@ test_that("make_bins rejects data_source_bins NA age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age[, ] <- NA
+  data_source_bins$age[, ] <-
+    NA
 
   expect_error(
     make_bins(
@@ -478,7 +520,8 @@ test_that("make_bins rejects data_source_bins NA age in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins NA age in the list", {
+test_that(
+  "make_bins rejects data_source_bins NA age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -486,7 +529,8 @@ test_that("make_bins rejects data_source_bins NA age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age[, ] <- NA
+  data_source_bins$age[, ] <-
+    NA
 
   expect_error(
     make_bins(
@@ -498,7 +542,8 @@ test_that("make_bins rejects data_source_bins NA age in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins NA age in the list", {
+test_that(
+  "make_bins rejects data_source_bins NA age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -506,7 +551,8 @@ test_that("make_bins rejects data_source_bins NA age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age[, ] <- NA
+  data_source_bins$age[, ] <-
+    NA
 
   expect_error(
     make_bins(
@@ -519,7 +565,8 @@ test_that("make_bins rejects data_source_bins NA age in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins 0 age in the list", {
+test_that(
+  "make_bins rejects data_source_bins 0 age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -527,7 +574,8 @@ test_that("make_bins rejects data_source_bins 0 age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age[, ] <- 0
+  data_source_bins$age[, ] <-
+    0
 
   expect_error(
     make_bins(
@@ -538,7 +586,8 @@ test_that("make_bins rejects data_source_bins 0 age in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins 0 age in the list", {
+test_that(
+  "make_bins rejects data_source_bins 0 age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -546,7 +595,8 @@ test_that("make_bins rejects data_source_bins 0 age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age[, ] <- 0
+  data_source_bins$age[, ] <-
+    0
 
   expect_error(
     make_bins(
@@ -558,7 +608,8 @@ test_that("make_bins rejects data_source_bins 0 age in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins 0 age in the list", {
+test_that(
+  "make_bins rejects data_source_bins 0 age in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -566,7 +617,8 @@ test_that("make_bins rejects data_source_bins 0 age in the list", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age[, ] <- 0
+  data_source_bins$age[, ] <-
+    0
 
   expect_error(
     make_bins(
@@ -579,7 +631,8 @@ test_that("make_bins rejects data_source_bins 0 age in the list", {
   )
 })
 
-test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+test_that(
+  "make_bins rejects data_source_bins with age without rownames in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -587,7 +640,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  rownames(data_source_bins$age) <- NULL
+  rownames(data_source_bins$age) <-
+    NULL
 
   expect_error(
     make_bins(
@@ -599,7 +653,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
 })
 
 
-test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+test_that(
+  "make_bins rejects data_source_bins with age without rownames in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -607,7 +662,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  rownames(data_source_bins$age) <- NULL
+  rownames(data_source_bins$age) <-
+    NULL
 
   expect_error(
     make_bins(
@@ -620,7 +676,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
 })
 
 
-test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+test_that(
+  "make_bins rejects data_source_bins with age without rownames in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -628,7 +685,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  rownames(data_source_bins$age) <- NULL
+  rownames(data_source_bins$age) <-
+    NULL
 
   expect_error(
     make_bins(
@@ -643,7 +701,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
 
 
 # character values inside age
-test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+test_that(
+  "make_bins rejects data_source_bins with age without rownames in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -651,7 +710,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+  data_source_bins$age$age <-
+    as.character(data_source_bins$age$age)
 
   expect_error(
     make_bins(
@@ -661,7 +721,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
   )
 })
 
-test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+test_that(
+  "make_bins rejects data_source_bins with age without rownames in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -669,7 +730,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+  data_source_bins$age$age <-
+    as.character(data_source_bins$age$age)
 
   expect_error(
     make_bins(
@@ -681,7 +743,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
   )
 })
 
-test_that("make_bins rejects data_source_bins with age without rownames in the list", {
+test_that(
+  "make_bins rejects data_source_bins with age without rownames in the list", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -689,7 +752,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+  data_source_bins$age$age <-
+    as.character(data_source_bins$age$age)
 
   expect_error(
     make_bins(
@@ -702,7 +766,8 @@ test_that("make_bins rejects data_source_bins with age without rownames in the l
   )
 })
 
-test_that("make_bins accepts minimal age data (1 row)", {
+test_that(
+  "make_bins accepts minimal age data (1 row)", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -711,9 +776,12 @@ test_that("make_bins accepts minimal age data (1 row)", {
       verbose = FALSE
     )
 
-  data_source_bins$community <- data_source_bins$community[1, , drop = FALSE]
-  data_source_bins$age <- data_source_bins$age[1, , drop = FALSE]
-  data_source_bins$age_un <- data_source_bins$age_un[, 1, drop = FALSE]
+  data_source_bins$community <-
+    data_source_bins$community[1, , drop = FALSE]
+  data_source_bins$age <-
+    data_source_bins$age[1, , drop = FALSE]
+  data_source_bins$age_un <-
+    data_source_bins$age_un[, 1, drop = FALSE]
 
 
   expect_no_error(
@@ -724,7 +792,8 @@ test_that("make_bins accepts minimal age data (1 row)", {
   )
 })
 
-test_that("make_bins accepts minimal age data (1 row)", {
+test_that(
+  "make_bins accepts minimal age data (1 row)", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -733,9 +802,12 @@ test_that("make_bins accepts minimal age data (1 row)", {
       verbose = FALSE
     )
 
-  data_source_bins$community <- data_source_bins$community[1, , drop = FALSE]
-  data_source_bins$age <- data_source_bins$age[1, , drop = FALSE]
-  data_source_bins$age_un <- data_source_bins$age_un[, 1, drop = FALSE]
+  data_source_bins$community <-
+    data_source_bins$community[1, , drop = FALSE]
+  data_source_bins$age <-
+    data_source_bins$age[1, , drop = FALSE]
+  data_source_bins$age_un <-
+    data_source_bins$age_un[, 1, drop = FALSE]
 
 
   expect_no_error(
@@ -747,7 +819,8 @@ test_that("make_bins accepts minimal age data (1 row)", {
   )
 })
 
-test_that("make_bins accepts minimal age data (1 row)", {
+test_that(
+  "make_bins accepts minimal age data (1 row)", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -756,9 +829,12 @@ test_that("make_bins accepts minimal age data (1 row)", {
       verbose = FALSE
     )
 
-  data_source_bins$community <- data_source_bins$community[1, , drop = FALSE]
-  data_source_bins$age <- data_source_bins$age[1, , drop = FALSE]
-  data_source_bins$age_un <- data_source_bins$age_un[, 1, drop = FALSE]
+  data_source_bins$community <-
+    data_source_bins$community[1, , drop = FALSE]
+  data_source_bins$age <-
+    data_source_bins$age[1, , drop = FALSE]
+  data_source_bins$age_un <-
+    data_source_bins$age_un[, 1, drop = FALSE]
 
 
   expect_no_error(
@@ -773,7 +849,8 @@ test_that("make_bins accepts minimal age data (1 row)", {
 
 
 # age with character strings instead of numeric
-test_that("make_bins rejects age with character strings instead of numeric", {
+test_that(
+  "make_bins rejects age with character strings instead of numeric", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -782,7 +859,8 @@ test_that("make_bins rejects age with character strings instead of numeric", {
       verbose = FALSE
     )
 
-  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+  data_source_bins$age$age <-
+    as.character(data_source_bins$age$age)
 
   expect_error(
     make_bins(
@@ -793,7 +871,8 @@ test_that("make_bins rejects age with character strings instead of numeric", {
   )
 })
 
-test_that("make_bins rejects age with character strings instead of numeric", {
+test_that(
+  "make_bins rejects age with character strings instead of numeric", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -802,7 +881,8 @@ test_that("make_bins rejects age with character strings instead of numeric", {
       verbose = FALSE
     )
 
-  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+  data_source_bins$age$age <-
+    as.character(data_source_bins$age$age)
 
   expect_error(
     make_bins(
@@ -814,7 +894,8 @@ test_that("make_bins rejects age with character strings instead of numeric", {
   )
 })
 
-test_that("make_bins rejects age with character strings instead of numeric", {
+test_that(
+  "make_bins rejects age with character strings instead of numeric", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -823,7 +904,8 @@ test_that("make_bins rejects age with character strings instead of numeric", {
       verbose = FALSE
     )
 
-  data_source_bins$age$age <- as.character(data_source_bins$age$age)
+  data_source_bins$age$age <-
+    as.character(data_source_bins$age$age)
 
   expect_error(
     make_bins(
@@ -841,7 +923,8 @@ test_that("make_bins rejects age with character strings instead of numeric", {
 #               working_unit validation                      #
 # ---------------------------------------------------------- #
 
-test_that("make_bins validates that there is a working_unit as input", {
+test_that(
+  "make_bins validates that there is a working_unit as input", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -859,7 +942,8 @@ test_that("make_bins validates that there is a working_unit as input", {
 })
 
 ## (fails - it silently uses "bins" and default bin_size = 500
-test_that("make_bins rejects no working_unit as input", {
+test_that(
+  "make_bins rejects no working_unit as input", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -875,7 +959,8 @@ test_that("make_bins rejects no working_unit as input", {
   )
 })
 
-test_that("make_bins validates that working_unit is not NULL", {
+test_that(
+  "make_bins validates that working_unit is not NULL", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -892,7 +977,8 @@ test_that("make_bins validates that working_unit is not NULL", {
   )
 })
 
-test_that("make_bins validates correct working_unit value as input", {
+test_that(
+  "make_bins validates correct working_unit value as input", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -909,7 +995,8 @@ test_that("make_bins validates correct working_unit value as input", {
   )
 })
 
-test_that("make_bins validates correct working_unit value as input", {
+test_that(
+  "make_bins validates correct working_unit value as input", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -926,7 +1013,8 @@ test_that("make_bins validates correct working_unit value as input", {
   )
 })
 
-test_that("make_bins validates correct working_unit value as input", {
+test_that(
+  "make_bins validates correct working_unit value as input", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -943,7 +1031,8 @@ test_that("make_bins validates correct working_unit value as input", {
   )
 })
 
-test_that("make_bins validates correct working_unit value as input", {
+test_that(
+  "make_bins validates correct working_unit value as input", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -963,7 +1052,8 @@ test_that("make_bins validates correct working_unit value as input", {
 })
 
 ## (fails right now - it will take always the first method in the vector without error or warning)
-test_that("make_bins rejects multiple working_units as input", {
+test_that(
+  "make_bins rejects multiple working_units as input", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -983,7 +1073,8 @@ test_that("make_bins rejects multiple working_units as input", {
   )
 })
 
-test_that("make_bins rejects NULL values for all parameters (but data_source_bins)", {
+test_that(
+  "make_bins rejects NULL values for all parameters (but data_source_bins)", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1010,7 +1101,8 @@ test_that("make_bins rejects NULL values for all parameters (but data_source_bin
 #               working_units = "levels"                     #
 # ---------------------------------------------------------- #
 
-test_that("make_bins with working_units='levels' accepts data without age uncertainty", {
+test_that(
+  "make_bins with working_units='levels' accepts data without age uncertainty", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1027,7 +1119,8 @@ test_that("make_bins with working_units='levels' accepts data without age uncert
   )
 })
 
-test_that("make_bins with working_units='levels' works if there are 0s in age data", {
+test_that(
+  "make_bins with working_units='levels' works if there are 0s in age data", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1036,7 +1129,8 @@ test_that("make_bins with working_units='levels' works if there are 0s in age da
       verbose = FALSE
     )
 
-  data_source_bins$age$age[1:3] <- 0
+  data_source_bins$age$age[1:3] <-
+    0
 
   expect_no_error(
     bins <-
@@ -1048,7 +1142,8 @@ test_that("make_bins with working_units='levels' works if there are 0s in age da
 })
 
 ## (test fails - function works and produces invalid output)
-test_that("make_bins with working_units='levels' fails if there are no rownames in age data", {
+test_that(
+  "make_bins with working_units='levels' fails if there are no rownames in age data", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1057,7 +1152,8 @@ test_that("make_bins with working_units='levels' fails if there are no rownames 
       verbose = FALSE
     )
 
-  rownames(data_source_bins$age) <- NULL
+  rownames(data_source_bins$age) <-
+    NULL
 
   expect_error(
     bins <-
@@ -1073,7 +1169,8 @@ test_that("make_bins with working_units='levels' fails if there are no rownames 
   expect_false(bins$label[1] == "...1-...2")
 })
 
-test_that("make_bins with working_units='levels' works if rownames in age are not numeric", {
+test_that(
+  "make_bins with working_units='levels' works if rownames in age are not numeric", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1084,7 +1181,8 @@ test_that("make_bins with working_units='levels' works if rownames in age are no
 
   length_levels <-
     length(rownames(data_source_bins$age))
-  rownames(data_source_bins$age) <-
+  rownames(
+    data_source_bins$age) <-
     paste0("ABC", 1:length_levels)
 
   expect_no_error(
@@ -1098,7 +1196,8 @@ test_that("make_bins with working_units='levels' works if rownames in age are no
   )
 })
 
-test_that("make_bins with working_units='levels' ignores NAs in age data", {
+test_that(
+  "make_bins with working_units='levels' ignores NAs in age data", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1107,7 +1206,8 @@ test_that("make_bins with working_units='levels' ignores NAs in age data", {
       verbose = FALSE
     )
 
-  data_source_bins$age$age[1:3] <- NA
+  data_source_bins$age$age[1:3] <-
+    NA
 
   expect_no_error(
     bins <-
@@ -1125,7 +1225,8 @@ test_that("make_bins with working_units='levels' ignores NAs in age data", {
 #               working_units = "bins"                     #
 # ---------------------------------------------------------- #
 
-test_that("make_bins with working_units='bins' accepts data without age uncertainty", {
+test_that(
+  "make_bins with working_units='bins' accepts data without age uncertainty", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1142,7 +1243,8 @@ test_that("make_bins with working_units='bins' accepts data without age uncertai
   )
 })
 
-test_that("make_bins with working_units='bins' works if there are 0s in age data", {
+test_that(
+  "make_bins with working_units='bins' works if there are 0s in age data", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1151,7 +1253,8 @@ test_that("make_bins with working_units='bins' works if there are 0s in age data
       verbose = FALSE
     )
 
-  data_source_bins$age$age[1:3] <- 0
+  data_source_bins$age$age[1:3] <-
+    0
 
   expect_no_error(
     bins <-
@@ -1163,7 +1266,8 @@ test_that("make_bins with working_units='bins' works if there are 0s in age data
   )
 })
 
-test_that("make_bins fails with working_units='bins' and no bin_size", {
+test_that(
+  "make_bins fails with working_units='bins' and no bin_size", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1184,7 +1288,8 @@ test_that("make_bins fails with working_units='bins' and no bin_size", {
   )
 })
 
-test_that("make_bins rejects non-numeric bin_size if working_units='bins'", {
+test_that(
+  "make_bins rejects non-numeric bin_size if working_units='bins'", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1207,7 +1312,8 @@ test_that("make_bins rejects non-numeric bin_size if working_units='bins'", {
 
 
 
-test_that("make_bins works with minimum valid bin_size if working_units='bins'", {
+test_that(
+  "make_bins works with minimum valid bin_size if working_units='bins'", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1228,7 +1334,8 @@ test_that("make_bins works with minimum valid bin_size if working_units='bins'",
 })
 
 
-test_that("make_bins works with maximum valid bin_size if working_units='bins'", {
+test_that(
+  "make_bins works with maximum valid bin_size if working_units='bins'", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1249,7 +1356,8 @@ test_that("make_bins works with maximum valid bin_size if working_units='bins'",
 })
 
 
-test_that("make_bins rejects Inf bin_size if working_units='bins'", {
+test_that(
+  "make_bins rejects Inf bin_size if working_units='bins'", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1270,7 +1378,8 @@ test_that("make_bins rejects Inf bin_size if working_units='bins'", {
   )
 })
 
-test_that("make_bins rejects negative bin_size if working_units='bins'", {
+test_that(
+  "make_bins rejects negative bin_size if working_units='bins'", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1291,7 +1400,8 @@ test_that("make_bins rejects negative bin_size if working_units='bins'", {
   )
 })
 
-test_that("make_bins rejects non-integer bin_size if working_units='bins'", {
+test_that(
+  "make_bins rejects non-integer bin_size if working_units='bins'", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1313,7 +1423,8 @@ test_that("make_bins rejects non-integer bin_size if working_units='bins'", {
 })
 
 
-test_that("make_bins rejects vector of multiple bin_sizes if working_units='bins'", {
+test_that(
+  "make_bins rejects vector of multiple bin_sizes if working_units='bins'", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1327,14 +1438,16 @@ test_that("make_bins rejects vector of multiple bin_sizes if working_units='bins
       make_bins(
         data_source_bins,
         working_units = "bins",
-        bin_size = c(100:500),
+        bin_size = c(
+    100:500),
         number_of_shifts = NULL
       ),
     "'bin_size' must be one of the following: 'numeric'"
   )
 })
 
-test_that("make_bins throws error if 'bins' and there are NAs in age data", {
+test_that(
+  "make_bins throws error if 'bins' and there are NAs in age data", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1343,7 +1456,8 @@ test_that("make_bins throws error if 'bins' and there are NAs in age data", {
       verbose = FALSE
     )
 
-  data_source_bins$age$age[1:3] <- NA
+  data_source_bins$age$age[1:3] <-
+    NA
 
   expect_error(
     bins <-
@@ -1357,7 +1471,8 @@ test_that("make_bins throws error if 'bins' and there are NAs in age data", {
   )
 })
 
-test_that("make_bins throws error if working_units='bins' and bin_size < 1", {
+test_that(
+  "make_bins throws error if working_units='bins' and bin_size < 1", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1381,7 +1496,8 @@ test_that("make_bins throws error if working_units='bins' and bin_size < 1", {
 #               working_units = "MW"                     #
 # ---------------------------------------------------------- #
 
-test_that("make_bins with working_units='MW' accepts data without age uncertainty", {
+test_that(
+  "make_bins with working_units='MW' accepts data without age uncertainty", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1399,7 +1515,8 @@ test_that("make_bins with working_units='MW' accepts data without age uncertaint
   )
 })
 
-test_that("make_bins with working_units='MW' throws error if there are NAs in age data", {
+test_that(
+  "make_bins with working_units='MW' throws error if there are NAs in age data", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1408,7 +1525,8 @@ test_that("make_bins with working_units='MW' throws error if there are NAs in ag
       verbose = FALSE
     )
 
-  data_source_bins$age$age[1:3] <- NA
+  data_source_bins$age$age[1:3] <-
+    NA
 
   expect_error(
     bins <-
@@ -1422,7 +1540,8 @@ test_that("make_bins with working_units='MW' throws error if there are NAs in ag
   )
 })
 
-test_that("make_bins with working_units='MW' works if there are 0s in age data", {
+test_that(
+  "make_bins with working_units='MW' works if there are 0s in age data", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1431,7 +1550,8 @@ test_that("make_bins with working_units='MW' works if there are 0s in age data",
       verbose = FALSE
     )
 
-  data_source_bins$age$age[1:3] <- 0
+  data_source_bins$age$age[1:3] <-
+    0
 
   expect_no_error(
     bins <-
@@ -1445,7 +1565,8 @@ test_that("make_bins with working_units='MW' works if there are 0s in age data",
 })
 
 
-test_that("make_bins throws error if working_units='MW' and bin_size is missing", {
+test_that(
+  "make_bins throws error if working_units='MW' and bin_size is missing", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1468,7 +1589,8 @@ test_that("make_bins throws error if working_units='MW' and bin_size is missing"
 })
 
 
-test_that("make_bins throws error if working_units='MW' and number_of_shifts is missing", {
+test_that(
+  "make_bins throws error if working_units='MW' and number_of_shifts is missing", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1489,7 +1611,8 @@ test_that("make_bins throws error if working_units='MW' and number_of_shifts is 
   )
 })
 
-test_that("make_bins throws error if working_units='MW' and bin_size is NA", {
+test_that(
+  "make_bins throws error if working_units='MW' and bin_size is NA", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1511,7 +1634,8 @@ test_that("make_bins throws error if working_units='MW' and bin_size is NA", {
   )
 })
 
-test_that("make_bins uses default parameters if working_units='MW' and no input bin_size and number_of_shifts", {
+test_that(
+  "make_bins uses default parameters if working_units='MW' and no input bin_size and number_of_shifts", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1537,7 +1661,8 @@ test_that("make_bins uses default parameters if working_units='MW' and no input 
   expect_identical(bins_default, bins_res)
 })
 
-test_that("make_bins throws error if working_units='MW' and non-integer bin_size", {
+test_that(
+  "make_bins throws error if working_units='MW' and non-integer bin_size", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1557,7 +1682,8 @@ test_that("make_bins throws error if working_units='MW' and non-integer bin_size
   )
 })
 
-test_that("make_bins throws error if working_units='MW' and bin_size < 1", {
+test_that(
+  "make_bins throws error if working_units='MW' and bin_size < 1", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1577,7 +1703,8 @@ test_that("make_bins throws error if working_units='MW' and bin_size < 1", {
   )
 })
 
-test_that("make_bins throws error if working_units='MW' and number_of_shifts < 1", {
+test_that(
+  "make_bins throws error if working_units='MW' and number_of_shifts < 1", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1597,7 +1724,8 @@ test_that("make_bins throws error if working_units='MW' and number_of_shifts < 1
   )
 })
 
-test_that("make_bins throws no error if working_units='MW' and number_of_shifts = 1", {
+test_that(
+  "make_bins throws no error if working_units='MW' and number_of_shifts = 1", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1616,7 +1744,8 @@ test_that("make_bins throws no error if working_units='MW' and number_of_shifts 
   )
 })
 
-test_that("make_bins throws error if working_units='MW' and number_of_shifts = Inf", {
+test_that(
+  "make_bins throws error if working_units='MW' and number_of_shifts = Inf", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1636,7 +1765,8 @@ test_that("make_bins throws error if working_units='MW' and number_of_shifts = I
   )
 })
 
-test_that("make_bins throws error if working_units='MW' and number_of_shifts = negative", {
+test_that(
+  "make_bins throws error if working_units='MW' and number_of_shifts = negative", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1656,7 +1786,8 @@ test_that("make_bins throws error if working_units='MW' and number_of_shifts = n
   )
 })
 
-test_that("make_bins throws error if working_units='MW' and number_of_shifts = NA", {
+test_that(
+  "make_bins throws error if working_units='MW' and number_of_shifts = NA", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1677,7 +1808,8 @@ test_that("make_bins throws error if working_units='MW' and number_of_shifts = N
 })
 
 
-test_that("make_bins throws error if working_units='MW' and number_of_shifts = non-numeric", {
+test_that(
+  "make_bins throws error if working_units='MW' and number_of_shifts = non-numeric", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1701,7 +1833,8 @@ test_that("make_bins throws error if working_units='MW' and number_of_shifts = n
 # 2. Output validation
 # ---------------------------------------------------------- #
 
-test_that("make_bins returns the correct output", {
+test_that(
+  "make_bins returns the correct output", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1732,32 +1865,40 @@ test_that("make_bins returns the correct output", {
   )
 
   expect_true(
-    class(bins$name) == "character"
+    class(
+    bins$name) == "character"
   )
   expect_true(
-    class(bins$shift) == "numeric"
+    class(
+    bins$shift) == "numeric"
   )
   expect_true(
-    class(bins$age_diff) == "numeric"
+    class(
+    bins$age_diff) == "numeric"
   )
   expect_true(
-    class(bins$start) == "character"
+    class(
+    bins$start) == "character"
   )
   expect_true(
-    class(bins$end) == "character"
+    class(
+    bins$end) == "character"
   )
   expect_true(
-    class(bins$res_age) == "numeric"
+    class(
+    bins$res_age) == "numeric"
   )
   expect_true(
-    class(bins$label) == "character"
+    class(
+    bins$label) == "character"
   )
 })
 
 
 
 
-test_that("make_bins returns the correct output without age_uncertainty", {
+test_that(
+  "make_bins returns the correct output without age_uncertainty", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1787,30 +1928,38 @@ test_that("make_bins returns the correct output without age_uncertainty", {
   )
 
   expect_true(
-    class(bins$name) == "character"
+    class(
+    bins$name) == "character"
   )
   expect_true(
-    class(bins$shift) == "numeric"
+    class(
+    bins$shift) == "numeric"
   )
   expect_true(
-    class(bins$age_diff) == "numeric"
+    class(
+    bins$age_diff) == "numeric"
   )
   expect_true(
-    class(bins$start) == "character"
+    class(
+    bins$start) == "character"
   )
   expect_true(
-    class(bins$end) == "character"
+    class(
+    bins$end) == "character"
   )
   expect_true(
-    class(bins$res_age) == "numeric"
+    class(
+    bins$res_age) == "numeric"
   )
   expect_true(
-    class(bins$label) == "character"
+    class(
+    bins$label) == "character"
   )
 })
 
 
-test_that("make_bins returns the correct output with default parameters for 'levels'", {
+test_that(
+  "make_bins returns the correct output with default parameters for 'levels'", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1844,29 +1993,37 @@ test_that("make_bins returns the correct output with default parameters for 'lev
   )
 
   expect_true(
-    class(bins$name) == "character"
+    class(
+    bins$name) == "character"
   )
   expect_true(
-    class(bins$shift) == "numeric"
+    class(
+    bins$shift) == "numeric"
   )
   expect_true(
-    class(bins$age_diff) == "numeric"
+    class(
+    bins$age_diff) == "numeric"
   )
   expect_true(
-    class(bins$start) == "character"
+    class(
+    bins$start) == "character"
   )
   expect_true(
-    class(bins$end) == "character"
+    class(
+    bins$end) == "character"
   )
   expect_true(
-    class(bins$res_age) == "numeric"
+    class(
+    bins$res_age) == "numeric"
   )
   expect_true(
-    class(bins$label) == "character"
+    class(
+    bins$label) == "character"
   )
 })
 
-test_that("make_bins with working_units='levels' ignores NAs in age data and returns valid output", {
+test_that(
+  "make_bins with working_units='levels' ignores NAs in age data and returns valid output", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1875,7 +2032,8 @@ test_that("make_bins with working_units='levels' ignores NAs in age data and ret
       verbose = FALSE
     )
 
-  data_source_bins$age$age[1:3] <- NA
+  data_source_bins$age$age[1:3] <-
+    NA
 
   bins <-
     make_bins(
@@ -1904,31 +2062,39 @@ test_that("make_bins with working_units='levels' ignores NAs in age data and ret
   )
 
   expect_true(
-    class(bins$name) == "character"
+    class(
+    bins$name) == "character"
   )
   expect_true(
-    class(bins$shift) == "numeric"
+    class(
+    bins$shift) == "numeric"
   )
   expect_true(
-    class(bins$age_diff) == "numeric"
+    class(
+    bins$age_diff) == "numeric"
   )
   expect_true(
-    class(bins$start) == "character"
+    class(
+    bins$start) == "character"
   )
   expect_true(
-    class(bins$end) == "character"
+    class(
+    bins$end) == "character"
   )
   expect_true(
-    class(bins$res_age) == "numeric"
+    class(
+    bins$res_age) == "numeric"
   )
   expect_true(
-    class(bins$label) == "character"
+    class(
+    bins$label) == "character"
   )
 })
 
 
 
-test_that("make_bins returns the correct output with default parameters for 'bins'", {
+test_that(
+  "make_bins returns the correct output with default parameters for 'bins'", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1959,29 +2125,37 @@ test_that("make_bins returns the correct output with default parameters for 'bin
   )
 
   expect_true(
-    class(bins$name) == "numeric"
+    class(
+    bins$name) == "numeric"
   )
   expect_true(
-    class(bins$shift) == "numeric"
+    class(
+    bins$shift) == "numeric"
   )
   expect_true(
-    class(bins$age_diff) == "numeric"
+    class(
+    bins$age_diff) == "numeric"
   )
   expect_true(
-    class(bins$start) == "numeric"
+    class(
+    bins$start) == "numeric"
   )
   expect_true(
-    class(bins$end) == "numeric"
+    class(
+    bins$end) == "numeric"
   )
   expect_true(
-    class(bins$res_age) == "numeric"
+    class(
+    bins$res_age) == "numeric"
   )
   expect_true(
-    class(bins$label) == "character"
+    class(
+    bins$label) == "character"
   )
 })
 
-test_that("make_bins returns the correct output with default parameters for 'MW'", {
+test_that(
+  "make_bins returns the correct output with default parameters for 'MW'", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -2013,31 +2187,39 @@ test_that("make_bins returns the correct output with default parameters for 'MW'
   )
 
   expect_true(
-    class(bins$name) == "numeric"
+    class(
+    bins$name) == "numeric"
   )
   expect_true(
-    class(bins$shift) == "integer"
+    class(
+    bins$shift) == "integer"
   )
   expect_true(
-    class(bins$age_diff) == "numeric"
+    class(
+    bins$age_diff) == "numeric"
   )
   expect_true(
-    class(bins$start) == "numeric"
+    class(
+    bins$start) == "numeric"
   )
   expect_true(
-    class(bins$end) == "numeric"
+    class(
+    bins$end) == "numeric"
   )
   expect_true(
-    class(bins$res_age) == "numeric"
+    class(
+    bins$res_age) == "numeric"
   )
   expect_true(
-    class(bins$label) == "character"
+    class(
+    bins$label) == "character"
   )
 })
 
 
 ## (test fails as long as function accepts invalid input without rownames)
-test_that("make_bins with working_units='levels' and no rownames in age data returns valid output", {
+test_that(
+  "make_bins with working_units='levels' and no rownames in age data returns valid output", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -2046,7 +2228,8 @@ test_that("make_bins with working_units='levels' and no rownames in age data ret
       verbose = FALSE
     )
 
-  rownames(data_source_bins$age) <- NULL
+  rownames(data_source_bins$age) <-
+    NULL
 
   bins <-
     make_bins(
@@ -2075,30 +2258,38 @@ test_that("make_bins with working_units='levels' and no rownames in age data ret
   )
 
   expect_true(
-    class(bins$name) == "character"
+    class(
+    bins$name) == "character"
   )
   expect_true(
-    class(bins$shift) == "numeric"
+    class(
+    bins$shift) == "numeric"
   )
   expect_true(
-    class(bins$age_diff) == "numeric"
+    class(
+    bins$age_diff) == "numeric"
   )
   expect_true(
-    class(bins$start) == "character"
+    class(
+    bins$start) == "character"
   )
   expect_true(
-    class(bins$end) == "character"
+    class(
+    bins$end) == "character"
   )
   expect_true(
-    class(bins$res_age) == "numeric"
+    class(
+    bins$res_age) == "numeric"
   )
   expect_true(
-    class(bins$label) == "character"
+    class(
+    bins$label) == "character"
   )
 })
 
 
-test_that("make_bins with no working_units as input returns valid output", {
+test_that(
+  "make_bins with no working_units as input returns valid output", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -2108,7 +2299,8 @@ test_that("make_bins with no working_units as input returns valid output", {
     )
 
 
-  bins <- make_bins(
+  bins <-
+    make_bins(
     data_source_bins,
   )
 
@@ -2131,24 +2323,31 @@ test_that("make_bins with no working_units as input returns valid output", {
   )
 
   expect_true(
-    class(bins$name) == "character"
+    class(
+    bins$name) == "character"
   )
   expect_true(
-    class(bins$shift) == "numeric"
+    class(
+    bins$shift) == "numeric"
   )
   expect_true(
-    class(bins$age_diff) == "numeric"
+    class(
+    bins$age_diff) == "numeric"
   )
   expect_true(
-    class(bins$start) == "character"
+    class(
+    bins$start) == "character"
   )
   expect_true(
-    class(bins$end) == "character"
+    class(
+    bins$end) == "character"
   )
   expect_true(
-    class(bins$res_age) == "numeric"
+    class(
+    bins$res_age) == "numeric"
   )
   expect_true(
-    class(bins$label) == "character"
+    class(
+    bins$label) == "character"
   )
 })

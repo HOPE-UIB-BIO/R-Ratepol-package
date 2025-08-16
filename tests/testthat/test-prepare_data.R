@@ -2,7 +2,8 @@
 #               Data_source_prep Input Tests                 #
 # ---------------------------------------------------------- #
 
-test_that("prepare_data rejects NULL data_source", {
+test_that(
+  "prepare_data rejects NULL data_source", {
   expect_error(
     prepare_data(
       data_source_prep = NULL,
@@ -14,7 +15,8 @@ test_that("prepare_data rejects NULL data_source", {
   )
 })
 
-test_that("prepare_data rejects incomplete list(data.frame) in data_source", {
+test_that(
+  "prepare_data rejects incomplete list(data.frame) in data_source", {
   expect_error(
     prepare_data(
       data_source_prep = RRatepol::example_data$pollen_data[[1]],
@@ -26,7 +28,8 @@ test_that("prepare_data rejects incomplete list(data.frame) in data_source", {
   )
 })
 
-test_that("prepare_data fails if no community in data_source", {
+test_that(
+  "prepare_data fails if no community in data_source", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -34,7 +37,8 @@ test_that("prepare_data fails if no community in data_source", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  example_data$community <- NULL
+  example_data$community <-
+    NULL
   expect_error(
     prepare_data(
       data_source_prep = example_data,
@@ -47,7 +51,8 @@ test_that("prepare_data fails if no community in data_source", {
 })
 
 
-test_that("prepare_data fails if no age in data_source", {
+test_that(
+  "prepare_data fails if no age in data_source", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -55,7 +60,8 @@ test_that("prepare_data fails if no age in data_source", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  example_data$age <- NULL
+  example_data$age <-
+    NULL
   expect_error(
     prepare_data(
       data_source_prep = example_data,
@@ -67,7 +73,8 @@ test_that("prepare_data fails if no age in data_source", {
   )
 })
 
-test_that("prepare_data works if no age_uncertainty in data_source", {
+test_that(
+  "prepare_data works if no age_uncertainty in data_source", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -75,7 +82,8 @@ test_that("prepare_data works if no age_uncertainty in data_source", {
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
       verbose = FALSE
     )
-  example_data$age_un <- NULL
+  example_data$age_un <-
+    NULL
   expect_no_error(
     prepare_data(
       data_source_prep = example_data,
@@ -92,7 +100,8 @@ test_that("prepare_data works if no age_uncertainty in data_source", {
 
 ## Community data
 # Zeros
-test_that("prepare_data with working_units='levels' works if there are 0s in community data", {
+test_that(
+  "prepare_data with working_units='levels' works if there are 0s in community data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -101,7 +110,8 @@ test_that("prepare_data with working_units='levels' works if there are 0s in com
       verbose = FALSE
     )
 
-  example_data$community[1:3] <- 0
+  example_data$community[1:3] <-
+    0
 
   expect_no_error(
     prepare_data(
@@ -111,7 +121,8 @@ test_that("prepare_data with working_units='levels' works if there are 0s in com
   )
 })
 
-test_that("prepare_data with working_units='bins' works if there are 0s in community data", {
+test_that(
+  "prepare_data with working_units='bins' works if there are 0s in community data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -120,7 +131,8 @@ test_that("prepare_data with working_units='bins' works if there are 0s in commu
       verbose = FALSE
     )
 
-  example_data$community[1:3] <- 0
+  example_data$community[1:3] <-
+    0
 
   expect_no_error(
     prepare_data(
@@ -132,7 +144,8 @@ test_that("prepare_data with working_units='bins' works if there are 0s in commu
 })
 
 
-test_that("prepare_data with working_units='MW' works if there are 0s in community data", {
+test_that(
+  "prepare_data with working_units='MW' works if there are 0s in community data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -141,7 +154,8 @@ test_that("prepare_data with working_units='MW' works if there are 0s in communi
       verbose = FALSE
     )
 
-  example_data$community[1:3] <- 0
+  example_data$community[1:3] <-
+    0
 
   expect_no_error(
     prepare_data(
@@ -154,7 +168,8 @@ test_that("prepare_data with working_units='MW' works if there are 0s in communi
 })
 
 # NAs in Age
-test_that("prepare_data with working_units='levels' works if there are NAs in community data", {
+test_that(
+  "prepare_data with working_units='levels' works if there are NAs in community data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -163,7 +178,8 @@ test_that("prepare_data with working_units='levels' works if there are NAs in co
       verbose = FALSE
     )
 
-  example_data$community[1:3] <- NA
+  example_data$community[1:3] <-
+    NA
 
   expect_no_error(
     prepare_data(
@@ -173,7 +189,8 @@ test_that("prepare_data with working_units='levels' works if there are NAs in co
   )
 })
 
-test_that("prepare_data with working_units='bins' works if there are NAs in community data", {
+test_that(
+  "prepare_data with working_units='bins' works if there are NAs in community data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -182,7 +199,8 @@ test_that("prepare_data with working_units='bins' works if there are NAs in comm
       verbose = FALSE
     )
 
-  example_data$community[1:3] <- NA
+  example_data$community[1:3] <-
+    NA
 
   expect_no_error(
     prepare_data(
@@ -194,7 +212,8 @@ test_that("prepare_data with working_units='bins' works if there are NAs in comm
 })
 
 
-test_that("prepare_data with working_units='MW' works if there are NAs in community data", {
+test_that(
+  "prepare_data with working_units='MW' works if there are NAs in community data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -203,7 +222,8 @@ test_that("prepare_data with working_units='MW' works if there are NAs in commun
       verbose = FALSE
     )
 
-  example_data$community[1:3] <- NA
+  example_data$community[1:3] <-
+    NA
 
   expect_no_error(
     prepare_data(
@@ -218,7 +238,8 @@ test_that("prepare_data with working_units='MW' works if there are NAs in commun
 
 ## Age data
 # Zeros
-test_that("prepare_data with working_units='levels' works if there are 0s in age data", {
+test_that(
+  "prepare_data with working_units='levels' works if there are 0s in age data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -227,7 +248,8 @@ test_that("prepare_data with working_units='levels' works if there are 0s in age
       verbose = FALSE
     )
 
-  example_data$age$age[1:3] <- 0
+  example_data$age$age[1:3] <-
+    0
 
   expect_no_error(
     prepare_data(
@@ -237,7 +259,8 @@ test_that("prepare_data with working_units='levels' works if there are 0s in age
   )
 })
 
-test_that("prepare_data with working_units='bins' works if there are 0s in age data", {
+test_that(
+  "prepare_data with working_units='bins' works if there are 0s in age data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -246,7 +269,8 @@ test_that("prepare_data with working_units='bins' works if there are 0s in age d
       verbose = FALSE
     )
 
-  example_data$age$age[1:3] <- 0
+  example_data$age$age[1:3] <-
+    0
 
   expect_no_error(
     prepare_data(
@@ -258,7 +282,8 @@ test_that("prepare_data with working_units='bins' works if there are 0s in age d
 })
 
 
-test_that("prepare_data with working_units='MW' works if there are 0s in age data", {
+test_that(
+  "prepare_data with working_units='MW' works if there are 0s in age data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -267,7 +292,8 @@ test_that("prepare_data with working_units='MW' works if there are 0s in age dat
       verbose = FALSE
     )
 
-  example_data$age$age[1:3] <- 0
+  example_data$age$age[1:3] <-
+    0
 
   expect_no_error(
     prepare_data(
@@ -280,7 +306,8 @@ test_that("prepare_data with working_units='MW' works if there are 0s in age dat
 })
 
 # NAs in Age
-test_that("prepare_data with working_units='levels' works if there are NAs in age data", {
+test_that(
+  "prepare_data with working_units='levels' works if there are NAs in age data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -289,7 +316,8 @@ test_that("prepare_data with working_units='levels' works if there are NAs in ag
       verbose = FALSE
     )
 
-  example_data$age$age[1:3] <- NA
+  example_data$age$age[1:3] <-
+    NA
 
   expect_no_error(
     prepare_data(
@@ -299,7 +327,8 @@ test_that("prepare_data with working_units='levels' works if there are NAs in ag
   )
 })
 
-test_that("prepare_data with working_units='bins' fails if there are NAs in age data", {
+test_that(
+  "prepare_data with working_units='bins' fails if there are NAs in age data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -308,7 +337,8 @@ test_that("prepare_data with working_units='bins' fails if there are NAs in age 
       verbose = FALSE
     )
 
-  example_data$age$age[1:3] <- NA
+  example_data$age$age[1:3] <-
+    NA
 
   expect_error(
     prepare_data(
@@ -321,7 +351,8 @@ test_that("prepare_data with working_units='bins' fails if there are NAs in age 
 })
 
 
-test_that("prepare_data with working_units='MW' fails if there are NAs in age data", {
+test_that(
+  "prepare_data with working_units='MW' fails if there are NAs in age data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -330,7 +361,8 @@ test_that("prepare_data with working_units='MW' fails if there are NAs in age da
       verbose = FALSE
     )
 
-  example_data$age$age[1:3] <- NA
+  example_data$age$age[1:3] <-
+    NA
 
   expect_error(
     prepare_data(
@@ -346,7 +378,8 @@ test_that("prepare_data with working_units='MW' fails if there are NAs in age da
 
 ## Age_uncertainty data
 # Zeros
-test_that("prepare_data with working_units='levels' and rand=1 works if there are 0s in the age uncertainty", {
+test_that(
+  "prepare_data with working_units='levels' and rand=1 works if there are 0s in the age uncertainty", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -355,10 +388,12 @@ test_that("prepare_data with working_units='levels' and rand=1 works if there ar
       verbose = FALSE
     )
 
-  example_data$age_un[1:3] <- 0
+  example_data$age_un[1:3] <-
+    0
 
   expect_no_error(
-    res <- prepare_data(
+    res <-
+      prepare_data(
       example_data,
       working_units = "levels",
       rand = 1
@@ -373,7 +408,8 @@ test_that("prepare_data with working_units='levels' and rand=1 works if there ar
   )
 })
 
-test_that("prepare_data with working_units='bins' and rand=1 works if there are 0s in the age uncertainty", {
+test_that(
+  "prepare_data with working_units='bins' and rand=1 works if there are 0s in the age uncertainty", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -382,10 +418,12 @@ test_that("prepare_data with working_units='bins' and rand=1 works if there are 
       verbose = FALSE
     )
 
-  example_data$age_un[1:3] <- 0
+  example_data$age_un[1:3] <-
+    0
 
   expect_no_error(
-    res <- prepare_data(
+    res <-
+      prepare_data(
       example_data,
       working_units = "bins",
       bin_size = 500,
@@ -402,7 +440,8 @@ test_that("prepare_data with working_units='bins' and rand=1 works if there are 
 })
 
 
-test_that("prepare_data with working_units='MW' and rand=1 works if there are 0s in the age uncertainty", {
+test_that(
+  "prepare_data with working_units='MW' and rand=1 works if there are 0s in the age uncertainty", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -411,10 +450,12 @@ test_that("prepare_data with working_units='MW' and rand=1 works if there are 0s
       verbose = FALSE
     )
 
-  example_data$age_un[1:3] <- 0
+  example_data$age_un[1:3] <-
+    0
 
   expect_no_error(
-    res <- prepare_data(
+    res <-
+      prepare_data(
       example_data,
       working_units = "MW",
       bin_size = 500,
@@ -433,7 +474,8 @@ test_that("prepare_data with working_units='MW' and rand=1 works if there are 0s
 
 
 # NAs in Age_uncertainty
-test_that("prepare_data with working_units='levels' works if there are NAs in age_un data", {
+test_that(
+  "prepare_data with working_units='levels' works if there are NAs in age_un data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -442,7 +484,8 @@ test_that("prepare_data with working_units='levels' works if there are NAs in ag
       verbose = FALSE
     )
 
-  example_data$age_un[1:3] <- NA
+  example_data$age_un[1:3] <-
+    NA
 
   expect_no_error(
     prepare_data(
@@ -453,7 +496,8 @@ test_that("prepare_data with working_units='levels' works if there are NAs in ag
   )
 })
 
-test_that("prepare_data with working_units='bins' works if there are NAs in age_un data", {
+test_that(
+  "prepare_data with working_units='bins' works if there are NAs in age_un data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -462,7 +506,8 @@ test_that("prepare_data with working_units='bins' works if there are NAs in age_
       verbose = FALSE
     )
 
-  example_data$age_un[1:3] <- NA
+  example_data$age_un[1:3] <-
+    NA
 
   expect_no_error(
     prepare_data(
@@ -475,7 +520,8 @@ test_that("prepare_data with working_units='bins' works if there are NAs in age_
 })
 
 
-test_that("prepare_data with working_units='MW' returns NA in data if there is NA in age_uncertainty", {
+test_that(
+  "prepare_data with working_units='MW' returns NA in data if there is NA in age_uncertainty", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -484,7 +530,8 @@ test_that("prepare_data with working_units='MW' returns NA in data if there is N
       verbose = FALSE
     )
 
-  example_data$age_un[1:3] <- NA
+  example_data$age_un[1:3] <-
+    NA
 
   expect_no_error(
     res <-
@@ -505,7 +552,8 @@ test_that("prepare_data with working_units='MW' returns NA in data if there is N
 #                  Working Units Input Tests                 #
 # ---------------------------------------------------------- #
 
-test_that("prepare_data validates working_units is one of the three valid options", {
+test_that(
+  "prepare_data validates working_units is one of the three valid options", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -526,7 +574,8 @@ test_that("prepare_data validates working_units is one of the three valid option
   )
 })
 
-test_that("prepare_data validates working_units parameter is not numeric", {
+test_that(
+  "prepare_data validates working_units parameter is not numeric", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -547,7 +596,8 @@ test_that("prepare_data validates working_units parameter is not numeric", {
   )
 })
 
-test_that("prepare_data validates working_units parameter is not numeric", {
+test_that(
+  "prepare_data validates working_units parameter is not numeric", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -569,7 +619,8 @@ test_that("prepare_data validates working_units parameter is not numeric", {
 })
 
 
-test_that("prepare_data validates working_units parameter is not a vector of parameters", {
+test_that(
+  "prepare_data validates working_units parameter is not a vector of parameters", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -588,7 +639,8 @@ test_that("prepare_data validates working_units parameter is not a vector of par
   )
 })
 
-test_that("prepare_data validates working_units parameter is not a vector of parameters", {
+test_that(
+  "prepare_data validates working_units parameter is not a vector of parameters", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -608,7 +660,8 @@ test_that("prepare_data validates working_units parameter is not a vector of par
 
 
 # test fails because function silently uses the default parameters
-test_that("prepare_data rejects no working_unit as input", {
+test_that(
+  "prepare_data rejects no working_unit as input", {
   data_source_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -625,7 +678,8 @@ test_that("prepare_data rejects no working_unit as input", {
   )
 })
 
-test_that("prepare_data validates working_units parameter is not 0", {
+test_that(
+  "prepare_data validates working_units parameter is not 0", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -644,7 +698,8 @@ test_that("prepare_data validates working_units parameter is not 0", {
 })
 
 
-test_that("prepare_data validates working_units parameter is not NULL", {
+test_that(
+  "prepare_data validates working_units parameter is not NULL", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -672,7 +727,8 @@ test_that("prepare_data validates working_units parameter is not NULL", {
 
 # 1.1 "levels"
 
-test_that("prepare_data validates bin_size is not NULL with working_unit='levels'", {
+test_that(
+  "prepare_data validates bin_size is not NULL with working_unit='levels'", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -693,7 +749,8 @@ test_that("prepare_data validates bin_size is not NULL with working_unit='levels
   )
 })
 
-test_that("prepare_data validates bin_size is not Inf with working_unit='levels'", {
+test_that(
+  "prepare_data validates bin_size is not Inf with working_unit='levels'", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -715,7 +772,8 @@ test_that("prepare_data validates bin_size is not Inf with working_unit='levels'
 })
 
 
-test_that("prepare_data validates bin_size is not negative with working_unit='levels'", {
+test_that(
+  "prepare_data validates bin_size is not negative with working_unit='levels'", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -736,7 +794,8 @@ test_that("prepare_data validates bin_size is not negative with working_unit='le
   )
 })
 
-test_that("prepare_data validates bin_size is not NA with working_unit='levels'", {
+test_that(
+  "prepare_data validates bin_size is not NA with working_unit='levels'", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -757,7 +816,8 @@ test_that("prepare_data validates bin_size is not NA with working_unit='levels'"
   )
 })
 
-test_that("prepare_data validates bin_size is integer with working_unit='levels'", {
+test_that(
+  "prepare_data validates bin_size is integer with working_unit='levels'", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -777,7 +837,8 @@ test_that("prepare_data validates bin_size is integer with working_unit='levels'
   )
 })
 
-test_that("prepare_data validates bin_size is not 0 with working_unit='levels'", {
+test_that(
+  "prepare_data validates bin_size is not 0 with working_unit='levels'", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -798,7 +859,8 @@ test_that("prepare_data validates bin_size is not 0 with working_unit='levels'",
 })
 
 
-test_that("prepare_data works with minimum bin_size (1) with working_unit='levels'", {
+test_that(
+  "prepare_data works with minimum bin_size (1) with working_unit='levels'", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -819,7 +881,8 @@ test_that("prepare_data works with minimum bin_size (1) with working_unit='level
 
 # 1.2 "bins"
 
-test_that("prepare_data validates bin_size is numeric", {
+test_that(
+  "prepare_data validates bin_size is numeric", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -840,7 +903,8 @@ test_that("prepare_data validates bin_size is numeric", {
   )
 })
 
-test_that("prepare_data validates bin_size is not Inf", {
+test_that(
+  "prepare_data validates bin_size is not Inf", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -862,7 +926,8 @@ test_that("prepare_data validates bin_size is not Inf", {
 })
 
 
-test_that("prepare_data validates bin_size is not negative", {
+test_that(
+  "prepare_data validates bin_size is not negative", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -883,7 +948,8 @@ test_that("prepare_data validates bin_size is not negative", {
   )
 })
 
-test_that("prepare_data validates bin_size is not NA", {
+test_that(
+  "prepare_data validates bin_size is not NA", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -904,7 +970,8 @@ test_that("prepare_data validates bin_size is not NA", {
   )
 })
 
-test_that("prepare_data validates bin_size is integer", {
+test_that(
+  "prepare_data validates bin_size is integer", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -924,7 +991,8 @@ test_that("prepare_data validates bin_size is integer", {
   )
 })
 
-test_that("prepare_data validates bin_size is not 0", {
+test_that(
+  "prepare_data validates bin_size is not 0", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -945,7 +1013,8 @@ test_that("prepare_data validates bin_size is not 0", {
 })
 
 
-test_that("prepare_data works with minimum bin_size (1)", {
+test_that(
+  "prepare_data works with minimum bin_size (1)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -967,7 +1036,8 @@ test_that("prepare_data works with minimum bin_size (1)", {
 
 # 1.3 "MW"
 
-test_that("prepare_data validates bin_size is numeric (working_units=WM)", {
+test_that(
+  "prepare_data validates bin_size is numeric (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -988,7 +1058,8 @@ test_that("prepare_data validates bin_size is numeric (working_units=WM)", {
   )
 })
 
-test_that("prepare_data validates bin_size is not Inf (working_units=WM)", {
+test_that(
+  "prepare_data validates bin_size is not Inf (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1010,7 +1081,8 @@ test_that("prepare_data validates bin_size is not Inf (working_units=WM)", {
 })
 
 
-test_that("prepare_data validates bin_size is not negative (working_units=WM)", {
+test_that(
+  "prepare_data validates bin_size is not negative (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1031,7 +1103,8 @@ test_that("prepare_data validates bin_size is not negative (working_units=WM)", 
   )
 })
 
-test_that("prepare_data validates bin_size is not NA (working_units=WM)", {
+test_that(
+  "prepare_data validates bin_size is not NA (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1053,7 +1126,8 @@ test_that("prepare_data validates bin_size is not NA (working_units=WM)", {
 })
 
 
-test_that("prepare_data validates bin_size is integer (working_units=WM)", {
+test_that(
+  "prepare_data validates bin_size is integer (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1074,7 +1148,8 @@ test_that("prepare_data validates bin_size is integer (working_units=WM)", {
 })
 
 
-test_that("prepare_data validates bin_size is not 0 (working_units=WM)", {
+test_that(
+  "prepare_data validates bin_size is not 0 (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1095,7 +1170,8 @@ test_that("prepare_data validates bin_size is not 0 (working_units=WM)", {
 })
 
 
-test_that("prepare_data works with minimum bin_size (1) and MW", {
+test_that(
+  "prepare_data works with minimum bin_size (1) and MW", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1120,7 +1196,8 @@ test_that("prepare_data works with minimum bin_size (1) and MW", {
 #                Number of shifts Input Tests                #
 # ---------------------------------------------------------- #
 
-test_that("prepare_data validates number_of_shifts is present (working_units=WM)", {
+test_that(
+  "prepare_data validates number_of_shifts is present (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1141,7 +1218,8 @@ test_that("prepare_data validates number_of_shifts is present (working_units=WM)
   )
 })
 
-test_that("prepare_data validates number_of_shifts is not Inf (working_units=WM)", {
+test_that(
+  "prepare_data validates number_of_shifts is not Inf (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1163,7 +1241,8 @@ test_that("prepare_data validates number_of_shifts is not Inf (working_units=WM)
 })
 
 
-test_that("prepare_data validates number_of_shifts is not negative (working_units=WM)", {
+test_that(
+  "prepare_data validates number_of_shifts is not negative (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1184,7 +1263,8 @@ test_that("prepare_data validates number_of_shifts is not negative (working_unit
   )
 })
 
-test_that("prepare_data validates number_of_shifts is not NA (working_units=WM)", {
+test_that(
+  "prepare_data validates number_of_shifts is not NA (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1206,7 +1286,8 @@ test_that("prepare_data validates number_of_shifts is not NA (working_units=WM)"
 })
 
 
-test_that("prepare_data validates number_of_shifts is integer (working_units=WM)", {
+test_that(
+  "prepare_data validates number_of_shifts is integer (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1227,7 +1308,8 @@ test_that("prepare_data validates number_of_shifts is integer (working_units=WM)
 })
 
 
-test_that("prepare_data works with number_of_shifts = 0 (working_units=WM)", {
+test_that(
+  "prepare_data works with number_of_shifts = 0 (working_units=WM)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1251,7 +1333,8 @@ test_that("prepare_data works with number_of_shifts = 0 (working_units=WM)", {
 #                 Rand Input Tests                           #
 # ---------------------------------------------------------- #
 
-test_that("prepare_data validates rand parameter when provided", {
+test_that(
+  "prepare_data validates rand parameter when provided", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1272,7 +1355,8 @@ test_that("prepare_data validates rand parameter when provided", {
   )
 })
 
-test_that("prepare_data validates rand is integer when numeric", {
+test_that(
+  "prepare_data validates rand is integer when numeric", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1293,7 +1377,8 @@ test_that("prepare_data validates rand is integer when numeric", {
   )
 })
 
-test_that("prepare_data produces N = rand random samples", {
+test_that(
+  "prepare_data produces N = rand random samples", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1326,7 +1411,8 @@ test_that("prepare_data produces N = rand random samples", {
   expect_equal(length(dat_5), 5)
 })
 
-test_that("prepare_data produces _randomized_ samples with every trial", {
+test_that(
+  "prepare_data produces _randomized_ samples with every trial", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1356,7 +1442,8 @@ test_that("prepare_data produces _randomized_ samples with every trial", {
 })
 
 
-test_that("prepare_data samples reproducibly if rand > 1 and seed set manually", {
+test_that(
+  "prepare_data samples reproducibly if rand > 1 and seed set manually", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1389,7 +1476,8 @@ test_that("prepare_data samples reproducibly if rand > 1 and seed set manually",
 })
 
 #fails currently
-test_that("prepare_data samples reproducibly if rand > 1 and no seed set manually", {
+test_that(
+  "prepare_data samples reproducibly if rand > 1 and no seed set manually", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1420,7 +1508,8 @@ test_that("prepare_data samples reproducibly if rand > 1 and no seed set manuall
 })
 
 # fails currentöy
-test_that("prepare_data does not change age if no age_uncertainty in data", {
+test_that(
+  "prepare_data does not change age if no age_uncertainty in data", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1452,7 +1541,8 @@ test_that("prepare_data does not change age if no age_uncertainty in data", {
 # ---------------------------------------------------------- #
 
 # with valid input:
-test_that("prepare_data returns the correct output structure with default parameters (levels)", {
+test_that(
+  "prepare_data returns the correct output structure with default parameters (levels)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1461,7 +1551,8 @@ test_that("prepare_data returns the correct output structure with default parame
       verbose = FALSE
     )
 
-  res <-1
+  res <-
+    1
   
     prepare_data(
       data_source_prep = example_data,
@@ -1478,13 +1569,15 @@ test_that("prepare_data returns the correct output structure with default parame
 
   # Named list elements
   expect_identical(
-    names(res[[1]][[1]]),
+    names(
+    res[[1]][[1]]),
     c("data", "bins")
   )
 
   # Named data object
   expect_identical(
-    names(res[[1]][[1]]$data),
+    names(
+    res[[1]][[1]]$data),
     c("age", names(example_data$community))
   )
 
@@ -1507,7 +1600,8 @@ test_that("prepare_data returns the correct output structure with default parame
 
 
 
-test_that("prepare_data returns the correct output structure with default parameters (MW)", {
+test_that(
+  "prepare_data returns the correct output structure with default parameters (MW)", {
   example_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1532,13 +1626,15 @@ test_that("prepare_data returns the correct output structure with default parame
 
   # Named list elements
   expect_identical(
-    names(res[[1]][[1]]),
+    names(
+    res[[1]][[1]]),
     c("data", "bins")
   )
 
   # Named data object
   expect_identical(
-    names(res[[1]][[1]]$data),
+    names(
+    res[[1]][[1]]$data),
     c("age", names(example_data$community))
   )
 
@@ -1585,13 +1681,15 @@ expect_type(
 
 # Named list elements
 expect_identical(
-  names(res[[1]][[1]]),
+  names(
+    res[[1]][[1]]),
   c("data", "bins")
 )
 
 # Named data object
 expect_identical(
-  names(res[[1]][[1]]$data),
+  names(
+    res[[1]][[1]]$data),
   c("age", names(example_data$community))
 )
 
