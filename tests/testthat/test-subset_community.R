@@ -40,7 +40,7 @@ test_that("subset_community fails with numeric data_source input", {
   )
 })
 
-test_that("subset_community throws error with empty data_source input", {
+test_that("subset_community throws warning with empty data_source input", {
   expect_warning(
     subset_community(
       data_source = data.frame(),
