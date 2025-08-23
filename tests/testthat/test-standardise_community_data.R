@@ -236,17 +236,93 @@ test_that("standardise_community_data throws error with character n_individuals"
         data_source_standard = data_subset_char,
         n_individuals = n_individuals_char
       ),
+    # none programmed into the function yet
+  )
+})
+
+test_that("standardise_community_data works with character n_individuals", {
+  n_individuals_char <- "10"
+  
+  data_to_run_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+    ) %>%
+    reduce_data(
+      check_taxa = TRUE,
+      check_levels = TRUE
+    ) %>%
+    prepare_data(
+      data_source_prep = .,
+      working_units = "bins",
+      bin_size = 500,
+      rand = 1
+    ) %>%
+    RUtilpol::flatten_list_by_one() %>%
+    .[[1]]
+  
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+  
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+  
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+  
+  # adjust the value to a minimal of presented values
+  n_individuals_char <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals_char
+      )
+    )
+  
+  # check if all samples has n_individuals of individuals:
+  # -> will not work as intended if n_individuals_char is a character,
+  # leading to incorrect or empty results.
+  
+  data_subset_char <-
+    data_subset[com_data_sums >= n_individuals_char, ]
+  
+  data_subset_char <-
+    reduce_data_simple(
+      data_source_reduce = data_subset_char
+    )
+  
+  # standardisation
+  set.seed(123)
+  expect_no_error(
+    data_sd_char <-
+      standardise_community_data(
+        data_source_standard = data_subset_char,
+        n_individuals = n_individuals_char
+      )
     #
   )
-
+  
   # Control:
   n_individuals_num <- 10
   # adjust the value to a minimal of presented values
-
+  
   # -> will coerce all values to character,
   # which can cause unexpected behavior in
   # subsequent numeric comparisons and subsetting.
-
+  
   n_individuals_num <-
     min(
       c(
@@ -254,27 +330,28 @@ test_that("standardise_community_data throws error with character n_individuals"
         n_individuals_num
       )
     )
-
+  
   # check if all samples has n_individuals of individuals
   data_subset_num <-
     data_subset[com_data_sums >= n_individuals_num, ]
-
+  
   data_subset_num <-
     reduce_data_simple(
       data_source_reduce = data_subset_num
     )
-
+  
   data_sd_num <-
     standardise_community_data(
       data_source_standard = data_subset_num,
       n_individuals = n_individuals_num
     )
-
-  # expect_identical(
-  #   data_sd_char,
-  #   data_sd_num
-  #   )
+  
+  expect_identical(
+    data_sd_char,
+    data_sd_num
+    )
 })
+
 
 # high n_individuals
 test_that("standardise_community_data works with high n_individuals (within run_iteration workflow)", {
