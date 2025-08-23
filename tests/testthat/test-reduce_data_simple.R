@@ -18,12 +18,11 @@ test_that("reduce_data_simple throws error without input data", {
 test_that("reduce_data_simple throws error without input data", {
   expect_error(
     reduce_data_simple(
-      data_source_reduce = NULL,
       ommit_vars = c("label", "res_age", "age_diff"),
       check_taxa = TRUE,
       check_levels = TRUE
     ),
-    "no applicable method for 'select'"
+    'argument "data_source_reduce" is missing, with no default'
   )
 })
 
