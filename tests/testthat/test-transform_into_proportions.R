@@ -2,7 +2,8 @@
 # Prepare default data (without smoothing)
 
 # Input validation (Error messages)
-test_that("transform_into_proportions throws error with missing data input for 'proportions'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is missing for sel_method='proportions'", {
   expect_error(
     transform_into_proportions(
       sel_method = "proportions"
@@ -11,7 +12,8 @@ test_that("transform_into_proportions throws error with missing data input for '
   )
 })
 
-test_that("transform_into_proportions throws error with missing data input for 'percentages'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is missing for sel_method='percentages'", {
   expect_error(
     transform_into_proportions(
       sel_method = "percentages"
@@ -21,7 +23,8 @@ test_that("transform_into_proportions throws error with missing data input for '
 })
 
 # NULL
-test_that("transform_into_proportions throws error with NULL data input for 'proportions'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is NULL for sel_method='proportions'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = NULL,
@@ -31,7 +34,8 @@ test_that("transform_into_proportions throws error with NULL data input for 'pro
   )
 })
 
-test_that("transform_into_proportions throws error with NULL data input for 'percentages'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is NULL for sel_method='percentages'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = NULL,
@@ -42,7 +46,8 @@ test_that("transform_into_proportions throws error with NULL data input for 'per
 })
 
 # NA
-test_that("transform_into_proportions throws error with NA data input for 'proportions'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is NA for sel_method='proportions'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = NA,
@@ -52,7 +57,8 @@ test_that("transform_into_proportions throws error with NA data input for 'propo
   )
 })
 
-test_that("transform_into_proportions throws error with NA data input for 'percentages'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is NA for sel_method='percentages'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = NA,
@@ -63,7 +69,8 @@ test_that("transform_into_proportions throws error with NA data input for 'perce
 })
 
 # Character
-test_that("transform_into_proportions throws error with character data input for 'proportions'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is character for sel_method='proportions'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = "my_data",
@@ -73,7 +80,8 @@ test_that("transform_into_proportions throws error with character data input for
   )
 })
 
-test_that("transform_into_proportions throws error with character data input for 'percentages'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is character for sel_method='percentages'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = "my_data",
@@ -84,7 +92,8 @@ test_that("transform_into_proportions throws error with character data input for
 })
 
 # Numeric
-test_that("transform_into_proportions throws error with numeric data input for 'proportions'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is numeric for sel_method='proportions'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = 123,
@@ -94,7 +103,8 @@ test_that("transform_into_proportions throws error with numeric data input for '
   )
 })
 
-test_that("transform_into_proportions throws error with numeric data input for 'percentages'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is numeric for sel_method='percentages'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = 123,
@@ -105,7 +115,8 @@ test_that("transform_into_proportions throws error with numeric data input for '
 })
 
 # list
-test_that("transform_into_proportions throws error with list data input for 'proportions'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is list for sel_method='proportions'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = list(),
@@ -115,7 +126,8 @@ test_that("transform_into_proportions throws error with list data input for 'pro
   )
 })
 
-test_that("transform_into_proportions throws error with list data input for 'percentages'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is list for sel_method='percentages'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = list(),
@@ -126,7 +138,8 @@ test_that("transform_into_proportions throws error with list data input for 'per
 })
 
 # Matrix
-test_that("transform_into_proportions throws error with matrix data input for 'proportions'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is matrix for sel_method='proportions'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = matrix(),
@@ -136,7 +149,8 @@ test_that("transform_into_proportions throws error with matrix data input for 'p
   )
 })
 
-test_that("transform_into_proportions throws error with matrix data input for 'percentages'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is matrix for sel_method='percentages'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = matrix(),
@@ -146,8 +160,9 @@ test_that("transform_into_proportions throws error with matrix data input for 'p
   )
 })
 
-# empty dataframe
-test_that("transform_into_proportions throws error with empty dataframe for 'proportions'", {
+# empty dataframe (fails)
+test_that(
+  "transform_into_proportions handles empty data.frame for data_source_trans parameter with sel_method='proportions'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = data.frame(),
@@ -157,7 +172,8 @@ test_that("transform_into_proportions throws error with empty dataframe for 'pro
   )
 })
 
-test_that("transform_into_proportions throws error with empty dataframe for 'percentages'", {
+test_that(
+  "transform_into_proportions handles empty data.frame for data_source_trans parameter with sel_method='percentages'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = data.frame(),
@@ -168,7 +184,8 @@ test_that("transform_into_proportions throws error with empty dataframe for 'per
 })
 
 # 0
-test_that("transform_into_proportions throws error with 0 data input for 'proportions'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is zero for sel_method='proportions'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = 0,
@@ -178,7 +195,8 @@ test_that("transform_into_proportions throws error with 0 data input for 'propor
   )
 })
 
-test_that("transform_into_proportions throws error with 0 data input for 'percentages'", {
+test_that(
+  "transform_into_proportions throws error when data_source_trans parameter is zero for sel_method='percentages'", {
   expect_error(
     transform_into_proportions(
       data_source_trans = 0,
@@ -191,25 +209,28 @@ test_that("transform_into_proportions throws error with 0 data input for 'percen
 
 # Input validation for sel_method
 # Invalid character
-test_that("transform_into_proportions throws error with invalid character supplied to sel_method", {
-  data_to_run_bins <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "bins",
-      bin_size = 500,
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
+test_that(
+  "transform_into_proportions throws error when sel_method parameter contains invalid character value", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
 
   data_source_subset <-
     data_to_run_bins$data
@@ -227,6 +248,8 @@ test_that("transform_into_proportions throws error with invalid character suppli
   # standardisation
   standardise <-
     TRUE
+  n_individuals <-
+    150
   com_data_sums <-
     rowSums(
       subset_community(
@@ -238,7 +261,7 @@ test_that("transform_into_proportions throws error with invalid character suppli
     min(
       c(
         com_data_sums,
-        150
+        n_individuals
       )
     )
   data_subset <-
@@ -251,7 +274,7 @@ test_that("transform_into_proportions throws error with invalid character suppli
   data_sd <-
     standardise_community_data(
       data_source_standard = data_subset,
-      n_individuals = 150
+      n_individuals = n_individuals
     )
   data_sd <-
     reduce_data_simple(
@@ -268,25 +291,28 @@ test_that("transform_into_proportions throws error with invalid character suppli
 })
 
 # Multiple methods
-test_that("transform_into_proportions throws error with multiple supplied to sel_method", {
-  data_to_run_bins <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "bins",
-      bin_size = 500,
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
+test_that(
+  "transform_into_proportions throws error when sel_method parameter contains multiple values", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
 
   data_source_subset <-
     data_to_run_bins$data
@@ -304,6 +330,8 @@ test_that("transform_into_proportions throws error with multiple supplied to sel
   # standardisation
   standardise <-
     TRUE
+  n_individuals <-
+    150
   com_data_sums <-
     rowSums(
       subset_community(
@@ -315,7 +343,7 @@ test_that("transform_into_proportions throws error with multiple supplied to sel
     min(
       c(
         com_data_sums,
-        150
+        n_individuals
       )
     )
   data_subset <-
@@ -328,7 +356,7 @@ test_that("transform_into_proportions throws error with multiple supplied to sel
   data_sd <-
     standardise_community_data(
       data_source_standard = data_subset,
-      n_individuals = 150
+      n_individuals = n_individuals
     )
   data_sd <-
     reduce_data_simple(
@@ -347,25 +375,28 @@ test_that("transform_into_proportions throws error with multiple supplied to sel
   )
 })
 
-test_that("transform_into_proportions throws error with invalid character supplied to sel_method", {
-  data_to_run_bins <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "bins",
-      bin_size = 500,
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
+test_that(
+  "transform_into_proportions throws error when sel_method parameter contains multiple values in different order", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
 
   data_source_subset <-
     data_to_run_bins$data
@@ -383,6 +414,8 @@ test_that("transform_into_proportions throws error with invalid character suppli
   # standardisation
   standardise <-
     TRUE
+  n_individuals <-
+    150
   com_data_sums <-
     rowSums(
       subset_community(
@@ -394,7 +427,7 @@ test_that("transform_into_proportions throws error with invalid character suppli
     min(
       c(
         com_data_sums,
-        150
+        n_individuals
       )
     )
   data_subset <-
@@ -407,7 +440,7 @@ test_that("transform_into_proportions throws error with invalid character suppli
   data_sd <-
     standardise_community_data(
       data_source_standard = data_subset,
-      n_individuals = 150
+      n_individuals = n_individuals
     )
   data_sd <-
     reduce_data_simple(
@@ -426,25 +459,28 @@ test_that("transform_into_proportions throws error with invalid character suppli
 })
 
 # Numeric
-test_that("transform_into_proportions throws error with numeric supplied to sel_method", {
-  data_to_run_bins <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "bins",
-      bin_size = 500,
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
+test_that(
+  "transform_into_proportions throws error when sel_method parameter is numeric instead of character", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
 
   data_source_subset <-
     data_to_run_bins$data
@@ -462,6 +498,8 @@ test_that("transform_into_proportions throws error with numeric supplied to sel_
   # standardisation
   standardise <-
     TRUE
+  n_individuals <-
+    150
   com_data_sums <-
     rowSums(
       subset_community(
@@ -473,7 +511,7 @@ test_that("transform_into_proportions throws error with numeric supplied to sel_
     min(
       c(
         com_data_sums,
-        150
+        n_individuals
       )
     )
   data_subset <-
@@ -486,7 +524,7 @@ test_that("transform_into_proportions throws error with numeric supplied to sel_
   data_sd <-
     standardise_community_data(
       data_source_standard = data_subset,
-      n_individuals = 150
+      n_individuals = n_individuals
     )
   data_sd <-
     reduce_data_simple(
@@ -506,25 +544,28 @@ test_that("transform_into_proportions throws error with numeric supplied to sel_
 
 
 # NULL
-test_that("transform_into_proportions throws error with NULL supplied to sel_method", {
-  data_to_run_bins <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "bins",
-      bin_size = 500,
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
+test_that(
+  "transform_into_proportions throws error when sel_method parameter is NULL", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
 
   data_source_subset <-
     data_to_run_bins$data
@@ -542,6 +583,8 @@ test_that("transform_into_proportions throws error with NULL supplied to sel_met
   # standardisation
   standardise <-
     TRUE
+  n_individuals <-
+    150
   com_data_sums <-
     rowSums(
       subset_community(
@@ -553,7 +596,7 @@ test_that("transform_into_proportions throws error with NULL supplied to sel_met
     min(
       c(
         com_data_sums,
-        150
+        n_individuals
       )
     )
   data_subset <-
@@ -566,7 +609,7 @@ test_that("transform_into_proportions throws error with NULL supplied to sel_met
   data_sd <-
     standardise_community_data(
       data_source_standard = data_subset,
-      n_individuals = 150
+      n_individuals = n_individuals
     )
   data_sd <-
     reduce_data_simple(
@@ -588,25 +631,28 @@ test_that("transform_into_proportions throws error with NULL supplied to sel_met
 })
 
 # Empty
-test_that("transform_into_proportions throws warning if no input supplied to sel_method", {
-  data_to_run_bins <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "bins",
-      bin_size = 500,
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
+test_that(
+  "transform_into_proportions throws warning when sel_method parameter is missing (uses default)", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
 
   data_source_subset <-
     data_to_run_bins$data
@@ -624,6 +670,8 @@ test_that("transform_into_proportions throws warning if no input supplied to sel
   # standardisation
   standardise <-
     TRUE
+  n_individuals <-
+    150
   com_data_sums <-
     rowSums(
       subset_community(
@@ -635,7 +683,7 @@ test_that("transform_into_proportions throws warning if no input supplied to sel
     min(
       c(
         com_data_sums,
-        150
+        n_individuals
       )
     )
   data_subset <-
@@ -648,7 +696,7 @@ test_that("transform_into_proportions throws warning if no input supplied to sel
   data_sd <-
     standardise_community_data(
       data_source_standard = data_subset,
-      n_individuals = 150
+      n_individuals = n_individuals
     )
   data_sd <-
     reduce_data_simple(
@@ -671,25 +719,28 @@ test_that("transform_into_proportions throws warning if no input supplied to sel
 
 # Output validation:
 # Valid data:
-test_that("transform_into_proportions returns correct output for 'proportions' with valid input", {
-  data_to_run_bins <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "bins",
-      bin_size = 500,
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
+test_that(
+  "transform_into_proportions returns values between 0-1 when sel_method='proportions' with valid data_source_trans", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
 
   data_source_subset <-
     data_to_run_bins$data
@@ -707,6 +758,8 @@ test_that("transform_into_proportions returns correct output for 'proportions' w
   # standardisation
   standardise <-
     TRUE
+  n_individuals <-
+    150
   com_data_sums <-
     rowSums(
       subset_community(
@@ -718,7 +771,7 @@ test_that("transform_into_proportions returns correct output for 'proportions' w
     min(
       c(
         com_data_sums,
-        150
+        n_individuals
       )
     )
   data_subset <-
@@ -731,7 +784,7 @@ test_that("transform_into_proportions returns correct output for 'proportions' w
   data_sd <-
     standardise_community_data(
       data_source_standard = data_subset,
-      n_individuals = 150
+      n_individuals = n_individuals
     )
   data_sd <-
     reduce_data_simple(
@@ -756,25 +809,28 @@ test_that("transform_into_proportions returns correct output for 'proportions' w
   )
 })
 
-test_that("transform_into_proportions returns correct output for 'percentages' with valid input", {
-  data_to_run_bins <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "bins",
-      bin_size = 500,
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
+test_that(
+  "transform_into_proportions returns values between 0-100 when sel_method='percentages' with valid data_source_trans", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
 
   data_source_subset <-
     data_to_run_bins$data
@@ -792,6 +848,8 @@ test_that("transform_into_proportions returns correct output for 'percentages' w
   # standardisation
   standardise <-
     TRUE
+  n_individuals <-
+    150
   com_data_sums <-
     rowSums(
       subset_community(
@@ -803,7 +861,7 @@ test_that("transform_into_proportions returns correct output for 'percentages' w
     min(
       c(
         com_data_sums,
-        150
+        n_individuals
       )
     )
   data_subset <-
@@ -816,7 +874,7 @@ test_that("transform_into_proportions returns correct output for 'percentages' w
   data_sd <-
     standardise_community_data(
       data_source_standard = data_subset,
-      n_individuals = 150
+      n_individuals = n_individuals
     )
   data_sd <-
     reduce_data_simple(
@@ -842,8 +900,746 @@ test_that("transform_into_proportions returns correct output for 'percentages' w
 })
 
 
-# To Do:
+
 # check mathematical accuracy of proportions and percentages
-# minimal case scenarios with 1 row or 1 column and both
+test_that(
+  "transform_into_proportions calculates mathematically correct percentages when sel_method='percentages'", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
+
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  # standardisation
+  standardise <-
+    TRUE
+  n_individuals <-
+    150
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
+      )
+    )
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+  set.seed(123)
+  data_sd <-
+    standardise_community_data(
+      data_source_standard = data_subset,
+      n_individuals = n_individuals
+    )
+  data_sd <-
+    reduce_data_simple(
+      data_source_reduce = data_sd
+    )
+
+  # transformation into proportions / percentages
+  tranform_to_proportions <-
+    TRUE
+  data_sd_perc <-
+    transform_into_proportions(
+      data_source_trans = data_sd,
+      sel_method = "percentages",
+      verbose = FALSE
+    )
+
+  # Control
+  data_com_control <-
+    subset_community(data_sd)
+  data_rowsums <-
+    rowSums(data_com_control, na.rm = TRUE)
+
+  # percentage
+  data_com_control_perc <-
+    data_com_control / data_rowsums * 100
+  res_perc <-
+    data_sd
+  res_perc[, names(
+    data_com_control_perc)] <-
+    data_com_control_perc
+
+  expect_identical(
+    res_perc,
+    data_sd_perc
+  )
+})
+
+test_that(
+  "transform_into_proportions calculates mathematically correct proportions when sel_method='proportions'", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
+
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  # standardisation
+  standardise <-
+    TRUE
+  n_individuals <-
+    150
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
+      )
+    )
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+  set.seed(123)
+  data_sd <-
+    standardise_community_data(
+      data_source_standard = data_subset,
+      n_individuals = n_individuals
+    )
+  data_sd <-
+    reduce_data_simple(
+      data_source_reduce = data_sd
+    )
+
+  # transformation into proportions / percentages
+  tranform_to_proportions <-
+    TRUE
+  data_sd_prop <-
+    transform_into_proportions(
+      data_source_trans = data_sd,
+      sel_method = "proportions",
+      verbose = FALSE
+    )
+  # Control
+  data_com_control <-
+    subset_community(data_sd)
+  data_rowsums <-
+    rowSums(data_com_control, na.rm = TRUE)
+
+  # proportions
+  data_com_control_prop <-
+    data_com_control / data_rowsums * 1
+  res_prop <-
+    data_sd
+  res_prop[, names(
+    data_com_control_prop)] <-
+    data_com_control_prop
+
+  expect_identical(
+    res_prop,
+    data_sd_prop
+  )
+})
+
 # check output types and names
-# check: default parameters within run iteration output
+test_that(
+  "transform_into_proportions preserves required column names (label, res_age, age_diff) when sel_method='proportions'", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
+
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  # standardisation
+  standardise <-
+    TRUE
+  n_individuals <-
+    150
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
+      )
+    )
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+  set.seed(123)
+  data_sd <-
+    standardise_community_data(
+      data_source_standard = data_subset,
+      n_individuals = n_individuals
+    )
+  data_sd <-
+    reduce_data_simple(
+      data_source_reduce = data_sd
+    )
+
+  # transformation into proportions / percentages
+  tranform_to_proportions <-
+    TRUE
+  data_sd_prop <-
+    transform_into_proportions(
+      data_source_trans = data_sd,
+      sel_method = "proportions",
+      verbose = FALSE
+    )
+  expect_true(
+    all(
+      c("label", "res_age", "age_diff") %in% colnames(data_sd_prop)
+    )
+  )
+})
+
+test_that(
+  "transform_into_proportions preserves required column names (label, res_age, age_diff) when sel_method='percentages'", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
+
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  # standardisation
+  standardise <-
+    TRUE
+  n_individuals <-
+    150
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
+      )
+    )
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+  set.seed(123)
+  data_sd <-
+    standardise_community_data(
+      data_source_standard = data_subset,
+      n_individuals = n_individuals
+    )
+  data_sd <-
+    reduce_data_simple(
+      data_source_reduce = data_sd
+    )
+
+  # transformation into proportions / percentages
+  tranform_to_proportions <-
+    TRUE
+  data_sd_prop <-
+    transform_into_proportions(
+      data_source_trans = data_sd,
+      sel_method = "percentages",
+      verbose = FALSE
+    )
+  expect_true(
+    all(
+      c("label", "res_age", "age_diff") %in% colnames(data_sd_prop)
+    )
+  )
+})
+
+# s3 type
+test_that(
+  "transform_into_proportions returns data.frame S3 class when sel_method='proportions'", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
+
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  # standardisation
+  standardise <-
+    TRUE
+  n_individuals <-
+    150
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
+      )
+    )
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+  set.seed(123)
+  data_sd <-
+    standardise_community_data(
+      data_source_standard = data_subset,
+      n_individuals = n_individuals
+    )
+  data_sd <-
+    reduce_data_simple(
+      data_source_reduce = data_sd
+    )
+
+  # transformation into proportions / percentages
+  tranform_to_proportions <-
+    TRUE
+  data_sd_prop <-
+    transform_into_proportions(
+      data_source_trans = data_sd,
+      sel_method = "proportions",
+      verbose = FALSE
+    )
+  expect_s3_class(
+    data_sd_prop,
+    "data.frame"
+  )
+})
+
+test_that(
+  "transform_into_proportions returns data.frame S3 class when sel_method='percentages'", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
+
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  # standardisation
+  standardise <-
+    TRUE
+  n_individuals <-
+    150
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
+      )
+    )
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+  set.seed(123)
+  data_sd <-
+    standardise_community_data(
+      data_source_standard = data_subset,
+      n_individuals = n_individuals
+    )
+  data_sd <-
+    reduce_data_simple(
+      data_source_reduce = data_sd
+    )
+
+  # transformation into proportions / percentages
+  tranform_to_proportions <-
+    TRUE
+  data_sd_prop <-
+    transform_into_proportions(
+      data_source_trans = data_sd,
+      sel_method = "percentages",
+      verbose = FALSE
+    )
+  expect_s3_class(
+    data_sd_prop,
+    "data.frame"
+  )
+})
+
+# Numeric values inside result
+test_that(
+  "transform_into_proportions returns numeric values in community columns when sel_method='proportions'", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
+
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  # standardisation
+  standardise <-
+    TRUE
+  n_individuals <-
+    150
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
+      )
+    )
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+  set.seed(123)
+  data_sd <-
+    standardise_community_data(
+      data_source_standard = data_subset,
+      n_individuals = n_individuals
+    )
+  data_sd <-
+    reduce_data_simple(
+      data_source_reduce = data_sd
+    )
+
+  # transformation into proportions / percentages
+  tranform_to_proportions <-
+    TRUE
+  data_sd_prop <-
+    transform_into_proportions(
+      data_source_trans = data_sd,
+      sel_method = "proportions",
+      verbose = FALSE
+    )
+
+  expect_true(
+    all(
+      sapply(
+        data_sd_prop[, -c(1:3)],
+        is.numeric
+      )
+    )
+  )
+})
+
+test_that(
+  "transform_into_proportions returns numeric values in community columns when sel_method='percentages'", {
+  suppressWarnings(
+    data_to_run_bins <-
+      extract_data(
+        data_community_extract = RRatepol::example_data$pollen_data[[1]],
+        data_age_extract = RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      ) %>%
+      reduce_data(
+        check_taxa = TRUE,
+        check_levels = TRUE
+      ) %>%
+      prepare_data(
+        data_source_prep = .,
+        working_units = "bins",
+        bin_size = 500,
+        rand = 1
+      ) %>%
+      RUtilpol::flatten_list_by_one() %>%
+      .[[1]]
+  )
+
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  # standardisation
+  standardise <-
+    TRUE
+  n_individuals <-
+    150
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
+      )
+    )
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+  set.seed(123)
+  data_sd <-
+    standardise_community_data(
+      data_source_standard = data_subset,
+      n_individuals = n_individuals
+    )
+  data_sd <-
+    reduce_data_simple(
+      data_source_reduce = data_sd
+    )
+
+  # transformation into proportions / percentages
+  tranform_to_proportions <-
+    TRUE
+  data_sd_prop <-
+    transform_into_proportions(
+      data_source_trans = data_sd,
+      sel_method = "percentages",
+      verbose = FALSE
+    )
+
+  expect_true(
+    all(
+      sapply(
+        data_sd_prop[, -c(1:3)],
+        is.numeric
+      )
+    )
+  )
+})
