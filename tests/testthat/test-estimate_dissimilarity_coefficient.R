@@ -3193,3 +3193,1079 @@ test_that(
     )
   }
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Output test: vector:
+# 1. Euclidean distance tests
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates euclidean distance with proportions data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "proportions",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "euc"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates euclidean distance with percentages data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "percentages",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "euc"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+# 2. Euclidean distance tests
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates euclidean distance with proportions data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "proportions",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "euc.sd"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates euclidean standardized distance with percentages data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "percentages",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "euc.sd"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+# 3. Chord distance tests
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates chord distance with proportions data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "proportions",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "chord"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates chord distance with percentages data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "percentages",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "chord"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+# 4. Chi-square distance tests
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates chi-square distance with proportions data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "proportions",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "chisq"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates chi-square distance with percentages data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "percentages",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "chisq"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+# 5. Gower distance tests
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates gower distance with proportions data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "proportions",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "gower"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates gower distance with percentages data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "percentages",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "gower"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+# 6. Bray-Curtis distance tests
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates bray-curtis distance with proportions data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "proportions",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "bray"
+      )
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
+test_that(
+  "estimate_dissimilarity_coefficient() correctly calculates bray-curtis distance with percentages data",
+  {
+    suppressWarnings(
+      data_to_run_bins <-
+        extract_data(
+          data_community_extract = RRatepol::example_data$pollen_data[[1]],
+          data_age_extract = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+        ) %>%
+        smooth_community_data(
+          smooth_method = "shep"
+        ) %>%
+        reduce_data(
+          check_taxa = TRUE,
+          check_levels = TRUE
+        ) %>%
+        prepare_data(
+          data_source_prep = .,
+          working_units = "bins",
+          bin_size = 500,
+          rand = 1
+        ) %>%
+        RUtilpol::flatten_list_by_one() %>%
+        .[[1]]
+    )
+    data_source_subset <-
+      data_to_run_bins$data
+    data_source_bins <-
+      data_to_run_bins$bins
+    data_subset <-
+      subset_samples(
+        data_source_subset = data_source_subset,
+        data_source_bins = data_source_bins,
+        bin_selection = "first"
+      ) %>%
+      reduce_data_simple()
+    # standardisation
+    standardise <-
+      TRUE
+    n_individuals <-
+      150
+    com_data_sums <-
+      rowSums(
+        subset_community(
+          data_source = data_subset
+        ),
+        na.rm = TRUE
+      )
+    n_individuals <-
+      min(
+        c(
+          com_data_sums,
+          n_individuals
+        )
+      )
+    data_subset <-
+      data_subset[com_data_sums >= n_individuals, ]
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce = data_subset
+      )
+    set.seed(123)
+    data_sd_prop <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ) %>%
+      reduce_data_simple(
+        data_source_reduce = .
+      ) %>%
+      transform_into_proportions(
+        data_source_trans = .,
+        sel_method = "percentages",
+        verbose = FALSE
+      )
+    dc_res <-
+      estimate_dissimilarity_coefficient(
+        data_source_dc = data_sd_prop,
+        dissimilarity_coefficient = "bray"
+      )
+
+    expect_type(
+      dc_res,
+      "double"
+    )
+  }
+)
