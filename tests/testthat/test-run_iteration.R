@@ -1057,3 +1057,53 @@ test_that("run_iteration throws error with invalid bin_selection", {
         # "Error: time_standardisation = NA results in NA roc."
     )
 })
+
+## Edge cases
+# all zero data
+
+test_that("run_iteration throws error with invalid bin_selection", {
+    community <- RRatepol::example_data$pollen_data[[1]]
+    community[, ] <- 0
+
+    age <- RRatepol::example_data$sample_age[[1]]
+    age_un <- RRatepol::example_data$age_uncertainty[[1]]
+    suppressWarnings(
+        data_to_run_bins <-
+            extract_data(
+                data_community_extract = community,
+                data_age_extract = age,
+                age_uncertainty = age_un
+            ) %>%
+            smooth_community_data(
+                smooth_method = "shep"
+            ) %>%
+            reduce_data(
+                check_taxa = TRUE,
+                check_levels = TRUE
+            ) %>%
+            prepare_data(
+                data_source_prep = .,
+                working_units = "bins",
+                bin_size = 500,
+                rand = 1
+            ) %>%
+            RUtilpol::flatten_list_by_one() %>%
+            .[[1]]
+    )
+
+    expect_error(
+        run_iteration(
+            data_source_run = data_to_run_bins,
+            bin_selection = "first",
+            standardise = TRUE,
+            n_individuals = 150,
+            tranform_to_proportions = TRUE,
+            dissimilarity_coefficient = "euc",
+            time_standardisation = NA,
+            verbose = FALSE
+        ),
+        # none programmed into the function yet.
+        # e.g.,
+        # "Error: time_standardisation = NA results in NA roc."
+    )
+})
