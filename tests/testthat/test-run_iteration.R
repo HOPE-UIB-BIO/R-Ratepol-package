@@ -9,7 +9,7 @@
 # time_standardisation = 500,
 # verbose = FALSE
 
-test_that("run_iteration throws error with missing data input", {
+test_that("run_iteration throws error when data_source_run argument is missing", {
     expect_error(
         run_iteration(
             data_source_run = ,
@@ -25,7 +25,7 @@ test_that("run_iteration throws error with missing data input", {
     )
 })
 
-test_that("run_iteration throws error with NUULL data input", {
+test_that("run_iteration throws error when data_source_run is NULL", {
     expect_error(
         run_iteration(
             data_source_run = NULL,
@@ -42,7 +42,7 @@ test_that("run_iteration throws error with NUULL data input", {
 })
 
 # character
-test_that("run_iteration throws error with character data input", {
+test_that("run_iteration throws error when data_source_run is a character string ('my_data')", {
     expect_error(
         run_iteration(
             data_source_run = "my_data",
@@ -59,7 +59,7 @@ test_that("run_iteration throws error with character data input", {
 })
 
 # Numeric
-test_that("run_iteration throws error with numeric data input", {
+test_that("run_iteration throws error when data_source_run is a numeric value (123)", {
     expect_error(
         run_iteration(
             data_source_run = 123,
@@ -76,7 +76,7 @@ test_that("run_iteration throws error with numeric data input", {
 })
 
 # Zero
-test_that("run_iteration throws error with 0 data input", {
+test_that("run_iteration throws error when data_source_run is zero", {
     expect_error(
         run_iteration(
             data_source_run = 0,
@@ -93,7 +93,7 @@ test_that("run_iteration throws error with 0 data input", {
 })
 
 # NA
-test_that("run_iteration throws error with NA data input", {
+test_that("run_iteration throws error when data_source_run is NA", {
     expect_error(
         run_iteration(
             data_source_run = NA,
@@ -110,7 +110,7 @@ test_that("run_iteration throws error with NA data input", {
 })
 
 # empty list
-test_that("run_iteration throws error with empty list data input", {
+test_that("run_iteration throws error when data_source_run is an empty list", {
     expect_error(
         run_iteration(
             data_source_run = list(),
@@ -127,7 +127,7 @@ test_that("run_iteration throws error with empty list data input", {
 })
 
 # empty dataframe
-test_that("run_iteration throws error with empty data.fram data input", {
+test_that("run_iteration throws error when data_source_run is an empty data frame", {
     expect_error(
         run_iteration(
             data_source_run = data.frame(),
@@ -145,7 +145,7 @@ test_that("run_iteration throws error with empty data.fram data input", {
 
 
 # Valid data
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when bin_selection is an invalid string ('my_choice')", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -185,7 +185,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
     )
 })
 
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when bin_selection is a numeric value (1)", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -226,7 +226,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # multiple bin_selection
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when bin_selection contains multiple values ('first', 'random')", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -266,7 +266,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
     )
 })
 
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when bin_selection contains multiple values in different order ('random', 'first')", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -306,7 +306,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
     )
 })
 
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration issues warning when bin_selection is missing and uses default value", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -347,7 +347,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
     )
 })
 
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when bin_selection is NULL", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -390,7 +390,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 
 
 # standardize
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration handles NULL in standardise parameter without error", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -432,7 +432,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # n_individuals:
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when n_individuals is zero with standardise=TRUE", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -472,7 +472,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
     )
 })
 
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration issues warning when n_individuals is too large and uses minimum available count", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -517,7 +517,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # tranform_to_proportions is only checked if TRUE. Anything else will be regarded as FALSE.
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration treats numeric zero for tranform_to_proportions as FALSE without error", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -560,7 +560,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 
 # Dissimilarity_coefficient
 # Empty
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration issues warning when dissimilarity_coefficient is missing and uses default", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -601,7 +601,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
     )
 })
 # NULL
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when dissimilarity_coefficient is NULL", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -642,7 +642,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # Character
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when dissimilarity_coefficient is an invalid string ('my_choice')", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -683,7 +683,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # Numeric
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when dissimilarity_coefficient is a numeric value (123)", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -724,7 +724,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # Multiple
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when dissimilarity_coefficient contains multiple values ('euc', 'euc.sd')", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -765,7 +765,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # Zero
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when dissimilarity_coefficient is zero", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -806,7 +806,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # NA
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when dissimilarity_coefficient is NA", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -848,7 +848,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 
 # time standardiisation:
 # empty
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration issues warning when time_standardisation is missing and uses default value", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -891,7 +891,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # NULL
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when time_standardisation is NULL", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -932,7 +932,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # character
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when time_standardisation is a character string ('123')", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -975,7 +975,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
 })
 
 # 0
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when time_standardisation is zero", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -1016,7 +1016,7 @@ test_that("run_iteration throws error with invalid bin_selection", {
     )
 })
 
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration throws error when time_standardisation is NA", {
     suppressWarnings(
         data_to_run_bins <-
             extract_data(
@@ -1061,10 +1061,9 @@ test_that("run_iteration throws error with invalid bin_selection", {
 ## Edge cases
 # all zero data
 
-test_that("run_iteration throws error with invalid bin_selection", {
+test_that("run_iteration handles community data with all zeros when using euc dissimilarity coefficient", {
     community <- RRatepol::example_data$pollen_data[[1]]
-    community[, ] <- 0
-
+    community[,-1 ] <- 0
     age <- RRatepol::example_data$sample_age[[1]]
     age_un <- RRatepol::example_data$age_uncertainty[[1]]
     suppressWarnings(
@@ -1099,6 +1098,52 @@ test_that("run_iteration throws error with invalid bin_selection", {
             n_individuals = 150,
             tranform_to_proportions = TRUE,
             dissimilarity_coefficient = "euc",
+            time_standardisation = TRUE,
+            verbose = FALSE
+        ),
+        # none programmed into the function yet.
+        # e.g.,
+        # "Error: time_standardisation = NA results in NA roc."
+    )
+})
+
+test_that("run_iteration handles community data with all zeros when using euc.sd dissimilarity coefficient", {
+    community <- RRatepol::example_data$pollen_data[[1]]
+    community[,-1 ] <- 0
+    age <- RRatepol::example_data$sample_age[[1]]
+    age_un <- RRatepol::example_data$age_uncertainty[[1]]
+    suppressWarnings(
+        data_to_run_bins <-
+            extract_data(
+                data_community_extract = community,
+                data_age_extract = age,
+                age_uncertainty = age_un
+            ) %>%
+            smooth_community_data(
+                smooth_method = "shep"
+            ) %>%
+            reduce_data(
+                check_taxa = TRUE,
+                check_levels = TRUE
+            ) %>%
+            prepare_data(
+                data_source_prep = .,
+                working_units = "bins",
+                bin_size = 500,
+                rand = 1
+            ) %>%
+            RUtilpol::flatten_list_by_one() %>%
+            .[[1]]
+    )
+
+    expect_error(
+        run_iteration(
+            data_source_run = data_to_run_bins,
+            bin_selection = "first",
+            standardise = TRUE,
+            n_individuals = 150,
+            tranform_to_proportions = TRUE,
+            dissimilarity_coefficient = "euc.sd",
             time_standardisation = NA,
             verbose = FALSE
         ),
