@@ -1058,97 +1058,94 @@ test_that("run_iteration throws error when time_standardisation is NA", {
     )
 })
 
+
 ## Edge cases
 # all zero data
 
 test_that("run_iteration handles community data with all zeros when using euc dissimilarity coefficient", {
     community <- RRatepol::example_data$pollen_data[[1]]
-    community[,-1 ] <- 0
+    community[, -1] <- 0
     age <- RRatepol::example_data$sample_age[[1]]
     age_un <- RRatepol::example_data$age_uncertainty[[1]]
-    suppressWarnings(
-        data_to_run_bins <-
-            extract_data(
-                data_community_extract = community,
-                data_age_extract = age,
-                age_uncertainty = age_un
-            ) %>%
-            smooth_community_data(
-                smooth_method = "shep"
-            ) %>%
-            reduce_data(
-                check_taxa = TRUE,
-                check_levels = TRUE
-            ) %>%
-            prepare_data(
-                data_source_prep = .,
-                working_units = "bins",
-                bin_size = 500,
-                rand = 1
-            ) %>%
-            RUtilpol::flatten_list_by_one() %>%
-            .[[1]]
-    )
 
     expect_error(
-        run_iteration(
-            data_source_run = data_to_run_bins,
-            bin_selection = "first",
-            standardise = TRUE,
-            n_individuals = 150,
-            tranform_to_proportions = TRUE,
-            dissimilarity_coefficient = "euc",
-            time_standardisation = TRUE,
-            verbose = FALSE
+        suppressWarnings(
+            data_to_run_bins <-
+                extract_data(
+                    data_community_extract = community,
+                    data_age_extract = age,
+                    age_uncertainty = age_un
+                ) %>%
+                smooth_community_data(
+                    smooth_method = "shep"
+                ) %>%
+                reduce_data(
+                    check_taxa = TRUE,
+                    check_levels = TRUE
+                ) %>%
+                prepare_data(
+                    data_source_prep = .,
+                    working_units = "bins",
+                    bin_size = 500,
+                    rand = 1
+                ) %>%
+                RUtilpol::flatten_list_by_one() %>%
+                .[[1]] %>%
+                run_iteration(
+                    data_source_run = .,
+                    bin_selection = "first",
+                    standardise = TRUE,
+                    n_individuals = 150,
+                    tranform_to_proportions = TRUE,
+                    dissimilarity_coefficient = "euc",
+                    time_standardisation = TRUE,
+                    verbose = FALSE
+                )
         ),
-        # none programmed into the function yet.
-        # e.g.,
-        # "Error: time_standardisation = NA results in NA roc."
+        "subscript out of bounds"
     )
 })
 
 test_that("run_iteration handles community data with all zeros when using euc.sd dissimilarity coefficient", {
     community <- RRatepol::example_data$pollen_data[[1]]
-    community[,-1 ] <- 0
+    community[, -1] <- 0
     age <- RRatepol::example_data$sample_age[[1]]
     age_un <- RRatepol::example_data$age_uncertainty[[1]]
-    suppressWarnings(
-        data_to_run_bins <-
-            extract_data(
-                data_community_extract = community,
-                data_age_extract = age,
-                age_uncertainty = age_un
-            ) %>%
-            smooth_community_data(
-                smooth_method = "shep"
-            ) %>%
-            reduce_data(
-                check_taxa = TRUE,
-                check_levels = TRUE
-            ) %>%
-            prepare_data(
-                data_source_prep = .,
-                working_units = "bins",
-                bin_size = 500,
-                rand = 1
-            ) %>%
-            RUtilpol::flatten_list_by_one() %>%
-            .[[1]]
-    )
-
     expect_error(
-        run_iteration(
-            data_source_run = data_to_run_bins,
-            bin_selection = "first",
-            standardise = TRUE,
-            n_individuals = 150,
-            tranform_to_proportions = TRUE,
-            dissimilarity_coefficient = "euc.sd",
-            time_standardisation = NA,
-            verbose = FALSE
+        suppressWarnings(
+            data_to_run_bins <-
+                extract_data(
+                    data_community_extract = community,
+                    data_age_extract = age,
+                    age_uncertainty = age_un
+                ) %>%
+                # it fails during smoothing, here!
+                smooth_community_data(
+                    smooth_method = "shep"
+                ) %>%
+                reduce_data(
+                    check_taxa = TRUE,
+                    check_levels = TRUE
+                ) %>%
+                prepare_data(
+                    data_source_prep = .,
+                    working_units = "bins",
+                    bin_size = 500,
+                    rand = 1
+                ) %>%
+                RUtilpol::flatten_list_by_one() %>%
+                .[[1]] %>%
+                run_iteration(
+                    data_source_run = .,
+                    bin_selection = "first",
+                    standardise = TRUE,
+                    n_individuals = 150,
+                    tranform_to_proportions = TRUE,
+                    dissimilarity_coefficient = "euc.sd",
+                    time_standardisation = TRUE,
+                    verbose = FALSE
+                )
         ),
-        # none programmed into the function yet.
-        # e.g.,
-        # "Error: time_standardisation = NA results in NA roc."
+        "subscript out of bounds"
     )
 })
