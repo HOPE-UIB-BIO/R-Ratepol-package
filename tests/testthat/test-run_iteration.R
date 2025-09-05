@@ -1429,7 +1429,7 @@ test_that(
 # Test for warning when n_individuals is large
 ## Not sure what's going on here. sometimes the test passes, sometimes it fails.
 test_that(
-    "run_iteration uses minimum available count when n_individuals is large",
+    "run_iteration throws error if standardisation failed if verbose = TRUE",
     {
         suppressWarnings(
             data_to_run_bins <-
@@ -1475,8 +1475,8 @@ test_that(
 
 # with verbose = FALSE
 test_that(
-    "run_iteration uses minimum available count when n_individuals is large",
-    {
+  "run_iteration throws error if standardisation failed if verbose = FALSE",
+  {
         suppressWarnings(
             data_to_run_bins <-
                 extract_data(
