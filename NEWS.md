@@ -1,7 +1,7 @@
 # RRatepol 1.2.3
 
 - fix an issue with subsetting the uncertainty matrix to correctly align with the rest of the data (thanks to Giacomo Galli for reporting the bug)
-- replace all not a basic ASCII character in documentation
+- replace all non-basic ASCII characters in documentation
 
 # RRatepol 1.2.2
 

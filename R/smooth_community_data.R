@@ -76,20 +76,20 @@ smooth_community_data <-
 
           assertthat::assert_that(
             smooth_n_points < smooth_n_max,
-            msg = "'smooth_n_max' must be bigger than 'smooth_n_points"
+            msg = "'smooth_n_max' must be bigger than 'smooth_n_points'"
           )
         }
       }
     }
 
-    # crete helper function for GRIMM smoothing
+    # create helper function for GRIMM smoothing
     # test if this increase does not invalidate rules:
-    #   1) seach parameter cannot go outside of the sample size
+    #   1) search parameter cannot go outside of the sample size
     #     (up or down)
-    #   2) seach parameter cannot be biger than selected maximum sample
+    #   2) search parameter cannot be bigger than selected maximum sample
     #     sizes
-    #   3) the age difference between samples selected by the seach
-    #     paramated cannot be higher than defined max age range if all
+    #   3) the age difference between samples selected by the search
+    #     parameter cannot be higher than defined max age range if all
     #     of those ARE TRUE then increase the real search parameter
 
     util_search_parameter <-
@@ -151,7 +151,7 @@ smooth_community_data <-
         "age.w" = {
           RUtilpol::output_comment(
             paste(
-              "Data will be smoothed by 'age-weighed average' over",
+              "Data will be smoothed by 'age-weighted average' over",
               smooth_n_points,
               "points with a threshold of", smooth_age_range
             )
@@ -325,8 +325,8 @@ smooth_community_data <-
               weight = 1
             )
 
-          # Weith of points is calculated as smooth_age_range / distance
-          #   bewtween oldest and youngest points.
+          # Weight of points is calculated as smooth_age_range / distance
+          #   between oldest and youngest points.
           # If cannot be smaller than 1. Values very far away from the point
           F_age_dist <- abs(df_work$age - dat_age$age[i])
 

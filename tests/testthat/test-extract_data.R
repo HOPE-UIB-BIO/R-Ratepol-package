@@ -675,7 +675,7 @@ test_that(
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         verbose = FALSE
       ),
-      "Missing data has been detected in community data"
+      "Missing data have been detected in community data"
     )
   }
 )
