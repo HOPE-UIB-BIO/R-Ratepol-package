@@ -4908,7 +4908,7 @@ test_that("rand: Missing argument uses default value without error", {
 })
 
 # NULL
-test_that("rand: NULL value throws error requiring logical input for tranform_to_proportions", {
+test_that("rand: NULL value throws error requiring non-zero input for rand", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -5167,75 +5167,1093 @@ test_that("rand: Empty data.frame throws error requiring numeric or NULL", {
 })
 
 
-# ============================= #
-# 2. OUTPUT VALIDATION          #
-# ============================= #
-
-
-
-# ============================= #
-# 3. FUNCTIONALITY              #
-# ============================= #
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+#### to do: correct descritpions of all tests below
 
 # 16. use_parallel validation
 # empty
-# NULL
-# multiple
-# character
-# Numeric
-# 0
-# NA
-# empty list
-# empty dataframe
+test_that("use_parallel: Missing argument uses default value without error", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
 
-# 17. interest_threshold validation
-# empty
-# NULL
-# multiple
-# character
-# Numeric
-# 0
-# NA
-# empty list
-# empty dataframe
+  expect_no_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = , # will use default FALSE
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    )
+  )
+})
 
-# 18. time_standardisation validation
-# empty
 # NULL
-# multiple
-# character
-# Numeric
-# 0
-# NA
-# empty list
-# empty dataframe
+test_that("use_parallel: NULL input throws error requiring logical or numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
 
-# 19. verbose validation
-# empty
-# NULL
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = NULL,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'use_parallel' must be one of the following: 'logical', 'numeric'"
+  )
+})
+
 # multiple
+test_that("use_parallel: multiple input throws error", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = c(TRUE, 100),
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "assert_that: length of assertion is not 1"
+  )
+})
+
 # character
-# Numeric
+test_that("use_parallel: Character input throws error requiring logical or numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = "TRUE",
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'use_parallel' must be one of the following: 'logical', 'numeric'"
+  )
+})
+
 # 0
+test_that("use_parallel: Zero (0) input throws error requiring more than 0 cores", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = 0,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    # this should throw an error
+    # - not sure what it does if 0 cores are entered as input
+  )
+})
+
 # NA
+test_that("use_parallel: NA throws error requiring non-NA input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = NA,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    # should throw an error.
+    # not sure what it does if NA is entered as input
+  )
+})
+
 # empty list
+test_that("use_parallel: empty list input throws error requiring logical or numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = list(),
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'use_parallel' must be one of the following: 'logical', 'numeric'"
+  )
+})
 # empty dataframe
+test_that("use_parallel: empty dataframe input throws error requiring logical or numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = data.frame(),
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'use_parallel' must be one of the following: 'logical', 'numeric'"
+  )
+})
+
+
+
+# 17. interest_threshold validation (default is NULL)
+# empty
+test_that("interest_threshold: empty input uses default with no error", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_no_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = , # will use default NULL
+      time_standardisation = 500,
+      verbose = FALSE
+    )
+  )
+})
+
+# multiple
+test_that("interest_threshold: multiple input throws error requiring single value", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    suppressWarnings(
+      estimate_roc(
+        data_source_community = data_source_community,
+        data_source_age = data_source_age,
+        age_uncertainty = age_uncertainty,
+        smooth_method = "grim",
+        smooth_n_points = 5,
+        smooth_age_range = 500,
+        smooth_n_max = 9,
+        working_units = "MW",
+        bin_size = 500,
+        number_of_shifts = 1,
+        bin_selection = "first",
+        standardise = TRUE,
+        n_individuals = 150,
+        dissimilarity_coefficient = "euc",
+        tranform_to_proportions = TRUE,
+        rand = 100,
+        use_parallel = FALSE,
+        interest_threshold = c(2000, 3000),
+        time_standardisation = 500,
+        verbose = FALSE
+      )
+    ),
+    # none programmed into the function yet.
+    # e.g., "'arg' must be of length 1"
+  )
+})
+
+# character
+test_that("interest_threshold: Character input throws error requiring numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = "3000",
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "interest_threshold' must be one of the following: 'NULL', 'numeric'"
+  )
+})
+
+# NA
+test_that("interest_threshold: NA input throws error requiring numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NA,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "interest_threshold' must be one of the following: 'NULL', 'numeric'"
+  )
+})
+
+# empty list
+test_that("interest_threshold: list input throws error requiring numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = list(),
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "interest_threshold' must be one of the following: 'NULL', 'numeric'"
+  )
+})
+# empty dataframe
+test_that("interest_threshold: Empty dataframe input throws error requiring numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = data.frame(),
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "interest_threshold' must be one of the following: 'NULL', 'numeric'"
+  )
+})
+
+
+# 18. time_standardisation validation (default is NULL, requires numeric if not NULL)
+# empty
+test_that("time_standardisation: empty input uses default with no error", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_no_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = ,
+      verbose = FALSE
+    )
+  )
+})
+
+# multiple
+test_that("time_standardisation: multiple input throws error", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = c(500, 1000),
+      verbose = FALSE
+    ),
+    "assert_that: length of assertion is not 1"
+  )
+})
+
+# character
+test_that("time_standardisation: Character input throws error requiring numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = "500",
+      verbose = FALSE
+    ),
+    "'time_standardisation' must be one of the following: 'numeric'"
+  )
+})
+
+# NA
+test_that("time_standardisation: NA input throws error requiring numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NA,
+      verbose = FALSE
+    ),
+    "time_standardisation' must be one of the following: 'numeric'"
+  )
+})
+
+# empty list
+test_that("time_standardisation: Empty list input throws error requiring numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = list(),
+      verbose = FALSE
+    ),
+    "time_standardisation' must be one of the following: 'numeric'"
+  )
+})
+
+# empty dataframe
+test_that("time_standardisation: Empty data.frame input throws error requiring numeric", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = data.frame(),
+      verbose = FALSE
+    ),
+    "time_standardisation' must be one of the following: 'numeric'"
+  )
+})
+
+# 19. verbose validation (default is FALSE)
+# empty
+test_that("verbose: Empty input uses default without error", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_no_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose =
+      )
+  )
+})
+
+# NULL
+test_that("verbose: NULL input throws error requiring logical", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = NULL
+    ),
+    "'verbose' must be one of the following: 'logical'"
+  )
+})
+
+# multiple
+test_that("verbose: multiple input throws error requiring single value", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = c(FALSE, TRUE)
+    ),
+    # none programmed into the function yet.
+    # e.g. "assert_that: length of assertion is not 1"
+    # or: "'arg' must be of length 1"
+  )
+})
+
+# character
+test_that("verbose: Character input throws error requiring logical", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = "FALSE"
+    ),
+    "'verbose' must be one of the following: 'logical'"
+  )
+})
+
+# Numeric
+test_that("verbose: Numeric input throws error requiring logical", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = 123
+    ),
+    "'verbose' must be one of the following: 'logical'"
+  )
+})
+
+# 0
+test_that("verbose: Zero (0) input throws error requiring logical", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = 0
+    ),
+    "'verbose' must be one of the following: 'logical'"
+  )
+})
+
+# NA
+test_that("verbose: NA input throws error requiring logical", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = NA # uses FALSE instead silently
+    ),
+    # none programmed into the function yet
+    # e.g., "verbose cannot be NA"
+  )
+})
+
+# empty list
+test_that("verbose: Empty list input throws error requiring logical", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = list()
+    ),
+    "'verbose' must be one of the following: 'logical'"
+  )
+})
+
+# empty dataframe
+test_that("verbose: Empty dataframe input throws error requiring logical", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = data.frame()
+    ),
+    "'verbose' must be one of the following: 'logical'"
+  )
+})
 
 
 
