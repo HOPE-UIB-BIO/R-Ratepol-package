@@ -6985,3 +6985,261 @@ test_that("estimate_roc confidence intervals (ROC_up, ROC_dw) widen with higher 
     ci_width_orig
   )
 })
+
+# to do: add tests for edge cases
+# e.g.,
+# - all-zero rows
+# - NA values in community data
+# - NA values in age data
+# - NA values in age uncertainty
+# - zeros in community
+
+test_that("Community data with all-zero samples drops samples correctly", {
+  community <-
+    RRatepol::example_data$pollen_data[[1]]
+  age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  community[1:5, -1] <-
+    0 # first five rows all zero (sample_id = 392671:392675)
+
+  res <-
+    estimate_roc(
+      data_source_community = community,
+      data_source_age = age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+  expect_false(
+    any(
+      grepl(
+        paste(c("392671", "392672", "392673", "392674", "392675"), collapse = "|"),
+        res$Working_Unit
+      )
+    )
+  )
+})
+
+# all zero community
+test_that("All zero community data input returns error", {
+  community <-
+    RRatepol::example_data$pollen_data[[1]]
+  age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  community[, -1] <-
+    0 # first row all zero (sample_id = 392671:392675)
+
+  expect_error(
+    estimate_roc(
+      data_source_community = community,
+      data_source_age = age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    ),
+    "subscript out of bounds"
+  )
+})
+
+# NAs
+test_that("Community data with all-NA samples drops samples correctly", {
+  community <-
+    RRatepol::example_data$pollen_data[[1]]
+  age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  community[1:5, -1] <-
+    NA # first five rows all NA (sample_id = 392671:392675)
+
+  res <-
+    estimate_roc(
+      data_source_community = community,
+      data_source_age = age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+  expect_false(
+    any(
+      grepl(
+        paste(c("392671", "392672", "392673", "392674", "392675"), collapse = "|"),
+        res$Working_Unit
+      )
+    )
+  )
+})
+
+# all NA community
+test_that("All NA community data input returns error", {
+  community <-
+    RRatepol::example_data$pollen_data[[1]]
+  age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  community[, -1] <-
+    NA # first row all zero (sample_id = 392671:392675)
+
+  expect_error(
+    estimate_roc(
+      data_source_community = community,
+      data_source_age = age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    ),
+    "subscript out of bounds"
+  )
+})
+
+# NAs in age data
+test_that("estimate_roc() correctly handles age data with NAs", {
+  community <-
+    RRatepol::example_data$pollen_data[[1]]
+  age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  age$age[1:5] <-
+    NA # first five rows all NA (sample_id = 392671:392675)
+
+  age_uncertainty[, 1:5] <-
+    NA
+
+  res <-
+    estimate_roc(
+      data_source_community = community,
+      data_source_age = age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+
+  expect_false(
+    any(
+      is.na(res$Age)
+    )
+  )
+})
+
+# All NA in age data
+test_that("estimate_roc() correctly handles age data with NAs", {
+  community <-
+    RRatepol::example_data$pollen_data[[1]]
+  age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  age$age[] <-
+    NA
+
+  age_uncertainty[, ] <-
+    NA
+
+  expect_error(
+    estimate_roc(
+      data_source_community = community,
+      data_source_age = age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    ),
+    # none programmed into the function yet
+    # e.g., "No valid age data available (all NA)"
+  )
+})
