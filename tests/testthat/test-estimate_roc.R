@@ -5166,13 +5166,6 @@ test_that("rand: Empty data.frame throws error requiring numeric or NULL", {
   )
 })
 
-
-
-
-
-
-#### to do: correct descritpions of all tests below
-
 # 16. use_parallel validation
 # empty
 test_that("use_parallel: Missing argument uses default value without error", {
@@ -6255,11 +6248,318 @@ test_that("verbose: Empty dataframe input throws error requiring logical", {
   )
 })
 
-
-
 # ============================= #
 # 2. OUTPUT VALIDATION          #
 # ============================= #
+
+# 1. Valid data input returns a data.frame
+# MW
+test_that("Valid data input returns a data.frame", {
+  res <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+  expect_s3_class(
+    res,
+    "data.frame"
+  )
+})
+# levels
+test_that("Valid data input returns correct column types", {
+  res <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+  expect_s3_class(
+    res,
+    "data.frame"
+  )
+})
+
+# bins
+test_that("Valid data input returns correct column types", {
+  res <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+  expect_s3_class(
+    res,
+    "data.frame"
+  )
+})
+
+
+# 2. Output has expected columns
+# MW
+test_that("Valid data input returns correct columns", {
+  res <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+
+  expect_identical(
+    c(
+      "Working_Unit",
+      "Age",
+      "ROC",
+      "ROC_up",
+      "ROC_dw"
+    ),
+    colnames(res)
+  )
+})
+
+# levels
+test_that("Valid data input returns correct column types", {
+  res <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+  expect_identical(
+    c(
+      "Working_Unit",
+      "Age",
+      "ROC",
+      "ROC_up",
+      "ROC_dw"
+    ),
+    colnames(res)
+  )
+})
+
+# bins
+test_that("Valid data input returns correct column types", {
+  res <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+  expect_identical(
+    c(
+      "Working_Unit",
+      "Age",
+      "ROC",
+      "ROC_up",
+      "ROC_dw"
+    ),
+    colnames(res)
+  )
+})
+
+
+# 3. Columns have the correct types
+test_that("Valid data input returns correct column types", {
+  res <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+
+  expect_type(res$Working_Unit, "character")
+  expect_type(res$Age, "double")
+  expect_type(res$ROC, "double")
+  expect_type(res$ROC_up, "double")
+  expect_type(res$ROC_dw, "double")
+})
+
+# levels
+test_that("Valid data input returns correct column types", {
+  res <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+
+  expect_type(res$Working_Unit, "character")
+  expect_type(res$Age, "double")
+  expect_type(res$ROC, "double")
+  expect_type(res$ROC_up, "double")
+  expect_type(res$ROC_dw, "double")
+})
+
+# bins
+test_that("Valid data input returns correct column types", {
+  res <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = NULL,
+      verbose = FALSE
+    )
+
+  expect_type(res$Working_Unit, "character")
+  expect_type(res$Age, "double")
+  expect_type(res$ROC, "double")
+  expect_type(res$ROC_up, "double")
+  expect_type(res$ROC_dw, "double")
+})
+
+
 
 
 
