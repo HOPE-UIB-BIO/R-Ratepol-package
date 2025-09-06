@@ -21,7 +21,7 @@
 # # verbose = FALSE
 
 
-test_that("estimate_roc works with valid inputs", {
+test_that("estimate_roc returns dataframe with valid inputs", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -68,7 +68,7 @@ test_that("estimate_roc works with valid inputs", {
 
 
 # 1. data_source_community validation
-test_that("estimate_roc throws error when data_source_community argument is missing (no default value provided)", {
+test_that("data_source_community: Missing argument throws error indicating required data.frame", {
   # Create example data
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
@@ -102,7 +102,7 @@ test_that("estimate_roc throws error when data_source_community argument is miss
   )
 })
 
-test_that("estimate_roc throws error when data_source_community is NULL (invalid empty input)", {
+test_that("data_source_community: NULL value throws error indicating data.frame required", {
   # Create example data
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
@@ -137,7 +137,7 @@ test_that("estimate_roc throws error when data_source_community is NULL (invalid
 })
 
 # character
-test_that("estimate_roc throws error when data_source_community is a character string ('my_data') instead of required data structure", {
+test_that("data_source_community: Character string instead of data.frame throws error", {
   # Create example data
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
@@ -173,7 +173,7 @@ test_that("estimate_roc throws error when data_source_community is a character s
 
 
 # Numeric
-test_that("estimate_roc throws error when data_source_community is a numeric value (123) instead of required data structure", {
+test_that("data_source_community: Numeric value instead of data.frame throws error", {
   # Create example data
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
@@ -208,7 +208,7 @@ test_that("estimate_roc throws error when data_source_community is a numeric val
 })
 
 # Zero
-test_that("estimate_roc throws error when data_source_community is zero (numeric 0) instead of required data structure", {
+test_that("data_source_community: Zero value instead of data.frame throws error", {
   # Create example data
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
@@ -243,7 +243,7 @@ test_that("estimate_roc throws error when data_source_community is zero (numeric
 })
 
 # NA
-test_that("estimate_roc throws error when data_source_community is NA (missing value) instead of required data structure", {
+test_that("data_source_community: NA value instead of data.frame throws error", {
   # Create example data
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
@@ -279,7 +279,7 @@ test_that("estimate_roc throws error when data_source_community is NA (missing v
 
 
 # empty list
-test_that("estimate_roc throws error when data_source_community is an empty list (list() with no elements)", {
+test_that("data_source_community: Empty list instead of data.frame throws error", {
   # Create example data
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
@@ -315,7 +315,7 @@ test_that("estimate_roc throws error when data_source_community is an empty list
 
 
 # empty dataframe
-test_that("estimate_roc throws error when data_source_community is an empty data frame (data.frame() with no rows/columns)", {
+test_that("data_source_community: Empty data.frame throws error about missing required columns", {
   # Create example data
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
@@ -350,7 +350,7 @@ test_that("estimate_roc throws error when data_source_community is an empty data
 })
 
 # 2. data_source_age validation
-test_that("estimate_roc throws error when data_source_age argument is missing (no default value provided)", {
+test_that("data_source_age: Missing argument throws error indicating required data.frame", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -384,7 +384,7 @@ test_that("estimate_roc throws error when data_source_age argument is missing (n
   )
 })
 
-test_that("estimate_roc throws error when data_source_age is NULL (invalid empty input)", {
+test_that("data_source_age: NULL value throws error indicating data.frame required", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -419,7 +419,7 @@ test_that("estimate_roc throws error when data_source_age is NULL (invalid empty
 })
 
 # character
-test_that("estimate_roc throws error when data_source_age is a character string ('my_data') instead of required data structure", {
+test_that("data_source_age: Character string instead of data.frame throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -455,7 +455,7 @@ test_that("estimate_roc throws error when data_source_age is a character string 
 
 
 # Numeric
-test_that("estimate_roc throws error when data_source_age is a numeric value (123) instead of required data structure", {
+test_that("data_source_age: Numeric value instead of data.frame throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -490,7 +490,7 @@ test_that("estimate_roc throws error when data_source_age is a numeric value (12
 })
 
 # Zero
-test_that("estimate_roc throws error when data_source_age is zero (numeric 0) instead of required data structure", {
+test_that("data_source_age: Zero value instead of data.frame throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -525,7 +525,7 @@ test_that("estimate_roc throws error when data_source_age is zero (numeric 0) in
 })
 
 # NA
-test_that("estimate_roc throws error when data_source_age is NA (missing value) instead of required data structure", {
+test_that("data_source_age: NA value instead of data.frame throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -561,7 +561,7 @@ test_that("estimate_roc throws error when data_source_age is NA (missing value) 
 
 
 # empty list
-test_that("estimate_roc throws error when data_source_age is an empty list (list() with no elements)", {
+test_that("data_source_age: Empty list instead of data.frame throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -597,7 +597,7 @@ test_that("estimate_roc throws error when data_source_age is an empty list (list
 
 
 # empty dataframe
-test_that("estimate_roc throws error when data_source_age is an empty data frame (data.frame() with no rows/columns)", {
+test_that("data_source_age: Empty data.frame throws error about missing required columns", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -631,10 +631,9 @@ test_that("estimate_roc throws error when data_source_age is an empty data frame
   )
 })
 
-
 # 3. Age uncertainty validation
 # it's valid if missing (NULL) - no error expected
-test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty randomizations)", {
+test_that("age_uncertainty: NULL value is valid and function completes without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -674,7 +673,7 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
 })
 
 
-test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty randomizations)", {
+test_that("age_uncertainty: Missing argument is valid and function completes without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -715,14 +714,13 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
 
 
 # character
-test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty randomizations)", {
+test_that("age_uncertainty: Character string instead of matrix throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
 
-  # Run the function with valid inputs
   expect_error(
     estimate_roc(
       data_source_community = data_source_community,
@@ -751,14 +749,13 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
 })
 
 # Numeric
-test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty randomizations)", {
+test_that("age_uncertainty: Numeric value instead of matrix throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
 
-  # Run the function with valid inputs
   expect_error(
     estimate_roc(
       data_source_community = data_source_community,
@@ -787,14 +784,13 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
 })
 
 # Zero
-test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty randomizations)", {
+test_that("age_uncertainty: Zero value instead of matrix throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
 
-  # Run the function with valid inputs
   expect_error(
     estimate_roc(
       data_source_community = data_source_community,
@@ -823,14 +819,13 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
 })
 
 # NA
-test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty randomizations)", {
+test_that("age_uncertainty: NA value instead of matrix throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
 
-  # Run the function with valid inputs
   expect_error(
     estimate_roc(
       data_source_community = data_source_community,
@@ -841,7 +836,7 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
       smooth_age_range = NULL,
       smooth_n_max = NULL,
       working_units = "levels",
-      bin_size = 500, # to avoid error during testing
+      bin_size = NULL,
       number_of_shifts = NULL,
       bin_selection = "first",
       standardise = TRUE,
@@ -859,14 +854,13 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
 })
 
 # empty list
-test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty randomizations)", {
+test_that("age_uncertainty: Empty list instead of matrix throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
 
-  # Run the function with valid inputs
   expect_error(
     estimate_roc(
       data_source_community = data_source_community,
@@ -877,7 +871,7 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
       smooth_age_range = NULL,
       smooth_n_max = NULL,
       working_units = "levels",
-      bin_size = 500, # to avoid error during testing
+      bin_size = NULL,
       number_of_shifts = NULL,
       bin_selection = "first",
       standardise = TRUE,
@@ -895,14 +889,13 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
 })
 
 # empty dataframe
-test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty randomizations)", {
+test_that("age_uncertainty: Empty data.frame instead of matrix throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
   data_source_age <-
     RRatepol::example_data$sample_age[[1]]
 
-  # Run the function with valid inputs
   expect_error(
     estimate_roc(
       data_source_community = data_source_community,
@@ -913,7 +906,7 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
       smooth_age_range = NULL,
       smooth_n_max = NULL,
       working_units = "levels",
-      bin_size = 500, # to avoid error during testing
+      bin_size = NULL,
       number_of_shifts = NULL,
       bin_selection = "first",
       standardise = TRUE,
@@ -932,7 +925,7 @@ test_that("estimate_roc works when age_uncertainty is NULL (no uncertainty rando
 
 # 3. smooth_method validation
 
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_method: NULL value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -969,7 +962,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_method: Missing argument uses default value 'none' without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1005,7 +998,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NULL
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_method: NULL value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1042,7 +1035,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # multiple
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_method: Multiple values throw error as only single value allowed", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1079,7 +1072,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # character
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_method: Invalid character value throws error listing allowed options", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1116,7 +1109,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # Numeric
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_method: Numeric value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1153,7 +1146,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # 0
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_method: Zero value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1190,7 +1183,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NA
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_method: NA value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1227,7 +1220,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty list
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_method: Empty list throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1264,7 +1257,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty dataframe
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_method: Empty data.frame throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1302,7 +1295,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 
 # 4. smooth_n_points validation (for grim, age.w smoothing; must be odd)
 # empty
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_points: Missing argument uses default value 5 without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1338,7 +1331,44 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NULL
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_points: NULL value throws error requiring numeric value", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "age.w",
+      smooth_n_points = NULL,
+      smooth_age_range = 500,
+      smooth_n_max = NULL,
+      working_units = "levels",
+      bin_size = 500, # to avoid error during testing
+      number_of_shifts = ,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "assert_that: length of assertion is not 1"
+  )
+})
+
+# NULL
+test_that("smooth_n_points: NULL value throws error requiring numeric value", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1370,12 +1400,12 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
       time_standardisation = 500,
       verbose = FALSE
     ),
-    "length of assertion is not 1"
+    "assert_that: length of assertion is not 1"
   )
 })
 
 # multiple
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_points: Multiple values throw error as only single value allowed", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1412,7 +1442,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # character
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_points: Character value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1449,7 +1479,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # Numeric (even - i.e., not odd)
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_points: Even number throws error as odd number required", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1486,7 +1516,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # 0
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_points: Zero value throws error as odd number required", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1522,7 +1552,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
   )
 })
 # NA
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_points: NA value throws error requiring non-missing value", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1559,7 +1589,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty list
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_points: Empty list throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1595,7 +1625,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
   )
 })
 # empty dataframe
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_points: Empty data.frame throws error requiring single value", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1633,7 +1663,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 
 # 5. smooth_age_range validation
 # empty
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_age_range: Missing argument uses default value 500 without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1669,7 +1699,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NULL
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_age_range: NULL value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1706,7 +1736,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # multiple
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_age_range: Multiple values causes error in internal function", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1746,7 +1776,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # character
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_age_range: Character value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1783,7 +1813,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # 0
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_age_range: Zero value causes error in internal calculations", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1820,7 +1850,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NA
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_age_range: NA value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1857,7 +1887,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty list
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_age_range: Empty list throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1892,9 +1922,8 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
     "'smooth_age_range' must be one of the following: 'numeric'"
   )
 })
-
 # empty dataframe
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_age_range: Empty data.frame throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1933,7 +1962,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 # 6. smooth_n_max validation
 
 # empty
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_max: Missing argument uses default value 9 without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -1953,7 +1982,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
       smooth_n_max = , # uses 9 as default
       working_units = "levels",
       bin_size = 500, # to avoid error during testing
-      number_of_shifts = NULL,
+      number_of_shifts = ,
       bin_selection = "first",
       standardise = TRUE,
       n_individuals = 150,
@@ -1969,7 +1998,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NULL
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_max: NULL value throws error requiring single value", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2001,12 +2030,12 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
       time_standardisation = 500,
       verbose = FALSE
     ),
-    "assert_that: length of assertion is not 1"
+    "length of assertion is not 1"
   )
 })
 
 # multiple
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_max: Multiple values throw error as only single value allowed", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2043,7 +2072,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # character
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_max: Character value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2081,7 +2110,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 
 
 # Numeric
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_max: Even number throws error as odd number required", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2117,7 +2146,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
   )
 })
 
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_max: Value not larger than smooth_n_points throws error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2154,7 +2183,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # 0
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_max: Zero value throws error as odd number required", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2191,7 +2220,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NA
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_max: NA value throws error requiring non-missing value", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2228,7 +2257,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty list
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_max: Empty list throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2265,7 +2294,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty dataframe
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("smooth_n_max: Empty data.frame throws error requiring single value", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2303,7 +2332,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 
 # 7. working_units validation
 # empty
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("working_units: Missing argument uses default value 'levels' without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2337,7 +2366,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NULL
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("working_units: NULL value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2372,7 +2401,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # multiple
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("working_units: Multiple values throw error as only single value allowed", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2407,7 +2436,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # character
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("working_units: Invalid character value throws error listing allowed options", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2442,7 +2471,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # Numeric
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("working_units: Numeric value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2477,7 +2506,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # 0
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("working_units: Zero value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2512,7 +2541,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NA
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("working_units: NA value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2547,7 +2576,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty list
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("working_units: Empty list throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2582,7 +2611,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty dataframe
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("working_units: Empty data.frame throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2618,7 +2647,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 
 # 8. bin_size validation
 # empty
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_size: Missing argument uses default value 500 without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2651,7 +2680,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
   )
 })
 # NULL
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_size: NULL value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2686,8 +2715,42 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # multiple
+test_that("bin_size: Multiple numeric values throws error requiring single argument", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      # age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "bins",
+      bin_size = c(100, 200),
+      number_of_shifts = NULL,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = NULL,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "assert_that: length of assertion is not 1"
+  )
+})
+
 # character
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_size: Character value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2722,7 +2785,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # 0
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_size: Zero value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2757,7 +2820,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NA
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_size: NA value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2792,7 +2855,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty list
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_size: Empty list throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2827,7 +2890,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty dataframe
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_size: Empty data.frame throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2864,7 +2927,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 
 # 9. number_of_shifts validation
 # empty
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("number_of_shifts: Missing argument uses default value 5 without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2897,7 +2960,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
   )
 })
 # NULL
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("number_of_shifts: NULL value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2932,7 +2995,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # multiple
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("number_of_shifts: Multiple values throw error as only single value allowed", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -2967,7 +3030,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # character
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("number_of_shifts: Character value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3002,7 +3065,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # Numeric
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("number_of_shifts: Valid numeric value works without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3036,7 +3099,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # 0
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("number_of_shifts: Zero value is overwritten with 1 without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3070,7 +3133,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NA
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("number_of_shifts: NA value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3105,7 +3168,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty list
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("number_of_shifts: Empty list throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3212,7 +3275,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NULL
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_selection: NULL value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3249,7 +3312,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # multiple
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_selection: Multiple values throw error as only single value allowed", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3286,7 +3349,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # character
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_selection: Invalid character value throws error listing allowed options", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3323,7 +3386,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # Numeric
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_selection: Numeric value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3360,7 +3423,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # 0
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_selection: Zero value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3397,7 +3460,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NA
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_selection: NA value throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3434,7 +3497,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty list
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_selection: Empty list throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3471,7 +3534,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty dataframe
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("bin_selection: Empty data.frame throws error requiring character input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3510,7 +3573,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 
 # 11. standardise validation
 # empty
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("standardise: Missing argument uses default value FALSE without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3532,7 +3595,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
       bin_size = 500,
       number_of_shifts = 1,
       bin_selection = "first",
-      standardise = , # will use default FALSE
+      standardise = , # will use default FALSE silently
       n_individuals = 150,
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
@@ -3546,7 +3609,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NULL
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("standardise: NULL value throws error requiring logical input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3583,7 +3646,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # multiple
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("standardise: Multiple values throw error as only single value allowed", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3621,7 +3684,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # character
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("standardise: Character value throws error requiring logical input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3658,7 +3721,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # Numeric
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("standardise: Numeric value throws error requiring logical input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3695,7 +3758,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # 0
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("standardise: Zero value throws error requiring logical input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3732,7 +3795,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NA
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("standardise: NA value throws error instead of using FALSE silently", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3770,7 +3833,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty list
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("standardise: Empty list throws error requiring logical input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3807,7 +3870,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty dataframe
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("standardise: Empty data.frame throws error requiring logical input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3846,7 +3909,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 
 # 12. n_individuals validation
 # empty
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("n_individuals: Missing argument uses default value 150 without error", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3869,7 +3932,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
       number_of_shifts = 1,
       bin_selection = "first",
       standardise = TRUE,
-      n_individuals = , # uses default 150
+      n_individuals = , # uses default 150 silently
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       rand = 100,
@@ -3882,7 +3945,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NULL
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("n_individuals: NULL value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3919,7 +3982,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # multiple
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("n_individuals: Multiple values throw error as only single value allowed", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3956,7 +4019,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # character
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("n_individuals: Character value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -3994,7 +4057,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 
 
 # 0
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("n_individuals: Zero value throws error in internal calculations", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -4031,7 +4094,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # NA
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("n_individuals: NA value throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -4068,7 +4131,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty list
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("n_individuals: Empty list throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -4105,7 +4168,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
 })
 
 # empty dataframe
-test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+test_that("n_individuals: Empty dataframe throws error requiring numeric input", {
   # Create example data
   data_source_community <-
     RRatepol::example_data$pollen_data[[1]]
@@ -4141,39 +4204,994 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
   )
 })
 
-
 # 13. dissimilarity_coefficient validation
 # empty
+test_that("dissimilarity_coefficient: Missing argument uses default value 'euc' without error", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_no_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = , # will use default "euc"
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    )
+  )
+})
+
 # NULL
+test_that("dissimilarity_coefficient: NULL value throws error requiring character input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = NULL,
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'dissimilarity_coefficient' must be one of the following: 'character'"
+  )
+})
+
 # multiple
+test_that("dissimilarity_coefficient: Multiple values throw error as only single value allowed", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = c("euc", "bray"),
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'arg' must be of length 1"
+  )
+})
 # character
+test_that("dissimilarity_coefficient: invalid character values throw error as only single value allowed", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "my_dissimilarity_coefficient",
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'dissimilarity_coefficient' must contains one of the following values: 'euc', 'euc.sd', 'chord', 'chisq', 'gower', 'bray'"
+  )
+})
+
 # Numeric
+test_that("dissimilarity_coefficient: Numeric value throws error requiring character input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = 123,
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'dissimilarity_coefficient' must be one of the following: 'character'"
+  )
+})
+
 # 0
+test_that("dissimilarity_coefficient: Zero value throws error requiring character input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = 0,
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'dissimilarity_coefficient' must be one of the following: 'character'"
+  )
+})
+
 # NA
+test_that("dissimilarity_coefficient: NA value throws error requiring character input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = NA,
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'dissimilarity_coefficient' must be one of the following: 'character'"
+  )
+})
+
 # empty list
+test_that("dissimilarity_coefficient: Empty list throws error requiring character input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = list(),
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'dissimilarity_coefficient' must be one of the following: 'character'"
+  )
+})
+
 # empty dataframe
+test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = data.frame(),
+      tranform_to_proportions = TRUE,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'dissimilarity_coefficient' must be one of the following: 'character'"
+  )
+})
 
 # 14. tranform_to_proportions validation
 # empty
+test_that("estimate_roc throws error when smooth_method is NULL (invalid empty input)", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_no_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = , # will use default TRUE
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    )
+  )
+})
+
 # NULL
+test_that("tranform_to_proportions: NULL value throws error requiring logical input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = NULL,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'tranform_to_proportions' must be one of the following: 'logical'"
+  )
+})
+
 # multiple
+test_that("tranform_to_proportions: Multiple values throw error as only single value allowed", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = c(FALSE, TRUE),
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    # none programmed into function yet
+    "'arg' must be of length 1"
+  )
+})
+
 # character
+test_that("tranform_to_proportions: Character value throws error requiring logical input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = "my_choice",
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'tranform_to_proportions' must be one of the following: 'logical'"
+  )
+})
+
 # Numeric
+test_that("tranform_to_proportions: Numeric value throws error requiring logical input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = 123,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'tranform_to_proportions' must be one of the following: 'logical'"
+  )
+})
+
 # 0
+test_that("tranform_to_proportions: Zero value throws error requiring logical input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = 0,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'tranform_to_proportions' must be one of the following: 'logical'"
+  )
+})
+
 # NA
+test_that("tranform_to_proportions: NA value throws error requiring non-missing value", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = NA,
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "assert_that: missing values present in assertion"
+  )
+})
 # empty list
+test_that("tranform_to_proportions: Empty list throws error requiring logical input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = list(),
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'tranform_to_proportions' must be one of the following: 'logical'"
+  )
+})
 # empty dataframe
+test_that("tranform_to_proportions: Empty data.frame throws error requiring logical input", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = data.frame(),
+      rand = 100,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'tranform_to_proportions' must be one of the following: 'logical'"
+  )
+})
+
 
 # 15. rand validation
 # empty
+test_that("rand: Missing argument uses default value without error", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = , # will use default NULL
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "argument is of length zero"
+  )
+})
+
 # NULL
+test_that("rand: NULL value throws error requiring logical input for tranform_to_proportions", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = NULL,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "argument is of length zero"
+  )
+})
+
 # multiple
+test_that("rand: Multiple values for tranform_to_proportions throw error", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = c(100, 200),
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "assert_that: length of assertion is not 1"
+  )
+})
+
 # character
-# Numeric
+test_that("rand: Character value throws error requiring numeric or NULL", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = "100",
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'rand' must be one of the following: 'NULL', 'numeric'"
+  )
+})
+
 # 0
+test_that("rand: Zero value causes error in internal function calculation", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 0,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "subscript out of bounds"
+  )
+})
+
 # NA
+test_that("rand: NA value throws error requiring numeric or NULL", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = NA,
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'rand' must be one of the following: 'NULL', 'numeric'"
+  )
+})
+
 # empty list
+test_that("rand: Empty list throws error requiring numeric or NULL", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = list(),
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'rand' must be one of the following: 'NULL', 'numeric'"
+  )
+})
+
 # empty dataframe
+test_that("rand: Empty data.frame throws error requiring numeric or NULL", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
+
+  expect_error(
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      smooth_age_range = 500,
+      smooth_n_max = 9,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = TRUE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = data.frame(),
+      use_parallel = FALSE,
+      interest_threshold = NULL,
+      time_standardisation = 500,
+      verbose = FALSE
+    ),
+    "'rand' must be one of the following: 'NULL', 'numeric'"
+  )
+})
+
+
+# ============================= #
+# 2. OUTPUT VALIDATION          #
+# ============================= #
+
+
+
+# ============================= #
+# 3. FUNCTIONALITY              #
+# ============================= #
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 16. use_parallel validation
 # empty
