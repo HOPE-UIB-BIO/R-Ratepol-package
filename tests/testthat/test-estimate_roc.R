@@ -6463,11 +6463,26 @@ test_that("Valid data input returns correct column types", {
       verbose = FALSE
     )
 
-  expect_type(res$Working_Unit, "character")
-  expect_type(res$Age, "double")
-  expect_type(res$ROC, "double")
-  expect_type(res$ROC_up, "double")
-  expect_type(res$ROC_dw, "double")
+  expect_type(
+    res$Working_Unit,
+    "character"
+  )
+  expect_type(
+    res$Age,
+    "double"
+  )
+  expect_type(
+    res$ROC,
+    "double"
+  )
+  expect_type(
+    res$ROC_up,
+    "double"
+  )
+  expect_type(
+    res$ROC_dw,
+    "double"
+  )
 })
 
 # levels
@@ -6496,11 +6511,26 @@ test_that("Valid data input returns correct column types", {
       verbose = FALSE
     )
 
-  expect_type(res$Working_Unit, "character")
-  expect_type(res$Age, "double")
-  expect_type(res$ROC, "double")
-  expect_type(res$ROC_up, "double")
-  expect_type(res$ROC_dw, "double")
+  expect_type(
+    res$Working_Unit,
+    "character"
+  )
+  expect_type(
+    res$Age,
+    "double"
+  )
+  expect_type(
+    res$ROC,
+    "double"
+  )
+  expect_type(
+    res$ROC_up,
+    "double"
+  )
+  expect_type(
+    res$ROC_dw,
+    "double"
+  )
 })
 
 # bins
@@ -6529,345 +6559,429 @@ test_that("Valid data input returns correct column types", {
       verbose = FALSE
     )
 
-  expect_type(res$Working_Unit, "character")
-  expect_type(res$Age, "double")
-  expect_type(res$ROC, "double")
-  expect_type(res$ROC_up, "double")
-  expect_type(res$ROC_dw, "double")
+  expect_type(
+    res$Working_Unit,
+    "character"
+  )
+  expect_type(
+    res$Age,
+    "double"
+  )
+  expect_type(
+    res$ROC,
+    "double"
+  )
+  expect_type(
+    res$ROC_up,
+    "double"
+  )
+  expect_type(
+    res$ROC_dw,
+    "double"
+  )
 })
 
+test_that("estimate_roc output has correct structure with required columns", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
 
+  # Run the function with minimal parameters
+  result <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      rand = 10,
+      verbose = FALSE
+    )
 
+  # Check output structure contains expected columns
+  expect_true(
+    all(
+      c(
+        "Working_Unit", "Age", "ROC", "ROC_up", "ROC_dw"
+      ) %in%
+        colnames(result)
+    )
+  )
+})
 
+test_that("estimate_roc output has rows sorted by Age", {
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+
+  # Run the function with minimal parameters
+  result <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      rand = 10,
+      verbose = FALSE
+    )
+
+  # Check that rows are sorted by Age
+  expect_equal(
+    result$Age,
+    sort(result$Age)
+  )
+})
 
 # ============================= #
 # 3. FUNCTIONALITY              #
 # ============================= #
-# ============================= #
-# OUTPUT VALIDATION TESTS       #
-# ============================= #
-
-test_that("estimate_roc output has correct structure with required columns", {
-    # Create example data
-    data_source_community <-
-        RRatepol::example_data$pollen_data[[1]]
-    data_source_age <-
-        RRatepol::example_data$sample_age[[1]]
-
-    # Run the function with minimal parameters
-    result <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        rand = 10,
-        verbose = FALSE
-    )
-
-    # Check output structure contains expected columns
-    expect_true(all(c("Working_Unit", "Age", "ROC", "ROC_up", "ROC_dw") %in% colnames(result)))
-})
-
-test_that("estimate_roc output has rows sorted by Age", {
-    # Create example data
-    data_source_community <-
-        RRatepol::example_data$pollen_data[[1]]
-    data_source_age <-
-        RRatepol::example_data$sample_age[[1]]
-
-    # Run the function with minimal parameters
-    result <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        rand = 10,
-        verbose = FALSE
-    )
-
-    # Check that rows are sorted by Age
-    expect_equal(result$Age, sort(result$Age))
-})
 
 test_that("estimate_roc properly applies interest_threshold", {
-    # Create example data
-    data_source_community <-
-        RRatepol::example_data$pollen_data[[1]]
-    data_source_age <-
-        RRatepol::example_data$sample_age[[1]]
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
 
-    # Get the median age from the age data
-    median_age <- median(data_source_age$age)
+  # Get the median age from the age data
+  median_age <-
+    median(data_source_age$age)
 
-    # Run with threshold
-    result_with_threshold <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        interest_threshold = median_age,
-        rand = 10,
-        verbose = FALSE
+  # Run with threshold
+  result_with_threshold <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      interest_threshold = median_age,
+      rand = 10,
+      verbose = FALSE
     )
 
-    # Check that all ages in result are less than or equal to the threshold
-    expect_true(all(result_with_threshold$Age <= median_age))
+  # Check that all ages in result are less than or equal to the threshold
+  expect_true(
+    all(result_with_threshold$Age <= median_age)
+  )
 })
 
 test_that("estimate_roc produces different ROC values with different dissimilarity coefficients", {
-    # Create example data
-    data_source_community <-
-        RRatepol::example_data$pollen_data[[1]]
-    data_source_age <-
-        RRatepol::example_data$sample_age[[1]]
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
 
-    # Run the function with different dissimilarity coefficients
-    result_chisq <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "chisq",
-        rand = 10,
-        verbose = FALSE
+  # Run the function with different dissimilarity coefficients
+  set.seed(123)
+  result_chisq <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "chisq",
+      rand = 10,
+      verbose = FALSE
     )
 
-    result_chord <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "chord",
-        rand = 10,
-        verbose = FALSE
+  set.seed(123)
+  result_chord <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "chord",
+      rand = 10,
+      verbose = FALSE
     )
 
-    # Check that ROC values differ between methods
-    expect_false(identical(result_chisq$ROC, result_chord$ROC))
+  # Check that ROC values differ between methods
+  expect_false(
+    identical(
+      result_chisq$ROC,
+      result_chord$ROC
+    )
+  )
 })
 
 test_that("estimate_roc produces more working units with MW compared to bins method", {
-    # Create example data
-    data_source_community <-
-        RRatepol::example_data$pollen_data[[1]]
-    data_source_age <-
-        RRatepol::example_data$sample_age[[1]]
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
 
-    # Run with bins
-    result_bins <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "bins",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        rand = 10,
-        verbose = FALSE
+  # Run with bins
+  result_bins <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "bins",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      rand = 10,
+      verbose = FALSE
     )
 
-    # Run with MW (moving window)
-    result_mw <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "MW",
-        bin_size = 500,
-        number_of_shifts = 5,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        rand = 10,
-        verbose = FALSE
+  # Run with MW (moving window)
+  result_mw <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 5,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      rand = 10,
+      verbose = FALSE
     )
 
-    # Check that MW produces more working units than bins
-    expect_gt(nrow(result_mw), nrow(result_bins))
+  # Check that MW produces more working units than bins
+  expect_gt(
+    nrow(result_mw),
+    nrow(result_bins)
+  )
 })
 
 test_that("estimate_roc returns ROC values within expected range for proportion data", {
-    # Create example data
-    data_source_community <-
-        RRatepol::example_data$pollen_data[[1]]
-    data_source_age <-
-        RRatepol::example_data$sample_age[[1]]
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
 
-    # Run with transform_to_proportions = TRUE
-    result <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        verbose = FALSE
+  # Run with transform_to_proportions = TRUE
+  result <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      rand = 10,
+      verbose = FALSE
     )
 
-    # For proportion data with euclidean distance, values typically range from 0-1
-    # but can be higher depending on time_standardisation
-    expect_true(all(result$ROC >= 0))
-    expect_true(all(is.finite(result$ROC)))
+  # For proportion data with euclidean distance, values typically range from 0-1
+  # but can be higher depending on time_standardisation
+  expect_true(
+    all(
+      result$ROC >= 0
+    )
+  )
+  expect_true(
+    all(
+      is.finite(result$ROC)
+    )
+  )
 })
 
 test_that("estimate_roc with time_standardisation properly scales ROC values", {
-    # Create example data
-    data_source_community <-
-        RRatepol::example_data$pollen_data[[1]]
-    data_source_age <-
-        RRatepol::example_data$sample_age[[1]]
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
 
-    # Run with different time_standardisation values
-    set.seed(123)
-    result_500 <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        time_standardisation = 500,
-        rand = 10,
-        verbose = FALSE
+  # Run with different time_standardisation values
+  set.seed(123)
+  result_500 <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      time_standardisation = 500,
+      rand = 10,
+      verbose = FALSE
     )
-    set.seed(123)
-    result_1000 <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        time_standardisation = 1000,
-        rand = 10,
-        verbose = FALSE
+  set.seed(123)
+  result_1000 <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      time_standardisation = 1000,
+      rand = 10,
+      verbose = FALSE
     )
 
-    # When time_standardisation is doubled, ROC values should be doubled
-    # This is an approximate test due to randomization
-    median_ratio <- median(result_500$ROC / result_1000$ROC, na.rm = TRUE)
-    expect_gt(median_ratio, 0)
-    expect_lt(median_ratio, 1)
+  # When time_standardisation is doubled, ROC values should be doubled
+  # This is an approximate test due to randomization
+  median_ratio <-
+    median(result_500$ROC / result_1000$ROC, na.rm = TRUE)
+  expect_gt(
+    median_ratio,
+    0
+  )
+  expect_lt(
+    median_ratio,
+    1
+  )
 })
 
 test_that("estimate_roc applies smoothing correctly", {
-    # Create example data
-    data_source_community <-
-        RRatepol::example_data$pollen_data[[1]]
-    data_source_age <-
-        RRatepol::example_data$sample_age[[1]]
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
 
-    # Run with no smoothing
-    set.seed(123)
-    result_none <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        rand = 10,
-        verbose = FALSE
+  # Run with no smoothing
+  set.seed(123)
+  result_none <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      rand = 10,
+      verbose = FALSE
     )
 
-    # Run with Shepard smoothing
-    set.seed(123)
-    result_shep <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        smooth_method = "shep",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        rand = 10,
-        verbose = FALSE
+  # Run with Shepard smoothing
+  set.seed(123)
+  result_shep <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      smooth_method = "shep",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      rand = 10,
+      verbose = FALSE
     )
 
-    # Smoothing should typically result in different ROC values
-    # and often lower variance in the results
-    expect_false(identical(result_none$ROC, result_shep$ROC))
+  # Smoothing should typically result in different ROC values
+  # and often lower variance in the results
+  expect_false(
+    identical(
+      result_none$ROC,
+      result_shep$ROC
+    )
+  )
 
-    # Typically, smoothing reduces the range of ROC values
-    range_none <- max(result_none$ROC, na.rm = TRUE) - min(result_none$ROC, na.rm = TRUE)
-    range_shep <- max(result_shep$ROC, na.rm = TRUE) - min(result_shep$ROC, na.rm = TRUE)
+  # Typically, smoothing reduces the range of ROC values
+  range_none <-
+    max(result_none$ROC, na.rm = TRUE) - min(result_none$ROC, na.rm = TRUE)
+  range_shep <-
+    max(result_shep$ROC, na.rm = TRUE) - min(result_shep$ROC, na.rm = TRUE)
 
-    # Not always true, but generally smoothing reduces variance
-    expect_lte(range_shep, range_none)
+  # Not always true, but generally smoothing reduces variance
+  expect_lte(
+    range_shep,
+    range_none
+  )
 })
 
 test_that("estimate_roc confidence intervals (ROC_up, ROC_dw) widen with higher age uncertainty", {
-    # Create example data
-    data_source_community <-
-        RRatepol::example_data$pollen_data[[1]]
-    data_source_age <-
-        RRatepol::example_data$sample_age[[1]]
-    age_uncertainty <-
-        RRatepol::example_data$age_uncertainty[[1]]
+  # Create example data
+  data_source_community <-
+    RRatepol::example_data$pollen_data[[1]]
+  data_source_age <-
+    RRatepol::example_data$sample_age[[1]]
+  age_uncertainty <-
+    RRatepol::example_data$age_uncertainty[[1]]
 
-    # Create increased uncertainty by multiplying standard deviations
-    # This simulates the effect of using a more uncertain age model
-    increased_uncertainty <- age_uncertainty
-    set.seed(123)
-    # Add more random variation to the uncertainty matrix
-    for (i in seq_len(ncol(increased_uncertainty))) {
-        # Add noise proportional to the original variation
-        col_sd <- sd(increased_uncertainty[, i])
-        increased_uncertainty[, i] <- increased_uncertainty[, i] + rnorm(nrow(increased_uncertainty), 0, col_sd * 0.5)
-    }
+  # Create increased uncertainty by multiplying standard deviations
+  # This simulates the effect of using a more uncertain age model
+  increased_uncertainty <-
+    age_uncertainty
+  set.seed(123)
+  # Add more random variation to the uncertainty matrix
+  for (i in seq_len(ncol(increased_uncertainty))) {
+    # Add noise proportional to the original variation
+    col_sd <-
+      sd(increased_uncertainty[, i])
+    increased_uncertainty[, i] <-
+      increased_uncertainty[, i] + rnorm(nrow(increased_uncertainty), 0, col_sd * 0.5)
+  }
 
-    # Run with original uncertainty
-    set.seed(123)
-    result_orig <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        age_uncertainty = age_uncertainty,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        rand = 100,
-        verbose = FALSE
+  # Run with original uncertainty
+  set.seed(123)
+  result_orig <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = age_uncertainty,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      rand = 100,
+      verbose = FALSE
     )
 
-    # Run with increased uncertainty
-    set.seed(123)
-    result_high <- estimate_roc(
-        data_source_community = data_source_community,
-        data_source_age = data_source_age,
-        age_uncertainty = increased_uncertainty,
-        smooth_method = "none",
-        working_units = "levels",
-        bin_size = 500,
-        bin_selection = "first",
-        dissimilarity_coefficient = "euc",
-        rand = 100,
-        verbose = FALSE
+  # Run with increased uncertainty
+  set.seed(123)
+  result_high <-
+    estimate_roc(
+      data_source_community = data_source_community,
+      data_source_age = data_source_age,
+      age_uncertainty = increased_uncertainty,
+      smooth_method = "none",
+      working_units = "levels",
+      bin_size = 500,
+      bin_selection = "first",
+      dissimilarity_coefficient = "euc",
+      rand = 100,
+      verbose = FALSE
     )
 
-    # Calculate confidence interval width
-    ci_width_orig <- mean(result_orig$ROC_up - result_orig$ROC_dw, na.rm = TRUE)
-    ci_width_high <- mean(result_high$ROC_up - result_high$ROC_dw, na.rm = TRUE)
+  # Calculate confidence interval width
+  ci_width_orig <-
+    mean(
+      result_orig$ROC_up - result_orig$ROC_dw,
+      na.rm = TRUE
+    )
+  ci_width_high <-
+    mean(
+      result_high$ROC_up - result_high$ROC_dw,
+      na.rm = TRUE
+    )
 
-    # Higher uncertainty should result in wider confidence intervals
-    # This test might be affected by randomness, so we use a tolerance
-    expect_gt(ci_width_high, ci_width_orig)
+  # Higher uncertainty should result in wider confidence intervals
+  # This test might be affected by randomness, so we use a tolerance
+  expect_gt(
+    ci_width_high,
+    ci_width_orig
+  )
 })
