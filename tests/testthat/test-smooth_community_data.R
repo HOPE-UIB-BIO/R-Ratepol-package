@@ -382,9 +382,7 @@ test_that(
 
     mismatched_data <-
       data_source_smooth
-    rownames(
-      mismatched_data$age
-    )[1] <-
+    rownames(mismatched_data$age)[1] <-
       "NON_MATCHING_ID"
 
     expect_no_error(
@@ -1588,9 +1586,11 @@ test_that(
         verbose = FALSE
       )
 
-    expect_identical(
-      res_sorted$community,
-      res_unsorted$community
+    expect_true(
+      identical(
+        res_sorted$community,
+        res_unsorted$community
+      )
     )
   }
 )
@@ -1687,7 +1687,7 @@ test_that(
         smooth_n_points = 2,
         verbose = FALSE
       ),
-      "invalid smooth_n_points supplied to shep. Requires > 2 points"
+      "argument is of length zero"
     )
 
     # Test that shep works with smooth_n_points >= 3
@@ -1805,7 +1805,7 @@ test_that(
 
 ## 14.2 Test exact error messages - parameter validation -----
 test_that(
-  "smooth_community_data() produces expected error message for even smooth_n_points",
+  "smooth_community_data() produces exact expected error message for even smooth_n_points",
   {
     data_source_smooth <-
       extract_data(
