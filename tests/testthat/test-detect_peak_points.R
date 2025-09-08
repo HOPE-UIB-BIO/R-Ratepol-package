@@ -1134,11 +1134,7 @@ test_that("detect_peak_points() preserves original data structure with Peak colu
   )
 })
 
-
-
-
 # Testing different input data scenarios created using estimate_roc()
-
 # Check if no error:
 ## 1. bins
 test_that("detect_peak_points() works without error for non-smoothed data with working_units='bins', using sel_method='trend_linear' and sd_threshold=2", {
@@ -1563,13 +1559,7 @@ test_that("detect_peak_points() works without error for shep-smoothed data with 
   )
 })
 
-
-
-
-
-
 # Check if output structure is as expected (data.frame with correct columns):
-
 ## 1. bins
 test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for non-smoothed input, working_units='bins', sel_method='trend_linear', sd_threshold=2", {
   data_source <-
@@ -2142,8 +2132,6 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
     nrow(res)
   )
 })
-
-
 
 test_that("detect_peak_points() works with standardised data", {
   # Test with standardisation enabled
