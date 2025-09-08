@@ -420,6 +420,7 @@ test_that("make_trend errors when sel_method is length > 1 and data_source is va
       data_source = data_source,
       sel_method = c("linear", "non_linear")
     ),
+    # not programmed yet
     "'sel_method' must be of length 1"
   )
 })
@@ -496,7 +497,6 @@ test_that("make_trend errors when sel_method is an empty data.frame and data_sou
 })
 
 # Functionality
-
 # test that both methods produce different results
 test_that("make_trend produces different results for 'linear' and 'non_linear' sel_method", {
   data_source <-
@@ -580,7 +580,7 @@ test_that("make_trend returns a numeric vector when data_source is valid and sel
   )
 })
 
-test_that("make_trend returns a numeric vector when data_source is valid and sel_method is 'linear'", {
+test_that("make_trend returns a numeric vector when data_source is valid and sel_method is 'non_linear'", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -619,7 +619,7 @@ test_that("make_trend returns a numeric vector when data_source is valid and sel
 
 ## Additional tests for edge cases / functionality:
 # Test for data frame with NA values in ROC column
-test_that("make_trend handles NA values in ROC column appropriately (predict NA))", {
+test_that("make_trend with 'linear' handles NA values in ROC column appropriately (predict NA))", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -658,7 +658,7 @@ test_that("make_trend handles NA values in ROC column appropriately (predict NA)
   )
 })
 
-test_that("make_trend handles NA values in ROC column appropriately (predict NA))", {
+test_that("make_trend with 'non_linear' handles NA values in ROC column appropriately (predict NA))", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -698,7 +698,7 @@ test_that("make_trend handles NA values in ROC column appropriately (predict NA)
 })
 
 # Test for data frame with NA values in Age column
-test_that("make_trend handles NA values in Age column appropriately", {
+test_that("make_trend with 'linear' handles NA values in Age column appropriately", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -737,7 +737,7 @@ test_that("make_trend handles NA values in Age column appropriately", {
   )
 })
 
-test_that("make_trend handles NA values in Age column appropriately", {
+test_that("make_trend with 'non_linear' handles NA values in Age column appropriately", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -777,7 +777,7 @@ test_that("make_trend handles NA values in Age column appropriately", {
 })
 
 # Test for data frame with only one row (edge case)
-test_that("make_trend throws warning with single row data frame", {
+test_that("make_trend with 'linear' throws warning with single row data frame", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -814,7 +814,7 @@ test_that("make_trend throws warning with single row data frame", {
   )
 })
 
-test_that("make_trend works with single row data frame", {
+test_that("make_trend with 'non_linear' throws error with single row data frame", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -852,7 +852,7 @@ test_that("make_trend works with single row data frame", {
 
 
 # Test for data frame with negative ROC values (edge case)
-test_that("make_trend rejects negative ROC values", {
+test_that("make_trend with 'linear' rejects negative ROC values", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -892,7 +892,7 @@ test_that("make_trend rejects negative ROC values", {
   )
 })
 
-test_that("make_trend rejects negative ROC values", {
+test_that("make_trend with 'non_linear' rejects negative ROC values", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -933,7 +933,7 @@ test_that("make_trend rejects negative ROC values", {
 })
 
 # Test that output length matches input data frame rows
-test_that("make_trend output length matches input rows", {
+test_that("make_trend output length matches input rows with 'linear'", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -970,7 +970,7 @@ test_that("make_trend output length matches input rows", {
   )
 })
 
-test_that("make_trend output length matches input rows", {
+test_that("make_trend output length matches input rows with 'non_linear'", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
