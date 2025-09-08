@@ -1,4 +1,4 @@
-test_that("detect_peak_points() throws error when 'data_source' parameter is missing: expects error about missing argument", {
+test_that("detect_peak_points() errors if 'data_source' argument is missing: expects error about missing required argument", {
   expect_error(
     detect_peak_points(
       data_source = ,
@@ -9,7 +9,7 @@ test_that("detect_peak_points() throws error when 'data_source' parameter is mis
   )
 })
 
-test_that("detect_peak_points() throws error when 'data_source' is NULL: expects type error requiring data.frame", {
+test_that("detect_peak_points() errors if 'data_source' is NULL: expects type error requiring data.frame", {
   expect_error(
     detect_peak_points(
       data_source = NULL,
@@ -20,7 +20,7 @@ test_that("detect_peak_points() throws error when 'data_source' is NULL: expects
   )
 })
 
-test_that("detect_peak_points() throws error when 'data_source' is character: expects type error requiring data.frame", {
+test_that("detect_peak_points() errors if 'data_source' is character: expects type error requiring data.frame", {
   expect_error(
     detect_peak_points(
       data_source = "my_data",
@@ -31,7 +31,7 @@ test_that("detect_peak_points() throws error when 'data_source' is character: ex
   )
 })
 
-test_that("detect_peak_points() throws error when 'data_source' is numeric: expects type error requiring data.frame", {
+test_that("detect_peak_points() errors if 'data_source' is numeric: expects type error requiring data.frame", {
   expect_error(
     detect_peak_points(
       data_source = 123,
@@ -42,7 +42,7 @@ test_that("detect_peak_points() throws error when 'data_source' is numeric: expe
   )
 })
 
-test_that("detect_peak_points() throws error when 'data_source' is NA: expects type error requiring data.frame", {
+test_that("detect_peak_points() errors if 'data_source' is NA: expects type error requiring data.frame", {
   expect_error(
     detect_peak_points(
       data_source = NA,
@@ -53,7 +53,7 @@ test_that("detect_peak_points() throws error when 'data_source' is NA: expects t
   )
 })
 
-test_that("detect_peak_points() throws error when 'data_source' is an empty list: expects type error requiring data.frame", {
+test_that("detect_peak_points() errors if 'data_source' is an empty list: expects type error requiring data.frame", {
   expect_error(
     detect_peak_points(
       data_source = list(),
@@ -64,7 +64,7 @@ test_that("detect_peak_points() throws error when 'data_source' is an empty list
   )
 })
 
-test_that("detect_peak_points() throws error when 'data_source' is an empty data.frame: expects missing required columns error", {
+test_that("detect_peak_points() errors if 'data_source' is an empty data.frame: expects missing required columns error", {
   expect_error(
     detect_peak_points(
       data_source = data.frame(),
@@ -75,7 +75,7 @@ test_that("detect_peak_points() throws error when 'data_source' is an empty data
   )
 })
 
-test_that("detect_peak_points() throws error when 'data_source' has empty ROC and Age columns: expects model fitting error", {
+test_that("detect_peak_points() errors if 'data_source' has empty ROC and Age columns: expects model fitting error", {
   expect_error(
     suppressWarnings(
       detect_peak_points(
@@ -88,7 +88,7 @@ test_that("detect_peak_points() throws error when 'data_source' has empty ROC an
   )
 })
 
-test_that("detect_peak_points() throws error when 'data_source' has NA in ROC and Age columns: expects model fitting error", {
+test_that("detect_peak_points() errors if 'data_source' has NA in ROC and Age columns: expects model fitting error", {
   expect_error(
     suppressWarnings(
       detect_peak_points(
@@ -101,7 +101,7 @@ test_that("detect_peak_points() throws error when 'data_source' has NA in ROC an
   )
 })
 
-test_that("detect_peak_points() uses default sel_method 'trend_linear' when not supplied: expects no error", {
+test_that("detect_peak_points() uses default sel_method 'trend_linear' when not supplied: expects no error and default method used", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -129,7 +129,7 @@ test_that("detect_peak_points() uses default sel_method 'trend_linear' when not 
   )
 })
 
-test_that("detect_peak_points() throws error when sel_method is NULL: expects character type error", {
+test_that("detect_peak_points() errors if sel_method is NULL: expects character type error for method parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -158,7 +158,7 @@ test_that("detect_peak_points() throws error when sel_method is NULL: expects ch
   )
 })
 
-test_that("detect_peak_points() throws error when sel_method is invalid character: expects allowed values error", {
+test_that("detect_peak_points() errors if sel_method is invalid character: expects allowed values error for method parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -187,7 +187,7 @@ test_that("detect_peak_points() throws error when sel_method is invalid characte
   )
 })
 
-test_that("detect_peak_points() throws error when sel_method is a vector of multiple values: expects length 1 error", {
+test_that("detect_peak_points() errors if sel_method is a vector of multiple values: expects length 1 error for method parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -216,7 +216,7 @@ test_that("detect_peak_points() throws error when sel_method is a vector of mult
   )
 })
 
-test_that("detect_peak_points() throws error when sel_method is numeric: expects character type error", {
+test_that("detect_peak_points() errors if sel_method is numeric: expects character type error for method parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -245,7 +245,7 @@ test_that("detect_peak_points() throws error when sel_method is numeric: expects
   )
 })
 
-test_that("detect_peak_points() throws error when sel_method is zero: expects character type error", {
+test_that("detect_peak_points() errors if sel_method is zero: expects character type error for method parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -274,7 +274,7 @@ test_that("detect_peak_points() throws error when sel_method is zero: expects ch
   )
 })
 
-test_that("detect_peak_points() throws error when sel_method is NA: expects character type error", {
+test_that("detect_peak_points() errors if sel_method is NA: expects character type error for method parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -303,7 +303,7 @@ test_that("detect_peak_points() throws error when sel_method is NA: expects char
   )
 })
 
-test_that("detect_peak_points() throws error when sel_method is an empty list: expects character type error", {
+test_that("detect_peak_points() errors if sel_method is an empty list: expects character type error for method parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -332,7 +332,7 @@ test_that("detect_peak_points() throws error when sel_method is an empty list: e
   )
 })
 
-test_that("detect_peak_points() throws error when sel_method is an empty data.frame: expects character type error", {
+test_that("detect_peak_points() errors if sel_method is an empty data.frame: expects character type error for method parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -361,7 +361,7 @@ test_that("detect_peak_points() throws error when sel_method is an empty data.fr
   )
 })
 
-test_that("detect_peak_points() uses default sd_threshold=2 when not supplied: expects no error", {
+test_that("detect_peak_points() uses default sd_threshold=2 when not supplied: expects no error and default threshold used", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -389,7 +389,7 @@ test_that("detect_peak_points() uses default sd_threshold=2 when not supplied: e
   )
 })
 
-test_that("detect_peak_points() throws error when sd_threshold is NULL: expects numeric type error", {
+test_that("detect_peak_points() errors if sd_threshold is NULL: expects numeric type error for threshold parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -418,7 +418,7 @@ test_that("detect_peak_points() throws error when sd_threshold is NULL: expects 
   )
 })
 
-test_that("detect_peak_points() throws error when sd_threshold is character: expects numeric type error", {
+test_that("detect_peak_points() errors if sd_threshold is character: expects numeric type error for threshold parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -447,7 +447,7 @@ test_that("detect_peak_points() throws error when sd_threshold is character: exp
   )
 })
 
-test_that("detect_peak_points() throws error when sd_threshold is zero: expects value greater than zero error", {
+test_that("detect_peak_points() errors if sd_threshold is zero: expects value greater than zero error for threshold parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -476,7 +476,7 @@ test_that("detect_peak_points() throws error when sd_threshold is zero: expects 
   )
 })
 
-test_that("detect_peak_points() throws error when sd_threshold is NA: expects numeric type error", {
+test_that("detect_peak_points() errors if sd_threshold is NA: expects numeric type error for threshold parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -505,7 +505,7 @@ test_that("detect_peak_points() throws error when sd_threshold is NA: expects nu
   )
 })
 
-test_that("detect_peak_points() throws error when sd_threshold is an empty list: expects numeric type error", {
+test_that("detect_peak_points() errors if sd_threshold is an empty list: expects numeric type error for threshold parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -534,7 +534,7 @@ test_that("detect_peak_points() throws error when sd_threshold is an empty list:
   )
 })
 
-test_that("detect_peak_points() throws error when sd_threshold is an empty data.frame: expects numeric type error", {
+test_that("detect_peak_points() errors if sd_threshold is an empty data.frame: expects numeric type error for threshold parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -563,7 +563,7 @@ test_that("detect_peak_points() throws error when sd_threshold is an empty data.
   )
 })
 
-test_that("detect_peak_points() throws error when sd_threshold is a vector of multiple values: expects length 1 assertion error", {
+test_that("detect_peak_points() errors if sd_threshold is a vector of multiple values: expects length 1 assertion error for threshold parameter", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -593,7 +593,7 @@ test_that("detect_peak_points() throws error when sd_threshold is a vector of mu
 })
 
 # Output validation
-test_that("detect_peak_points() returns valid output class with valid input", {
+test_that("detect_peak_points() returns a data.frame output with valid input and parameters", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -625,7 +625,7 @@ test_that("detect_peak_points() returns valid output class with valid input", {
   )
 })
 
-test_that("detect_peak_points() returns valid output class with valid input", {
+test_that("detect_peak_points() returns output with expected column names for valid input and parameters", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -657,9 +657,9 @@ test_that("detect_peak_points() returns valid output class with valid input", {
   )
 })
 
-# test for differernt sel_method values
+# test for different sel_method values
 # and check if output is as expected
-test_that("detect_peak_points() returns valid output class with valid input", {
+test_that("detect_peak_points() returns output with expected columns for sel_method='trend_non_linear'", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -691,7 +691,7 @@ test_that("detect_peak_points() returns valid output class with valid input", {
   )
 })
 
-test_that("detect_peak_points() returns valid output class with valid input", {
+test_that("detect_peak_points() returns output with expected columns for sel_method='threshold'", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -723,7 +723,7 @@ test_that("detect_peak_points() returns valid output class with valid input", {
   )
 })
 
-test_that("detect_peak_points() returns valid output class with valid input", {
+test_that("detect_peak_points() returns output with expected columns for sel_method='GAM_deriv'", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -755,7 +755,7 @@ test_that("detect_peak_points() returns valid output class with valid input", {
   )
 })
 
-test_that("detect_peak_points() returns valid output class with valid input", {
+test_that("detect_peak_points() returns output with expected columns for sel_method='SNI'", {
   data_source <-
     estimate_roc(
       data_source_community = RRatepol::example_data$pollen_data[[1]],
@@ -787,5 +787,349 @@ test_that("detect_peak_points() returns valid output class with valid input", {
   )
 })
 
-
 # Testing the correct functionality
+
+test_that("detect_peak_points() with method 'threshold' correctly identifies peaks", {
+  # Prepare test data with known properties
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  # Create a version with artificially high ROC_dw values to ensure peaks
+  high_roc_data <-
+    data_source
+  median_roc <-
+    median(high_roc_data$ROC)
+  # Set the first 3 ROC_dw values to be very high (ensuring they'll be detected as peaks)
+  high_roc_data$ROC_dw[1:3] <-
+    median_roc * 10
+
+  result <-
+    detect_peak_points(
+      high_roc_data,
+      sel_method = "threshold"
+    )
+
+  # Check that at least the first 3 values are detected as peaks
+  expect_true(
+    all(
+      result$Peak[1:3]
+    )
+  )
+})
+
+test_that("detect_peak_points() with method 'trend_linear' correctly identifies peaks", {
+  # Prepare test data with known properties
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  # Create a version with artificially high ROC values to ensure peaks
+  high_roc_data <-
+    data_source
+  # Find the mean and SD of ROC values
+  mean_roc <-
+    mean(high_roc_data$ROC)
+  sd_roc <-
+    sd(high_roc_data$ROC)
+  # Set the first 3 ROC values to be very high (ensuring they'll be detected as peaks)
+  high_roc_data$ROC[1:3] <-
+    mean_roc + (sd_roc * 5)
+
+  result <-
+    detect_peak_points(
+      high_roc_data,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  # Check that at least the first 3 values are detected as peaks
+  expect_true(
+    all(
+      result$Peak[1:3]
+    )
+  )
+})
+
+test_that("detect_peak_points() with method 'trend_non_linear' correctly identifies peaks", {
+  # Prepare test data with known properties
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  # Create a version with artificially high ROC values to ensure peaks
+  high_roc_data <-
+    data_source
+  # Find the mean and SD of ROC values
+  mean_roc <-
+    mean(high_roc_data$ROC)
+  sd_roc <-
+    sd(high_roc_data$ROC)
+  # Set the first 3 ROC values to be very high (ensuring they'll be detected as peaks)
+  high_roc_data$ROC[1:3] <-
+    mean_roc + (sd_roc * 5)
+
+  result <-
+    detect_peak_points(
+      high_roc_data,
+      sel_method = "trend_non_linear",
+      sd_threshold = 2
+    )
+
+  # Check that the result has a Peak column and it's logical
+  expect_type(
+    result$Peak,
+    "logical"
+  )
+  # Check that at least the first 3 values are detected as peaks
+  expect_true(
+    all(
+      result$Peak[1:3]
+    )
+  )
+})
+
+test_that("detect_peak_points() with method 'GAM_deriv' correctly processes the data", {
+  # Prepare test data with known properties
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  result <-
+    detect_peak_points(
+      data_source,
+      sel_method = "GAM_deriv"
+    )
+
+  # Check that the result has a Peak column and it's logical
+  expect_type(
+    result$Peak,
+    "logical"
+  )
+})
+
+test_that("detect_peak_points() with method 'SNI' correctly processes the data", {
+  # Prepare test data with known properties
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  result <-
+    detect_peak_points(
+      data_source,
+      sel_method = "SNI"
+    )
+
+  # Check that the result has a Peak column and it's logical
+  expect_type(
+    result$Peak,
+    "logical"
+  )
+})
+
+test_that("detect_peak_points() correctly responds to different sd_threshold values", {
+  # Prepare test data with known properties
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  # Test with different sd_threshold values
+  result_sd1 <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 1
+    )
+  result_sd3 <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 3
+    )
+
+  # Higher threshold should detect fewer peaks
+  expect_gt(
+    sum(result_sd1$Peak, na.rm = TRUE),
+    sum(result_sd3$Peak, na.rm = TRUE)
+  )
+})
+
+test_that("detect_peak_points() methods give different results", {
+  # Prepare test data with known properties
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  # Test with different methods
+  methods <-
+    c(
+      "threshold",
+      "trend_linear",
+      "trend_non_linear",
+      "SNI"
+    )
+  results <-
+    list()
+
+  for (method in methods) {
+    results[[method]] <-
+      detect_peak_points(
+        data_source,
+        sel_method = method
+      )
+  }
+
+  # Check that at least some methods give different results
+  peak_sums <-
+    sapply(
+      results,
+      function(df) sum(df$Peak, na.rm = TRUE)
+    )
+
+  expect_true(
+    length(
+      unique(peak_sums)
+    ) > 1
+  )
+})
+
+test_that("detect_peak_points() preserves original data structure with Peak column added", {
+  # Prepare test data with known properties
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  original_cols <-
+    names(data_source)
+
+  # Check result
+  result <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear"
+    )
+
+  # The Peak column should be added
+  expect_true(
+    all(
+      c("Peak", original_cols) %in% colnames(result)
+    )
+  )
+  # Row count should be preserved
+  expect_equal(
+    nrow(data_source),
+    nrow(result)
+  )
+})
