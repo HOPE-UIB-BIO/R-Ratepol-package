@@ -1133,3 +1133,1070 @@ test_that("detect_peak_points() preserves original data structure with Peak colu
     nrow(result)
   )
 })
+
+
+
+
+# Testing different input data scenarios created using estimate_roc()
+
+# Check if no error:
+## 1. bins
+test_that("detect_peak_points() works without error for non-smoothed data with working_units='bins', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "none",
+      smooth_n_points = 5,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for m.avg-smoothed data with working_units='bins', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "m.avg",
+      smooth_n_points = 5,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for grim-smoothed data with working_units='bins', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for age.w-smoothed data with working_units='bins', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "age.w",
+      smooth_n_points = 5,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for shep-smoothed data with working_units='bins', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+## 2. levels
+test_that("detect_peak_points() works without error for non-smoothed data with working_units='levels', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "none",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for m.avg-smoothed data with working_units='levels', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "m.avg",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for grim-smoothed data with working_units='levels', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for age.w-smoothed data with working_units='levels', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "age.w",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for shep-smoothed data with working_units='levels', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+## 3. MW
+test_that("detect_peak_points() works without error for non-smoothed data with working_units='MW', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "none",
+      smooth_n_points = 5,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for m.avg-smoothed data with working_units='MW', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "m.avg",
+      smooth_n_points = 5,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for grim-smoothed data with working_units='MW', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for age.w-smoothed data with working_units='MW', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "age.w",
+      smooth_n_points = 5,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+test_that("detect_peak_points() works without error for shep-smoothed data with working_units='MW', using sel_method='trend_linear' and sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  expect_no_error(
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+  )
+})
+
+
+
+
+
+
+# Check if output structure is as expected (data.frame with correct columns):
+
+## 1. bins
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for non-smoothed input, working_units='bins', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "none",
+      smooth_n_points = 5,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for m.avg-smoothed input, working_units='bins', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "m.avg",
+      smooth_n_points = 5,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for grim-smoothed input, working_units='bins', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for age.w-smoothed input, working_units='bins', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "age.w",
+      smooth_n_points = 5,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for shep-smoothed input, working_units='bins', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "bins",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+## 2. levels
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for non-smoothed input, working_units='levels', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "none",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for m.avg-smoothed input, working_units='levels', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "m.avg",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for grim-smoothed input, working_units='levels', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for age.w-smoothed input, working_units='levels', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "age.w",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for shep-smoothed input, working_units='levels', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "levels",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+## 3. MW
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for non-smoothed input, working_units='MW', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "none",
+      smooth_n_points = 5,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for m.avg-smoothed input, working_units='MW', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "m.avg",
+      smooth_n_points = 5,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for grim-smoothed input, working_units='MW', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "grim",
+      smooth_n_points = 5,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for age.w-smoothed input, working_units='MW', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "age.w",
+      smooth_n_points = 5,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+test_that("detect_peak_points() returns data.frame with Peak column and preserved row count for shep-smoothed input, working_units='MW', sel_method='trend_linear', sd_threshold=2", {
+  data_source <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      smooth_n_points = 5,
+      working_units = "MW",
+      bin_size = 500,
+      number_of_shifts = 1,
+      bin_selection = "first",
+      standardise = FALSE,
+      n_individuals = 150,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE
+    )
+
+  res <-
+    detect_peak_points(
+      data_source,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  expect_s3_class(
+    res, "data.frame"
+  )
+  expect_true(
+    "Peak" %in% names(res)
+  )
+  expect_equal(
+    nrow(data_source),
+    nrow(res)
+  )
+})
+
+
+
+test_that("detect_peak_points() works with standardised data", {
+  # Test with standardisation enabled
+  data_standardised <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      working_units = "levels",
+      standardise = TRUE,
+      n_individuals = 100,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE,
+      rand = 100
+    )
+
+  # Test with standardisation disabled
+  data_unstandardised <-
+    estimate_roc(
+      data_source_community = RRatepol::example_data$pollen_data[[1]],
+      data_source_age = RRatepol::example_data$sample_age[[1]],
+      smooth_method = "shep",
+      working_units = "levels",
+      standardise = FALSE,
+      dissimilarity_coefficient = "euc",
+      tranform_to_proportions = TRUE,
+      use_parallel = FALSE,
+      verbose = FALSE,
+      rand = 100
+    )
+
+  # Run detect_peak_points on both datasets
+  result_standardised <-
+    detect_peak_points(
+      data_standardised,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  result_unstandardised <-
+    detect_peak_points(
+      data_unstandardised,
+      sel_method = "trend_linear",
+      sd_threshold = 2
+    )
+
+  # Check that both results have the Peak column
+  expect_true(
+    "Peak" %in% names(result_standardised)
+  )
+  expect_true(
+    "Peak" %in% names(result_unstandardised)
+  )
+})
