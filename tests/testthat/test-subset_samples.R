@@ -1363,6 +1363,7 @@ test_that("subset_samples, bins and no input bin_selection", {
 
 ## --- first bin --- ##
 test_that("subset_samples, bins and first bin", {
+  set.seed(123)
   data_to_run_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1387,6 +1388,7 @@ test_that("subset_samples, bins and first bin", {
   data_source_bins <-
     data_to_run_bins$bins
 
+  set.seed(123)
   res_fn <-
     subset_samples(
       data_source_subset = data_source_subset,
@@ -1415,6 +1417,7 @@ test_that("subset_samples, bins and first bin", {
 
 ## --- random bin --- ##
 test_that("subset_samples, bins and random bin", {
+  set.seed(123)
   data_to_run_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1439,6 +1442,7 @@ test_that("subset_samples, bins and random bin", {
   data_source_bins <-
     data_to_run_bins$bins
 
+  set.seed(123)
   res_fn <-
     subset_samples(
       data_source_subset = data_source_subset,
@@ -1657,6 +1661,7 @@ test_that("subset_samples, MW and no input bin_selection", {
 
 ## --- first bin --- ##
 test_that("subset_samples, MW and first bin", {
+  set.seed(123)
   data_to_run_MW <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1682,7 +1687,7 @@ test_that("subset_samples, MW and first bin", {
   
   data_source_subset <-
     data_to_run_MW$data
-  
+  set.seed(123)
   res_fn <-
     subset_samples(
       data_source_subset = data_source_subset,
@@ -1711,6 +1716,7 @@ test_that("subset_samples, MW and first bin", {
 
 ## --- random bin --- ##
 test_that("subset_samples, MW and random bin", {
+  set.seed(123)
   data_to_run_MW <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1736,7 +1742,7 @@ test_that("subset_samples, MW and random bin", {
   
   data_source_subset <-
     data_to_run_MW$data
-  
+  set.seed(123)
   res_fn <-
     subset_samples(
       data_source_subset = data_source_subset,
