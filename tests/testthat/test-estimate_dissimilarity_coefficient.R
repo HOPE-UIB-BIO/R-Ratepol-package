@@ -2646,6 +2646,7 @@ test_that(
     )
   }
 )
+
 test_that(
   "estimate_dissimilarity_coefficient() correctly calculates chi-square distance with percentages data",
   {
@@ -3193,29 +3194,6 @@ test_that(
     )
   }
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Output test: vector:
 # 1. Euclidean distance tests
@@ -4269,3 +4247,4 @@ test_that(
     )
   }
 )
+
