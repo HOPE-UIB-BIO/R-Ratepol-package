@@ -2691,3 +2691,4 @@ test_that("make_bins and 'bins' works within the workflow of estimate_roc()", {
       )
   )
 })
+

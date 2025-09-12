@@ -2789,7 +2789,8 @@ test_that(
       reduce_data(
         data_smoothed
       )
-
+    
+    set.seed(123)
     data_prepared_rand_1 <-
       prepare_data(
         data_work,
@@ -2798,6 +2799,7 @@ test_that(
         rand = 1
       )
 
+    set.seed(123)
     data_prepared_rand_null <-
       prepare_data(
         data_work,
@@ -6054,114 +6056,6 @@ test_that(
 ## To Dos:
 # - Double check if the expectation shouldn't be the reverse below for age_un
 #####################
-
-## 2.1.3a) one column in age_un 0
-# ## Age_uncertainty data
-# # Zeros
-# test_that(
-#   "prepare_data with working_units='levels' and rand=1 works if there are 0s in the age uncertainty",
-#   {
-#     example_data <-
-#       extract_data(
-#         data_community_extract = RRatepol::example_data$pollen_data[[1]],
-#         data_age_extract = RRatepol::example_data$sample_age[[1]],
-#         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-#         verbose = FALSE
-#       )
-
-#     example_data$age_un[1:3] <-
-#       0
-
-#     expect_no_error(
-#       res <-
-#         prepare_data(
-#           example_data,
-#           working_units = "levels",
-#           rand = 1
-#         )
-#     )
-
-#     expect_false(
-#       identical(
-#         res[[1]][[1]]$data$age,
-#         example_data$age$age
-#       )
-#     )
-#   }
-# )
-
-# test_that(
-#   "prepare_data with working_units='bins' and rand=1 works if there are 0s in the age uncertainty",
-#   {
-#     example_data <-
-#       extract_data(
-#         data_community_extract = RRatepol::example_data$pollen_data[[1]],
-#         data_age_extract = RRatepol::example_data$sample_age[[1]],
-#         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-#         verbose = FALSE
-#       )
-
-#     example_data$age_un[1:3] <-
-#       0
-
-#     expect_no_error(
-#       res <-
-#         prepare_data(
-#           example_data,
-#           working_units = "bins",
-#           bin_size = 500,
-#           rand = 1
-#         )
-#     )
-
-#     expect_false(
-#       identical(
-#         res[[1]][[1]]$data$age,
-#         example_data$age$age
-#       )
-#     )
-#   }
-# )
-
-
-# test_that(
-#   "prepare_data with working_units='MW' and rand=1 works if there are 0s in the age uncertainty",
-#   {
-#     example_data <-
-#       extract_data(
-#         data_community_extract = RRatepol::example_data$pollen_data[[1]],
-#         data_age_extract = RRatepol::example_data$sample_age[[1]],
-#         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-#         verbose = FALSE
-#       )
-
-#     example_data$age_un[1:3] <-
-#       0
-
-#     expect_no_error(
-#       res <-
-#         prepare_data(
-#           example_data,
-#           working_units = "MW",
-#           bin_size = 500,
-#           number_of_shifts = 5,
-#           rand = 1
-#         )
-#     )
-
-#     expect_false(
-#       identical(
-#         res[[1]][[1]]$data$age,
-#         example_data$age$age
-#       )
-#     )
-
-#     expect_identical(
-#       res[[1]][[1]]$data$age[1:3],
-#       c(0, 0, 0)
-#     )
-#   }
-# )
 
 
 ## 2.1.3b) one column in age_un NA
