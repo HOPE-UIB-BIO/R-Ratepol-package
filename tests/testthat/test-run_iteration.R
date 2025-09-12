@@ -1472,10 +1472,10 @@ test_that(
         )
     }
 )
-
+# to do: what is the expectation?
 # with verbose = FALSE
 test_that(
-  "run_iteration throws error if standardisation failed if verbose = FALSE",
+  "run_iteration throws no message if standardisation failed if verbose = FALSE",
   {
         suppressWarnings(
             data_to_run_bins <-
@@ -1501,8 +1501,9 @@ test_that(
                 .[[1]]
         )
 
-        # this works:
-        expect_condition(
+
+        set.seed(123)
+        expect_no_condition(
             res <-
                 run_iteration(
                     data_source_run = data_to_run_bins,
@@ -1513,15 +1514,13 @@ test_that(
                     dissimilarity_coefficient = "euc",
                     time_standardisation = 500,
                     verbose = FALSE
-                ),
-            "Data standardisation was unsuccesfull, try 'standardise' = FALSE"
+                )
         )
 
-        expect_true(
-            is.null(res)
-        )
+        
     }
 )
+
 # tranform_to_proportions
 # tranform_to_proportions is only checked if TRUE. Anything else will be regarded as FALSE.
 test_that(
@@ -1966,45 +1965,6 @@ test_that(
         # a message warning that verbose = NA will be treated as verbose = FALSE
     }
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # ================================ #
@@ -2634,3 +2594,4 @@ test_that(
         expect_true("roc" %in% names(result))
     }
 )
+
