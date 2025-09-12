@@ -1431,6 +1431,7 @@ test_that(
 test_that(
     "run_iteration throws error if standardisation failed if verbose = TRUE",
     {
+      set.seed(123)
         suppressWarnings(
             data_to_run_bins <-
                 extract_data(
