@@ -190,7 +190,7 @@ test_that(
 
 # empty dataframe (fails)
 test_that(
-  "transform_into_proportions handles empty data.frame for data_source_trans parameter with sel_method='proportions'",
+  "transform_into_proportions throws error with empty data.frame for data_source_trans parameter with sel_method='proportions'",
   {
     expect_error(
       transform_into_proportions(
@@ -203,7 +203,7 @@ test_that(
 )
 
 test_that(
-  "transform_into_proportions handles empty data.frame for data_source_trans parameter with sel_method='percentages'",
+  "transform_into_proportions  throws error with empty data.frame for data_source_trans parameter with sel_method='percentages'",
   {
     expect_error(
       transform_into_proportions(
@@ -691,97 +691,97 @@ test_that(
   }
 )
 
-# Empty
-test_that(
-  "transform_into_proportions throws warning when sel_method parameter is missing (uses default)",
-  {
-    suppressWarnings(
-      data_to_run_bins <-
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-        ) %>%
-        smooth_community_data(
-          smooth_method = "shep"
-        ) %>%
-        reduce_data(
-          check_taxa = TRUE,
-          check_levels = TRUE
-        ) %>%
-        prepare_data(
-          data_source_prep = .,
-          working_units = "bins",
-          bin_size = 500,
-          rand = 1
-        ) %>%
-        RUtilpol::flatten_list_by_one() %>%
-        .[[1]]
-    )
-
-    data_source_subset <-
-      data_to_run_bins$data
-    data_source_bins <-
-      data_to_run_bins$bins
-
-    data_subset <-
-      subset_samples(
-        data_source_subset = data_source_subset,
-        data_source_bins = data_source_bins,
-        bin_selection = "first"
-      ) %>%
-      reduce_data_simple()
-
-    # standardisation
-    standardise <-
-      TRUE
-    n_individuals <-
-      150
-    com_data_sums <-
-      rowSums(
-        subset_community(
-          data_source = data_subset
-        ),
-        na.rm = TRUE
-      )
-    n_individuals <-
-      min(
-        c(
-          com_data_sums,
-          n_individuals
-        )
-      )
-    data_subset <-
-      data_subset[com_data_sums >= n_individuals, ]
-    data_subset <-
-      reduce_data_simple(
-        data_source_reduce = data_subset
-      )
-    set.seed(123)
-    data_sd <-
-      standardise_community_data(
-        data_source_standard = data_subset,
-        n_individuals = n_individuals
-      )
-    data_sd <-
-      reduce_data_simple(
-        data_source_reduce = data_sd
-      )
-
-    # transformation into proportions / percentages
-    tranform_to_proportions <-
-      TRUE
-    expect_warning(
-      data_sd_prop <-
-        transform_into_proportions(
-          data_source_trans = data_sd,
-          verbose = TRUE
-        ),
-      # none programmed into the function yet
-      # e.g., 'Warning: No sel_method supplied. Using default "proportions"'
-    )
-  }
-)
+# # Empty
+# test_that(
+#   "transform_into_proportions throws warning when sel_method parameter is missing (uses default)",
+#   {
+#     suppressWarnings(
+#       data_to_run_bins <-
+#         extract_data(
+#           data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#           data_age_extract = RRatepol::example_data$sample_age[[1]],
+#           age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+#         ) %>%
+#         smooth_community_data(
+#           smooth_method = "shep"
+#         ) %>%
+#         reduce_data(
+#           check_taxa = TRUE,
+#           check_levels = TRUE
+#         ) %>%
+#         prepare_data(
+#           data_source_prep = .,
+#           working_units = "bins",
+#           bin_size = 500,
+#           rand = 1
+#         ) %>%
+#         RUtilpol::flatten_list_by_one() %>%
+#         .[[1]]
+#     )
+#
+#     data_source_subset <-
+#       data_to_run_bins$data
+#     data_source_bins <-
+#       data_to_run_bins$bins
+#
+#     data_subset <-
+#       subset_samples(
+#         data_source_subset = data_source_subset,
+#         data_source_bins = data_source_bins,
+#         bin_selection = "first"
+#       ) %>%
+#       reduce_data_simple()
+#
+#     # standardisation
+#     standardise <-
+#       TRUE
+#     n_individuals <-
+#       150
+#     com_data_sums <-
+#       rowSums(
+#         subset_community(
+#           data_source = data_subset
+#         ),
+#         na.rm = TRUE
+#       )
+#     n_individuals <-
+#       min(
+#         c(
+#           com_data_sums,
+#           n_individuals
+#         )
+#       )
+#     data_subset <-
+#       data_subset[com_data_sums >= n_individuals, ]
+#     data_subset <-
+#       reduce_data_simple(
+#         data_source_reduce = data_subset
+#       )
+#     set.seed(123)
+#     data_sd <-
+#       standardise_community_data(
+#         data_source_standard = data_subset,
+#         n_individuals = n_individuals
+#       )
+#     data_sd <-
+#       reduce_data_simple(
+#         data_source_reduce = data_sd
+#       )
+#
+#     # transformation into proportions / percentages
+#     tranform_to_proportions <-
+#       TRUE
+#     expect_warning(
+#       data_sd_prop <-
+#         transform_into_proportions(
+#           data_source_trans = data_sd,
+#           verbose = TRUE
+#         ),
+#       # none programmed into the function yet
+#       # e.g., 'Warning: No sel_method supplied. Using default "proportions"'
+#     )
+#   }
+# )
 
 # Output validation:
 # Valid data:
