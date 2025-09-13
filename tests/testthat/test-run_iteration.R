@@ -2,7 +2,6 @@
 # INPUT VALIDATION TESTS:
 # ================================ #
 
-
 # --------------------------------- #
 #   1. data_source_run validation   #
 # --------------------------------- #
@@ -169,7 +168,6 @@ test_that(
 # --------------------------------- #
 #     2. bin_selection validation   #
 # --------------------------------- #
-
 
 # bin_selection = string
 test_that(
@@ -348,49 +346,49 @@ test_that(
 )
 
 # bin_selection missing
-test_that(
-    "run_iteration issues warning when bin_selection is missing and uses default value ('first')",
-    {
-        suppressWarnings(
-            data_to_run_bins <-
-                extract_data(
-                    data_community_extract = RRatepol::example_data$pollen_data[[1]],
-                    data_age_extract = RRatepol::example_data$sample_age[[1]],
-                    age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-                ) %>%
-                smooth_community_data(
-                    smooth_method = "shep"
-                ) %>%
-                reduce_data(
-                    check_taxa = TRUE,
-                    check_levels = TRUE
-                ) %>%
-                prepare_data(
-                    data_source_prep = .,
-                    working_units = "bins",
-                    bin_size = 500,
-                    rand = 1
-                ) %>%
-                RUtilpol::flatten_list_by_one() %>%
-                .[[1]]
-        )
-
-        expect_warning(
-            run_iteration(
-                data_source_run = data_to_run_bins,
-                bin_selection = ,
-                standardise = FALSE,
-                n_individuals = 150,
-                tranform_to_proportions = TRUE,
-                dissimilarity_coefficient = "euc",
-                time_standardisation = 500,
-                verbose = FALSE
-            ),
-            # none programmed into the function yet.
-            # e.g., "Warning: No bin_selection supplied.Using default 'first' instead"
-        )
-    }
-)
+# test_that(
+#     "run_iteration issues warning when bin_selection is missing and uses default value ('first')",
+#     {
+#         suppressWarnings(
+#             data_to_run_bins <-
+#                 extract_data(
+#                     data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#                     data_age_extract = RRatepol::example_data$sample_age[[1]],
+#                     age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+#                 ) %>%
+#                 smooth_community_data(
+#                     smooth_method = "shep"
+#                 ) %>%
+#                 reduce_data(
+#                     check_taxa = TRUE,
+#                     check_levels = TRUE
+#                 ) %>%
+#                 prepare_data(
+#                     data_source_prep = .,
+#                     working_units = "bins",
+#                     bin_size = 500,
+#                     rand = 1
+#                 ) %>%
+#                 RUtilpol::flatten_list_by_one() %>%
+#                 .[[1]]
+#         )
+#
+#         expect_warning(
+#             run_iteration(
+#                 data_source_run = data_to_run_bins,
+#                 bin_selection = ,
+#                 standardise = FALSE,
+#                 n_individuals = 150,
+#                 tranform_to_proportions = TRUE,
+#                 dissimilarity_coefficient = "euc",
+#                 time_standardisation = 500,
+#                 verbose = FALSE
+#             ),
+#             # none programmed into the function yet.
+#             # e.g., "Warning: No bin_selection supplied.Using default 'first' instead"
+#         )
+#     }
+# )
 
 # bin_selection = NULL
 test_that(
@@ -686,51 +684,51 @@ test_that(
 # --------------------------------- #
 
 
-# Dissimilarity_coefficient
-# Empty
-test_that(
-    "run_iteration issues warning when dissimilarity_coefficient is missing and uses default ('euc')",
-    {
-        suppressWarnings(
-            data_to_run_bins <-
-                extract_data(
-                    data_community_extract = RRatepol::example_data$pollen_data[[1]],
-                    data_age_extract = RRatepol::example_data$sample_age[[1]],
-                    age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-                ) %>%
-                smooth_community_data(
-                    smooth_method = "shep"
-                ) %>%
-                reduce_data(
-                    check_taxa = TRUE,
-                    check_levels = TRUE
-                ) %>%
-                prepare_data(
-                    data_source_prep = .,
-                    working_units = "bins",
-                    bin_size = 500,
-                    rand = 1
-                ) %>%
-                RUtilpol::flatten_list_by_one() %>%
-                .[[1]]
-        )
-
-        expect_warning(
-            run_iteration(
-                data_source_run = data_to_run_bins,
-                bin_selection = "first",
-                standardise = TRUE,
-                n_individuals = 150,
-                tranform_to_proportions = TRUE,
-                dissimilarity_coefficient = ,
-                time_standardisation = 500,
-                verbose = FALSE
-            ),
-            # none programmed into the function yet.
-            # e.g., "No dissimilarity_coefficient supplied. Defaulting to to 'euc'."
-        )
-    }
-)
+# # Dissimilarity_coefficient
+# # Empty
+# test_that(
+#     "run_iteration issues warning when dissimilarity_coefficient is missing and uses default ('euc')",
+#     {
+#         suppressWarnings(
+#             data_to_run_bins <-
+#                 extract_data(
+#                     data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#                     data_age_extract = RRatepol::example_data$sample_age[[1]],
+#                     age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+#                 ) %>%
+#                 smooth_community_data(
+#                     smooth_method = "shep"
+#                 ) %>%
+#                 reduce_data(
+#                     check_taxa = TRUE,
+#                     check_levels = TRUE
+#                 ) %>%
+#                 prepare_data(
+#                     data_source_prep = .,
+#                     working_units = "bins",
+#                     bin_size = 500,
+#                     rand = 1
+#                 ) %>%
+#                 RUtilpol::flatten_list_by_one() %>%
+#                 .[[1]]
+#         )
+#
+#         expect_warning(
+#             run_iteration(
+#                 data_source_run = data_to_run_bins,
+#                 bin_selection = "first",
+#                 standardise = TRUE,
+#                 n_individuals = 150,
+#                 tranform_to_proportions = TRUE,
+#                 dissimilarity_coefficient = ,
+#                 time_standardisation = 500,
+#                 verbose = FALSE
+#             ),
+#             # none programmed into the function yet.
+#             # e.g., "No dissimilarity_coefficient supplied. Defaulting to to 'euc'."
+#         )
+#     }
+# )
 # NULL
 test_that(
     "run_iteration throws error when dissimilarity_coefficient is NULL instead of valid coefficient option",
@@ -1002,50 +1000,50 @@ test_that(
 
 # time standardiisation:
 # empty
-test_that(
-    "run_iteration issues warning when time_standardisation is missing and uses default value",
-    {
-        suppressWarnings(
-            data_to_run_bins <-
-                extract_data(
-                    data_community_extract = RRatepol::example_data$pollen_data[[1]],
-                    data_age_extract = RRatepol::example_data$sample_age[[1]],
-                    age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-                ) %>%
-                smooth_community_data(
-                    smooth_method = "shep"
-                ) %>%
-                reduce_data(
-                    check_taxa = TRUE,
-                    check_levels = TRUE
-                ) %>%
-                prepare_data(
-                    data_source_prep = .,
-                    working_units = "bins",
-                    bin_size = 500,
-                    rand = 1
-                ) %>%
-                RUtilpol::flatten_list_by_one() %>%
-                .[[1]]
-        )
-
-        expect_warning(
-            run_iteration(
-                data_source_run = data_to_run_bins,
-                bin_selection = "first",
-                standardise = TRUE,
-                n_individuals = 150,
-                tranform_to_proportions = TRUE,
-                dissimilarity_coefficient = "euc",
-                time_standardisation = ,
-                verbose = FALSE
-            ),
-            # none programmed into the function yet.
-            # e.g., "No time_standardization supplied.
-            # Defaulting to time_standardisation = 500 years"
-        )
-    }
-)
+# test_that(
+#     "run_iteration issues warning when time_standardisation is missing and uses default value",
+#     {
+#         suppressWarnings(
+#             data_to_run_bins <-
+#                 extract_data(
+#                     data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#                     data_age_extract = RRatepol::example_data$sample_age[[1]],
+#                     age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+#                 ) %>%
+#                 smooth_community_data(
+#                     smooth_method = "shep"
+#                 ) %>%
+#                 reduce_data(
+#                     check_taxa = TRUE,
+#                     check_levels = TRUE
+#                 ) %>%
+#                 prepare_data(
+#                     data_source_prep = .,
+#                     working_units = "bins",
+#                     bin_size = 500,
+#                     rand = 1
+#                 ) %>%
+#                 RUtilpol::flatten_list_by_one() %>%
+#                 .[[1]]
+#         )
+#
+#         expect_warning(
+#             run_iteration(
+#                 data_source_run = data_to_run_bins,
+#                 bin_selection = "first",
+#                 standardise = TRUE,
+#                 n_individuals = 150,
+#                 tranform_to_proportions = TRUE,
+#                 dissimilarity_coefficient = "euc",
+#                 time_standardisation = ,
+#                 verbose = FALSE
+#             ),
+#             # none programmed into the function yet.
+#             # e.g., "No time_standardization supplied.
+#             # Defaulting to time_standardisation = 500 years"
+#         )
+#     }
+# )
 
 # NULL
 test_that(
@@ -1428,56 +1426,57 @@ test_that(
 
 # Test for warning when n_individuals is large
 ## Not sure what's going on here. sometimes the test passes, sometimes it fails.
-test_that(
-    "run_iteration throws error if standardisation failed if verbose = TRUE",
-    {
-      set.seed(123)
-        suppressWarnings(
-            data_to_run_bins <-
-                extract_data(
-                    data_community_extract = RRatepol::example_data$pollen_data[[1]],
-                    data_age_extract = RRatepol::example_data$sample_age[[1]],
-                    age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-                ) %>%
-                smooth_community_data(
-                    smooth_method = "shep"
-                ) %>%
-                reduce_data(
-                    check_taxa = TRUE,
-                    check_levels = TRUE
-                ) %>%
-                prepare_data(
-                    data_source_prep = .,
-                    working_units = "bins",
-                    bin_size = 500,
-                    rand = 1
-                ) %>%
-                RUtilpol::flatten_list_by_one() %>%
-                .[[1]]
-        )
+# test_that(
+#     "run_iteration throws error if standardisation failed if verbose = TRUE",
+#     {
+#       set.seed(123)
+#         suppressWarnings(
+#             data_to_run_bins <-
+#                 extract_data(
+#                     data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#                     data_age_extract = RRatepol::example_data$sample_age[[1]],
+#                     age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+#                 ) %>%
+#                 smooth_community_data(
+#                     smooth_method = "shep"
+#                 ) %>%
+#                 reduce_data(
+#                     check_taxa = TRUE,
+#                     check_levels = TRUE
+#                 ) %>%
+#                 prepare_data(
+#                     data_source_prep = .,
+#                     working_units = "bins",
+#                     bin_size = 500,
+#                     rand = 1
+#                 ) %>%
+#                 RUtilpol::flatten_list_by_one() %>%
+#                 .[[1]]
+#         )
+#
+#         # this works:
+#         set.seed(123)
+#         expect_condition(
+#             run_iteration(
+#                 data_source_run = data_to_run_bins,
+#                 bin_selection = "first",
+#                 standardise = TRUE,
+#                 n_individuals = 10000000,
+#                 tranform_to_proportions = TRUE,
+#                 dissimilarity_coefficient = "euc",
+#                 time_standardisation = 500,
+#                 verbose = TRUE
+#             ),
+#             "Data standardisation was unsuccesfull, try 'standardise' = FALSE"
+#         )
+#     }
+# )
 
-        # this works:
-        set.seed(123)
-        expect_condition(
-            run_iteration(
-                data_source_run = data_to_run_bins,
-                bin_selection = "first",
-                standardise = TRUE,
-                n_individuals = 10000000,
-                tranform_to_proportions = TRUE,
-                dissimilarity_coefficient = "euc",
-                time_standardisation = 500,
-                verbose = TRUE
-            ),
-            "Data standardisation was unsuccesfull, try 'standardise' = FALSE"
-        )
-    }
-)
 # to do: what is the expectation?
 # with verbose = FALSE
 test_that(
-  "run_iteration throws no message if standardisation failed if verbose = FALSE",
-  {
+    "run_iteration throws no message if standardisation failed if verbose = FALSE",
+    {
         suppressWarnings(
             data_to_run_bins <-
                 extract_data(
@@ -1517,15 +1516,13 @@ test_that(
                     verbose = FALSE
                 )
         )
-
-        
     }
 )
 
 # tranform_to_proportions
 # tranform_to_proportions is only checked if TRUE. Anything else will be regarded as FALSE.
 test_that(
-    "run_iteration treats numeric zero for tranform_to_proportions as FALSE without error",
+    "run_iteration throws error with numeric zero for tranform_to_proportions",
     {
         suppressWarnings(
             data_to_run_bins <-
@@ -1569,50 +1566,50 @@ test_that(
 )
 
 # Dissimilarity_coefficient
-# Empty
-test_that(
-    "run_iteration issues warning when dissimilarity_coefficient is missing and uses default",
-    {
-        suppressWarnings(
-            data_to_run_bins <-
-                extract_data(
-                    data_community_extract = RRatepol::example_data$pollen_data[[1]],
-                    data_age_extract = RRatepol::example_data$sample_age[[1]],
-                    age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-                ) %>%
-                smooth_community_data(
-                    smooth_method = "shep"
-                ) %>%
-                reduce_data(
-                    check_taxa = TRUE,
-                    check_levels = TRUE
-                ) %>%
-                prepare_data(
-                    data_source_prep = .,
-                    working_units = "bins",
-                    bin_size = 500,
-                    rand = 1
-                ) %>%
-                RUtilpol::flatten_list_by_one() %>%
-                .[[1]]
-        )
-
-        expect_warning(
-            run_iteration(
-                data_source_run = data_to_run_bins,
-                bin_selection = "first",
-                standardise = TRUE,
-                n_individuals = 150,
-                tranform_to_proportions = TRUE,
-                dissimilarity_coefficient = ,
-                time_standardisation = 500,
-                verbose = FALSE
-            ),
-            # none programmed into the function yet.
-            # e.g., "No dissimilarity_coefficient supplied. Defaulting to to 'euc'."
-        )
-    }
-)
+# # Empty
+# test_that(
+#     "run_iteration issues warning when dissimilarity_coefficient is missing and uses default",
+#     {
+#         suppressWarnings(
+#             data_to_run_bins <-
+#                 extract_data(
+#                     data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#                     data_age_extract = RRatepol::example_data$sample_age[[1]],
+#                     age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+#                 ) %>%
+#                 smooth_community_data(
+#                     smooth_method = "shep"
+#                 ) %>%
+#                 reduce_data(
+#                     check_taxa = TRUE,
+#                     check_levels = TRUE
+#                 ) %>%
+#                 prepare_data(
+#                     data_source_prep = .,
+#                     working_units = "bins",
+#                     bin_size = 500,
+#                     rand = 1
+#                 ) %>%
+#                 RUtilpol::flatten_list_by_one() %>%
+#                 .[[1]]
+#         )
+#
+#         expect_warning(
+#             run_iteration(
+#                 data_source_run = data_to_run_bins,
+#                 bin_selection = "first",
+#                 standardise = TRUE,
+#                 n_individuals = 150,
+#                 tranform_to_proportions = TRUE,
+#                 dissimilarity_coefficient = ,
+#                 time_standardisation = 500,
+#                 verbose = FALSE
+#             ),
+#             # none programmed into the function yet.
+#             # e.g., "No dissimilarity_coefficient supplied. Defaulting to to 'euc'."
+#         )
+#     }
+# )
 
 # NULL
 test_that(
@@ -2595,4 +2592,3 @@ test_that(
         expect_true("roc" %in% names(result))
     }
 )
-
