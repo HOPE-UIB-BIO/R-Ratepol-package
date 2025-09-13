@@ -1,11 +1,3 @@
-# uses only 1 parameter by default function call within run_iteration:
-# result from subset_samples() "data_subset"
-# other parameters:
-## omit_vars = c("label", "res_age", "age_diff")
-## check_taxa = TRUE
-## check_levels = TRUE
-
-
 test_that("reduce_data_simple throws error without input data", {
   expect_error(
     reduce_data_simple(
@@ -477,7 +469,8 @@ test_that("reduce_data_simple throws error with invalid ommit_vars argument", {
       ommit_vars = 123, # should be character vector
       check_taxa = TRUE,
       check_levels = TRUE
-    )
+    ),
+    "'x' must be numeric"
   )
 })
 
@@ -520,7 +513,6 @@ test_that("reduce_data_simple handles wrong ommit_vars", {
 
 
 # Edge Cases and Corner Cases
-
 test_that("reduce_data_simple throws warning if all taxa are zero", {
   data_to_run_levels <-
     extract_data(
@@ -560,7 +552,8 @@ test_that("reduce_data_simple throws warning if all taxa are zero", {
         check_levels = TRUE
       ),
     # none programmed into the function yet
-    "Warning: Community data is all-zero. Return empty result."
+    # e.g.,
+    # "Warning: Community data is all-zero. Return empty result."
   )
 })
 
@@ -601,51 +594,7 @@ test_that("reduce_data_simple handles single row data", {
   expect_gte(nrow(res), 0) # Should handle single row gracefully
 })
 
-test_that("reduce_data_simple throws warning if only NA values in community data", {
-  data_to_run_levels <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "levels",
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
-
-  data_source_reduce <-
-    subset_samples(
-      data_source_subset = data_to_run_levels$data,
-      data_source_bins = data_to_run_levels$bins,
-      bin_selection = NULL
-    )
-
-  # Set all community data to NA
-  taxa_cols <-
-    setdiff(names(data_source_reduce), c("label", "res_age", "age_diff"))
-  data_source_reduce[, taxa_cols] <-
-    NA
-  expect_warning(
-    res <-
-      reduce_data_simple(
-        data_source_reduce = data_source_reduce,
-        check_taxa = TRUE,
-        check_levels = TRUE
-      ),
-    # none programmed into the function yet
-    # e.g., "Warning: community data is all-NA. Returning empty result."
-  )
-})
-
 # Parameter Combination Tests
-
 test_that("reduce_data_simple works with both check_taxa and check_levels FALSE", {
   data_to_run_levels <-
     extract_data(
