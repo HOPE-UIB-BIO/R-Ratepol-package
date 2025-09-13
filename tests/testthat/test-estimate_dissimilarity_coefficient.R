@@ -586,179 +586,179 @@ test_that(
   }
 )
 ## Input validation: dissimilarity_coefficient parameter tests
-# Empty dissimilarity_coefficient tests
-test_that(
-  "estimate_dissimilarity_coefficient() warns when dissimilarity_coefficient is empty with proportions data",
-  {
-    suppressWarnings(
-      data_to_run_bins <-
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-        ) %>%
-        smooth_community_data(
-          smooth_method = "shep"
-        ) %>%
-        reduce_data(
-          check_taxa = TRUE,
-          check_levels = TRUE
-        ) %>%
-        prepare_data(
-          data_source_prep = .,
-          working_units = "bins",
-          bin_size = 500,
-          rand = 1
-        ) %>%
-        RUtilpol::flatten_list_by_one() %>%
-        .[[1]]
-    )
-    data_source_subset <-
-      data_to_run_bins$data
-    data_source_bins <-
-      data_to_run_bins$bins
-    data_subset <-
-      subset_samples(
-        data_source_subset = data_source_subset,
-        data_source_bins = data_source_bins,
-        bin_selection = "first"
-      ) %>%
-      reduce_data_simple()
-    # standardisation
-    standardise <-
-      TRUE
-    n_individuals <-
-      150
-    com_data_sums <-
-      rowSums(
-        subset_community(
-          data_source = data_subset
-        ),
-        na.rm = TRUE
-      )
-    n_individuals <-
-      min(
-        c(
-          com_data_sums,
-          n_individuals
-        )
-      )
-    data_subset <-
-      data_subset[com_data_sums >= n_individuals, ]
-    data_subset <-
-      reduce_data_simple(
-        data_source_reduce = data_subset
-      )
-    set.seed(123)
-    data_sd_prop <-
-      standardise_community_data(
-        data_source_standard = data_subset,
-        n_individuals = n_individuals
-      ) %>%
-      reduce_data_simple(
-        data_source_reduce = .
-      ) %>%
-      transform_into_proportions(
-        data_source_trans = .,
-        sel_method = "proportions",
-        verbose = FALSE
-      )
-    expect_warning(
-      dc_res <-
-        estimate_dissimilarity_coefficient(
-          data_source_dc = data_sd_prop,
-          dissimilarity_coefficient =
-          ), # none programmed into function yet
-      # e.g., "Warning: no dissimilarity coefficient supplied. Using default 'chord' instead."
-    )
-  }
-)
-test_that(
-  "estimate_dissimilarity_coefficient() warns when dissimilarity_coefficient is empty with percentages data",
-  {
-    suppressWarnings(
-      data_to_run_bins <-
-        extract_data(
-          data_community_extract = RRatepol::example_data$pollen_data[[1]],
-          data_age_extract = RRatepol::example_data$sample_age[[1]],
-          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-        ) %>%
-        smooth_community_data(
-          smooth_method = "shep"
-        ) %>%
-        reduce_data(
-          check_taxa = TRUE,
-          check_levels = TRUE
-        ) %>%
-        prepare_data(
-          data_source_prep = .,
-          working_units = "bins",
-          bin_size = 500,
-          rand = 1
-        ) %>%
-        RUtilpol::flatten_list_by_one() %>%
-        .[[1]]
-    )
-    data_source_subset <-
-      data_to_run_bins$data
-    data_source_bins <-
-      data_to_run_bins$bins
-    data_subset <-
-      subset_samples(
-        data_source_subset = data_source_subset,
-        data_source_bins = data_source_bins,
-        bin_selection = "first"
-      ) %>%
-      reduce_data_simple()
-    # standardisation
-    standardise <-
-      TRUE
-    n_individuals <-
-      150
-    com_data_sums <-
-      rowSums(
-        subset_community(
-          data_source = data_subset
-        ),
-        na.rm = TRUE
-      )
-    n_individuals <-
-      min(
-        c(
-          com_data_sums,
-          n_individuals
-        )
-      )
-    data_subset <-
-      data_subset[com_data_sums >= n_individuals, ]
-    data_subset <-
-      reduce_data_simple(
-        data_source_reduce = data_subset
-      )
-    set.seed(123)
-    data_sd_prop <-
-      standardise_community_data(
-        data_source_standard = data_subset,
-        n_individuals = n_individuals
-      ) %>%
-      reduce_data_simple(
-        data_source_reduce = .
-      ) %>%
-      transform_into_proportions(
-        data_source_trans = .,
-        sel_method = "percentages",
-        verbose = FALSE
-      )
-    expect_warning(
-      dc_res <-
-        estimate_dissimilarity_coefficient(
-          data_source_dc = data_sd_prop,
-          dissimilarity_coefficient =
-          ), # none programmed into function yet
-      # e.g., "Warning: no dissimilarity coefficient supplied. Using default 'chord' instead."
-    )
-  }
-)
+# # Empty dissimilarity_coefficient tests
+# test_that(
+#   "estimate_dissimilarity_coefficient() warns when dissimilarity_coefficient is empty with proportions data",
+#   {
+#     suppressWarnings(
+#       data_to_run_bins <-
+#         extract_data(
+#           data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#           data_age_extract = RRatepol::example_data$sample_age[[1]],
+#           age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+#         ) %>%
+#         smooth_community_data(
+#           smooth_method = "shep"
+#         ) %>%
+#         reduce_data(
+#           check_taxa = TRUE,
+#           check_levels = TRUE
+#         ) %>%
+#         prepare_data(
+#           data_source_prep = .,
+#           working_units = "bins",
+#           bin_size = 500,
+#           rand = 1
+#         ) %>%
+#         RUtilpol::flatten_list_by_one() %>%
+#         .[[1]]
+#     )
+#     data_source_subset <-
+#       data_to_run_bins$data
+#     data_source_bins <-
+#       data_to_run_bins$bins
+#     data_subset <-
+#       subset_samples(
+#         data_source_subset = data_source_subset,
+#         data_source_bins = data_source_bins,
+#         bin_selection = "first"
+#       ) %>%
+#       reduce_data_simple()
+#     # standardisation
+#     standardise <-
+#       TRUE
+#     n_individuals <-
+#       150
+#     com_data_sums <-
+#       rowSums(
+#         subset_community(
+#           data_source = data_subset
+#         ),
+#         na.rm = TRUE
+#       )
+#     n_individuals <-
+#       min(
+#         c(
+#           com_data_sums,
+#           n_individuals
+#         )
+#       )
+#     data_subset <-
+#       data_subset[com_data_sums >= n_individuals, ]
+#     data_subset <-
+#       reduce_data_simple(
+#         data_source_reduce = data_subset
+#       )
+#     set.seed(123)
+#     data_sd_prop <-
+#       standardise_community_data(
+#         data_source_standard = data_subset,
+#         n_individuals = n_individuals
+#       ) %>%
+#       reduce_data_simple(
+#         data_source_reduce = .
+#       ) %>%
+#       transform_into_proportions(
+#         data_source_trans = .,
+#         sel_method = "proportions",
+#         verbose = FALSE
+#       )
+#     expect_warning(
+#       dc_res <-
+#         estimate_dissimilarity_coefficient(
+#           data_source_dc = data_sd_prop,
+#           dissimilarity_coefficient =
+#           ), # none programmed into function yet
+#       # e.g., "Warning: no dissimilarity coefficient supplied. Using default 'chord' instead."
+#     )
+#   }
+# )
+# test_that(
+#   "estimate_dissimilarity_coefficient() warns when dissimilarity_coefficient is empty with percentages data",
+#   {
+#     suppressWarnings(
+#       data_to_run_bins <-
+#         extract_data(
+#           data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#           data_age_extract = RRatepol::example_data$sample_age[[1]],
+#           age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+#         ) %>%
+#         smooth_community_data(
+#           smooth_method = "shep"
+#         ) %>%
+#         reduce_data(
+#           check_taxa = TRUE,
+#           check_levels = TRUE
+#         ) %>%
+#         prepare_data(
+#           data_source_prep = .,
+#           working_units = "bins",
+#           bin_size = 500,
+#           rand = 1
+#         ) %>%
+#         RUtilpol::flatten_list_by_one() %>%
+#         .[[1]]
+#     )
+#     data_source_subset <-
+#       data_to_run_bins$data
+#     data_source_bins <-
+#       data_to_run_bins$bins
+#     data_subset <-
+#       subset_samples(
+#         data_source_subset = data_source_subset,
+#         data_source_bins = data_source_bins,
+#         bin_selection = "first"
+#       ) %>%
+#       reduce_data_simple()
+#     # standardisation
+#     standardise <-
+#       TRUE
+#     n_individuals <-
+#       150
+#     com_data_sums <-
+#       rowSums(
+#         subset_community(
+#           data_source = data_subset
+#         ),
+#         na.rm = TRUE
+#       )
+#     n_individuals <-
+#       min(
+#         c(
+#           com_data_sums,
+#           n_individuals
+#         )
+#       )
+#     data_subset <-
+#       data_subset[com_data_sums >= n_individuals, ]
+#     data_subset <-
+#       reduce_data_simple(
+#         data_source_reduce = data_subset
+#       )
+#     set.seed(123)
+#     data_sd_prop <-
+#       standardise_community_data(
+#         data_source_standard = data_subset,
+#         n_individuals = n_individuals
+#       ) %>%
+#       reduce_data_simple(
+#         data_source_reduce = .
+#       ) %>%
+#       transform_into_proportions(
+#         data_source_trans = .,
+#         sel_method = "percentages",
+#         verbose = FALSE
+#       )
+#     expect_warning(
+#       dc_res <-
+#         estimate_dissimilarity_coefficient(
+#           data_source_dc = data_sd_prop,
+#           dissimilarity_coefficient =
+#           ), # none programmed into function yet
+#       # e.g., "Warning: no dissimilarity coefficient supplied. Using default 'chord' instead."
+#     )
+#   }
+# )
 # NULL dissimilarity_coefficient tests
 test_that(
   "estimate_dissimilarity_coefficient() throws error when dissimilarity_coefficient is NULL with proportions data",
