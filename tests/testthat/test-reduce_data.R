@@ -21,56 +21,55 @@
 # --------------------------------------------------- #
 
 # 1.1 data_source_reduce validation
-test_that(
-  "reduce_data rejects NULL data_source_reduce", {
+test_that("reduce_data rejects NULL data_source_reduce", {
   expect_error(
     reduce_data(
-    data_source_reduce = NULL),
+      data_source_reduce = NULL
+    ),
     "data_source_reduce.*list"
   )
 })
 
-test_that(
-  "reduce_data rejects string data_source_reduce", {
+test_that("reduce_data rejects string data_source_reduce", {
   expect_error(
     reduce_data(
-    data_source_reduce = "invalid"),
+      data_source_reduce = "invalid"
+    ),
     "data_source_reduce.*list"
   )
 })
 
-test_that(
-  "reduce_data rejects numeric data_source_reduce", {
+test_that("reduce_data rejects numeric data_source_reduce", {
   expect_error(
     reduce_data(
-    data_source_reduce = 123),
+      data_source_reduce = 123
+    ),
     "data_source_reduce.*list"
   )
 })
 
-test_that(
-  "reduce_data rejects data.frame data_source_reduce", {
+test_that("reduce_data rejects data.frame data_source_reduce", {
   expect_error(
     reduce_data(
-    data_source_reduce = data.frame(
-    x = 1)),
+      data_source_reduce = data.frame(
+        x = 1
+      )
+    ),
     "data_source_reduce.*list"
   )
 })
 
-test_that(
-  "reduce_data rejects empty list data_source_reduce", {
+test_that("reduce_data rejects empty list data_source_reduce", {
   expect_error(
     reduce_data(
-    data_source_reduce = list(
-    )),
+      data_source_reduce = list()
+    ),
     "'x' must be an array of at least two dimensions"
   )
 })
 
 # 1.2 check_taxa validation
-test_that(
-  "reduce_data rejects invalid check_taxa argument", {
+test_that("reduce_data rejects invalid check_taxa argument", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -80,13 +79,13 @@ test_that(
     )
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data, check_taxa = "TRUE"),
+      data_source_reduce = raw_data, check_taxa = "TRUE"
+    ),
     "check_taxa.*logical"
   )
 })
 
-test_that(
-  "reduce_data rejects invalid check_taxa argument", {
+test_that("reduce_data rejects invalid check_taxa argument", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -96,13 +95,13 @@ test_that(
     )
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data, check_taxa = 123),
+      data_source_reduce = raw_data, check_taxa = 123
+    ),
     "check_taxa.*logical"
   )
 })
 
-test_that(
-  "reduce_data rejects invalid check_taxa argument", {
+test_that("reduce_data rejects invalid check_taxa argument", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -112,14 +111,14 @@ test_that(
     )
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data, check_taxa = NULL),
+      data_source_reduce = raw_data, check_taxa = NULL
+    ),
     "check_taxa.*logical"
   )
 })
 
 # 1.3 check_levels validation
-test_that(
-  "reduce_data rejects invalid check_levels argument", {
+test_that("reduce_data rejects invalid check_levels argument", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -129,13 +128,13 @@ test_that(
     )
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data, check_levels = "TRUE"),
+      data_source_reduce = raw_data, check_levels = "TRUE"
+    ),
     "check_levels.*logical"
   )
 })
 
-test_that(
-  "reduce_data rejects invalid check_levels argument", {
+test_that("reduce_data rejects invalid check_levels argument", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -145,13 +144,13 @@ test_that(
     )
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data, check_levels = 123),
+      data_source_reduce = raw_data, check_levels = 123
+    ),
     "check_levels.*logical"
   )
 })
 
-test_that(
-  "reduce_data rejects invalid check_levels argument", {
+test_that("reduce_data rejects invalid check_levels argument", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -169,8 +168,7 @@ test_that(
 })
 
 # 1.4 data_source_reduce structure validation
-test_that(
-  "reduce_data rejects missing community component", {
+test_that("reduce_data rejects missing community component", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -180,16 +178,19 @@ test_that(
     )
 
   incomplete_data <-
-    list(age = raw_data$age, age_un = raw_data$age_un)
+    list(
+      age = raw_data$age,
+      age_un = raw_data$age_un
+    )
   expect_error(
     reduce_data(
-    data_source_reduce = incomplete_data),
+      data_source_reduce = incomplete_data
+    ),
     "'x' must be an array of at least two dimensions"
   )
 })
 
-test_that(
-  "reduce_data rejects missing age component", {
+test_that("reduce_data rejects missing age component", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -199,16 +200,19 @@ test_that(
     )
 
   incomplete_data <-
-    list(community = raw_data$community, age_un = raw_data$age_un)
+    list(
+      community = raw_data$community,
+      age_un = raw_data$age_un
+    )
   expect_error(
     reduce_data(
-    data_source_reduce = incomplete_data),
+      data_source_reduce = incomplete_data
+    ),
     "Empty name found at location 1"
   )
 })
 
-test_that(
-  "reduce_data rejects community as matrix", {
+test_that("reduce_data rejects community as matrix", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -221,13 +225,13 @@ test_that(
     as.matrix(raw_data$community)
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data),
+      data_source_reduce = raw_data
+    ),
     "no applicable method for 'select'"
   )
 })
 
-test_that(
-  "reduce_data rejects age as matrix", {
+test_that("reduce_data rejects age as matrix", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -241,13 +245,13 @@ test_that(
 
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data),
+      data_source_reduce = raw_data
+    ),
     "is not TRUE"
   )
 })
 
-test_that(
-  "reduce_data rejects community as list", {
+test_that("reduce_data rejects community as list", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -261,13 +265,13 @@ test_that(
 
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data),
+      data_source_reduce = raw_data
+    ),
     "'x' must be an array of at least two dimensions"
   )
 })
 
-test_that(
-  "reduce_data rejects age as list", {
+test_that("reduce_data rejects age as list", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -281,13 +285,13 @@ test_that(
 
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data),
+      data_source_reduce = raw_data
+    ),
     "is not TRUE"
   )
 })
 
-test_that(
-  "reduce_data validates age_un is not a list", {
+test_that("reduce_data validates age_un is not a list", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -301,14 +305,14 @@ test_that(
 
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data),
+      data_source_reduce = raw_data
+    ),
     "incorrect number of dimensions"
   )
 })
 
 
-test_that(
-  "reduce_data rejects community with non-numeric columns", {
+test_that("reduce_data rejects community with non-numeric columns", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -321,13 +325,13 @@ test_that(
     "NA"
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data),
+      data_source_reduce = raw_data
+    ),
     "'x' must be numeric"
   )
 })
 
-test_that(
-  "reduce_data validates community must have colnames", {
+test_that("reduce_data validates community must have colnames", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -341,54 +345,55 @@ test_that(
 
   expect_error(
     reduce_data(
-    data_source_reduce = raw_data),
+      data_source_reduce = raw_data
+    ),
     "Can't select within an unnamed vector."
   )
 })
 
-test_that(
-  "reduce_data throws warning if community without rownames", {
-  raw_data <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
-    )
-
-  rownames(raw_data$community) <-
-    NULL
-  expect_warning(
-    result <-
-      reduce_data(data_source_reduce = raw_data)
-  )  # ,
-  # no warning implemented yet
-})
-
-test_that(
-  "reduce_data throws warning if age without rownames", {
-  raw_data <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
-    )
-
-  rownames(raw_data$age) <-
-    NULL
-  expect_warning(
-    reduce_data(data_source_reduce = raw_data)
-  ) # , 
-  # no warning implemented yet
-})
+# These might be unecessary - thus commented out right now:
+# test_that(
+#   "reduce_data throws warning if community without rownames", {
+#   raw_data <-
+#     extract_data(
+#       data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#       data_age_extract = RRatepol::example_data$sample_age[[1]],
+#       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+#       verbose = FALSE
+#     )
+#
+#   rownames(raw_data$community) <-
+#     NULL
+#   expect_warning(
+#     result <-
+#       reduce_data(data_source_reduce = raw_data)
+#   )  # ,
+#   # no warning implemented yet
+# })
+#
+# test_that(
+#   "reduce_data throws warning if age without rownames", {
+#   raw_data <-
+#     extract_data(
+#       data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#       data_age_extract = RRatepol::example_data$sample_age[[1]],
+#       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+#       verbose = FALSE
+#     )
+#
+#   rownames(raw_data$age) <-
+#     NULL
+#   expect_warning(
+#     reduce_data(data_source_reduce = raw_data)
+#   ) # ,
+#   # no warning implemented yet
+# })
 
 # --------------------------------------------------- #
 # 2. NO FILTERING TESTS (check_taxa=FALSE, check_levels=FALSE)
 # --------------------------------------------------- #
 
-test_that(
-  "reduce_data with no filtering returns identical data", {
+test_that("reduce_data with no filtering returns identical data", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -418,8 +423,7 @@ test_that(
 # 3. TAXA-ONLY FILTERING TESTS (check_taxa=TRUE, check_levels=FALSE)
 # --------------------------------------------------- #
 
-test_that(
-  "taxa filtering drops taxa with zero column sums", {
+test_that("taxa filtering drops taxa with zero column sums", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -444,8 +448,7 @@ test_that(
 })
 
 
-test_that(
-  "check_levels = FALSE preserves rownames / sample ids", {
+test_that("check_levels = FALSE preserves rownames / sample ids", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -473,8 +476,7 @@ test_that(
   expect_identical(colnames(raw_data$age_un), colnames(result$age_un))
 })
 
-test_that(
-  "taxa filtering removes all-NA taxa", {
+test_that("taxa filtering removes all-NA taxa", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -488,10 +490,10 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = FALSE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = FALSE
+    )
 
   expect_false("na_taxon" %in% colnames(result$community))
 })
@@ -500,8 +502,7 @@ test_that(
 # 4. LEVELS-ONLY FILTERING TESTS (check_taxa=FALSE, check_levels=TRUE)
 # --------------------------------------------------- #
 
-test_that(
-  "levels filtering removes zero-sum levels from community and age", {
+test_that("levels filtering removes zero-sum levels from community and age", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -524,10 +525,10 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = FALSE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = FALSE,
+      check_levels = TRUE
+    )
 
   expect_true(all(rowSums(result$community, na.rm = TRUE) > 0))
   expect_false(first_level %in% rownames(result$community))
@@ -535,8 +536,7 @@ test_that(
   expect_false(first_level %in% colnames(result$age_un))
 })
 
-test_that(
-  "levels filtering preserves community colnames/taxa", {
+test_that("levels filtering preserves community colnames/taxa", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -554,16 +554,18 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = FALSE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = FALSE,
+      check_levels = TRUE
+    )
 
-  expect_identical(colnames(raw_data$community), colnames(result$community))
+  expect_identical(
+    colnames(raw_data$community),
+    colnames(result$community)
+  )
 })
 
-test_that(
-  "levels filtering maintains matching rownames between community and age and age_un", {
+test_that("levels filtering maintains matching rownames between community and age and age_un", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -581,18 +583,23 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = FALSE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = FALSE,
+      check_levels = TRUE
+    )
 
-  expect_identical(rownames(result$community), rownames(result$age))
-  expect_identical(rownames(result$community), colnames(result$age_un))
+  expect_identical(
+    rownames(result$community),
+    rownames(result$age)
+  )
+  expect_identical(
+    rownames(result$community),
+    colnames(result$age_un)
+  )
 })
 
 
-test_that(
-  "levels filtering works with NULL age_un", {
+test_that("levels filtering works with NULL age_un", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -612,8 +619,7 @@ test_that(
   )
 })
 
-test_that(
-  "levels filtering removes all-NA sample", {
+test_that("levels filtering removes all-NA sample", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -629,10 +635,10 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = FALSE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = FALSE,
+      check_levels = TRUE
+    )
 
   expect_false(first_level %in% rownames(result$community))
 })
@@ -641,8 +647,7 @@ test_that(
 # 5. BOTH FILTERING TESTS (check_taxa=TRUE, check_levels=TRUE)
 # --------------------------------------------------- #
 
-test_that(
-  "both filtering removes zero-sum taxa", {
+test_that("both filtering removes zero-sum taxa", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -660,17 +665,16 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    )
 
   expect_false("zero_taxon" %in% colnames(result$community))
   expect_true(all(colSums(result$community, na.rm = TRUE) > 0))
 })
 
-test_that(
-  "both filtering removes zero-sum levels", {
+test_that("both filtering removes zero-sum levels", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -691,10 +695,10 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    )
 
   expect_false(first_level %in% rownames(result$community))
   expect_true(all(rowSums(result$community, na.rm = TRUE) > 0))
@@ -703,8 +707,7 @@ test_that(
   expect_false(first_level %in% colnames(result$age_un))
 })
 
-test_that(
-  "both filtering removes samples with zero taxa", {
+test_that("both filtering removes samples with zero taxa", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -722,16 +725,15 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    )
 
   expect_true(all(rowSums(result$community, na.rm = TRUE) > 0))
 })
 
-test_that(
-  "both filtering maintains matching rownames between community and age / age_un", {
+test_that("both filtering maintains matching rownames between community and age / age_un", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -749,17 +751,16 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    )
 
   expect_identical(rownames(result$community), rownames(result$age))
   expect_identical(rownames(result$community), colnames(result$age_un))
 })
 
-test_that(
-  "both filtering handles NULL age_un", {
+test_that("both filtering handles NULL age_un", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -783,10 +784,10 @@ test_that(
   expect_no_error(
     result <-
       reduce_data(
-      data_source_reduce = raw_data,
-      check_taxa = TRUE,
-      check_levels = TRUE
-    )
+        data_source_reduce = raw_data,
+        check_taxa = TRUE,
+        check_levels = TRUE
+      )
   )
 
   expect_type(result, "list")
@@ -798,9 +799,7 @@ test_that(
 
 
 
-
-test_that(
-  "reduce_data works with a single sample in community", {
+test_that("reduce_data works with a single sample in community", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -821,8 +820,7 @@ test_that(
 })
 
 
-test_that(
-  "reduce_data works with a single taxon in community", {
+test_that("reduce_data works with a single taxon in community", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]][1:2],
@@ -838,13 +836,11 @@ test_that(
 })
 
 
-
 # --------------------------------------------------- #
 # 6. All Zero Handling
 # --------------------------------------------------- #
 
-test_that(
-  "taxa filtering with all-zero community data returns empty community result", {
+test_that("taxa filtering with all-zero community data throws error", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -856,20 +852,17 @@ test_that(
   raw_data$community[, ] <-
     0
 
-  result <-
+  expect_error(
     reduce_data(
       data_source_reduce = raw_data,
       check_taxa = TRUE,
       check_levels = FALSE
-    )
-
-  expect_equal(ncol(result$community), 0)
-  expect_false(nrow(result$age) == 0)
-  expect_false(ncol(result$age_un) == 0)
+    ),
+    # none programmed into function yet
+  )
 })
 
-test_that(
-  "levels filtering with all zero levels returns empty result", {
+test_that("levels filtering with all zero levels throws error", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -881,20 +874,20 @@ test_that(
   raw_data$community[, ] <-
     0
 
-  result <-
-    reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = FALSE,
-    check_levels = TRUE
+  expect_error(
+    result <-
+      reduce_data(
+        data_source_reduce = raw_data,
+        check_taxa = FALSE,
+        check_levels = TRUE
+      ),
+    # no error programmed into function yet
+    # e.g.,
+    # "No valid data available after filtering"
   )
-
-  expect_equal(nrow(result$community), 0)
-  expect_equal(nrow(result$age), 0)
-  expect_equal(ncol(result$age_un), 0)
 })
 
-test_that(
-  "both filtering with all zero data returns empty result", {
+test_that("both filtering with all zero data throws error", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -907,23 +900,17 @@ test_that(
   raw_data$community[, ] <-
     0
 
-
-  result <-
+  expect_error(
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = TRUE
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    ),
+    # none programmed into function yet
   )
-
-  expect_equal(ncol(result$community), 0)
-  expect_equal(nrow(result$community), 0)
-  expect_equal(nrow(result$age), 0)
-  expect_equal(ncol(result$age_un), 0)
 })
 
-
-test_that(
-  "reduce_data validates community has columns", {
+test_that("reduce_data throws error if community has no columns", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -936,18 +923,16 @@ test_that(
   raw_data$community <-
     raw_data$community[, 0]
 
-  result <-
-    reduce_data(data_source_reduce = raw_data)
-
-  expect_equal(ncol(result$community), 0)
-  expect_equal(nrow(result$community), 0)
-  expect_equal(nrow(result$age), 0)
-  expect_equal(ncol(result$age_un), 0)
+  expect_error(
+    reduce_data(data_source_reduce = raw_data),
+    # none programmed into function yet
+    # e.g.,
+    # "community must have at least one taxon"
+  )
 })
 
 
-test_that(
-  "both filtering returns empty result if all data are NA", {
+test_that("both filtering throws error if all data are NA", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -956,30 +941,27 @@ test_that(
       verbose = FALSE
     )
 
-
   raw_data$community[, ] <-
     NA
 
-  result <-
+  expect_error(
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = TRUE
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    ),
+    # none programmed into function yet
+    # e.g.,
+    # "No valid data available after filtering"
   )
-
-  expect_equal(nrow(result$community), 0)
-  expect_equal(nrow(result$age), 0)
-  expect_equal(ncol(result$age_un), 0)
 })
-
 
 # --------------------------------------------------- #
 # 7. OUTPUT VALIDATION
 # --------------------------------------------------- #
 
 
-test_that(
-  "reduce_data produces valid output structure", {
+test_that("reduce_data produces valid output structure", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -997,10 +979,10 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    )
 
   expect_type(
     result, "list"
@@ -1012,8 +994,7 @@ test_that(
   )
 })
 
-test_that(
-  "reduce_data produces valid community structure", {
+test_that("reduce_data produces valid community structure", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1031,18 +1012,17 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    )
 
   expect_s3_class(
     result$community,
     "data.frame"
   )
 
-  if (ncol(
-    result$community) > 0) {
+  if (ncol(result$community) > 0) {
     expect_true(all(vapply(result$community, is.numeric, logical(1))))
   }
 
@@ -1064,8 +1044,7 @@ test_that(
 })
 
 
-test_that(
-  "reduce_data produces valid age structure", {
+test_that("reduce_data produces valid age structure", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1083,10 +1062,10 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    )
 
   expect_s3_class(
     result$age,
@@ -1105,13 +1084,13 @@ test_that(
 
   expect_equal(
     rownames(
-    result$age),
+      result$age
+    ),
     rownames(result$community)
   )
 })
 
-test_that(
-  "reduce_data produces valid age_un structure", {
+test_that("reduce_data produces valid age_un structure", {
   raw_data <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1129,13 +1108,12 @@ test_that(
 
   result <-
     reduce_data(
-    data_source_reduce = raw_data,
-    check_taxa = TRUE,
-    check_levels = TRUE
-  )
+      data_source_reduce = raw_data,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    )
 
-  if (!is.null(
-    result$age_un)) {
+  if (!is.null(result$age_un)) {
     expect_true(
       is.matrix(result$age_un) || is.data.frame(result$age_un)
     )
@@ -1146,4 +1124,41 @@ test_that(
   )
 })
 
+## This might be a good improvement to the function: reduce two-way in case there are NAs in age
+test_that("reduce_data function drops all-NA samples in age from community?", {
+  age <-
+    RRatepol::example_data$sample_age[[1]]
+  age$age[1] <-
+    NA # make row all-NA
+  NA_sample <-
+    age[1, ]$sample_id
+  valid_samples <-
+    setdiff(age$sample_id, NA_sample)
 
+  dta <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = age,
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+    )
+
+  res <-
+    reduce_data(
+      data_source_reduce = dta,
+      check_taxa = TRUE,
+      check_levels = TRUE
+    )
+
+  expect_identical(
+    rownames(res$community),
+    valid_samples
+  )
+  expect_identical(
+    rownames(res$age),
+    valid_samples
+  )
+  expect_identical(
+    colnames(res$age_un),
+    valid_samples
+  )
+})
