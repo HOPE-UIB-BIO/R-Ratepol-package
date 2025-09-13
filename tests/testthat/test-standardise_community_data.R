@@ -161,7 +161,8 @@ test_that(
       ),
     # none programmed into function yet
     # e.g.,
-    # "Warning: n_individuals = NULL will use min number of observations from the data for standardisation."
+    # "Warning: n_individuals = NULL will use default 
+    # (min number of observations from the data) for standardisation."
   )
 })
 
@@ -292,7 +293,7 @@ test_that(
 
 ### high n_individuals
 test_that(
-  "standardise_community_data returns n_individuals observations in samples with high n_individuals (within run_iteration workflow)", {
+  "standardise_community_data returns min n_individuals observations in samples with high n_individuals (within run_iteration workflow)", {
   n_individuals <-
     100000
   data_to_run_bins <-
