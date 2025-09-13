@@ -1,13 +1,3 @@
-# with input data for all working_unit methods.
-# working_units = c("levels", "bins", "MW")
-
-# different workflow for "levels" than for "bins" and "MW"
-# levels ignores bin_selection.
-
-# I will test without smoothing to reduce the amount of code and focus on
-# issues that are more likely.... (?)
-
-
 # ---------------------------------------------------- #
 # Input validation : Default parameters #
 # ---------------------------------------------------- #
@@ -865,13 +855,65 @@ test_that("subset_samples and MW throws error with list data_bins input", {
     "non-numeric matrix extent"
   )
 })
-
-
 # ---------------------------------------- #
 # Bin_selection input validation
 # ---------------------------------------- #
 
 # ---- levels ---- #
+
+test_that("subset_samples, levles, expect no NAs", {
+  set.seed(123)
+  data_to_run_levels <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+    ) %>%
+    reduce_data(
+      check_taxa = TRUE,
+      check_levels = TRUE
+    ) %>%
+    prepare_data(
+      data_source_prep = .,
+      working_units = "levels",
+      bin_size = 500,
+      rand = 1
+    ) %>%
+    RUtilpol::flatten_list_by_one() %>%
+    .[[1]]
+
+  data_source_subset <-
+    data_to_run_levels$data
+  data_source_bins <-
+    data_to_run_levels$bins
+
+  set.seed(123)
+  res_fn <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = NULL
+    )
+
+  expect_false(
+    any(
+      is.na(res_fn$label)
+    )
+  )
+  expect_false(
+    any(
+      is.na(res_fn$res_age)
+    )
+  )
+
+  # expect no NAs rows (samples for taxa) (?)
+  expect_true(
+    all(
+      rowSums(is.na(res_fn)) == 0
+    )
+  )
+})
+
 
 test_that(
   "subset_samples and levels returns correct result without input bin_selection",
@@ -1218,7 +1260,7 @@ test_that("subset_samples, bins, NULL bin_selection", {
 })
 
 
-test_that("subset_samples, bins, character bin_selection", {
+test_that("subset_samples, bins, throws error with character bin_selection", {
   data_to_run_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1254,7 +1296,7 @@ test_that("subset_samples, bins, character bin_selection", {
 })
 
 
-test_that("subset_samples, bins, numeric bin_selection", {
+test_that("subset_samples, bins, throws error with numeric bin_selection", {
   data_to_run_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1290,7 +1332,7 @@ test_that("subset_samples, bins, numeric bin_selection", {
 })
 
 
-test_that("subset_samples, bins, multiple bin_selection", {
+test_that("subset_samples, bins,  throws error with multiple bin_selection", {
   data_to_run_bins <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1324,45 +1366,44 @@ test_that("subset_samples, bins, multiple bin_selection", {
     "the condition has length > 1"
   )
 })
-
-
-test_that("subset_samples, bins and no input bin_selection", {
-  data_to_run_bins <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "bins",
-      bin_size = 500,
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
-
-  data_source_subset <-
-    data_to_run_bins$data
-  data_source_bins <-
-    data_to_run_bins$bins
-
-  expect_warning(
-    subset_samples(
-      data_source_subset = data_source_subset,
-      data_source_bins = data_source_bins
-    ),
-    # none programmed into function yet.
-    # e.g., "Warning: no bin_selection method supplied. Using default bin_selection = "first"."
-  )
-})
+# Commented out: message if default is used
+# test_that("subset_samples, bins and no input bin_selection", {
+#   data_to_run_bins <-
+#     extract_data(
+#       data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#       data_age_extract = RRatepol::example_data$sample_age[[1]],
+#       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+#     ) %>%
+#     reduce_data(
+#       check_taxa = TRUE,
+#       check_levels = TRUE
+#     ) %>%
+#     prepare_data(
+#       data_source_prep = .,
+#       working_units = "bins",
+#       bin_size = 500,
+#       rand = 1
+#     ) %>%
+#     RUtilpol::flatten_list_by_one() %>%
+#     .[[1]]
+#
+#   data_source_subset <-
+#     data_to_run_bins$data
+#   data_source_bins <-
+#     data_to_run_bins$bins
+#
+#   expect_warning(
+#     subset_samples(
+#       data_source_subset = data_source_subset,
+#       data_source_bins = data_source_bins
+#     ),
+#     # none programmed into function yet.
+#     # e.g., "Warning: no bin_selection method supplied. Using default bin_selection = "first"."
+#   )
+# })
 
 ## --- first bin --- ##
-test_that("subset_samples, bins and first bin", {
+test_that("subset_samples, bins and first bin, expect no NAs", {
   set.seed(123)
   data_to_run_bins <-
     extract_data(
@@ -1416,7 +1457,7 @@ test_that("subset_samples, bins and first bin", {
 })
 
 ## --- random bin --- ##
-test_that("subset_samples, bins and random bin", {
+test_that("subset_samples, bins and random bin, expect no NAs", {
   set.seed(123)
   data_to_run_bins <-
     extract_data(
@@ -1490,13 +1531,13 @@ test_that("subset_samples, MW, NULL bin_selection", {
     ) %>%
     RUtilpol::flatten_list_by_one() %>%
     .[[1]]
-  
+
   data_source_bins <-
     data_to_run_MW$bins
-  
+
   data_source_subset <-
     data_to_run_MW$data
-  
+
   expect_error(
     subset_samples(
       data_source_subset = data_source_subset,
@@ -1507,8 +1548,7 @@ test_that("subset_samples, MW, NULL bin_selection", {
   )
 })
 
-
-test_that("subset_samples, MW, character bin_selection", {
+test_that("subset_samples, MW, throws error with character bin_selection", {
   data_to_run_MW <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1528,13 +1568,13 @@ test_that("subset_samples, MW, character bin_selection", {
     ) %>%
     RUtilpol::flatten_list_by_one() %>%
     .[[1]]
-  
+
   data_source_bins <-
     data_to_run_MW$bins
-  
+
   data_source_subset <-
     data_to_run_MW$data
-  
+
   expect_error(
     subset_samples(
       data_source_subset = data_source_subset,
@@ -1545,8 +1585,7 @@ test_that("subset_samples, MW, character bin_selection", {
   )
 })
 
-
-test_that("subset_samples, MW, numeric bin_selection", {
+test_that("subset_samples, MW, throws error with numeric bin_selection", {
   data_to_run_MW <-
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
@@ -1566,13 +1605,13 @@ test_that("subset_samples, MW, numeric bin_selection", {
     ) %>%
     RUtilpol::flatten_list_by_one() %>%
     .[[1]]
-  
+
   data_source_bins <-
     data_to_run_MW$bins
-  
+
   data_source_subset <-
     data_to_run_MW$data
-  
+
   expect_error(
     subset_samples(
       data_source_subset = data_source_subset,
@@ -1582,7 +1621,6 @@ test_that("subset_samples, MW, numeric bin_selection", {
     # none programmed into function yet (returns all-NA data)
   )
 })
-
 
 test_that("subset_samples, MW, multiple bin_selection", {
   data_to_run_MW <-
@@ -1604,13 +1642,13 @@ test_that("subset_samples, MW, multiple bin_selection", {
     ) %>%
     RUtilpol::flatten_list_by_one() %>%
     .[[1]]
-  
+
   data_source_bins <-
     data_to_run_MW$bins
-  
+
   data_source_subset <-
     data_to_run_MW$data
-  
+
   expect_error(
     subset_samples(
       data_source_subset = data_source_subset,
@@ -1621,46 +1659,45 @@ test_that("subset_samples, MW, multiple bin_selection", {
   )
 })
 
-
-test_that("subset_samples, MW and no input bin_selection", {
-  data_to_run_MW <-
-    extract_data(
-      data_community_extract = RRatepol::example_data$pollen_data[[1]],
-      data_age_extract = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    ) %>%
-    reduce_data(
-      check_taxa = TRUE,
-      check_levels = TRUE
-    ) %>%
-    prepare_data(
-      data_source_prep = .,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 5,
-      rand = 1
-    ) %>%
-    RUtilpol::flatten_list_by_one() %>%
-    .[[1]]
-  
-  data_source_bins <-
-    data_to_run_MW$bins
-  
-  data_source_subset <-
-    data_to_run_MW$data
-  
-  expect_warning(
-    subset_samples(
-      data_source_subset = data_source_subset,
-      data_source_bins = data_source_bins
-    ),
-    # none programmed into function yet.
-    # e.g., "Warning: no bin_selection method supplied. Using default bin_selection = "first"."
-  )
-})
+# test_that("subset_samples, MW and no input bin_selection", {
+#   data_to_run_MW <-
+#     extract_data(
+#       data_community_extract = RRatepol::example_data$pollen_data[[1]],
+#       data_age_extract = RRatepol::example_data$sample_age[[1]],
+#       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+#     ) %>%
+#     reduce_data(
+#       check_taxa = TRUE,
+#       check_levels = TRUE
+#     ) %>%
+#     prepare_data(
+#       data_source_prep = .,
+#       working_units = "MW",
+#       bin_size = 500,
+#       number_of_shifts = 5,
+#       rand = 1
+#     ) %>%
+#     RUtilpol::flatten_list_by_one() %>%
+#     .[[1]]
+#
+#   data_source_bins <-
+#     data_to_run_MW$bins
+#
+#   data_source_subset <-
+#     data_to_run_MW$data
+#
+#   expect_warning(
+#     subset_samples(
+#       data_source_subset = data_source_subset,
+#       data_source_bins = data_source_bins
+#     ),
+#     # none programmed into function yet.
+#     # e.g., "Warning: no bin_selection method supplied. Using default bin_selection = "first"."
+#   )
+# })
 
 ## --- first bin --- ##
-test_that("subset_samples, MW and first bin", {
+test_that("subset_samples, MW and first bin, expect no NAs", {
   set.seed(123)
   data_to_run_MW <-
     extract_data(
@@ -1681,10 +1718,10 @@ test_that("subset_samples, MW and first bin", {
     ) %>%
     RUtilpol::flatten_list_by_one() %>%
     .[[1]]
-  
+
   data_source_bins <-
     data_to_run_MW$bins
-  
+
   data_source_subset <-
     data_to_run_MW$data
   set.seed(123)
@@ -1694,7 +1731,7 @@ test_that("subset_samples, MW and first bin", {
       data_source_bins = data_source_bins,
       bin_selection = "first"
     )
-  
+
   expect_false(
     any(
       is.na(res_fn$label)
@@ -1705,7 +1742,7 @@ test_that("subset_samples, MW and first bin", {
       is.na(res_fn$res_age)
     )
   )
-  
+
   # expect no NAs rows (samples for taxa) (?)
   expect_true(
     all(
@@ -1715,7 +1752,7 @@ test_that("subset_samples, MW and first bin", {
 })
 
 ## --- random bin --- ##
-test_that("subset_samples, MW and random bin", {
+test_that("subset_samples, MW and random bin, expect no NAs", {
   set.seed(123)
   data_to_run_MW <-
     extract_data(
@@ -1736,10 +1773,10 @@ test_that("subset_samples, MW and random bin", {
     ) %>%
     RUtilpol::flatten_list_by_one() %>%
     .[[1]]
-  
+
   data_source_bins <-
     data_to_run_MW$bins
-  
+
   data_source_subset <-
     data_to_run_MW$data
   set.seed(123)
@@ -1749,7 +1786,7 @@ test_that("subset_samples, MW and random bin", {
       data_source_bins = data_source_bins,
       bin_selection = "random"
     )
-  
+
   expect_false(
     any(
       is.na(res_fn$label)
@@ -1760,7 +1797,7 @@ test_that("subset_samples, MW and random bin", {
       is.na(res_fn$res_age)
     )
   )
-  
+
   # expect no NAs rows (samples for taxa) (?)
   expect_true(
     all(
