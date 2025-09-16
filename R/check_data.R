@@ -1,4 +1,3 @@
-
 #' @title Check the data
 #'
 #' @param data_source_check
@@ -19,10 +18,11 @@ check_data <-
 
     RUtilpol::output_comment(
       paste0(
-        "Age data has values of min ", round(min(data_source_check$age$age)),
-        ", max ", round(max(data_source_check$age$age)),
-        ", mean ", round(mean(data_source_check$age$age)),
-        ", and median ", round(stats::median(data_source_check$age$age))
+        "Age data has values of min ", round(min(data_source_check$age$age, na.rm = TRUE)),
+        ", max ", round(max(data_source_check$age$age, na.rm = TRUE)),
+        ", mean ", round(mean(data_source_check$age$age, na.rm = TRUE)),
+        ", median ", round(stats::median(data_source_check$age$age, na.rm = TRUE)),
+        ", and NAs ", sum(is.na(data_source_check$age$age))
       )
     )
   }
