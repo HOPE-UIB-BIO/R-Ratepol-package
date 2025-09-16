@@ -125,7 +125,7 @@ have been curated by you during the last years packages `doSNOW` and `snow` are 
 
 - stop using pre-saved data
 - decrease the `i_multiplier` to 0.5 to speed up the vignette building
-- change the `use_parallel` arguments in `fc_estimate_RoC` to FALSE so the vignette can be build in machines without multiple cores.
+- change the `treads` arguments in `fc_estimate_RoC` to FALSE so the vignette can be build in machines without multiple cores.
 - rename r chunks to remove empty spaces in names
 
 ## Other
