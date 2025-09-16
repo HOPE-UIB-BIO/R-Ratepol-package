@@ -72,7 +72,7 @@ For additional examples of RRatepol setting, see [Materials for R-Ratepol worksh
 
 ### OCCR R-Ratepol workshop
 
-For examples using other data types than fosssil pollen, see [Oeschger Centre for Climate Change Research Workshop](https://ondrejmottl.github.io/OCCR_R-Ratepol_workshop/) for workflows using geochemistry and XRF data.
+For examples using other data types than fossil pollen, see [Oeschger Centre for Climate Change Research Workshop](https://ondrejmottl.github.io/OCCR_R-Ratepol_workshop/) for workflows using geochemistry and XRF data.
 
 ### Build-in example
 
@@ -128,7 +128,7 @@ example_data %>%
 
 #### Example 1
 
-Estimate RoC values for *Dallican Water* site using *Age-weighed smoothing* of the data and *Chord dissimilarity* coefficient. Pollen data will not standardised to a certain pollen count and age uncertainties from *Bchron* will not be used.  
+Estimate RoC values for *Dallican Water* site using *Age-weighted smoothing* of the data and *Chord dissimilarity* coefficient. Pollen data will not be standardised to a certain pollen count and age uncertainties from *Bchron* will not be used. 
 
 ```{r sequence 1, results=FALSE, warning=FALSE}
 sequence_01 <-
@@ -177,7 +177,7 @@ RRatepol::plot_roc(
 
 #### Example 3
 
-Use *Binning with the mowing window* approach with `bin_size` = 500 and `number_of_shifts` = 5.
+Use *Binning with the moving window* approach with `bin_size` = 500 and `number_of_shifts` = 5.
 
 ```{r sequence 3, results=FALSE, warning=FALSE}
 sequence_03 <-
