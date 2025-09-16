@@ -113,7 +113,7 @@ extract_data <-
     )
 
     if (
-      isFALSE(is.unsorted(data_age_extract$age))
+      isTRUE(is.unsorted(data_age_extract$age))
     ) {
       # order of the age
       data_age_extract <-
@@ -178,7 +178,7 @@ extract_data <-
       # save as dataframe
       age_un <- data.frame(age_uncertainty)
 
-      names(age_un) <- dat_age$sample_id
+      names(age_un) <- row.names(dat_age)
     } else {
       age_un <- NULL
     }
@@ -205,7 +205,7 @@ extract_data <-
     }
 
     if (
-      any(is.na(dat_community$age))
+      any(is.na(dat_age$age))
     ) {
       RUtilpol::output_warning(
         paste(
