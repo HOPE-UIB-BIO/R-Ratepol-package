@@ -60,7 +60,7 @@ extract_data <-
       usethis::ui_oops(
         paste(
           "'sample.id' was detected in 'data_community'",
-          "but 'sample_id' is prefered.",
+          "but 'sample_id' is preferred.",
           "Recommend renaming your data"
         )
       )
@@ -84,8 +84,8 @@ extract_data <-
     ) {
       usethis::ui_oops(
         paste(
-          "'sample.id' was detected in 'data_age' but 'sample_id' is prefered.",
-          "Recomend renaming your data"
+          "'sample.id' was detected in 'data_age' but 'sample_id' is preferred.",
+          "Recommend renaming your data"
         )
       )
 
@@ -149,7 +149,7 @@ extract_data <-
 
     # 2.2 Row.names  -----
 
-    # add row.names to commity, age, and uncertainty data
+    # add row.names to community, age, and uncertainty data
     dat_community <-
       dat_community %>%
       tibble::column_to_rownames("sample_id")
@@ -189,8 +189,8 @@ extract_data <-
     ) {
       RUtilpol::output_warning(
         paste(
-          "Missing data has been detected in community data",
-          "and automatically replaces with '0'"
+          "Missing data have been detected in community data",
+          "and automatically replaced with '0'"
         )
       )
 
@@ -209,8 +209,8 @@ extract_data <-
     ) {
       RUtilpol::output_warning(
         paste(
-          "Missing 'age' values has detected in age data",
-          "Such levels has been filtered out"
+          "Missing 'age' values have been detected in age data",
+          "Such levels have been filtered out"
         )
       )
 
@@ -229,7 +229,7 @@ extract_data <-
         age_un = age_un
       )
 
-    #  exclude redundnat rows and columns
+    #  exclude redundant rows and columns
     dat_merge <-
       reduce_data(
         data_source_reduce = dat_merge,

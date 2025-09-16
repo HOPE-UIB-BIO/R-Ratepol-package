@@ -58,7 +58,7 @@ For additional examples of RRatepol setting, see [Materials for R-Ratepol worksh
 
 ### OCCR R-Ratepol workshop
 
-For examples using other data types than fosssil pollen, see [Oeschger Centre for Climate Change Research Workshop](https://ondrejmottl.github.io/OCCR_R-Ratepol_workshop/) for workflows using geochemistry and XRF data.
+For examples using other data types than fossil pollen, see [Oeschger Centre for Climate Change Research Workshop](https://ondrejmottl.github.io/OCCR_R-Ratepol_workshop/) for workflows using geochemistry and XRF data.
 
 ### Build-in example
 
@@ -124,7 +124,7 @@ example_data %>%
 
 #### Example 1
 
-Estimate RoC values for *Dallican Water* site using *Age-weighed smoothing* of the data and *Chord dissimilarity* coefficient. Pollen data will not standardised to a certain pollen count and age uncertainties from *Bchron* will not be used.
+Estimate RoC values for *Dallican Water* site using *Age-weighted smoothing* of the data and *Chord dissimilarity* coefficient. Pollen data will not be standardised to a certain pollen count and age uncertainties from *Bchron* will not be used.
 
 ``` r
 sequence_01 <-
@@ -139,7 +139,7 @@ sequence_01 <-
 #> ℹ RRatepol started 2025-08-06 08:18:58.229451
 #> #----------------------------------------------------------#
 #> ℹ RoC will be estimated between individual subsequent levels
-#> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
+#> ℹ 'time_standardisation' = 500 : RoC values will be reported as dissimilarity per 500 years.
 #> #----------------------------------------------------------#
 #> ℹ RRatepol finished 2025-08-06 08:18:58.961729 taking 0.73 secs
 #> #----------------------------------------------------------#
@@ -176,8 +176,8 @@ sequence_02 <-
 #> #----------------------------------------------------------#
 #> ℹ 'age_uncertainty' will be used for in the RoC estimation
 #> ℹ RoC will be estimated between individual subsequent levels
-#> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
-#> ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
+#> ℹ 'time_standardisation' = 500 : RoC values will be reported as dissimilarity per 500 years.
+#> ℹ Data will be standardised in each Working unit to 150 or the lowest number detected in dataset
 #> #----------------------------------------------------------#
 #> ℹ RRatepol finished 2025-08-06 08:19:14.171268 taking 15.05 secs
 #> #----------------------------------------------------------#
@@ -193,7 +193,7 @@ RRatepol::plot_roc(
 
 #### Example 3
 
-Use *Binning with the mowing window* approach with `bin_size` = 500 and `number_of_shifts` = 5.
+Use *Binning with the moving window* approach with `bin_size` = 500 and `number_of_shifts` = 5.
 
 ``` r
 sequence_03 <-
@@ -215,10 +215,10 @@ sequence_03 <-
 #> ℹ RRatepol started 2025-08-06 08:19:14.328945
 #> #----------------------------------------------------------#
 #> ℹ 'age_uncertainty' will be used for in the RoC estimation
-#> ℹ RoC will be estimated using 'binning with the mowing window' of 500 yr time bin over 5 number of window shifts
-#> ℹ Sample will randomly selected for each bin
-#> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
-#> ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
+#> ℹ RoC will be estimated using 'binning with the moving window' of 500 yr time bin over 5 number of window shifts
+#> ℹ Samples will be randomly selected for each bin
+#> ℹ 'time_standardisation' = 500 : RoC values will be reported as dissimilarity per 500 years.
+#> ℹ Data will be standardised in each Working unit to 150 or the lowest number detected in dataset
 #> #----------------------------------------------------------#
 #> ℹ RRatepol finished 2025-08-06 08:19:48.149412 taking 33.82 secs
 #> #----------------------------------------------------------#
