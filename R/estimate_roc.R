@@ -10,7 +10,7 @@
 #' \item `age` - age of level (numeric)
 #' }
 #' @param age_uncertainty
-#' Usage of age uncertainty from Age-depth models. Either:
+#' Usage of age uncertainty form Age-depth models. Either:
 #' \itemize{
 #' \item matrix with number of columns as number of samples. Each column is one sample,
 #'  each row is one age sequence from age-depth model. Age sequence is randomly
@@ -361,7 +361,7 @@ estimate_roc <-
 
           assertthat::assert_that(
             smooth_n_points < smooth_n_max,
-            msg = "'smooth_n_max' must be bigger than 'smooth_n_points'"
+            msg = "'smooth_n_max' must be bigger than 'smooth_n_points"
           )
         }
       }
@@ -440,7 +440,7 @@ estimate_roc <-
       "MW" = {
         RUtilpol::output_comment(
           paste(
-            "RoC will be estimated using 'binning with the moving window' of",
+            "RoC will be estimated using 'binning with the mowing window' of",
             bin_size, "yr time bin over", number_of_shifts, "number of window shifts"
           )
         )
@@ -454,7 +454,7 @@ estimate_roc <-
         bin_selection == "random"
       ) {
         RUtilpol::output_comment(
-          "Samples will be randomly selected for each bin"
+          "Sample will randomly selected for each bin"
         )
 
         if (
@@ -469,7 +469,7 @@ estimate_roc <-
         }
       } else {
         RUtilpol::output_comment(
-          "First sample of each time bin will be selected"
+          "First sample of each time bin will selected"
         )
       }
     }
@@ -477,7 +477,7 @@ estimate_roc <-
     RUtilpol::output_comment(
       paste(
         "'time_standardisation' =", time_standardisation, ":",
-        "RoC values will be reported as dissimilarity per", time_standardisation,
+        "RoC values will be reported as disimilarity per", time_standardisation,
         "years."
       )
     )
@@ -499,7 +499,7 @@ estimate_roc <-
     ) {
       RUtilpol::output_comment(
         paste(
-          "Data will be standardised in each Working unit to", n_individuals,
+          "Data will be standardise in each Working unit to", n_individuals,
           "or the lowest number detected in dataset"
         )
       )

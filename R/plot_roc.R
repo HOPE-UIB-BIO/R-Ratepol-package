@@ -46,7 +46,7 @@
 #'     smooth_method = "shep",
 #'     working_units = "MW",
 #'     rand = 1e3,
-#'     use_parallel = TRUE,
+#'     treads = TRUE,
 #'     dissimilarity_coefficient = "chisq"
 #'   )
 #'
@@ -65,7 +65,7 @@
 #'     smooth_method = "shep",
 #'     working_units = "MW",
 #'     rand = 1e3,
-#'     use_parallel = TRUE,
+#'     treads = TRUE,
 #'     dissimilarity_coefficient = "chisq"
 #'   )
 #'

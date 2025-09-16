@@ -2,7 +2,7 @@
 #'
 #' @param data_source Data.frame. Output of `estimate_roc` function
 #' @param sel_method
-#' Character. A method to use for peak-point detection:
+#' Character. A method to use for peak-poit detection:
 #' \itemize{
 #' \item `"threshold"` - Each point in the RoC sequence is compared to a median
 #' of all RoC scores from the whole sequence (i.e. threshold value). The RoC
@@ -87,7 +87,7 @@
 #'     smooth_method = "shep",
 #'     working_units = "MW",
 #'     rand = 1e3,
-#'     use_parallel = TRUE,
+#'     treads = TRUE,
 #'     dissimilarity_coefficient = "chisq"
 #'   )
 #'
@@ -161,7 +161,7 @@ detect_peak_points <-
     ) {
       RUtilpol::check_col_names("data_source", "Age")
 
-      # mark points that are above the linear model
+      # mark points that are abowe the linear model
       #   (exactly sd_threshold SD higher than prediction)
       data_source$pred_linear <-
         make_trend(
@@ -184,7 +184,7 @@ detect_peak_points <-
       sel_method == "trend_non_linear"
     ) {
       RUtilpol::check_col_names("data_source", "Age")
-      # mark points that are above the GAM model
+      # mark points that are abowe the GAM model
       #   (exactly sd_threshold SD higher than GAM prediction)
       data_source$pred_gam <-
         make_trend(
@@ -201,14 +201,14 @@ detect_peak_points <-
     }
 
     #----------------------------------------------------------#
-    # 4. First derivative of GAM model  -----
+    # 4. Firts derivative of GAM model  -----
     #----------------------------------------------------------#
     if (
       sel_method == "GAM_deriv"
     ) {
       RUtilpol::check_col_names("data_source", "Age")
-      # fit gam well smoother gam model and use first derivative of the function
-      #   to detect significant increases in the function
+      # fit gam well smother gam model and use first derivative of the function
+      #   to detect signifiant increases in the function
       gam_model <-
         mgcv::gam(
           ROC ~ s(Age),
