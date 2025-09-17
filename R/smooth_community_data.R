@@ -79,11 +79,7 @@ smooth_community_data <-
       !any(is.na(data_source_smooth$age)),
       msg = "'age' must not contain any NAs"
     )
-    # Assert that age has more than 1 unique value
-    assertthat::assert_that(
-      length(unique(data_source_smooth$age$age)) > 1,
-      msg = "'age' must contain more than 1 unique value"
-    )
+
     # Assert age is sorted
     assertthat::assert_that(
       is.unsorted(data_source_smooth$age$age) == FALSE,
@@ -109,8 +105,8 @@ smooth_community_data <-
       msg = "'smooth_n_points' must be numeric"
     )
     assertthat::assert_that(
-      smooth_n_points < nrow(data_source_smooth$community),
-      msg = "'smooth_n_points' must be < number of samples in 'community'"
+      smooth_n_points <= nrow(data_source_smooth$community),
+      msg = "'smooth_n_points' must be <= number of samples in 'community'"
     )
     # Assert that logical parameters are logical and either TRUE or FALSE
     assertthat::assert_that(
@@ -154,12 +150,16 @@ smooth_community_data <-
         if (smooth_method == "grim") {
           # smooth_n_max must be length 1
           assertthat::assert_that(
+            is.numeric(smooth_n_max),
+            msg = "'smooth_n_max' must be numeric"
+          )
+          assertthat::assert_that(
             length(smooth_n_max) == 1,
             msg = "'smooth_n_max' must be length 1"
           )
           assertthat::assert_that(
-            smooth_n_max < nrow(data_source_smooth$community),
-            msg = "'smooth_n_max' must be < number of samples in 'community'"
+            smooth_n_max <= nrow(data_source_smooth$community),
+            msg = "'smooth_n_max' must be <= number of samples in 'community'"
           )
           # smooth_n_points must be < smooth_n_max
           assertthat::assert_that(
