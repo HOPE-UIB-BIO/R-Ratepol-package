@@ -41,43 +41,39 @@ smooth_community_data <-
     # ----------------------------------------------
     # SETUP -----
     # ----------------------------------------------
+    # Mandatory assertions for all methods:
+    # Assert data_source_smooth is a list
+    assertthat::assert_that(is.list(data_source_smooth), msg = "'data_source_smooth' must be a list")
 
-    RUtilpol::check_class("data_source_smooth", "list")
+    # Assert smooth_method is character and valid
+    assertthat::assert_that(is.character(smooth_method), msg = "'smooth_method' must be character")
+    smooth_method <- match.arg(smooth_method, choices = c("m.avg", "grim", "age.w", "shep"))
 
-    RUtilpol::check_class("smooth_method", "character")
+    # Assert smooth_n_points is numeric
+    assertthat::assert_that(is.numeric(smooth_n_points), msg = "'smooth_n_points' must be numeric")
+    assertthat::assert_that(smooth_n_points < nrow(data_source_smooth$community), msg = "'smooth_n_points' must be < number of samples in 'community'")
 
-    RUtilpol::check_vector_values(
-      "smooth_method",
-      c("m.avg", "grim", "age.w", "shep")
-    )
+    # Assert that logical parameters are logical and either TRUE or FALSE
+    assertthat::assert_that(is.logical(round_results) && length(round_results) == 1 && (round_results == TRUE || round_results == FALSE), msg = "'round_results' must be logical and either TRUE or FALSE")
+    assertthat::assert_that(is.logical(verbose) && length(verbose) == 1 && (verbose == TRUE || verbose == FALSE), msg = "'verbose' must be logical and either TRUE or FALSE")
 
-    smooth_method <- match.arg(smooth_method)
+    # Method-specific assertions:
+    if (smooth_method == "shep") {
+      # must be > 2
+      assertthat::assert_that(smooth_n_points > 2, msg = "'smooth_n_points' must be > 2 for 'shep' smoothing")
+    }
 
-    if (
-      smooth_method != "shep"
-    ) {
-      assertthat::assert_that(
-        smooth_n_points %% 2 != 0,
-        msg = "'smooth_n_points' must be an odd number"
-      )
+    if (smooth_method %in% c("m.avg", "age.w", "grim")) {
+      # must be odd
+      assertthat::assert_that(smooth_n_points %% 2 != 0, msg = "'smooth_n_points' must be odd")
 
-      if (
-        smooth_method != "m.avg"
-      ) {
-        RUtilpol::check_class("smooth_age_range", "numeric")
+      if (smooth_method %in% c("age.w", "grim")) {
+        # smooth_age_range must be numeric
+        assertthat::assert_that(is.numeric(smooth_age_range), msg = "'smooth_age_range' must be numeric")
 
-        if (
-          smooth_method == "grim"
-        ) {
-          assertthat::assert_that(
-            smooth_n_max %% 2 != 0,
-            msg = "'smooth_n_max' must be an odd number"
-          )
-
-          assertthat::assert_that(
-            smooth_n_points < smooth_n_max,
-            msg = "'smooth_n_max' must be bigger than 'smooth_n_points"
-          )
+        if (smooth_method == "grim") {
+          # smooth_n_points must be < smooth_n_max
+          assertthat::assert_that(smooth_n_points < smooth_n_max, msg = "'smooth_n_points' must be < 'smooth_n_max' for 'grim' smoothing")
         }
       }
     }
