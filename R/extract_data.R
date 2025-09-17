@@ -26,12 +26,70 @@ extract_data <-
            data_age_extract,
            age_uncertainty = NULL,
            verbose = FALSE) {
-
     # 1. Initial tests -----
 
     # 1.1 Data types -----
+    # Community checks
+    assertthat::assert_that(
+      is.data.frame(data_community_extract),
+      msg = "'data_community_extract' must be one of the following: 'data.frame'"
+    )
+    assertthat::assert_that(
+      nrow(data_community_extract) > 0,
+      msg = "'data_community_extract' cannot be empty"
+    )
+    assertthat::assert_that(
+      ncol(data_community_extract) >= 2,
+      msg = "'data_community_extract' must have at least 2 columns (sample_id + 1 taxon)"
+    )
+    assertthat::assert_that(
+      !all(apply(data_community_extract[, -1, drop = FALSE], 1, function(x) all(is.na(x)))),
+      msg = "'data_community_extract' cannot be all NA"
+    )
+    assertthat::assert_that(
+      !all(apply(data_community_extract[, -1, drop = FALSE], 1, function(x) all(x == 0))),
+      msg = "'data_community_extract' cannot be all zero"
+    )
 
-    RUtilpol::check_class("verbose", "logical")
+    # Age checks
+    assertthat::assert_that(
+      is.data.frame(data_age_extract),
+      msg = "'data_age_extract' must be one of the following: 'data.frame'"
+    )
+    assertthat::assert_that(
+      nrow(data_age_extract) > 0,
+      msg = "'data_age_extract' cannot be empty"
+    )
+    assertthat::assert_that(
+      !all(is.na(data_age_extract$age)),
+      msg = "'age' column in 'data_age_extract' cannot be all NA"
+    )
+
+    # Age uncertainty checks
+    assertthat::assert_that(
+      is.null(age_uncertainty) || is.matrix(age_uncertainty),
+      msg = "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
+    )
+    if (!is.null(age_uncertainty)) {
+      assertthat::assert_that(
+        !all(is.na(age_uncertainty)),
+        msg = "'age_uncertainty' cannot be all NA"
+      )
+      assertthat::assert_that(
+        ncol(age_uncertainty) == nrow(data_community_extract),
+        msg = "'age_uncertainty' must have ncol = nrow(community)"
+      )
+      assertthat::assert_that(
+        ncol(age_uncertainty) == nrow(data_age_extract),
+        msg = "'age_uncertainty' must have ncol = nrow(age)"
+      )
+    }
+
+    # Verbose check
+    assertthat::assert_that(
+      is.logical(verbose) && length(verbose) == 1 && (verbose == TRUE || verbose == FALSE),
+      msg = "'verbose' must be logical and either TRUE or FALSE"
+    )
 
     if (
       isTRUE(verbose)
@@ -44,12 +102,6 @@ extract_data <-
         size = "h2"
       )
     }
-
-    RUtilpol::check_class("data_community_extract", "data.frame")
-
-    RUtilpol::check_class("data_age_extract", "data.frame")
-
-    RUtilpol::check_class("age_uncertainty", c("NULL", "matrix"))
 
     # 1.2. Sample id -----
     # community
@@ -70,7 +122,10 @@ extract_data <-
         dplyr::rename(sample_id = .data$sample.id)
     }
 
-    RUtilpol::check_col_names("data_community_extract", "sample_id")
+    assertthat::assert_that(
+      assertthat::has_name(data_community_extract, "sample_id"),
+      msg = "Variable 'sample_id' must be present in 'data_community_extract'"
+    )
 
     assertthat::assert_that(
       "character" %in% class(data_community_extract$sample_id),
@@ -94,7 +149,16 @@ extract_data <-
         dplyr::rename(sample_id = .data$sample.id)
     }
 
-    RUtilpol::check_col_names("data_age_extract", "sample_id")
+    assertthat::assert_that(
+      assertthat::has_name(data_age_extract, c("sample_id", "age")),
+      msg = "Variable 'sample_id' must be present in 'data_age_extract'"
+    )
+
+    assertthat::assert_that(
+      "character" %in% class(data_age_extract$sample_id),
+      msg = "Variable 'sample_id' in 'data_age' must
+    be a 'character'"
+    )
 
     assertthat::assert_that(
       all(data_community_extract$sample_id %in% data_age_extract$sample_id) &&
@@ -104,16 +168,13 @@ extract_data <-
     )
 
     # 1.3. Age test -----
-
-    RUtilpol::check_col_names("data_age_extract", "sample_id")
-
     assertthat::assert_that(
       "numeric" %in% class(data_age_extract$age),
       msg = "Variable 'age' in 'data_source_age' must be a 'numeric'"
     )
 
     if (
-      isTRUE(is.unsorted(data_age_extract$age))
+      isTRUE(is.unsorted(data_age_extract$age, na.rm = TRUE))
     ) {
       # order of the age
       data_age_extract <-
@@ -121,6 +182,10 @@ extract_data <-
         dplyr::arrange(.data$age)
     }
 
+    assertthat::assert_that(
+      isFALSE(is.unsorted(data_age_extract$age, na.rm = TRUE)),
+      msg = "Variable 'age' in 'data_age' must be in ascending order"
+    )
     # 1.4. Size test -----
 
     n_samples_com <- nrow(data_community_extract)
@@ -164,8 +229,6 @@ extract_data <-
     if (
       isFALSE(is.null(age_uncertainty))
     ) {
-      RUtilpol::check_class("age_uncertainty", "matrix")
-
       n_samples_un <- ncol(age_uncertainty)
 
       assertthat::assert_that(
@@ -236,6 +299,36 @@ extract_data <-
         check_taxa = TRUE,
         check_levels = TRUE
       )
+
+    # Assert that output is valid
+    assertthat::assert_that(
+      identical(rownames(dat_merge$community), rownames(dat_merge$age)),
+      msg = "Error extracting data: Row names of 'community' and 'age' do not match after processing"
+    )
+
+    if (!is.null(dat_merge$age_un)) {
+      assertthat::assert_that(
+        identical(colnames(dat_merge$age_un), rownames(dat_merge$age)),
+        msg = "Error extracting data: Column names of 'age_un' and row names of 'age' do not match"
+      )
+    }
+
+    assertthat::assert_that(
+      nrow(dat_merge$community) > 0,
+      msg = "Error extracting data: 'community' in output is empty after processing"
+    )
+
+    assertthat::assert_that(
+      nrow(dat_merge$age) > 0,
+      msg = "Error extracting data: 'age' in output is empty after processing"
+    )
+
+    if (!is.null(dat_merge$age_un)) {
+      assertthat::assert_that(
+        ncol(dat_merge$age_un) > 0,
+        msg = "Error extracting data: 'age_un' in output is empty after processing"
+      )
+    }
 
     if (
       isTRUE(verbose)
