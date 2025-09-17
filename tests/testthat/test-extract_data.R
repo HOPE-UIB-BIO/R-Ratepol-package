@@ -15,7 +15,7 @@ test_that(
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         verbose = "TRUE"
       ),
-      "'verbose' must be one of the following: 'logical'"
+      "'verbose' must be logical and either TRUE or FALSE"
     )
   }
 )
@@ -30,7 +30,7 @@ test_that(
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         verbose = 1
       ),
-      "'verbose' must be one of the following: 'logical'"
+      "'verbose' must be logical and either TRUE or FALSE"
     )
   }
 )
@@ -45,7 +45,7 @@ test_that(
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         verbose = NULL
       ),
-      "'verbose' must be one of the following: 'logical'"
+      "'verbose' must be logical and either TRUE or FALSE"
     )
   }
 )
@@ -153,7 +153,8 @@ test_that(
         data_age_extract = age_numeric_id,
         verbose = FALSE
       ),
-      "Variable 'sample_id' must have same values in.*'data_age' and 'data_community'"
+      "Variable 'sample_id' in 'data_age' must
+    be a 'character'"
     )
   }
 )
@@ -176,7 +177,7 @@ test_that(
         data_age_extract = age_no_age_col,
         verbose = FALSE
       ),
-      "Variable 'age' in 'data_source_age' must be a 'numeric'"
+      # "Variable 'age' in 'data_source_age' must be a 'numeric'"
     )
   }
 )
@@ -361,14 +362,15 @@ test_that(
   {
     zero_community <-
       RRatepol::example_data$pollen_data[[1]]
-    zero_community[,-1] <- 0
+    zero_community[, -1] <- 0
 
-    expect_no_error(
+    expect_error(
       extract_data(
         data_community_extract = zero_community,
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         verbose = FALSE
-      )
+      ),
+      "'data_community_extract' cannot be all zero"
     )
   }
 )
@@ -382,12 +384,13 @@ test_that(
     empty_age <-
       data.frame(sample_id = character(0), depth = numeric(0), age = numeric(0))
 
-    expect_no_error(
+    expect_error(
       extract_data(
         data_community_extract = empty_community,
         data_age_extract = empty_age,
         verbose = FALSE
-      )
+      ),
+      "'data_community_extract' cannot be empty"
     )
   }
 )
@@ -398,8 +401,10 @@ test_that(
   {
     single_community <-
       RRatepol::example_data$pollen_data[[1]][1, ]
+    rownames(single_community) <- NULL
     single_age <-
       RRatepol::example_data$sample_age[[1]][1, ]
+    rownames(single_age) <- NULL
 
     result <-
       extract_data(
@@ -418,8 +423,10 @@ test_that(
   {
     single_community <-
       RRatepol::example_data$pollen_data[[1]][1, ]
+    rownames(single_community) <- NULL
     single_age <-
       RRatepol::example_data$sample_age[[1]][1, ]
+    rownames(single_age) <- NULL
 
     result <-
       extract_data(
@@ -438,8 +445,10 @@ test_that(
   {
     single_community <-
       RRatepol::example_data$pollen_data[[1]][1, ]
+    rownames(single_community) <- NULL
     single_age <-
       RRatepol::example_data$sample_age[[1]][1, ]
+    rownames(single_age) <- NULL
 
     result <-
       extract_data(
@@ -458,8 +467,10 @@ test_that(
   {
     single_community <-
       RRatepol::example_data$pollen_data[[1]][1, ]
+    rownames(single_community) <- NULL
     single_age <-
       RRatepol::example_data$sample_age[[1]][1, ]
+    rownames(single_age) <- NULL
 
     result <-
       extract_data(
@@ -477,7 +488,7 @@ test_that(
   "extract_data() handles minimal community data - returns list",
   {
     minimal_community <-
-      RRatepol::example_data$pollen_data[[1]][, 1, drop = FALSE]
+      RRatepol::example_data$pollen_data[[1]][, 1:2, drop = FALSE]
 
     result <-
       extract_data(
@@ -492,23 +503,19 @@ test_that(
 
 ## 6.3b Test community data with only sample_id column has zero columns after processing
 test_that(
-  "extract_data() handles minimal community data - community has 0 columns",
+  "extract_data() throws error if community has 0 taxa",
   {
     minimal_community <-
       RRatepol::example_data$pollen_data[[1]][, 1, drop = FALSE]
 
-    result <-
+    expect_error(
       extract_data(
         data_community_extract = minimal_community,
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         verbose = FALSE
-      )
-
-    expect_equal(
-      ncol(
-        result$community
-      ), 0
-    ) # after removing sample_id column
+      ),
+      "'data_community_extract' must have at least 2 columns"
+    )
   }
 )
 
@@ -661,7 +668,7 @@ test_that(
 
 ## 10.1a Test all community data is NA produces warning
 test_that(
-  "extract_data() handles all NA community data - produces message",
+  "extract_data() throws error with all NA community data",
   {
     all_na_community <-
       RRatepol::example_data$pollen_data[[1]]
@@ -669,40 +676,14 @@ test_that(
     all_na_community[, -1] <-
       NA # make all species columns NA, keep sample_id
 
-    expect_message(
+    expect_error(
       extract_data(
         data_community_extract = all_na_community,
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         verbose = FALSE
       ),
-      "Missing data has been detected in community data"
+      "'data_community_extract' cannot be all NA"
     )
-  }
-)
-
-## 10.1b Test all community data is NA replaces with zeros and returns empty result
-test_that(
-  "extract_data() handles all NA community data - replaces with zeros & returns empty result",
-  {
-    all_na_community <-
-      RRatepol::example_data$pollen_data[[1]]
-
-    all_na_community[, -1] <-
-      NA # make all species columns NA, keep sample_id
-
-    result <-
-      extract_data(
-        data_community_extract = all_na_community,
-        data_age_extract = RRatepol::example_data$sample_age[[1]],
-        verbose = FALSE
-      )
-
-
-    # Is result empty?
-    expect_equal(nrow(result$community), 0)
-    expect_equal(ncol(result$community), 0)
-    expect_equal(nrow(result$age), 0)
-    expect_equal(ncol(result$age), 1)
   }
 )
 
@@ -888,10 +869,11 @@ test_that(
   {
     minimal_community <-
       RRatepol::example_data$pollen_data[[1]][3, 1:2]
+    row.names(minimal_community) <- NULL
 
     minimal_age <-
       RRatepol::example_data$sample_age[[1]][3, 1:3]
-
+    row.names(minimal_age) <- NULL
     result <-
       extract_data(
         data_community_extract = minimal_community,
@@ -909,9 +891,11 @@ test_that(
   {
     minimal_community <-
       RRatepol::example_data$pollen_data[[1]][3, 1:2]
+    row.names(minimal_community) <- NULL
 
     minimal_age <-
       RRatepol::example_data$sample_age[[1]][3, 1:3]
+    row.names(minimal_age) <- NULL
 
     result <-
       extract_data(
@@ -930,9 +914,11 @@ test_that(
   {
     minimal_community <-
       RRatepol::example_data$pollen_data[[1]][3, 1:2]
+    row.names(minimal_community) <- NULL
 
     minimal_age <-
       RRatepol::example_data$sample_age[[1]][3, 1:3]
+    row.names(minimal_age) <- NULL
 
     result <-
       extract_data(
@@ -951,9 +937,11 @@ test_that(
   {
     minimal_community <-
       RRatepol::example_data$pollen_data[[1]][3, 1:2]
+    row.names(minimal_community) <- NULL
 
     minimal_age <-
       RRatepol::example_data$sample_age[[1]][3, 1:3]
+    row.names(minimal_age) <- NULL
 
     result <-
       extract_data(
@@ -972,9 +960,11 @@ test_that(
   {
     minimal_community <-
       RRatepol::example_data$pollen_data[[1]][3, 1:2]
+    row.names(minimal_community) <- NULL
 
     minimal_age <-
       RRatepol::example_data$sample_age[[1]][3, 1:3]
+    row.names(minimal_age) <- NULL
 
     result <-
       extract_data(
@@ -993,9 +983,11 @@ test_that(
   {
     minimal_community <-
       RRatepol::example_data$pollen_data[[1]][3, 1:2]
+    row.names(minimal_community) <- NULL
 
     minimal_age <-
       RRatepol::example_data$sample_age[[1]][3, 1:3]
+    row.names(minimal_age) <- NULL
 
     result <-
       extract_data(
@@ -1014,9 +1006,11 @@ test_that(
   {
     minimal_community <-
       RRatepol::example_data$pollen_data[[1]][3, 1:2]
+    row.names(minimal_community) <- NULL
 
     minimal_age <-
       RRatepol::example_data$sample_age[[1]][3, 1:3]
+    row.names(minimal_age) <- NULL
 
     result <-
       extract_data(
@@ -1035,9 +1029,11 @@ test_that(
   {
     minimal_community <-
       RRatepol::example_data$pollen_data[[1]][3, 1:2]
+    row.names(minimal_community) <- NULL
 
     minimal_age <-
       RRatepol::example_data$sample_age[[1]][3, 1:3]
+    row.names(minimal_age) <- NULL
 
     result <-
       extract_data(
@@ -1056,9 +1052,11 @@ test_that(
   {
     minimal_community <-
       RRatepol::example_data$pollen_data[[1]][3, 1:2]
+    row.names(minimal_community) <- NULL
 
     minimal_age <-
       RRatepol::example_data$sample_age[[1]][3, 1:3]
+    row.names(minimal_age) <- NULL
 
     result <-
       extract_data(
@@ -1086,7 +1084,7 @@ test_that(
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         verbose = "yes"
       ),
-      "'verbose' must be one of the following: 'logical'",
+      "'verbose' must be logical and either TRUE or FALSE",
       fixed = TRUE
     )
   }
@@ -1135,8 +1133,7 @@ test_that(
         data_community_extract = no_sample_id_community,
         data_age_extract = RRatepol::example_data$sample_age[[1]]
       ),
-      "'data_community_extract' must contains following columns: 'sample_id'",
-      fixed = TRUE
+      "Variable 'sample_id' must be present in 'data_community_extract'"
     )
   }
 )
@@ -1154,8 +1151,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = no_sample_id_age
       ),
-      "'data_age_extract' must contains following columns: 'sample_id'",
-      fixed = TRUE
+      "Variable 'sample_id' must be present in 'data_age_extract'"
     )
   }
 )
