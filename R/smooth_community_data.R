@@ -154,6 +154,10 @@ smooth_community_data <-
             msg = "'smooth_n_max' must be numeric"
           )
           assertthat::assert_that(
+            smooth_n_max %% 2 != 0,
+            msg = "'smooth_n_max' must be odd"
+          )
+          assertthat::assert_that(
             length(smooth_n_max) == 1,
             msg = "'smooth_n_max' must be length 1"
           )
