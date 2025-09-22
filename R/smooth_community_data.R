@@ -37,7 +37,6 @@ smooth_community_data <-
            smooth_age_range = 500,
            round_results = FALSE,
            verbose = FALSE) {
-
     # ----------------------------------------------
     # SETUP -----
     # ----------------------------------------------
@@ -140,7 +139,6 @@ smooth_community_data <-
 
     # for every species
     for (j in 1:ncol(dat_community)) {
-
       # select the species
       col_work <- .subset2(dat_community, j)
 
@@ -155,7 +153,6 @@ smooth_community_data <-
         if (
           smooth_method == "m.avg"
         ) {
-
           # Samples near beginning (moving window truncated)
           if (
             i < round(0.5 * (smooth_n_points)) + 1
@@ -189,7 +186,6 @@ smooth_community_data <-
         if (
           smooth_method == "grim"
         ) {
-
           # Samples near beginning (moving window truncated)
           if (
             i < round(0.5 * (smooth_n_max)) + 1
@@ -203,7 +199,11 @@ smooth_community_data <-
               util_search_parameter(
                 focus_par[i, 1],
                 focus_par[i, 2],
-                smooth_age_range
+                smooth_age_range,
+                smooth_n_max,
+                smooth_n_points,
+                dat_age,
+                dat_community
               )
           } else {
             # Samples near end
@@ -220,7 +220,11 @@ smooth_community_data <-
                 util_search_parameter(
                   focus_par[i, 1],
                   focus_par[i, 2],
-                  smooth_age_range
+                  smooth_age_range,
+                  smooth_n_max,
+                  smooth_n_points,
+                  dat_age,
+                  dat_community
                 )
             } else {
               focus_par[i, 1] <-
@@ -233,7 +237,11 @@ smooth_community_data <-
                 util_search_parameter(
                   focus_par[i, 1],
                   focus_par[i, 2],
-                  smooth_age_range
+                  smooth_age_range,
+                  smooth_n_max,
+                  smooth_n_points,
+                  dat_age,
+                  dat_community
                 )
             }
           }
@@ -247,7 +255,6 @@ smooth_community_data <-
         if (
           smooth_method == "age.w"
         ) {
-
           # Samples near beginning (moving window truncated)
           if (
             i < round(0.5 * (smooth_n_points)) + 1
