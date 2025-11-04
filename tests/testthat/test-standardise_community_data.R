@@ -1,6 +1,5 @@
 # False input validation
-test_that(
-  "standardise_community_data throws error if wrong input data is supploed", {
+test_that("standardise_community_data throws error if wrong input data is supploed", {
   expect_error(
     standardise_community_data(
       n_individuals = 150
@@ -9,8 +8,7 @@ test_that(
   )
 })
 
-test_that(
-  "standardise_community_data throws error if wrong input data is supploed", {
+test_that("standardise_community_data throws error if wrong input data is supploed", {
   expect_error(
     standardise_community_data(
       data_source_standard = NULL,
@@ -20,8 +18,7 @@ test_that(
   )
 })
 
-test_that(
-  "standardise_community_data throws error if wrong input data is supploed", {
+test_that("standardise_community_data throws error if wrong input data is supploed", {
   expect_error(
     standardise_community_data(
       data_source_standard = 123,
@@ -31,8 +28,7 @@ test_that(
   )
 })
 
-test_that(
-  "standardise_community_data throws error if wrong input data is supploed", {
+test_that("standardise_community_data throws error if wrong input data is supploed", {
   expect_error(
     standardise_community_data(
       data_source_standard = "my_data",
@@ -42,8 +38,7 @@ test_that(
   )
 })
 
-test_that(
-  "standardise_community_data throws error if wrong input data is supploed", {
+test_that("standardise_community_data throws error if wrong input data is supploed", {
   expect_error(
     standardise_community_data(
       data_source_standard = NA,
@@ -53,8 +48,7 @@ test_that(
   )
 })
 
-test_that(
-  "standardise_community_data throws error if wrong input data is supploed", {
+test_that("standardise_community_data throws error if wrong input data is supploed", {
   expect_error(
     standardise_community_data(
       data_source_standard = list(),
@@ -64,8 +58,7 @@ test_that(
   )
 })
 
-test_that(
-  "standardise_community_data throws error if wrong input data is supploed", {
+test_that("standardise_community_data throws error if wrong input data is supploed", {
   expect_error(
     standardise_community_data(
       data_source_standard = data.frame(),
@@ -75,8 +68,7 @@ test_that(
   )
 })
 
-test_that(
-  "standardise_community_data throws error if wrong input data is supploed", {
+test_that("standardise_community_data throws error if wrong input data is supploed", {
   expect_error(
     standardise_community_data(
       data_source_standard = matrix(),
@@ -89,8 +81,7 @@ test_that(
 # workflow within run_iteration:
 ## Wrong n_individuals input
 ### NULL
-test_that(
-  "standardise_community_data throws warning with n_individuals = NULL", {
+test_that("standardise_community_data throws warning with n_individuals = NULL", {
   n_individuals <-
     NULL
   data_to_run_bins <-
@@ -161,14 +152,13 @@ test_that(
       ),
     # none programmed into function yet
     # e.g.,
-    # "Warning: n_individuals = NULL will use default 
+    # "Warning: n_individuals = NULL will use default
     # (min number of observations from the data) for standardisation."
   )
 })
 
 ### Character
-test_that(
-  "standardise_community_data returns identical results with character or numeric n_individuals", {
+test_that("standardise_community_data returns identical results with character or numeric n_individuals", {
   n_individuals_char <-
     "10"
 
@@ -244,15 +234,20 @@ test_that(
   expect_true(
     all(
       rowSums(
-    data_sd_char[, -c(
-    1:3)]) == 10
+        data_sd_char[,
+          -c(
+            1:3
+          )
+        ]
+      ) ==
+        10
     )
   )
 
   # Control:
   n_individuals_num <-
     10
-  
+
   # adjust the value to a minimal of presented values
   n_individuals_num <-
     min(
@@ -292,8 +287,7 @@ test_that(
 
 
 ### high n_individuals
-test_that(
-  "standardise_community_data returns min n_individuals observations in samples with high n_individuals (within run_iteration workflow)", {
+test_that("standardise_community_data returns min n_individuals observations in samples with high n_individuals (within run_iteration workflow)", {
   n_individuals <-
     100000
   data_to_run_bins <-
@@ -375,8 +369,7 @@ test_that(
 })
 
 ### high
-test_that(
-  "standardise_community_data returns standardised data with high n_individuals (within run_iteration workflow)", {
+test_that("standardise_community_data returns standardised data with high n_individuals (within run_iteration workflow)", {
   n_individuals <-
     100000
   data_to_run_bins <-
@@ -453,242 +446,243 @@ test_that(
   )
 })
 
-### negative 
-test_that(
-  "standardise_community_data fails with negative n_individuals", {
-    n_individuals <-
-      -150
-    data_to_run_bins <-
-      extract_data(
-        data_community_extract = RRatepol::example_data$pollen_data[[1]],
-        data_age_extract = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-      ) %>%
-      reduce_data(
-        check_taxa = TRUE,
-        check_levels = TRUE
-      ) %>%
-      prepare_data(
-        data_source_prep = .,
-        working_units = "bins",
-        bin_size = 500,
-        rand = 1
-      ) %>%
-      RUtilpol::flatten_list_by_one() %>%
-      .[[1]]
-    
-    data_source_subset <-
-      data_to_run_bins$data
-    data_source_bins <-
-      data_to_run_bins$bins
-    
-    data_subset <-
-      subset_samples(
-        data_source_subset = data_source_subset,
-        data_source_bins = data_source_bins,
-        bin_selection = "first"
-      ) %>%
-      reduce_data_simple()
-    
-    com_data_sums <-
-      rowSums(
-        subset_community(
-          data_source = data_subset
-        ),
-        na.rm = TRUE
-      )
-    
-    # adjust the value to a minimal of presented values
-    n_individuals <-
-      min(
-        c(
-          com_data_sums,
-          n_individuals
-        )
-      )
-    
-    # check if all samples has n_individuals of individuals
-    data_subset <-
-      data_subset[com_data_sums >= n_individuals, ]
-    
-    data_subset <-
-      reduce_data_simple(
-        data_source_reduce = data_subset
-      )
-    
-    # standardisation
-    set.seed(123)
-    expect_error(
-      data_sd <-
-        standardise_community_data(
-          data_source_standard = data_subset,
-          n_individuals = n_individuals
-        ),
-      "invalid 'size' argument"
-    )
-  })
+### negative
+test_that("standardise_community_data fails with negative n_individuals", {
+  n_individuals <-
+    -150
+  data_to_run_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+    ) %>%
+    reduce_data(
+      check_taxa = TRUE,
+      check_levels = TRUE
+    ) %>%
+    prepare_data(
+      data_source_prep = .,
+      working_units = "bins",
+      bin_size = 500,
+      rand = 1
+    ) %>%
+    RUtilpol::flatten_list_by_one() %>%
+    .[[1]]
 
-### n_individuals = 1
-test_that(
-  "standardise_community_data works with n_individuals = 1", {
-    n_individuals <-
-      1
-    data_to_run_bins <-
-      extract_data(
-        data_community_extract = RRatepol::example_data$pollen_data[[1]],
-        data_age_extract = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-      ) %>%
-      reduce_data(
-        check_taxa = TRUE,
-        check_levels = TRUE
-      ) %>%
-      prepare_data(
-        data_source_prep = .,
-        working_units = "bins",
-        bin_size = 500,
-        rand = 1
-      ) %>%
-      RUtilpol::flatten_list_by_one() %>%
-      .[[1]]
-    
-    data_source_subset <-
-      data_to_run_bins$data
-    data_source_bins <-
-      data_to_run_bins$bins
-    
-    data_subset <-
-      subset_samples(
-        data_source_subset = data_source_subset,
-        data_source_bins = data_source_bins,
-        bin_selection = "first"
-      ) %>%
-      reduce_data_simple()
-    
-    com_data_sums <-
-      rowSums(
-        subset_community(
-          data_source = data_subset
-        ),
-        na.rm = TRUE
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+
+  # adjust the value to a minimal of presented values
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
       )
-    
-    # adjust the value to a minimal of presented values
-    n_individuals <-
-      min(
-        c(
-          com_data_sums,
-          n_individuals
-        )
-      )
-    
-    # check if all samples has n_individuals of individuals
-    data_subset <-
-      data_subset[com_data_sums >= n_individuals, ]
-    
-    data_subset <-
-      reduce_data_simple(
-        data_source_reduce = data_subset
-      )
-    
-    # standardisation
-    set.seed(123)
+    )
+
+  # check if all samples has n_individuals of individuals
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+
+  # standardisation
+  set.seed(123)
+  expect_error(
     data_sd <-
       standardise_community_data(
         data_source_standard = data_subset,
         n_individuals = n_individuals
-      )
-    
-    expect_true(
-      all(
-        rowSums(
-          data_sd[, -c(
-            1:3)]) == n_individuals
+      ),
+    "invalid 'size' argument"
+  )
+})
+
+### n_individuals = 1
+test_that("standardise_community_data works with n_individuals = 1", {
+  n_individuals <-
+    1
+  data_to_run_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+    ) %>%
+    reduce_data(
+      check_taxa = TRUE,
+      check_levels = TRUE
+    ) %>%
+    prepare_data(
+      data_source_prep = .,
+      working_units = "bins",
+      bin_size = 500,
+      rand = 1
+    ) %>%
+    RUtilpol::flatten_list_by_one() %>%
+    .[[1]]
+
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
+    )
+
+  # adjust the value to a minimal of presented values
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
       )
     )
-  })
+
+  # check if all samples has n_individuals of individuals
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+
+  # standardisation
+  set.seed(123)
+  data_sd <-
+    standardise_community_data(
+      data_source_standard = data_subset,
+      n_individuals = n_individuals
+    )
+
+  expect_true(
+    all(
+      rowSums(
+        data_sd[,
+          -c(
+            1:3
+          )
+        ]
+      ) ==
+        n_individuals
+    )
+  )
+})
 
 # n_individuals = 0
-test_that(
-  "standardise_community_data fails with zero n_individuals", {
-    n_individuals <-
-      0
-    data_to_run_bins <-
-      extract_data(
-        data_community_extract = RRatepol::example_data$pollen_data[[1]],
-        data_age_extract = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-      ) %>%
-      reduce_data(
-        check_taxa = TRUE,
-        check_levels = TRUE
-      ) %>%
-      prepare_data(
-        data_source_prep = .,
-        working_units = "bins",
-        bin_size = 500,
-        rand = 1
-      ) %>%
-      RUtilpol::flatten_list_by_one() %>%
-      .[[1]]
-    
-    data_source_subset <-
-      data_to_run_bins$data
-    data_source_bins <-
-      data_to_run_bins$bins
-    
-    data_subset <-
-      subset_samples(
-        data_source_subset = data_source_subset,
-        data_source_bins = data_source_bins,
-        bin_selection = "first"
-      ) %>%
-      reduce_data_simple()
-    
-    com_data_sums <-
-      rowSums(
-        subset_community(
-          data_source = data_subset
-        ),
-        na.rm = TRUE
-      )
-    
-    # adjust the value to a minimal of presented values
-    n_individuals <-
-      min(
-        c(
-          com_data_sums,
-          n_individuals
-        )
-      )
-    
-    # check if all samples has n_individuals of individuals
-    data_subset <-
-      data_subset[com_data_sums >= n_individuals, ]
-    
-    data_subset <-
-      reduce_data_simple(
-        data_source_reduce = data_subset
-      )
-    
-    # standardisation
-    set.seed(123)
-    expect_error(
-      data_sd <-
-        standardise_community_data(
-          data_source_standard = data_subset,
-          n_individuals = n_individuals
-        ),
-      # none programmed into the function yet.
-      # e.g.,
-      # "Error: n_individuals must be > 0"
+test_that("standardise_community_data fails with zero n_individuals", {
+  n_individuals <-
+    0
+  data_to_run_bins <-
+    extract_data(
+      data_community_extract = RRatepol::example_data$pollen_data[[1]],
+      data_age_extract = RRatepol::example_data$sample_age[[1]],
+      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+    ) %>%
+    reduce_data(
+      check_taxa = TRUE,
+      check_levels = TRUE
+    ) %>%
+    prepare_data(
+      data_source_prep = .,
+      working_units = "bins",
+      bin_size = 500,
+      rand = 1
+    ) %>%
+    RUtilpol::flatten_list_by_one() %>%
+    .[[1]]
+
+  data_source_subset <-
+    data_to_run_bins$data
+  data_source_bins <-
+    data_to_run_bins$bins
+
+  data_subset <-
+    subset_samples(
+      data_source_subset = data_source_subset,
+      data_source_bins = data_source_bins,
+      bin_selection = "first"
+    ) %>%
+    reduce_data_simple()
+
+  com_data_sums <-
+    rowSums(
+      subset_community(
+        data_source = data_subset
+      ),
+      na.rm = TRUE
     )
-  })
+
+  # adjust the value to a minimal of presented values
+  n_individuals <-
+    min(
+      c(
+        com_data_sums,
+        n_individuals
+      )
+    )
+
+  # check if all samples has n_individuals of individuals
+  data_subset <-
+    data_subset[com_data_sums >= n_individuals, ]
+
+  data_subset <-
+    reduce_data_simple(
+      data_source_reduce = data_subset
+    )
+
+  # standardisation
+  set.seed(123)
+  expect_error(
+    data_sd <-
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = n_individuals
+      ),
+    # none programmed into the function yet.
+    # e.g.,
+    # "Error: n_individuals must be > 0"
+  )
+})
 
 # without run_iteration workflow:
 ### high
-test_that(
-  "standardise_community_data fails if n_individuals >> than n observations in sample (outside of run_iteration workflow)", {
+test_that("standardise_community_data fails if n_individuals >> than n observations in sample (outside of run_iteration workflow)", {
   n_individuals <-
     100000
   data_to_run_bins <-
@@ -737,8 +731,7 @@ test_that(
 
 # Output validation
 # Valid data:
-test_that(
-  "standardise_community_data functions correctly (rowSums = n_individuals) with valid/default data", {
+test_that("standardise_community_data functions correctly (rowSums = n_individuals) with valid/default data", {
   n_individuals <-
     150
   data_to_run_bins <-
@@ -816,14 +809,18 @@ test_that(
   expect_true(
     all(
       rowSums(
-    data_sd[, -c(
-    1:3)]) == n_individuals
+        data_sd[,
+          -c(
+            1:3
+          )
+        ]
+      ) ==
+        n_individuals
     )
   )
 })
 
-test_that(
-  "standardise_community_data returns data.frame with valid data", {
+test_that("standardise_community_data returns data.frame with valid data", {
   n_individuals <-
     150
   data_to_run_bins <-
@@ -893,12 +890,12 @@ test_that(
     )
 
   expect_s3_class(
-    data_sd, "data.frame"
+    data_sd,
+    "data.frame"
   )
 })
 
-test_that(
-  "standardise_community_data returns colnames correctly with valid data", {
+test_that("standardise_community_data returns colnames correctly with valid data", {
   n_individuals <-
     150
   data_to_run_bins <-
@@ -975,8 +972,7 @@ test_that(
 })
 
 # Reproducibility tests
-test_that(
-  "standardise_community_data returns consistent results with set seed", {
+test_that("standardise_community_data returns consistent results with set seed", {
   n_individuals <-
     150
   data_to_run_bins <-
@@ -1058,8 +1054,7 @@ test_that(
 })
 
 # Different seed produces different results
-test_that(
-  "standardise_community_data produces different results with different seeds", {
+test_that("standardise_community_data produces different results with different seeds", {
   n_individuals <-
     150
   data_to_run_bins <-
@@ -1122,16 +1117,16 @@ test_that(
   set.seed(123)
   result1 <-
     standardise_community_data(
-    data_subset,
-    n_individuals
-  )
+      data_subset,
+      n_individuals
+    )
 
   set.seed(456)
   result2 <-
     standardise_community_data(
-    data_subset,
-    n_individuals
-  )
+      data_subset,
+      n_individuals
+    )
 
   expect_false(identical(result1, result2))
 })
