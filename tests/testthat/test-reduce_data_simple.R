@@ -353,7 +353,6 @@ test_that("reduce_data_simple drops taxa without observations if check_taxa = TR
   dropped_taxa <-
     names(zero_taxa[zero_taxa == 0])
 
-
   res <-
     reduce_data_simple(
       data_to_reduce,
