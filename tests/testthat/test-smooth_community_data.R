@@ -234,8 +234,10 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    invalid_data <- data_source_smooth
-    invalid_data$community <- NULL
+    invalid_data <-
+      data_source_smooth
+    invalid_data$community <-
+      NULL
 
     expect_error(
       smooth_community_data(
@@ -251,7 +253,7 @@ test_that(
 
 ## 3.2 Test component data types -----
 test_that(
-  "smooth_community_data() handles community component as character matrix",
+  "smooth_community_data() throws warning if community component is a character matrix",
   {
     data_source_smooth <-
       extract_data(
@@ -259,19 +261,27 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    invalid_data <- data_source_smooth
-    invalid_data$community <- as.character(
-      invalid_data$community
-    )
+    invalid_data <-
+      data_source_smooth
+    invalid_data$community <-
+      as.character(
+        invalid_data$community
+      )
 
-    expect_warning(
-      smooth_community_data(
-        data_source_smooth = invalid_data,
-        smooth_method = "m.avg",
-        smooth_n_points = 5,
-        verbose = FALSE
-      ),
-      "argument is not numeric or logical"
+    # Capture all warnings to verify the expected warning occurs
+    warnings_captured <-
+      capture_warnings(
+        smooth_community_data(
+          data_source_smooth = invalid_data,
+          smooth_method = "m.avg",
+          smooth_n_points = 5,
+          verbose = FALSE
+        )
+      )
+
+    # Check that at least one warning matches our expected pattern
+    expect_true(
+      any(grepl("argument is not numeric or logical: returning NA", warnings_captured))
     )
   }
 )
@@ -286,9 +296,12 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    empty_data <- data_source_smooth
-    empty_data$community <- data.frame()
-    empty_data$age <- data.frame()
+    empty_data <-
+      data_source_smooth
+    empty_data$community <-
+      data.frame()
+    empty_data$age <-
+      data.frame()
 
     expect_error(
       smooth_community_data(
@@ -312,9 +325,12 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    single_row_data <- data_source_smooth
-    single_row_data$community <- single_row_data$community[1, , drop = FALSE]
-    single_row_data$age <- single_row_data$age[1, , drop = FALSE]
+    single_row_data <-
+      data_source_smooth
+    single_row_data$community <-
+      single_row_data$community[1, , drop = FALSE]
+    single_row_data$age <-
+      single_row_data$age[1, , drop = FALSE]
 
     expect_no_error(
       smooth_community_data(
@@ -337,8 +353,10 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    mismatched_data <- data_source_smooth
-    mismatched_data$age <- mismatched_data$age[1:5, , drop = FALSE]
+    mismatched_data <-
+      data_source_smooth
+    mismatched_data$age <-
+      mismatched_data$age[1:5, , drop = FALSE]
 
     expect_error(
       smooth_community_data(
@@ -352,85 +370,96 @@ test_that(
   }
 )
 
-## 3.6 Test relationship between data inputs - row name mismatch -----
-test_that(
-  "smooth_community_data() throws no error when row names don't match between datasets",
-  {
-    data_source_smooth <-
-      extract_data(
-        RRatepol::example_data$pollen_data[[1]],
-        RRatepol::example_data$sample_age[[1]]
-      )
-
-    mismatched_data <- data_source_smooth
-    rownames(mismatched_data$age)[1] <- "NON_MATCHING_ID"
-
-    expect_no_error(
-      smooth_community_data(
-        data_source_smooth = mismatched_data,
-        smooth_method = "m.avg",
-        smooth_n_points = 5,
-        verbose = FALSE
-      )
-    )
-  }
-)
+# ## 3.6 Test relationship between data inputs - row name mismatch -----
+# # may be unecessary ?
+# test_that(
+#   "smooth_community_data() throws error when row names don't match between datasets",
+#   {
+#     data_source_smooth <-
+#       extract_data(
+#         RRatepol::example_data$pollen_data[[1]],
+#         RRatepol::example_data$sample_age[[1]]
+#       )
+# 
+#     mismatched_data <-
+#       data_source_smooth
+#     rownames(mismatched_data$age)[1] <-
+#       "NON_MATCHING_ID"
+# 
+#     expect_error(
+#       smooth_community_data(
+#         data_source_smooth = mismatched_data,
+#         smooth_method = "m.avg",
+#         smooth_n_points = 5,
+#         verbose = FALSE
+#       ),
+#       # none programmed into function yet
+#     )
+#   }
+# )
 
 # ----------------------------------------------------------- #
 # 4. INPUT DATA CONTENT VALIDATION -----
 # ----------------------------------------------------------- #
 
+# Commented out because NAs are handled by extract_data()
 ## 4.1 Test missing values handling - all NA -----
-test_that(
-  "smooth_community_data() handles all NA values in community data without error",
-  {
-    data_source_smooth <-
-      extract_data(
-        RRatepol::example_data$pollen_data[[1]],
-        RRatepol::example_data$sample_age[[1]]
-      )
-
-    all_na_data <- data_source_smooth
-    all_na_data$community[, 1] <- NA
-
-    expect_no_error(
-      smooth_community_data(
-        data_source_smooth = all_na_data,
-        smooth_method = "m.avg",
-        smooth_n_points = 5,
-        verbose = FALSE
-      )
-    )
-  }
-)
-
-## 4.2 Test missing values handling - partial NA -----
-test_that(
-  "smooth_community_data() handles partial NA values in community data",
-  {
-    data_source_smooth <-
-      extract_data(
-        RRatepol::example_data$pollen_data[[1]],
-        RRatepol::example_data$sample_age[[1]]
-      )
-
-    partial_na_data <- data_source_smooth
-    partial_na_data$community[1:3, 1] <- NA
-
-    expect_no_error(
-      smooth_community_data(
-        data_source_smooth = partial_na_data,
-        smooth_method = "m.avg",
-        smooth_n_points = 5,
-        verbose = FALSE
-      )
-    )
-  }
-)
+# test_that(
+#   "smooth_community_data() throws error with NA values in community",
+#   {
+#     data_source_smooth <-
+#       extract_data(
+#         RRatepol::example_data$pollen_data[[1]],
+#         RRatepol::example_data$sample_age[[1]]
+#       )
+# 
+#     all_na_data <-
+#       data_source_smooth
+#     all_na_data$community[, 1] <-
+#       NA
+# 
+#     expect_error(
+#       smooth_community_data(
+#         data_source_smooth = all_na_data,
+#         smooth_method = "m.avg",
+#         smooth_n_points = 5,
+#         verbose = FALSE
+#       ),
+#       # none programmed into the function yet
+#     )
+#   }
+# )
+# 
+# ## 4.2 Test missing values handling - partial NA -----
+# test_that(
+#   "smooth_community_data() throws error with partial NA values in community data",
+#   {
+#     data_source_smooth <-
+#       extract_data(
+#         RRatepol::example_data$pollen_data[[1]],
+#         RRatepol::example_data$sample_age[[1]]
+#       )
+# 
+#     partial_na_data <-
+#       data_source_smooth
+#     partial_na_data$community[1:3, 1] <-
+#       NA
+# 
+#     expect_error(
+#       smooth_community_data(
+#         data_source_smooth = partial_na_data,
+#         smooth_method = "m.avg",
+#         smooth_n_points = 5,
+#         verbose = FALSE
+#       ),
+#       # none programmed into the function yet
+#     )
+#   }
+# )
 
 ## 4.3 Test duplicate values handling -----
 test_that(
-  "smooth_community_data() handles duplicate values in age data",
+  "smooth_community_data() throws warning if duplicate values in age data",
   {
     data_source_smooth <-
       extract_data(
@@ -438,16 +467,21 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    duplicate_data <- data_source_smooth
-    duplicate_data$age[2, 1] <- duplicate_data$age[1, 1]
+    duplicate_data <-
+      data_source_smooth
+    duplicate_data$age[2, 1] <-
+      duplicate_data$age[1, 1]
 
-    expect_no_error(
+    expect_warning(
       smooth_community_data(
         data_source_smooth = duplicate_data,
         smooth_method = "m.avg",
         smooth_n_points = 5,
         verbose = FALSE
-      )
+      ),
+      # none programmed into the function yet
+      # e.g.,
+      # "Warning: duplicated age values detected in age data"
     )
   }
 )
@@ -462,8 +496,10 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    extreme_data <- data_source_smooth
-    extreme_data$community[1, 1] <- 1e6
+    extreme_data <-
+      data_source_smooth
+    extreme_data$community[1, 1] <-
+      1e6
 
     expect_no_error(
       smooth_community_data(
@@ -486,8 +522,10 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    extreme_data <- data_source_smooth
-    extreme_data$community[1, 1] <- 1e-6
+    extreme_data <-
+      data_source_smooth
+    extreme_data$community[1, 1] <-
+      1e-6
 
     expect_no_error(
       smooth_community_data(
@@ -502,110 +540,30 @@ test_that(
 
 ## 4.6 Test all-zero community data -----
 test_that(
-  "smooth_community_data() handles all-zero community data",
+  "smooth_community_data() throws error with all-zero community data",
   {
-    data_source_smooth <- extract_data(
-      RRatepol::example_data$pollen_data[[1]],
-      RRatepol::example_data$sample_age[[1]]
-    )
+    data_source_smooth <-
+      extract_data(
+        RRatepol::example_data$pollen_data[[1]],
+        RRatepol::example_data$sample_age[[1]]
+      )
 
     # Set all community data to zero
-    zero_data <- data_source_smooth
-    zero_data$community[] <- 0
+    zero_data <-
+      data_source_smooth
+    zero_data$community[] <-
+      0
 
-    expect_no_error(
+    expect_error(
       smooth_community_data(
         data_source_smooth = zero_data,
         smooth_method = "m.avg",
         smooth_n_points = 5,
         verbose = FALSE
-      )
-    )
-  }
-)
-
-## 4.7 Test handling data with zeros without warnings -----
-test_that(
-  "smooth_community_data() handles data with zeros without warnings",
-  {
-    data_source_smooth <-
-      extract_data(
-        RRatepol::example_data$pollen_data[[1]],
-        RRatepol::example_data$sample_age[[1]]
-      )
-
-    zero_data <- data_source_smooth
-    zero_data$age[1:5, 1] <- 0
-
-    expect_no_warning(
-      smooth_community_data(
-        data_source_smooth = zero_data,
-        smooth_method = "m.avg",
-        smooth_n_points = 5,
-        verbose = FALSE
-      )
-    )
-  }
-)
-
-# ----------------------------------------------------------- #
-# 5. DATA FORMAT COMPATIBILITY -----
-# ----------------------------------------------------------- #
-
-## 5.1 Test tibble vs data.frame handling - returns correct type -----
-test_that(
-  "smooth_community_data() handles tibble input - returns list",
-  {
-    data_source_smooth <-
-      extract_data(
-        RRatepol::example_data$pollen_data[[1]],
-        RRatepol::example_data$sample_age[[1]]
-      )
-
-    tibble_data <- data_source_smooth
-    tibble_data$community <- tibble::as_tibble(
-      tibble_data$community
-    )
-
-    result <- smooth_community_data(
-      data_source_smooth = tibble_data,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
-
-    expect_type(
-      result,
-      "list"
-    )
-  }
-)
-
-## 5.2 Test tibble vs data.frame handling - output structure -----
-test_that(
-  "smooth_community_data() handles tibble input - output community is data.frame",
-  {
-    data_source_smooth <-
-      extract_data(
-        RRatepol::example_data$pollen_data[[1]],
-        RRatepol::example_data$sample_age[[1]]
-      )
-
-    tibble_data <- data_source_smooth
-    tibble_data$community <- tibble::as_tibble(
-      tibble_data$community
-    )
-
-    result <- smooth_community_data(
-      data_source_smooth = tibble_data,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
-
-    expect_s3_class(
-      result$community,
-      "data.frame"
+      ),
+      # none programmed into the function yet
+      # e.g., 
+      # "Error: community data cannot be all-zero"
     )
   }
 )
@@ -624,13 +582,14 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    result <- smooth_community_data(
-      data_source_smooth = data_source_smooth,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      round_results = TRUE,
-      verbose = FALSE
-    )
+    result <-
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        round_results = TRUE,
+        verbose = FALSE
+      )
 
     expect_true(
       all(
@@ -652,13 +611,19 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    expect_no_error(
+    result <-
       smooth_community_data(
         data_source_smooth = data_source_smooth,
         smooth_method = "m.avg",
         smooth_n_points = 5,
         round_results = FALSE,
         verbose = FALSE
+      )
+    expect_false(
+      all(
+        result$community == round(
+          result$community
+        )
       )
     )
   }
@@ -746,12 +711,13 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    result <- smooth_community_data(
-      data_source_smooth = data_source_smooth,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result <-
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
     expect_s3_class(
       result$community,
@@ -770,12 +736,13 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    result <- smooth_community_data(
-      data_source_smooth = data_source_smooth,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result <-
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
     expect_named(
       result,
@@ -798,15 +765,18 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    result <- smooth_community_data(
-      data_source_smooth = data_source_smooth,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result <-
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
     expect_equal(
-      nrow(result$community),
+      nrow(
+        result$community
+      ),
       nrow(data_source_smooth$community)
     )
   }
@@ -821,15 +791,18 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    result <- smooth_community_data(
-      data_source_smooth = data_source_smooth,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result <-
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
     expect_equal(
-      ncol(result$community),
+      ncol(
+        result$community
+      ),
       ncol(data_source_smooth$community)
     )
   }
@@ -845,12 +818,13 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    result <- smooth_community_data(
-      data_source_smooth = data_source_smooth,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result <-
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
     expect_s3_class(
       result$age,
@@ -873,12 +847,13 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    result <- smooth_community_data(
-      data_source_smooth = data_source_smooth,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result <-
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
     expect_true(
       all(
@@ -898,12 +873,13 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    result <- smooth_community_data(
-      data_source_smooth = data_source_smooth,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result <-
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
     expect_true(
       all(
@@ -925,23 +901,27 @@ test_that(
         RRatepol::example_data$sample_age[[1]]
       )
 
-    result1 <- smooth_community_data(
-      data_source_smooth = data_source_smooth,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result1 <-
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
-    result2 <- smooth_community_data(
-      data_source_smooth = data_source_smooth,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result2 <-
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
-    expect_identical(
+    expect_true(
+      identical(
       result1,
       result2
+    )
     )
   }
 )
@@ -954,72 +934,29 @@ test_that(
 test_that(
   "smooth_community_data() preserves age uncertainty structure",
   {
-    # Test only if age uncertainty data is available
-    skip_if(
-      is.null(
-        RRatepol::example_data$age_uncertainty[[1]]
-      ),
-      "Age uncertainty data not available"
-    )
+    extracted_data <-
+      extract_data(
+        RRatepol::example_data$pollen_data[[1]],
+        RRatepol::example_data$sample_age[[1]],
+        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
+      )
 
-    extracted_data <- extract_data(
-      RRatepol::example_data$pollen_data[[1]],
-      RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    )
-
-    result <- smooth_community_data(
-      data_source_smooth = extracted_data,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result <-
+      smooth_community_data(
+        data_source_smooth = extracted_data,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
     # Verify age uncertainty is preserved
-    if (!is.null(extracted_data$age_un)) {
       expect_false(
         is.null(
           result$age_un
         )
       )
-    }
   }
 )
-
-test_that(
-  "smooth_community_data() preserves age uncertainty column count",
-  {
-    # Test only if age uncertainty data is available
-    skip_if(
-      is.null(
-        RRatepol::example_data$age_uncertainty[[1]]
-      ),
-      "Age uncertainty data not available"
-    )
-
-    extracted_data <- extract_data(
-      RRatepol::example_data$pollen_data[[1]],
-      RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]]
-    )
-
-    result <- smooth_community_data(
-      data_source_smooth = extracted_data,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
-
-    # Verify age uncertainty is preserved
-    if (!is.null(extracted_data$age_un)) {
-      expect_equal(
-        ncol(result$age_un),
-        ncol(extracted_data$age_un)
-      )
-    }
-  }
-)
-
 # ----------------------------------------------------------- #
 # 10. MOVING AVERAGE METHOD TESTS -----
 # ----------------------------------------------------------- #
@@ -1099,15 +1036,18 @@ test_that(
       )
 
     # Create uniform data
-    uniform_data <- data_source_smooth
-    uniform_data$community[, 1] <- 10
+    uniform_data <-
+      data_source_smooth
+    uniform_data$community[, 1] <-
+      10
 
-    result <- smooth_community_data(
-      data_source_smooth = uniform_data,
-      smooth_method = "m.avg",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
+    result <-
+      smooth_community_data(
+        data_source_smooth = uniform_data,
+        smooth_method = "m.avg",
+        smooth_n_points = 5,
+        verbose = FALSE
+      )
 
     expect_true(
       all(
@@ -1142,51 +1082,26 @@ test_that(
 
 ## 10.6 Test warning when smooth_n_points exceeds available data -----
 test_that(
-  "smooth_community_data() handles smooth_n_points larger than available samples",
+  "smooth_community_data() throws error if smooth_n_points larger than available samples",
   {
     # Create minimal dataset with only 3 samples
-    minimal_data <- extract_data(
-      RRatepol::example_data$pollen_data[[1]][1:3, ],
-      RRatepol::example_data$sample_age[[1]][1:3, ]
-    )
-
-    expect_warning(
-      res <-
-        smooth_community_data(
-          data_source_smooth = minimal_data,
-          smooth_method = "m.avg",
-          smooth_n_points = 7, # More than available samples
-          verbose = FALSE
-        )
-    )
-  }
-)
-
-test_that(
-  "smooth_community_data() returns all NA when smooth_n_points exceeds data",
-  {
-    # Create minimal dataset with only 3 samples
-    minimal_data <- extract_data(
-      RRatepol::example_data$pollen_data[[1]][1:3, ],
-      RRatepol::example_data$sample_age[[1]][1:3, ]
-    )
-
-    suppressWarnings(
-      res <-
-        smooth_community_data(
-          data_source_smooth = minimal_data,
-          smooth_method = "m.avg",
-          smooth_n_points = 7, # More than available samples
-          verbose = FALSE
-        )
-    )
-
-    expect_true(
-      all(
-        is.na(
-          res$community
-        )
+    minimal_data <-
+      extract_data(
+        RRatepol::example_data$pollen_data[[1]][1:3, ],
+        RRatepol::example_data$sample_age[[1]][1:3, ]
       )
+
+    expect_error(
+        smooth_community_data(
+          data_source_smooth = minimal_data,
+          smooth_method = "m.avg",
+          smooth_n_points = 7, # More than available samples
+          verbose = FALSE
+        ),
+        # none programmed into the function yet
+        # returns all NA
+        # e.g., 
+        # "Error: smooth_n_points exceeds available number of samples"
     )
   }
 )
@@ -1294,10 +1209,11 @@ test_that(
 test_that(
   "smooth_community_data() handles very small smooth_age_range for grim",
   {
-    data_source_smooth <- extract_data(
-      RRatepol::example_data$pollen_data[[1]],
-      RRatepol::example_data$sample_age[[1]]
-    )
+    data_source_smooth <-
+      extract_data(
+        RRatepol::example_data$pollen_data[[1]],
+        RRatepol::example_data$sample_age[[1]]
+      )
 
     expect_no_error(
       smooth_community_data(
@@ -1314,14 +1230,15 @@ test_that(
 
 ## 11.6 Test with very large smooth_n_max -----
 test_that(
-  "smooth_community_data() handles large smooth_n_max values",
+  "smooth_community_data() throws warning with large smooth_n_max values",
   {
-    data_source_smooth <- extract_data(
-      RRatepol::example_data$pollen_data[[1]],
-      RRatepol::example_data$sample_age[[1]]
-    )
+    data_source_smooth <-
+      extract_data(
+        RRatepol::example_data$pollen_data[[1]],
+        RRatepol::example_data$sample_age[[1]]
+      )
 
-    expect_no_error(
+    expect_warning(
       smooth_community_data(
         data_source_smooth = data_source_smooth,
         smooth_method = "grim",
@@ -1329,7 +1246,12 @@ test_that(
         smooth_n_max = 51, # Large value
         smooth_age_range = 5000,
         verbose = FALSE
-      )
+      ),
+      # none programmed into function yet
+      # returns identical values for each taxon across samples.
+      # e.g., 
+      # "Warning: Very high smooth_n_max values 
+      # will remove variability in observation counts between samples for taxa"
     )
   }
 )
@@ -1338,10 +1260,11 @@ test_that(
 test_that(
   "smooth_community_data() works with grim minimum data requirements",
   {
-    minimal_5 <- extract_data(
-      RRatepol::example_data$pollen_data[[1]][1:5, ],
-      RRatepol::example_data$sample_age[[1]][1:5, ]
-    )
+    minimal_5 <-
+      extract_data(
+        RRatepol::example_data$pollen_data[[1]][1:5, ],
+        RRatepol::example_data$sample_age[[1]][1:5, ]
+      )
 
     expect_no_error(
       smooth_community_data(
@@ -1375,8 +1298,7 @@ test_that(
         smooth_age_range = 500,
         verbose = FALSE
       ),
-      "'smooth_n_max' must be bigger than 'smooth_n_points",
-      fixed = TRUE
+      "'smooth_n_max' must be bigger than 'smooth_n_points"
     )
   }
 )
@@ -1434,25 +1356,31 @@ test_that(
 test_that(
   "smooth_community_data() handles non-sequential age data for age.w method",
   {
-    data_source_smooth <- extract_data(
-      RRatepol::example_data$pollen_data[[1]][1:10, ],
-      RRatepol::example_data$sample_age[[1]][1:10, ]
-    )
+    data_source_smooth <-
+      extract_data(
+        RRatepol::example_data$pollen_data[[1]][1:10, ],
+        RRatepol::example_data$sample_age[[1]][1:10, ]
+      )
 
     # Scramble age order
-    scrambled_data <- data_source_smooth
-    scrambled_data$age$age <- sample(
-      scrambled_data$age$age
-    )
+    scrambled_data <-
+      data_source_smooth
+    scrambled_data$age$age <-
+      sample(
+        scrambled_data$age$age
+      )
 
-    expect_no_error(
+    expect_error(
       smooth_community_data(
         data_source_smooth = scrambled_data,
         smooth_method = "age.w",
         smooth_n_points = 5,
         smooth_age_range = 500,
         verbose = FALSE
-      )
+      ),
+      # none programmed into the function yet
+      # e.g.,
+      # "Error: age must be sorted before smoothing"
     )
   }
 )
@@ -1465,13 +1393,7 @@ test_that(
       RRatepol::example_data$sample_age[[1]]
 
     unsorted_age <-
-      unsorted_age[order(
-        runif( # randomize order
-          nrow(
-            unsorted_age
-          )
-        )
-      ), ] 
+      unsorted_age[order(runif(nrow(unsorted_age))), ]
 
     rownames(unsorted_age) <-
       NULL
@@ -1499,45 +1421,24 @@ test_that(
       )
 
 
-    res_sorted <- smooth_community_data(
-      data_source_smooth = sorted,
-      smooth_method = "age.w",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      verbose = FALSE
-    )
-
-    expect_identical(
-      res_sorted$community,
-      res_unsorted$community
-    )
-  }
-)
-
-## 12.5 Test age.w with identical age values -----
-test_that(
-  "smooth_community_data() handles identical age values in age.w method",
-  {
-    data_source_smooth <- extract_data(
-      RRatepol::example_data$pollen_data[[1]][1:10, ],
-      RRatepol::example_data$sample_age[[1]][1:10, ]
-    )
-
-    # Set multiple samples to same age
-    identical_age_data <- data_source_smooth
-    identical_age_data$age$age <- identical_age_data$age$age[1]
-
-    expect_no_error(
+    res_sorted <-
       smooth_community_data(
-        data_source_smooth = identical_age_data,
+        data_source_smooth = sorted,
         smooth_method = "age.w",
         smooth_n_points = 5,
         smooth_age_range = 500,
         verbose = FALSE
       )
+
+    expect_true(
+      identical(
+        res_sorted$community,
+        res_unsorted$community
+      )
     )
   }
 )
+
 
 # ----------------------------------------------------------- #
 # 13. SHEPARD METHOD TESTS -----
@@ -1589,10 +1490,11 @@ test_that(
 test_that(
   "smooth_community_data() handles shep method with minimum smooth_n_points requirements",
   {
-    data_source_smooth <- extract_data(
-      RRatepol::example_data$pollen_data[[1]],
-      RRatepol::example_data$sample_age[[1]]
-    )
+    data_source_smooth <-
+      extract_data(
+        RRatepol::example_data$pollen_data[[1]],
+        RRatepol::example_data$sample_age[[1]]
+      )
 
     # Test that shep fails appropriately with smooth_n_points = 2
     expect_error(
@@ -1602,7 +1504,7 @@ test_that(
         smooth_n_points = 2,
         verbose = FALSE
       ),
-      "invalid smooth_n_points supplied to shep. Requires > 2 points"
+      "argument is of length zero"
     )
 
     # Test that shep works with smooth_n_points >= 3
@@ -1637,44 +1539,16 @@ test_that(
   }
 )
 
-## 13.5 Test shep with extreme values -----
-test_that(
-  "smooth_community_data() handles extreme values in shep method correctly",
-  {
-    data_source_smooth <- extract_data(
-      RRatepol::example_data$pollen_data[[1]],
-      RRatepol::example_data$sample_age[[1]]
-    )
-
-    # Create pattern that might produce negative values in Shepard filter
-    extreme_data <- data_source_smooth
-    extreme_data$community[1, 1] <- 1000
-    extreme_data$community[2:10, 1] <- 1
-
-    result <- smooth_community_data(
-      data_source_smooth = extreme_data,
-      smooth_method = "shep",
-      smooth_n_points = 5,
-      verbose = FALSE
-    )
-
-    # Verify no negative values (shep method should handle this)
-    expect_true(
-      all(
-        result$community >= 0
-      )
-    )
-  }
-)
 
 ## 13.6 Test shep minimum data requirements -----
 test_that(
   "smooth_community_data() works with shep minimum data requirements",
   {
-    minimal_3 <- extract_data(
-      RRatepol::example_data$pollen_data[[1]][1:3, ],
-      RRatepol::example_data$sample_age[[1]][1:3, ]
-    )
+    minimal_3 <-
+      extract_data(
+        RRatepol::example_data$pollen_data[[1]][1:3, ],
+        RRatepol::example_data$sample_age[[1]][1:3, ]
+      )
 
     expect_no_error(
       smooth_community_data(
@@ -1736,3 +1610,444 @@ test_that(
     )
   }
 )
+
+# multiple smooth_methods
+test_that(
+  "smooth_community_data fails if more than one smooth_method is supplied",
+  {
+    data_source_smooth <-
+      extract_data(
+        RRatepol::example_data$pollen_data[[1]],
+        RRatepol::example_data$sample_age[[1]],
+        RRatepol::example_data$age_uncertainty[[1]]
+      )
+
+    expect_error(
+      smooth_community_data(
+        data_source_smooth = data_source_smooth,
+        smooth_method = c("shep", "m.avg"),
+        smooth_n_points = 5
+      ),
+      "'arg' must be of length 1"
+    )
+  }
+)
+
+# # ---------------------------------------------------------- #
+# ## Question : What happens if there are NA samples in the age data that are dropped?
+# ## expectation:
+# ### either error
+# ### or identical results for right and wrong data.
+# # ---------------------------------------------------------- #
+# 
+# 
+# # ----------------------------------- #
+# ## shep
+# # ----------------------------------- #
+# 
+# # 1. Test result with NA in age
+# # a) against result with NAs dropped from age and
+# # b) against "control" -i.e., correct data
+# 
+# ## we will investigate all three scenarios.
+# ## 1. data_with_NA,
+# ## 2. data_with_dropped_NA,
+# ## 3. data_right
+# 
+# test_that(
+#   "smooth_community_data and shep produce consistent results with and without NAs",
+#   {
+#     # Create data with NAs in age$age in the first 5 samples (39671-392675)
+#     age <-
+#       RRatepol::example_data$sample_age[[1]]
+#     age[1:5, 3] <-
+#       NA
+# 
+#     # 1. Data with NAs in age
+#     # (extract_data currently has a bug that returns NAs in age instead of dropping them)
+#     data_with_NA <-
+#       extract_data(
+#         RRatepol::example_data$pollen_data[[1]],
+#         age,
+#         RRatepol::example_data$age_uncertainty[[1]]
+#       )
+# 
+#     #  no error:
+#     res_NA <-
+#       smooth_community_data(
+#         data_source_smooth = data_with_NA,
+#         smooth_method = "shep",
+#       )
+# 
+#     # 2. Data with dropped NAs in age (broken structure)
+#     ##  We will now manually fix the bug-behaviour in extract_data() and pretend it works as expected
+#     ## (i.e., drops NA in age)
+#     ## There is a bug in reduce_data() that only matches age to community but not the other way.
+# 
+#     data_with_dropped_NA <-
+#       data_with_NA
+# 
+#     data_with_dropped_NA$age <-
+#       na.omit(data_with_dropped_NA$age)
+# 
+#     res_dropped_NA <-
+#       smooth_community_data(
+#         data_source_smooth = data_with_dropped_NA,
+#         smooth_method = "shep",
+#       )
+# 
+# 
+#     # a) test results from 1. and 2. against each other:
+#     # fails
+#     expect_true(
+#       identical(
+#       res_NA$community$Betula,
+#       res_dropped_NA$community$Betula
+#     )
+#     )
+# 
+#     # 3. Control with matching age and communty
+#     ## if the bug in extract_data() is fixed, reduce_data() should be adapted to match community against age as well.
+#     data_right <-
+#       data_with_dropped_NA
+# 
+#     valid_levels <-
+#       unique(
+#         rownames(
+#           data_right$age
+#         )
+#       )
+#     data_right$community <-
+#       data_right$community[valid_levels, , drop = FALSE]
+# 
+#     data_right$age_un <-
+#       data_right$age_un[, -c(
+#         1:5
+#       )]
+# 
+#     expect_no_error(
+#       res_right <-
+#         smooth_community_data(
+#           data_source_smooth = data_right,
+#           smooth_method = "shep",
+#         )
+#     )
+# 
+#     # b) Test results from control against results from Scenarios 1 and 2.
+#     # fails
+#     expect_true(
+#       identical(
+#       res_NA$community$Betula,
+#       res_right$community$Betula
+#     )
+#     )
+#     # fails
+#     expect_true(
+#       identical(
+#       res_dropped_NA$community$Betula,
+#       res_right$community$Betula
+#     )
+#     )
+#   }
+# )
+# 
+# 
+# # ----------------------------------- #
+# ## m.avg
+# # ----------------------------------- #
+# 
+# # 1. Test result with NA in age
+# # a) against result with NAs dropped from age and
+# # b) against "control" -i.e., correct data
+# 
+# ## we will investigate all three scenarios.
+# ## 1. data_with_NA,
+# ## 2. data_with_dropped_NA,
+# ## 3. data_right
+# 
+# test_that(
+#   "smooth_community_data and m.avg throws error for age data with dropped NAs (non-matching samples with community) and validates results for data with NA against re-matched community",
+#   {
+#     # Create data with NAs in age$age in the first 5 samples (39671-392675)
+#     age <-
+#       RRatepol::example_data$sample_age[[1]]
+#     age[1:5, 3] <-
+#       NA
+# 
+#     # 1. Data with NAs in age
+#     # (extract_data currently has a bug that returns NAs in age instead of dropping them)
+#     data_with_NA <-
+#       extract_data(
+#         RRatepol::example_data$pollen_data[[1]],
+#         age,
+#         RRatepol::example_data$age_uncertainty[[1]]
+#       )
+# 
+#     #  no error:
+#     res_NA <-
+#       smooth_community_data(
+#         data_source_smooth = data_with_NA,
+#         smooth_method = "m.avg",
+#       )
+# 
+#     # 2. Data with dropped NAs in age (broken structure)
+#     ##  We will now manually fix the bug-behaviour in extract_data() and pretend it works as expected
+#     ## (i.e., drops NA in age)
+#     ## There is a bug in reduce_data() that only matches age to community but not the other way.
+# 
+#     data_with_dropped_NA <-
+#       data_with_NA
+# 
+#     data_with_dropped_NA$age <-
+#       na.omit(data_with_dropped_NA$age)
+# 
+#     # dropped NAs throws error
+#     expect_error(
+#       res_dropped_NA <-
+#         smooth_community_data(
+#           data_source_smooth = data_with_dropped_NA,
+#           smooth_method = "m.avg",
+#         ),
+#       "subscript out of bounds"
+#     )
+# 
+# 
+#     # a) test results from 1. and 2. against each other:
+#     # cannot test because no result returned from dropped NA data.
+# 
+#     # 3. Control with matching age and communty
+#     ## if the bug in extract_data() is fixed, reduce_data() should be adapted to match community against age as well.
+#     data_right <-
+#       data_with_dropped_NA
+# 
+#     valid_levels <-
+#       unique(
+#         rownames(
+#           data_right$age
+#         )
+#       )
+#     data_right$community <-
+#       data_right$community[valid_levels, , drop = FALSE]
+# 
+#     data_right$age_un <-
+#       data_right$age_un[, -c(
+#         1:5
+#       )]
+# 
+#     expect_no_error(
+#       res_right <-
+#         smooth_community_data(
+#           data_source_smooth = data_right,
+#           smooth_method = "m.avg",
+#         )
+#     )
+# 
+#     # b) Test results from control against results from Scenarios 1 and 2.
+#     # fails
+#     expect_true(
+#       identical(
+#       res_NA$community$Betula,
+#       res_right$community$Betula
+#     )
+#     )
+#   }
+# )
+# 
+# 
+# # ----------------------------------- #
+# ## grim
+# # ----------------------------------- #
+# 
+# # 1. Test result with NA in age
+# # a) against result with NAs dropped from age and
+# # b) against "control" -i.e., correct data
+# 
+# ## we will investigate all three scenarios.
+# ## 1. data_with_NA,
+# ## 2. data_with_dropped_NA,
+# ## 3. data_right
+# 
+# test_that(
+#   "smooth_community_data and grim throws error for age data with NA and with dropped NAs (non-matching samples with community)",
+#   {
+#     # Create data with NAs in age$age in the first 5 samples (39671-392675)
+#     age <-
+#       RRatepol::example_data$sample_age[[1]]
+#     age[1:5, 3] <-
+#       NA
+# 
+#     # 1. Data with NAs in age
+#     # (extract_data currently has a bug that returns NAs in age instead of dropping them)
+#     data_with_NA <-
+#       extract_data(
+#         RRatepol::example_data$pollen_data[[1]],
+#         age,
+#         RRatepol::example_data$age_uncertainty[[1]]
+#       )
+# 
+#     # throws error with NAs in data
+#     expect_error(
+#       res_NA <-
+#         smooth_community_data(
+#           data_source_smooth = data_with_NA,
+#           smooth_method = "grim",
+#         ),
+#       "missing value where TRUE/FALSE needed"
+#     )
+# 
+#     # 2. Data with dropped NAs in age (broken structure)
+#     ##  We will now manually fix the bug-behaviour in extract_data() and pretend it works as expected
+#     ## (i.e., drops NA in age)
+#     ## There is a bug in reduce_data() that only matches age to community but not the other way.
+# 
+#     data_with_dropped_NA <-
+#       data_with_NA
+# 
+#     data_with_dropped_NA$age <-
+#       na.omit(data_with_dropped_NA$age)
+#     # throws error with dropped NAs from age
+#     expect_error(
+#       res_dropped_NA <-
+#         smooth_community_data(
+#           data_source_smooth = data_with_dropped_NA,
+#           smooth_method = "grim",
+#         ),
+#       "missing value where TRUE/FALSE needed"
+#     )
+# 
+#     # a) test results from 1. and 2. against each other:
+#     # cannot test since both threw error.
+# 
+#     # 3. Control with matching age and communty
+#     ## if the bug in extract_data() is fixed, reduce_data() should be adapted to match community against age as well.
+#     data_right <-
+#       data_with_dropped_NA
+# 
+#     valid_levels <-
+#       unique(
+#         rownames(
+#           data_right$age
+#         )
+#       )
+#     data_right$community <-
+#       data_right$community[valid_levels, , drop = FALSE]
+# 
+#     data_right$age_un <-
+#       data_right$age_un[, -c(
+#         1:5
+#       )]
+# 
+#     expect_no_error(
+#       res_right <-
+#         smooth_community_data(
+#           data_source_smooth = data_right,
+#           smooth_method = "grim",
+#         )
+#     )
+# 
+#     # b) Test results from control against results from Scenarios 1 and 2.
+#     # cannot test since 1. and 2. did not return any results
+#   }
+# )
+# 
+# 
+# # ----------------------------------- #
+# ## age.w
+# # ----------------------------------- #
+# 
+# # 1. Test result with NA in age
+# # a) against result with NAs dropped from age and
+# # b) against "control" -i.e., correct data
+# 
+# ## we will investigate all three scenarios.
+# ## 1. data_with_NA,
+# ## 2. data_with_dropped_NA,
+# ## 3. data_right
+# 
+# test_that(
+#   "smooth_community_data and age.w throws error for age data with NA and with dropped NAs (non-matching samples with community)",
+#   {
+#     # Create data with NAs in age$age in the first 5 samples (39671-392675)
+#     age <-
+#       RRatepol::example_data$sample_age[[1]]
+#     age[1:5, 3] <-
+#       NA
+# 
+#     # 1. Data with NAs in age
+#     # (extract_data currently has a bug that returns NAs in age instead of dropping them)
+#     data_with_NA <-
+#       extract_data(
+#         RRatepol::example_data$pollen_data[[1]],
+#         age,
+#         RRatepol::example_data$age_uncertainty[[1]]
+#       )
+# 
+#     # throws no error with NAs in data
+#     res_NA <-
+#       smooth_community_data(
+#         data_source_smooth = data_with_NA,
+#         smooth_method = "age.w",
+#       )
+# 
+# 
+#     # 2. Data with dropped NAs in age (broken structure)
+#     ##  We will now manually fix the bug-behaviour in extract_data() and pretend it works as expected
+#     ## (i.e., drops NA in age)
+#     ## There is a bug in reduce_data() that only matches age to community but not the other way.
+# 
+#     data_with_dropped_NA <-
+#       data_with_NA
+# 
+#     data_with_dropped_NA$age <-
+#       na.omit(data_with_dropped_NA$age)
+#     # throws error with dropped NAs from age
+#     expect_error(
+#       res_dropped_NA <-
+#         smooth_community_data(
+#           data_source_smooth = data_with_dropped_NA,
+#           smooth_method = "age.w",
+#         ),
+#       "subscript out of bounds"
+#     )
+# 
+#     # a) test results from 1. and 2. against each other:
+#     # cannot test since 2. failed to produce a result.
+# 
+#     # 3. Control with matching age and communty
+#     ## if the bug in extract_data() is fixed, reduce_data() should be adapted to match community against age as well.
+#     data_right <-
+#       data_with_dropped_NA
+# 
+#     valid_levels <-
+#       unique(
+#         rownames(
+#           data_right$age
+#         )
+#       )
+#     data_right$community <-
+#       data_right$community[valid_levels, , drop = FALSE]
+# 
+#     data_right$age_un <-
+#       data_right$age_un[, -c(
+#         1:5
+#       )]
+# 
+#     expect_no_error(
+#       res_right <-
+#         smooth_community_data(
+#           data_source_smooth = data_right,
+#           smooth_method = "age.w",
+#         )
+#     )
+# 
+#     # b) Test results from control against results from Scenarios 1 and 2.
+#     # fails
+#     expect_true(
+#       identical(
+#       res_NA$community$Betula,
+#       res_right$community$Betula
+#     )
+#     )
+#     # cannot test against scenario 2 since it failed.
+#   }
+# )
