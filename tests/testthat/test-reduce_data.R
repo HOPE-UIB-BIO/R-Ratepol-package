@@ -79,7 +79,8 @@ test_that("reduce_data rejects invalid check_taxa argument", {
     )
   expect_error(
     reduce_data(
-      data_source_reduce = raw_data, check_taxa = "TRUE"
+      data_source_reduce = raw_data,
+      check_taxa = "TRUE"
     ),
     "check_taxa.*logical"
   )
@@ -95,7 +96,8 @@ test_that("reduce_data rejects invalid check_taxa argument", {
     )
   expect_error(
     reduce_data(
-      data_source_reduce = raw_data, check_taxa = 123
+      data_source_reduce = raw_data,
+      check_taxa = 123
     ),
     "check_taxa.*logical"
   )
@@ -111,7 +113,8 @@ test_that("reduce_data rejects invalid check_taxa argument", {
     )
   expect_error(
     reduce_data(
-      data_source_reduce = raw_data, check_taxa = NULL
+      data_source_reduce = raw_data,
+      check_taxa = NULL
     ),
     "check_taxa.*logical"
   )
@@ -128,7 +131,8 @@ test_that("reduce_data rejects invalid check_levels argument", {
     )
   expect_error(
     reduce_data(
-      data_source_reduce = raw_data, check_levels = "TRUE"
+      data_source_reduce = raw_data,
+      check_levels = "TRUE"
     ),
     "check_levels.*logical"
   )
@@ -144,7 +148,8 @@ test_that("reduce_data rejects invalid check_levels argument", {
     )
   expect_error(
     reduce_data(
-      data_source_reduce = raw_data, check_levels = 123
+      data_source_reduce = raw_data,
+      check_levels = 123
     ),
     "check_levels.*logical"
   )
@@ -798,7 +803,6 @@ test_that("both filtering handles NULL age_un", {
 })
 
 
-
 test_that("reduce_data works with a single sample in community", {
   raw_data <-
     extract_data(
@@ -849,7 +853,7 @@ test_that("taxa filtering with all-zero community data throws error", {
       verbose = FALSE
     )
 
-  raw_data$community[, ] <-
+  raw_data$community[,] <-
     0
 
   expect_error(
@@ -871,7 +875,7 @@ test_that("levels filtering with all zero levels throws error", {
       verbose = FALSE
     )
 
-  raw_data$community[, ] <-
+  raw_data$community[,] <-
     0
 
   expect_error(
@@ -897,7 +901,7 @@ test_that("both filtering with all zero data throws error", {
     )
 
   # all zero in community
-  raw_data$community[, ] <-
+  raw_data$community[,] <-
     0
 
   expect_error(
@@ -941,7 +945,7 @@ test_that("both filtering throws error if all data are NA", {
       verbose = FALSE
     )
 
-  raw_data$community[, ] <-
+  raw_data$community[,] <-
     NA
 
   expect_error(
@@ -959,7 +963,6 @@ test_that("both filtering throws error if all data are NA", {
 # --------------------------------------------------- #
 # 7. OUTPUT VALIDATION
 # --------------------------------------------------- #
-
 
 test_that("reduce_data produces valid output structure", {
   raw_data <-
@@ -985,7 +988,8 @@ test_that("reduce_data produces valid output structure", {
     )
 
   expect_type(
-    result, "list"
+    result,
+    "list"
   )
 
   expect_named(
@@ -1120,7 +1124,8 @@ test_that("reduce_data produces valid age_un structure", {
   }
 
   expect_equal(
-    colnames(result$age_un), rownames(result$age)
+    colnames(result$age_un),
+    rownames(result$age)
   )
 })
 
