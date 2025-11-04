@@ -43,7 +43,6 @@ test_that("estimate_roc returns dataframe with valid inputs", {
 # 1. INPUT VALIDATION           #
 # ============================= #
 
-
 # 1. data_source_community validation
 test_that("data_source_community: Missing argument throws error indicating required data.frame", {
   # Create example data
@@ -5441,7 +5440,6 @@ test_that("use_parallel: empty dataframe input throws error requiring logical or
 })
 
 
-
 # 17. interest_threshold validation (default is NULL)
 # empty
 test_that("interest_threshold: empty input uses default with no error", {
@@ -5922,7 +5920,7 @@ test_that("verbose: Empty input uses default without error", {
       interest_threshold = NULL,
       time_standardisation = NULL,
       verbose =
-      )
+    )
   )
 })
 
@@ -6606,7 +6604,11 @@ test_that("estimate_roc output has correct structure with required columns", {
   expect_true(
     all(
       c(
-        "Working_Unit", "Age", "ROC", "ROC_up", "ROC_dw"
+        "Working_Unit",
+        "Age",
+        "ROC",
+        "ROC_up",
+        "ROC_dw"
       ) %in%
         colnames(result)
     )
@@ -6931,7 +6933,8 @@ test_that("estimate_roc confidence intervals (ROC_up, ROC_dw) widen with higher 
     col_sd <-
       sd(increased_uncertainty[, i])
     increased_uncertainty[, i] <-
-      increased_uncertainty[, i] + rnorm(nrow(increased_uncertainty), 0, col_sd * 0.5)
+      increased_uncertainty[, i] +
+      rnorm(nrow(increased_uncertainty), 0, col_sd * 0.5)
   }
 
   # Run with original uncertainty
@@ -7031,7 +7034,10 @@ test_that("Community data with all-zero samples drops samples correctly", {
   expect_false(
     any(
       grepl(
-        paste(c("392671", "392672", "392673", "392674", "392675"), collapse = "|"),
+        paste(
+          c("392671", "392672", "392673", "392674", "392675"),
+          collapse = "|"
+        ),
         res$Working_Unit
       )
     )
@@ -7115,7 +7121,10 @@ test_that("Community data with all-NA samples drops samples correctly", {
   expect_false(
     any(
       grepl(
-        paste(c("392671", "392672", "392673", "392674", "392675"), collapse = "|"),
+        paste(
+          c("392671", "392672", "392673", "392674", "392675"),
+          collapse = "|"
+        ),
         res$Working_Unit
       )
     )
@@ -7216,7 +7225,7 @@ test_that("estimate_roc() correctly handles age data with NAs", {
   age$age[] <-
     NA
 
-  age_uncertainty[, ] <-
+  age_uncertainty[,] <-
     NA
 
   expect_error(
