@@ -7,29 +7,33 @@ test_that("estimate_roc returns dataframe with valid inputs", {
   age_uncertainty <-
     RRatepol::example_data$age_uncertainty[[1]]
   # Run the function with valid inputs
-  result <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "none",
-      smooth_n_points = NULL,
-      smooth_age_range = NULL,
-      smooth_n_max = NULL,
-      working_units = "levels",
-      bin_size = 500, # to avoid error during testing
-      number_of_shifts = NULL,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "none",
+          smooth_n_points = NULL,
+          smooth_age_range = NULL,
+          smooth_n_max = NULL,
+          working_units = "levels",
+          bin_size = 500, # to avoid error during testing
+          number_of_shifts = NULL,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+    })
+  )
 
   # Check that the result is a data frame and contains expected elements
   expect_s3_class(
@@ -617,29 +621,33 @@ test_that("age_uncertainty: NULL value is valid and function completes without e
     RRatepol::example_data$sample_age[[1]]
 
   # Run the function with valid inputs
-  result <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = NULL,
-      smooth_method = "none",
-      smooth_n_points = NULL,
-      smooth_age_range = NULL,
-      smooth_n_max = NULL,
-      working_units = "levels",
-      bin_size = 500, # to avoid error during testing
-      number_of_shifts = NULL,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = NULL,
+          smooth_method = "none",
+          smooth_n_points = NULL,
+          smooth_age_range = NULL,
+          smooth_n_max = NULL,
+          working_units = "levels",
+          bin_size = 500, # to avoid error during testing
+          number_of_shifts = NULL,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+    })
+  )
 
   # Check that the result is a data frame and contains expected elements
   expect_s3_class(
@@ -657,29 +665,33 @@ test_that("age_uncertainty: Missing argument is valid and function completes wit
     RRatepol::example_data$sample_age[[1]]
 
   # Run the function with valid inputs
-  result <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = ,
-      smooth_method = "none",
-      smooth_n_points = NULL,
-      smooth_age_range = NULL,
-      smooth_n_max = NULL,
-      working_units = "levels",
-      bin_size = 500, # to avoid error during testing
-      number_of_shifts = NULL,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = ,
+          smooth_method = "none",
+          smooth_n_points = NULL,
+          smooth_age_range = NULL,
+          smooth_n_max = NULL,
+          working_units = "levels",
+          bin_size = 500, # to avoid error during testing
+          number_of_shifts = NULL,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+    })
+  )
 
   # Check that the result is a data frame and contains expected elements
   expect_s3_class(
@@ -948,27 +960,31 @@ test_that("smooth_method: Missing argument uses default value 'none' without err
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = , # will use first element of vector -> "none"
-      smooth_n_points = NULL,
-      smooth_age_range = NULL,
-      smooth_n_max = NULL,
-      working_units = "levels",
-      bin_size = 500, # to avoid error during testing
-      number_of_shifts = NULL,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = , # will use first element of vector -> "none"
+          smooth_n_points = NULL,
+          smooth_age_range = NULL,
+          smooth_n_max = NULL,
+          working_units = "levels",
+          bin_size = 500, # to avoid error during testing
+          number_of_shifts = NULL,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -1281,27 +1297,31 @@ test_that("smooth_n_points: Missing argument uses default value 5 without error"
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "age.w",
-      smooth_n_points = , # will use 5 as default
-      smooth_age_range = 500,
-      smooth_n_max = NULL,
-      working_units = "levels",
-      bin_size = 500, # to avoid error during testing
-      number_of_shifts = NULL,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "age.w",
+          smooth_n_points = , # will use 5 as default
+          smooth_age_range = 500,
+          smooth_n_max = NULL,
+          working_units = "levels",
+          bin_size = 500, # to avoid error during testing
+          number_of_shifts = NULL,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -1612,27 +1632,31 @@ test_that("smooth_age_range: Missing argument uses default value 500 without err
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "age.w",
-      smooth_n_points = 5,
-      smooth_age_range = , # will use 500 as default
-      smooth_n_max = NULL,
-      working_units = "levels",
-      bin_size = 500, # to avoid error during testing
-      number_of_shifts = NULL,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "age.w",
+          smooth_n_points = 5,
+          smooth_age_range = , # will use 500 as default
+          smooth_n_max = NULL,
+          working_units = "levels",
+          bin_size = 500, # to avoid error during testing
+          number_of_shifts = NULL,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -1911,27 +1935,31 @@ test_that("smooth_n_max: Missing argument uses default value 9 without error", {
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = , # uses 9 as default
-      working_units = "levels",
-      bin_size = 500, # to avoid error during testing
-      number_of_shifts = ,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = , # uses 9 as default
+          working_units = "levels",
+          bin_size = 500, # to avoid error during testing
+          number_of_shifts = ,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -2279,27 +2307,31 @@ test_that("working_units: Missing argument uses default value 'levels' without e
     RRatepol::example_data$sample_age[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      # age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = , # will use first element of default vector (levels)
-      bin_size = 500, # to avoid error during testing
-      number_of_shifts = NULL,
-      bin_selection = "first",
-      standardise = FALSE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = NULL,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          # age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = , # will use first element of default vector (levels)
+          bin_size = 500, # to avoid error during testing
+          number_of_shifts = NULL,
+          bin_selection = "first",
+          standardise = FALSE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = NULL,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -2594,27 +2626,31 @@ test_that("bin_size: Missing argument uses default value 500 without error", {
     RRatepol::example_data$sample_age[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      # age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "bins",
-      bin_size = , # will use default 500 silently
-      number_of_shifts = NULL,
-      bin_selection = "first",
-      standardise = FALSE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = NULL,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          # age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "bins",
+          bin_size = , # will use default 500 silently
+          number_of_shifts = NULL,
+          bin_selection = "first",
+          standardise = FALSE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = NULL,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -2874,27 +2910,31 @@ test_that("number_of_shifts: Missing argument uses default value 5 without error
     RRatepol::example_data$sample_age[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      # age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = , # will use default 5
-      bin_selection = "first",
-      standardise = FALSE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = NULL,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          # age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = , # will use default 5
+          bin_selection = "first",
+          standardise = FALSE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = NULL,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -3012,27 +3052,31 @@ test_that("number_of_shifts: Valid numeric value works without error", {
     RRatepol::example_data$sample_age[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      # age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = FALSE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = NULL,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          # age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = FALSE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = NULL,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -3046,27 +3090,31 @@ test_that("number_of_shifts: Zero value is overwritten with 1 without error", {
     RRatepol::example_data$sample_age[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      # age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 0, # gets overwritten with 1
-      bin_selection = "first",
-      standardise = FALSE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = NULL,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          # age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = 0, # gets overwritten with 1
+          bin_selection = "first",
+          standardise = FALSE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = NULL,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -3522,27 +3570,31 @@ test_that("standardise: Missing argument uses default value FALSE without error"
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = , # will use default FALSE silently
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = , # will use default FALSE silently
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -3858,27 +3910,31 @@ test_that("n_individuals: Missing argument uses default value 150 without error"
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = , # uses default 150 silently
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = , # uses default 150 silently
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -4155,27 +4211,31 @@ test_that("dissimilarity_coefficient: Missing argument uses default value 'euc' 
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = , # will use default "euc"
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = , # will use default "euc"
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -5117,27 +5177,31 @@ test_that("use_parallel: Missing argument uses default value without error", {
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = , # will use default FALSE
-      interest_threshold = NULL,
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = , # will use default FALSE
+          interest_threshold = NULL,
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -5415,27 +5479,31 @@ test_that("interest_threshold: empty input uses default with no error", {
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = , # will use default NULL
-      time_standardisation = 500,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = , # will use default NULL
+          time_standardisation = 500,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -5640,27 +5708,31 @@ test_that("time_standardisation: empty input uses default with no error", {
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = ,
-      verbose = FALSE
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = ,
+          verbose = FALSE
+        )
+      })
     )
   )
 })
@@ -5862,27 +5934,31 @@ test_that("verbose: Empty input uses default without error", {
     RRatepol::example_data$age_uncertainty[[1]]
 
   expect_no_error(
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = NULL,
-      verbose =
+    invisible(
+      capture.output({
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = NULL,
+          verbose =
+        )
+      })
     )
   )
 })
@@ -6193,29 +6269,33 @@ test_that("verbose: Empty dataframe input throws error requiring logical", {
 # 1. Valid data input returns a data.frame
 # MW
 test_that("Valid data input returns a data.frame", {
-  res <-
-    estimate_roc(
-      data_source_community = RRatepol::example_data$pollen_data[[1]],
-      data_source_age = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "MW",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = NULL,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      res <-
+        estimate_roc(
+          data_source_community = RRatepol::example_data$pollen_data[[1]],
+          data_source_age = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "MW",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = NULL,
+          verbose = FALSE
+        )
+    })
+  )
   expect_s3_class(
     res,
     "data.frame"
@@ -6223,29 +6303,33 @@ test_that("Valid data input returns a data.frame", {
 })
 # levels
 test_that("Valid data input returns correct column types", {
-  res <-
-    estimate_roc(
-      data_source_community = RRatepol::example_data$pollen_data[[1]],
-      data_source_age = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "levels",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = NULL,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      res <-
+        estimate_roc(
+          data_source_community = RRatepol::example_data$pollen_data[[1]],
+          data_source_age = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "levels",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = NULL,
+          verbose = FALSE
+        )
+    })
+  )
   expect_s3_class(
     res,
     "data.frame"
@@ -6254,29 +6338,33 @@ test_that("Valid data input returns correct column types", {
 
 # bins
 test_that("Valid data input returns correct column types", {
-  res <-
-    estimate_roc(
-      data_source_community = RRatepol::example_data$pollen_data[[1]],
-      data_source_age = RRatepol::example_data$sample_age[[1]],
-      age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "bins",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = NULL,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      res <-
+        estimate_roc(
+          data_source_community = RRatepol::example_data$pollen_data[[1]],
+          data_source_age = RRatepol::example_data$sample_age[[1]],
+          age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "bins",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = NULL,
+          verbose = FALSE
+        )
+    })
+  )
   expect_s3_class(
     res,
     "data.frame"
@@ -6550,18 +6638,22 @@ test_that("estimate_roc output has correct structure with required columns", {
     RRatepol::example_data$sample_age[[1]]
 
   # Run the function with minimal parameters
-  result <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      smooth_method = "none",
-      working_units = "levels",
-      bin_size = 500,
-      bin_selection = "first",
-      dissimilarity_coefficient = "euc",
-      rand = 1,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          smooth_method = "none",
+          working_units = "levels",
+          bin_size = 500,
+          bin_selection = "first",
+          dissimilarity_coefficient = "euc",
+          rand = 1,
+          verbose = FALSE
+        )
+    })
+  )
 
   # Check output structure contains expected columns
   expect_true(
@@ -6586,18 +6678,22 @@ test_that("estimate_roc output has rows sorted by Age", {
     RRatepol::example_data$sample_age[[1]]
 
   # Run the function with minimal parameters
-  result <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      smooth_method = "none",
-      working_units = "levels",
-      bin_size = 500,
-      bin_selection = "first",
-      dissimilarity_coefficient = "euc",
-      rand = 1,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          smooth_method = "none",
+          working_units = "levels",
+          bin_size = 500,
+          bin_selection = "first",
+          dissimilarity_coefficient = "euc",
+          rand = 1,
+          verbose = FALSE
+        )
+    })
+  )
 
   # Check that rows are sorted by Age
   expect_equal(
@@ -6738,19 +6834,23 @@ test_that("estimate_roc returns ROC values within expected range for proportion 
     RRatepol::example_data$sample_age[[1]]
 
   # Run with transform_to_proportions = TRUE
-  result <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      smooth_method = "none",
-      working_units = "levels",
-      bin_size = 500,
-      bin_selection = "first",
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          smooth_method = "none",
+          working_units = "levels",
+          bin_size = 500,
+          bin_selection = "first",
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          verbose = FALSE
+        )
+    })
+  )
 
   # For proportion data with euclidean distance, values typically range from 0-1
   # but can be higher depending on time_standardisation
