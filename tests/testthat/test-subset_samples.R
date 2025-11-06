@@ -1290,7 +1290,7 @@ test_that("subset_samples, bins, throws error with character bin_selection", {
       data_source_subset = data_source_subset,
       data_source_bins = data_source_bins,
       bin_selection = "invalid"
-    ),
+    )
     # none programmed into function yet (returns all-NA data)
   )
 })
@@ -1326,7 +1326,7 @@ test_that("subset_samples, bins, throws error with numeric bin_selection", {
       data_source_subset = data_source_subset,
       data_source_bins = data_source_bins,
       bin_selection = 123
-    ),
+    )
     # none programmed into function yet (returns all-NA data)
   )
 })
@@ -1580,7 +1580,7 @@ test_that("subset_samples, MW, throws error with character bin_selection", {
       data_source_subset = data_source_subset,
       data_source_bins = data_source_bins,
       bin_selection = "invalid"
-    ),
+    )
     # none programmed into function yet (returns all-NA data)
   )
 })
@@ -1617,7 +1617,7 @@ test_that("subset_samples, MW, throws error with numeric bin_selection", {
       data_source_subset = data_source_subset,
       data_source_bins = data_source_bins,
       bin_selection = 123
-    ),
+    )
     # none programmed into function yet (returns all-NA data)
   )
 })
