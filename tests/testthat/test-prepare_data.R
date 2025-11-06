@@ -252,9 +252,10 @@ test_that(
 
     expect_equal(
       nrow(
-        result[[1]][[1]]$bins), 
+        result[[1]][[1]]$bins
+      ),
       1
-      )
+    )
   }
 )
 
@@ -282,7 +283,7 @@ test_that(
     expect_equal(
       ncol(result[[1]][[1]]$data) - 1, # -1 for age column
       1
-    ) 
+    )
   }
 )
 
@@ -905,7 +906,7 @@ test_that(
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
         verbose = FALSE
       )
-    
+
     expect_silent(
       prepare_data(
         data_source_prep = example_data,
@@ -1632,9 +1633,9 @@ test_that(
           working_units = "levels",
           rand = 10
         ),
-      #none programmed into the function yet
-      # e.g., 
-      #"Warning: age_uncertainty has only 1 unique value. 
+      # none programmed into the function yet
+      # e.g.,
+      # "Warning: age_uncertainty has only 1 unique value.
       # randomizations will result in identical results"
     )
 
@@ -1885,7 +1886,7 @@ test_that(
       prepare_data(
         data_source_prep = example_data,
         working_units = "levels",
-        #bin_size = NULL,
+        # bin_size = NULL,
         number_of_shifts = NULL,
         rand = NULL
       )
@@ -2239,7 +2240,7 @@ test_that(
       reduce_data(
         data_smoothed
       )
-    
+
     set.seed(123)
     data_prepared_rand_1 <-
       prepare_data(
@@ -2342,17 +2343,17 @@ test_that(
       )
 
     expect_warning(
-    data_prepared_rand_100 <-
-      prepare_data(
-        data_work,
-        working_units = "MW",
-        number_of_shifts = 1,
-        rand = 100
-      ),
-    #none programmed into function yet
-    # e.g., 
-    # "Warning: setting rand != NULL without age_un will result 
-    # in identical randomization results."
+      data_prepared_rand_100 <-
+        prepare_data(
+          data_work,
+          working_units = "MW",
+          number_of_shifts = 1,
+          rand = 100
+        ),
+      # none programmed into function yet
+      # e.g.,
+      # "Warning: setting rand != NULL without age_un will result
+      # in identical randomization results."
     )
   }
 )
@@ -4277,4 +4278,3 @@ test_that(
     )
   }
 )
-
