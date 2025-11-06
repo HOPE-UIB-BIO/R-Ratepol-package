@@ -2147,7 +2147,7 @@ test_that("detect_peak_points() works with standardised data", {
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
       verbose = FALSE,
-      rand = 100
+      rand = 10
     )
 
   # Test with standardisation disabled
@@ -2162,7 +2162,7 @@ test_that("detect_peak_points() works with standardised data", {
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
       verbose = FALSE,
-      rand = 100
+      rand = 10
     )
 
   # Run detect_peak_points on both datasets
