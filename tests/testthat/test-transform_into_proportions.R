@@ -196,7 +196,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data.frame(),
         sel_method = "proportions"
-      ),
+      )
       # none programmed into the function. returns empty result data.frame
     )
   }
@@ -209,7 +209,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data.frame(),
         sel_method = "percentages"
-      ),
+      )
       # none programmed into the function. returns empty result data.frame
     )
   }
