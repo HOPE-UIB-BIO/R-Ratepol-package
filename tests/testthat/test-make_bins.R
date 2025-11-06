@@ -1497,7 +1497,7 @@ test_that("make_bins and 'MW' works within the workflow of estimate_roc()", {
     data_work
 
   expect_no_error(
-    bin_WM <-
+    bin_MW <-
       make_bins(
         data_source_bins = data_source_prep,
         working_units = "MW",
