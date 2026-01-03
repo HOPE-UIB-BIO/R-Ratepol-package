@@ -42,34 +42,11 @@ test_that(
         verbose = FALSE
       )
 
-    msg <-
-      suppressWarnings(
-        capture.output(
-          check_data(
-            result_empty
-          ),
-          type = "message"
-        )
-      )
-
-
-    # Now check that check_data() reproduces the empty input data
-    expect_true(
-      any(
-        grepl(
-          "Community data have 0 taxa and 0 samples.  Age data have 0 samples",
-          msg
-        )
-      )
-    )
-
-    expect_true(
-      any(
-        grepl(
-          "Age data has values of min Inf, max -Inf, mean NaN, and median NA",
-          msg
-        )
-      )
+    expect_error(
+      check_data(
+        result_empty
+      ),
+      "Object 'data_source_check' was supplied with empty elements: 'community' and 'age'"
     )
   }
 )
@@ -113,13 +90,14 @@ test_that(
         type = "message"
       )
 
-    expect_false(
+    expect_true(
       any(
         grepl(
-          "Age data has values of min NA, max NA, mean NA, and median NA",
+          "Community data has 0 NAs. Age data has 6 NAs. Age uncertainty data has 6 NAs.",
           msg
         )
       )
     )
+
   }
 )
