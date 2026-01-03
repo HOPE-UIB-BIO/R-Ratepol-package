@@ -29,10 +29,11 @@ jobs:
           utils::install.packages("remotes")
           utils::install.packages("rcmdcheck")
           utils::install.packages("neotoma2")
+          remotes::install_github("HOPE-UIB-BIO/R-Utilpol-package")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
-      - name: R-CMD-CHECK
-        run: |
-          rcmdcheck::rcmdcheck(build_args = c("--no-build-vignettes", "--no-manual"))
-        shell: Rscript {0}
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          build_args: 'c("--no-build-vignettes", "--no-manual")'
+          error-on: 'error'
