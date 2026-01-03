@@ -28,7 +28,7 @@ extract_data <- function(
   data_age_extract,
   age_uncertainty = NULL,
   verbose = FALSE,
-  silent =FALSE
+  silent = FALSE
 ) {
   # 1. Initial tests -----
 
@@ -239,7 +239,7 @@ extract_data <- function(
   if (isFALSE(silent) && isTRUE(verbose)) {
     check_data(
       data_source_check = dat_merge,
-      silent =silent
+      silent = silent
     )
 
     RUtilpol::output_heading(
