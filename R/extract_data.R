@@ -215,7 +215,7 @@ extract_data <- function(
 
     dat_age <-
       dat_age %>%
-      tidyr::drop_na(.data$age)
+      tidyr::drop_na("age")
   }
 
   # 2.5 Summary  ----
