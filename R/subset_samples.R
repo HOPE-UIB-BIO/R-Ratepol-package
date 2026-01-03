@@ -75,6 +75,9 @@ subset_samples <-
           res_com[i, ] <-
             subset_w[1, -1]
         }
+      } else {
+        res_com[i, ] <-
+          rep(0, ncol(data_source_subset) - 1)
       }
     }
 

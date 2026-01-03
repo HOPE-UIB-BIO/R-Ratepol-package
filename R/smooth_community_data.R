@@ -37,46 +37,138 @@ smooth_community_data <-
            smooth_age_range = 500,
            round_results = FALSE,
            verbose = FALSE) {
-
     # ----------------------------------------------
     # SETUP -----
     # ----------------------------------------------
-
-    RUtilpol::check_class("data_source_smooth", "list")
-
-    RUtilpol::check_class("smooth_method", "character")
-
-    RUtilpol::check_vector_values(
-      "smooth_method",
-      c("m.avg", "grim", "age.w", "shep")
+    # Mandatory assertions for all methods:
+    # Assert data_source_smooth is a list
+    assertthat::assert_that(
+      is.list(data_source_smooth),
+      msg = "'data_source_smooth' must be a list"
+    )
+    # Assert that community is not empty
+    assertthat::assert_that(
+      nrow(data_source_smooth$community) > 0,
+      msg = "'community' must have at least one row"
+    )
+    assertthat::assert_that(
+      ncol(data_source_smooth$community) > 0,
+      msg = "'community' must have at least one column"
+    )
+    # Assert community and age have the same rownames
+    assertthat::assert_that(
+      identical(
+        rownames(data_source_smooth$community),
+        rownames(data_source_smooth$age)
+      ),
+      msg = "'community' and 'age' must have identical rownames"
+    )
+    # Assert all values in community are numeric
+    assertthat::assert_that(
+      all(
+        sapply(data_source_smooth$community, is.numeric)
+      ),
+      msg = "All values in 'community' must be numeric"
+    )
+    # Assert that there are no NAs
+    assertthat::assert_that(
+      !any(is.na(data_source_smooth$community)),
+      msg = "'community' must not contain any NAs"
+    )
+    assertthat::assert_that(
+      !any(is.na(data_source_smooth$age)),
+      msg = "'age' must not contain any NAs"
     )
 
-    smooth_method <- match.arg(smooth_method)
+    # Assert age is sorted
+    assertthat::assert_that(
+      is.unsorted(data_source_smooth$age$age) == FALSE,
+      msg = "'age' must be sorted in increasing order"
+    )
+    # Assert smooth_method is character and valid
+    assertthat::assert_that(
+      is.character(smooth_method),
+      msg = "'smooth_method' must be character"
+    )
+    smooth_method <-
+      match.arg(
+        smooth_method,
+        choices = c("m.avg", "grim", "age.w", "shep")
+      )
+    # Assert smooth_n_points is only 1 argument, numeric and smaller than N samples
+    assertthat::assert_that(
+      length(smooth_n_points) == 1,
+      msg = "'smooth_n_points' must be length 1"
+    )
+    assertthat::assert_that(
+      is.numeric(smooth_n_points),
+      msg = "'smooth_n_points' must be numeric"
+    )
+    assertthat::assert_that(
+      smooth_n_points <= nrow(data_source_smooth$community),
+      msg = "'smooth_n_points' must be <= number of samples in 'community'"
+    )
+    # Assert that logical parameters are logical and either TRUE or FALSE
+    assertthat::assert_that(
+      is.logical(round_results) && length(round_results) == 1 && (round_results == TRUE || round_results == FALSE),
+      msg = "'round_results' must be logical and either TRUE or FALSE"
+    )
+    assertthat::assert_that(
+      is.logical(verbose) && length(verbose) == 1 && (verbose == TRUE || verbose == FALSE),
+      msg = "'verbose' must be logical and either TRUE or FALSE"
+    )
 
-    if (
-      smooth_method != "shep"
-    ) {
+
+    # Method-specific assertions:
+    if (smooth_method == "shep") {
+      # must be > 2
+      assertthat::assert_that(
+        smooth_n_points > 2,
+        msg = "'smooth_n_points' must be > 2 for 'shep' smoothing"
+      )
+    }
+
+    if (smooth_method %in% c("m.avg", "age.w", "grim")) {
+      # must be odd
       assertthat::assert_that(
         smooth_n_points %% 2 != 0,
-        msg = "'smooth_n_points' must be an odd number"
+        msg = "'smooth_n_points' must be odd"
       )
 
-      if (
-        smooth_method != "m.avg"
-      ) {
-        RUtilpol::check_class("smooth_age_range", "numeric")
+      if (smooth_method %in% c("age.w", "grim")) {
+        # smooth_age_range must be length 1
+        assertthat::assert_that(
+          length(smooth_age_range) == 1,
+          msg = "'smooth_age_range' must be length 1"
+        )
+        # smooth_age_range must be numeric
+        assertthat::assert_that(
+          is.numeric(smooth_age_range),
+          msg = "'smooth_age_range' must be numeric"
+        )
 
-        if (
-          smooth_method == "grim"
-        ) {
+        if (smooth_method == "grim") {
+          # smooth_n_max must be length 1
+          assertthat::assert_that(
+            is.numeric(smooth_n_max),
+            msg = "'smooth_n_max' must be numeric"
+          )
           assertthat::assert_that(
             smooth_n_max %% 2 != 0,
-            msg = "'smooth_n_max' must be an odd number"
+            msg = "'smooth_n_max' must be odd"
           )
-
+          assertthat::assert_that(
+            length(smooth_n_max) == 1,
+            msg = "'smooth_n_max' must be length 1"
+          )
+          assertthat::assert_that(
+            smooth_n_max <= nrow(data_source_smooth$community),
+            msg = "'smooth_n_max' must be <= number of samples in 'community'"
+          )
+          # smooth_n_points must be < smooth_n_max
           assertthat::assert_that(
             smooth_n_points < smooth_n_max,
-            msg = "'smooth_n_max' must be bigger than 'smooth_n_points"
+            msg = "'smooth_n_points' must be < 'smooth_n_max' for 'grim' smoothing"
           )
         }
       }
@@ -180,7 +272,6 @@ smooth_community_data <-
 
     # for every species
     for (j in 1:ncol(dat_community)) {
-
       # select the species
       col_work <- .subset2(dat_community, j)
 
@@ -195,7 +286,6 @@ smooth_community_data <-
         if (
           smooth_method == "m.avg"
         ) {
-
           # Samples near beginning (moving window truncated)
           if (
             i < round(0.5 * (smooth_n_points)) + 1
@@ -229,7 +319,6 @@ smooth_community_data <-
         if (
           smooth_method == "grim"
         ) {
-
           # Samples near beginning (moving window truncated)
           if (
             i < round(0.5 * (smooth_n_max)) + 1
@@ -287,7 +376,6 @@ smooth_community_data <-
         if (
           smooth_method == "age.w"
         ) {
-
           # Samples near beginning (moving window truncated)
           if (
             i < round(0.5 * (smooth_n_points)) + 1

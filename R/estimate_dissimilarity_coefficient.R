@@ -181,7 +181,7 @@ estimate_dissimilarity_coefficient <-
         as.matrix(
           vegan::vegdist(
             data_com,
-            method = "chord"
+            method = "chisq"
           )
         )
     }

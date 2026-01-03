@@ -170,7 +170,7 @@ prepare_data <-
                                 ) %>%
                                     return()
                         ) %>%
-                            return(res)
+                            return()
                     }
                 ) %>%
                 return()
