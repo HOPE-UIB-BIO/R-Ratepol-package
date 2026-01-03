@@ -19,7 +19,7 @@
 #' }
 #' @param verbose DESCRIPTION.
 #' Logical. If `TRUE`, function will output messages about internal processes
-#' @param silence
+#' @param silent
 #' Logical. If `TRUE`, suppress all console outputs (overrides verbose). Useful for testing.
 #' @description
 #' Function for general preparation of input data
@@ -28,7 +28,7 @@ extract_data <- function(
   data_age_extract,
   age_uncertainty = NULL,
   verbose = FALSE,
-  silence = FALSE
+  silent =FALSE
 ) {
   # 1. Initial tests -----
 
@@ -36,9 +36,9 @@ extract_data <- function(
 
   RUtilpol::check_class("verbose", "logical")
 
-  RUtilpol::check_class("silence", "logical")
+  RUtilpol::check_class("silent", "logical")
 
-  if (isFALSE(silence) && isTRUE(verbose)) {
+  if (isFALSE(silent) && isTRUE(verbose)) {
     RUtilpol::output_heading(
       paste(
         "Data extraction started",
@@ -58,7 +58,7 @@ extract_data <- function(
   # community
 
   if ("sample.id" %in% names(data_community_extract)) {
-    if (isFALSE(silence)) {
+    if (isFALSE(silent)) {
       usethis::ui_oops(
         paste(
           "'sample.id' was detected in 'data_community'",
@@ -83,7 +83,7 @@ extract_data <- function(
 
   # age
   if ("sample.id" %in% names(data_age_extract)) {
-    if (isFALSE(silence)) {
+    if (isFALSE(silent)) {
       usethis::ui_oops(
         paste(
           "'sample.id' was detected in 'data_age' but 'sample_id' is prefered.",
@@ -184,7 +184,7 @@ extract_data <- function(
 
   # 2.4 Missing values ---
   if (any(is.na(dat_community))) {
-    if (isFALSE(silence)) {
+    if (isFALSE(silent)) {
       RUtilpol::output_warning(
         paste(
           "Missing data has been detected in community data",
@@ -204,7 +204,7 @@ extract_data <- function(
   }
 
   if (any(is.na(dat_age$age))) {
-    if (isFALSE(silence)) {
+    if (isFALSE(silent)) {
       RUtilpol::output_warning(
         paste(
           "Missing 'age' values has detected in age data",
@@ -236,10 +236,10 @@ extract_data <- function(
       check_levels = TRUE
     )
 
-  if (isFALSE(silence) && isTRUE(verbose)) {
+  if (isFALSE(silent) && isTRUE(verbose)) {
     check_data(
       data_source_check = dat_merge,
-      silence = silence
+      silent =silent
     )
 
     RUtilpol::output_heading(

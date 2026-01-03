@@ -2,11 +2,11 @@
 #'
 #' @param data_source_check
 #' List with `community` and `age`
-#' @param silence
+#' @param silent
 #' Logical. If `TRUE`, suppress all console outputs. Useful for testing.
 #' @description Output summary information about the data
 #' @keywords internal
-check_data <- function(data_source_check, silence = FALSE) {
+check_data <- function(data_source_check, silent =FALSE) {
   RUtilpol::check_class("data_source_check", "list")
 
   assertthat::assert_that(
@@ -20,7 +20,7 @@ check_data <- function(data_source_check, silence = FALSE) {
   dims <-
     lapply(data_source_check, dim)
 
-  if (isFALSE(silence)) {
+  if (isFALSE(silent)) {
     if (length(dims) == 3) {
       RUtilpol::output_comment(
         paste(
@@ -60,7 +60,7 @@ check_data <- function(data_source_check, silence = FALSE) {
       sum(is.na(x))
     })
 
-  if (isFALSE(silence)) {
+  if (isFALSE(silent)) {
     if (length(nas) == 3) {
       RUtilpol::output_comment(
         paste(

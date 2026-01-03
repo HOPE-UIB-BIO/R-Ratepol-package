@@ -11,7 +11,7 @@ transform_into_proportions <- function(
   data_source_trans,
   sel_method = c("proportions", "percentages"),
   verbose = FALSE,
-  silence = FALSE
+  silent =FALSE
 ) {
   RUtilpol::check_class("data_source_trans", "data.frame")
 
@@ -26,9 +26,9 @@ transform_into_proportions <- function(
 
   RUtilpol::check_class("verbose", "logical")
 
-  RUtilpol::check_class("silence", "logical")
+  RUtilpol::check_class("silent", "logical")
 
-  if (isFALSE(silence) && isTRUE(verbose)) {
+  if (isFALSE(silent) && isTRUE(verbose)) {
     RUtilpol::output_comment(
       "Community data values are being converted to proportions"
     )

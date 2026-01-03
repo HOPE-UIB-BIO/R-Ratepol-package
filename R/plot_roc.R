@@ -86,7 +86,7 @@ plot_roc <- function(
   roc_threshold = NULL,
   peaks = FALSE,
   trend = NULL,
-  silence = FALSE
+  silent =FALSE
 ) {
   # age_threshold
   RUtilpol::check_class("data_source", "data.frame")
@@ -165,7 +165,7 @@ plot_roc <- function(
     )
 
     if (isFALSE(peaks)) {
-      if (isFALSE(silence)) {
+      if (isFALSE(silent)) {
         RUtilpol::output_comment(
           msg = paste(
             "'trend' has been set to NOT 'NULL',",

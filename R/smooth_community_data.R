@@ -37,7 +37,7 @@ smooth_community_data <- function(
   smooth_age_range = 500,
   round_results = FALSE,
   verbose = FALSE,
-  silence = FALSE
+  silent =FALSE
 ) {
   # ----------------------------------------------
   # SETUP -----
@@ -124,10 +124,10 @@ smooth_community_data <- function(
     msg = "'verbose' must be logical and either TRUE or FALSE"
   )
   assertthat::assert_that(
-    is.logical(silence) &&
-      length(silence) == 1 &&
-      (silence == TRUE || silence == FALSE),
-    msg = "'silence' must be logical and either TRUE or FALSE"
+    is.logical(silent) &&
+      length(silent) == 1 &&
+      (silent == TRUE || silent == FALSE),
+    msg = "'silent' must be logical and either TRUE or FALSE"
   )
 
   # Method-specific assertions:
@@ -189,7 +189,7 @@ smooth_community_data <- function(
   # Additional information -----
   # ----------------------------------------------
 
-  if (isFALSE(silence) && isTRUE(verbose)) {
+  if (isFALSE(silent) && isTRUE(verbose)) {
     switch(
       smooth_method,
       "m.avg" = {

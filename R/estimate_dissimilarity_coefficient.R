@@ -25,7 +25,7 @@ estimate_dissimilarity_coefficient <- function(
   data_source_dc,
   dissimilarity_coefficient = "chord",
   verbose = FALSE,
-  silence = FALSE
+  silent =FALSE
 ) {
   n_res <-
     nrow(data_source_dc) - 1
@@ -47,7 +47,7 @@ estimate_dissimilarity_coefficient <- function(
   # for euc.sd use custom made calculation
 
   if (dissimilarity_coefficient == "euc.sd") {
-    if (isFALSE(silence) && isTRUE(verbose)) {
+    if (isFALSE(silent) && isTRUE(verbose)) {
       RUtilpol::output_comment(
         "Standardised Euclidan distance will be used as dissimilarity_coefficient"
       )
@@ -109,7 +109,7 @@ estimate_dissimilarity_coefficient <- function(
   #----------------------------------------------------------#
 
   if (dissimilarity_coefficient == "euc") {
-    if (isFALSE(silence) && isTRUE(verbose)) {
+    if (isFALSE(silent) && isTRUE(verbose)) {
       RUtilpol::output_comment(
         "Euclidan distance will be used as dissimilarity_coefficient"
       )
@@ -128,7 +128,7 @@ estimate_dissimilarity_coefficient <- function(
   #----------------------------------------------------------#
 
   if (dissimilarity_coefficient == "chord") {
-    if (isFALSE(silence) && isTRUE(verbose)) {
+    if (isFALSE(silent) && isTRUE(verbose)) {
       RUtilpol::output_comment(
         "Chord distance will be used as dissimilarity_coefficient"
       )
@@ -150,7 +150,7 @@ estimate_dissimilarity_coefficient <- function(
   #----------------------------------------------------------#
 
   if (dissimilarity_coefficient == "chisq") {
-    if (isFALSE(silence) && isTRUE(verbose)) {
+    if (isFALSE(silent) && isTRUE(verbose)) {
       RUtilpol::output_comment(
         "Chi-squared coeficient will be used as dissimilarity_coefficient"
       )
@@ -172,7 +172,7 @@ estimate_dissimilarity_coefficient <- function(
   #----------------------------------------------------------#
 
   if (dissimilarity_coefficient == "gower") {
-    if (isFALSE(silence) && isTRUE(verbose)) {
+    if (isFALSE(silent) && isTRUE(verbose)) {
       RUtilpol::output_comment(
         "Gower's distance will be used as dissimilarity_coefficient"
       )
@@ -193,7 +193,7 @@ estimate_dissimilarity_coefficient <- function(
   #----------------------------------------------------------#
 
   if (dissimilarity_coefficient == "bray") {
-    if (isFALSE(silence) && isTRUE(verbose)) {
+    if (isFALSE(silent) && isTRUE(verbose)) {
       RUtilpol::output_comment(
         "Bray-Curtis distance will be used as dissimilarity_coefficient"
       )
