@@ -6,7 +6,7 @@
 #' Logical. If `TRUE`, suppress all console outputs. Useful for testing.
 #' @description Output summary information about the data
 #' @keywords internal
-check_data <- function(data_source_check, silent =FALSE) {
+check_data <- function(data_source_check, silent = FALSE) {
   RUtilpol::check_class("data_source_check", "list")
 
   assertthat::assert_that(
