@@ -222,12 +222,12 @@ detect_peak_points <-
 
       gam_deriv <-
         gratia::derivatives(gam_model,
-          newdata = new_data,
+          data = new_data,
           n = 1000
         )
 
       data_source$Peak <-
-        (gam_deriv$lower > 0)
+        (gam_deriv$.lower_ci > 0)
     }
 
     #----------------------------------------------------------#
