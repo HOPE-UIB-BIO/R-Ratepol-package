@@ -14,7 +14,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     data_source_bins$age <-
@@ -38,7 +38,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     class(
@@ -119,7 +119,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     data_source_bins <-
@@ -156,7 +156,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_no_error(
@@ -206,7 +206,7 @@ test_that(
         data_community_extract = community,
         data_age_extract = age,
         age_uncertainty = age_un,
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_no_error(
@@ -233,7 +233,7 @@ test_that(
         data_community_extract = community,
         data_age_extract = age,
         age_uncertainty = age_un,
-        verbose = FALSE
+        silent = TRUE
       )
 
 
@@ -262,7 +262,7 @@ test_that(
         data_community_extract = community,
         data_age_extract = age,
         age_uncertainty = age_un,
-        verbose = FALSE
+        silent = TRUE
       )
 
 
@@ -289,7 +289,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -309,7 +309,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -329,7 +329,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -349,7 +349,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -369,7 +369,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -389,7 +389,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -411,7 +411,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       bins <-
@@ -433,7 +433,7 @@ test_that(
       extract_data(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -459,7 +459,7 @@ test_that(
       extract_data(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
     expect_no_error(
       make_bins(
@@ -483,7 +483,7 @@ test_that(
       extract_data(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
     expect_no_error(
       make_bins(
@@ -504,7 +504,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -528,7 +528,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -554,7 +554,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_no_error(
@@ -577,7 +577,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -601,7 +601,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -625,7 +625,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -650,7 +650,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -677,7 +677,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -702,7 +702,7 @@ test_that(
       extract_data(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_no_error(
@@ -724,7 +724,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
 
@@ -750,7 +750,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -774,7 +774,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
 
@@ -799,7 +799,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     bins_res <-
@@ -828,7 +828,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -851,7 +851,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -874,7 +874,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -897,7 +897,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_no_error(
@@ -919,7 +919,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -942,7 +942,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -965,7 +965,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -989,7 +989,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
@@ -1016,7 +1016,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     bins <-
@@ -1087,7 +1087,7 @@ test_that(
       extract_data(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     bins <-
@@ -1157,7 +1157,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     bins <-
@@ -1231,7 +1231,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     bins <-
@@ -1301,7 +1301,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     bins <-
@@ -1375,7 +1375,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
 
@@ -1447,7 +1447,7 @@ test_that("make_bins and 'levels' works within the workflow of estimate_roc()", 
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   data_smooth <-
@@ -1479,7 +1479,7 @@ test_that("make_bins and 'MW' works within the workflow of estimate_roc()", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   data_smooth <-
@@ -1513,7 +1513,7 @@ test_that("make_bins and 'bins' works within the workflow of estimate_roc()", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   data_smooth <-

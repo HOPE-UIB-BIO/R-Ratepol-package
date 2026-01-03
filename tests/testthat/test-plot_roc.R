@@ -188,7 +188,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -230,7 +230,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -273,7 +273,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -316,7 +316,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -358,7 +358,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -403,7 +403,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -446,7 +446,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -489,7 +489,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -533,7 +533,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -575,7 +575,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -617,7 +617,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -660,7 +660,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -703,7 +703,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -748,7 +748,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -791,7 +791,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -836,7 +836,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -877,7 +877,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -921,7 +921,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -964,7 +964,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1007,7 +1007,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1051,7 +1051,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1098,7 +1098,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1141,7 +1141,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1186,7 +1186,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1228,7 +1228,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1270,7 +1270,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1313,7 +1313,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1356,7 +1356,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1399,7 +1399,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1441,7 +1441,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1484,7 +1484,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1526,7 +1526,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1572,7 +1572,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"
@@ -1637,7 +1637,7 @@ test_that(
         dissimilarity_coefficient = "euc",
         tranform_to_proportions = TRUE,
         use_parallel = FALSE,
-        verbose = FALSE
+        silent = TRUE
       )
 
     # Define test parameters
@@ -1698,7 +1698,7 @@ test_that(
         dissimilarity_coefficient = "euc",
         tranform_to_proportions = TRUE,
         use_parallel = FALSE,
-        verbose = FALSE
+        silent = TRUE
       )
 
     # Add peaks
@@ -1752,7 +1752,7 @@ test_that(
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = NULL,
-        verbose = FALSE
+        silent = TRUE
       ) %>%
       detect_peak_points(
         sel_method = "trend_linear"

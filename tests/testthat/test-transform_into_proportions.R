@@ -684,7 +684,7 @@ test_that(
         transform_into_proportions(
           data_source_trans = data_sd,
           sel_method = NULL,
-          verbose = FALSE
+          silent = TRUE
         ),
       "'sel_method' must be one of the following: 'character'"
     )
@@ -868,7 +868,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data_sd,
         sel_method = "proportions", # or "percentages"
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_true(
@@ -963,7 +963,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data_sd,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_true(
@@ -1061,7 +1061,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data_sd,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
 
     # Control
@@ -1170,7 +1170,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data_sd,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     # Control
     data_com_control <-
@@ -1279,7 +1279,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data_sd,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_true(
       all(
@@ -1372,7 +1372,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data_sd,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_true(
       all(
@@ -1466,7 +1466,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data_sd,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_s3_class(
       data_sd_prop,
@@ -1558,7 +1558,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data_sd,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_s3_class(
       data_sd_prop,
@@ -1651,7 +1651,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data_sd,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_true(
@@ -1748,7 +1748,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = data_sd,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_true(

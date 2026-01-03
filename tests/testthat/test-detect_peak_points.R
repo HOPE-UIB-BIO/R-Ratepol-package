@@ -117,7 +117,7 @@ test_that("detect_peak_points() uses default sel_method 'trend_linear' when not 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -145,7 +145,7 @@ test_that("detect_peak_points() errors if sel_method is NULL: expects character 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -174,7 +174,7 @@ test_that("detect_peak_points() errors if sel_method is invalid character: expec
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -203,7 +203,7 @@ test_that("detect_peak_points() errors if sel_method is a vector of multiple val
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -232,7 +232,7 @@ test_that("detect_peak_points() errors if sel_method is numeric: expects charact
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -261,7 +261,7 @@ test_that("detect_peak_points() errors if sel_method is zero: expects character 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -290,7 +290,7 @@ test_that("detect_peak_points() errors if sel_method is NA: expects character ty
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -319,7 +319,7 @@ test_that("detect_peak_points() errors if sel_method is an empty list: expects c
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -348,7 +348,7 @@ test_that("detect_peak_points() errors if sel_method is an empty data.frame: exp
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -377,7 +377,7 @@ test_that("detect_peak_points() uses default sd_threshold=2 when not supplied: e
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -405,7 +405,7 @@ test_that("detect_peak_points() errors if sd_threshold is NULL: expects numeric 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -434,7 +434,7 @@ test_that("detect_peak_points() errors if sd_threshold is character: expects num
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -463,7 +463,7 @@ test_that("detect_peak_points() errors if sd_threshold is zero: expects value gr
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -492,7 +492,7 @@ test_that("detect_peak_points() errors if sd_threshold is NA: expects numeric ty
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -521,7 +521,7 @@ test_that("detect_peak_points() errors if sd_threshold is an empty list: expects
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -550,7 +550,7 @@ test_that("detect_peak_points() errors if sd_threshold is an empty data.frame: e
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -579,7 +579,7 @@ test_that("detect_peak_points() errors if sd_threshold is a vector of multiple v
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -609,7 +609,7 @@ test_that("detect_peak_points() returns a data.frame output with valid input and
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -641,7 +641,7 @@ test_that("detect_peak_points() returns output with expected column names for va
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -675,7 +675,7 @@ test_that("detect_peak_points() returns output with expected columns for sel_met
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -707,7 +707,7 @@ test_that("detect_peak_points() returns output with expected columns for sel_met
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -739,7 +739,7 @@ test_that("detect_peak_points() returns output with expected columns for sel_met
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -771,7 +771,7 @@ test_that("detect_peak_points() returns output with expected columns for sel_met
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -806,7 +806,7 @@ test_that("detect_peak_points() with method 'threshold' correctly identifies pea
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Create a version with artificially high ROC_dw values to ensure peaks
@@ -849,7 +849,7 @@ test_that("detect_peak_points() with method 'trend_linear' correctly identifies 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Create a version with artificially high ROC values to ensure peaks
@@ -896,7 +896,7 @@ test_that("detect_peak_points() with method 'trend_non_linear' correctly identif
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Create a version with artificially high ROC values to ensure peaks
@@ -948,7 +948,7 @@ test_that("detect_peak_points() with method 'GAM_deriv' correctly processes the 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   result <-
@@ -981,7 +981,7 @@ test_that("detect_peak_points() with method 'SNI' correctly processes the data",
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   result <-
@@ -1014,7 +1014,7 @@ test_that("detect_peak_points() correctly responds to different sd_threshold val
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Test with different sd_threshold values
@@ -1055,7 +1055,7 @@ test_that("detect_peak_points() methods give different results", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Test with different methods
@@ -1108,7 +1108,7 @@ test_that("detect_peak_points() preserves original data structure with Peak colu
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   original_cols <-
@@ -1153,7 +1153,7 @@ test_that("detect_peak_points() works without error for non-smoothed data with w
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1181,7 +1181,7 @@ test_that("detect_peak_points() works without error for m.avg-smoothed data with
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1209,7 +1209,7 @@ test_that("detect_peak_points() works without error for grim-smoothed data with 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1237,7 +1237,7 @@ test_that("detect_peak_points() works without error for age.w-smoothed data with
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1265,7 +1265,7 @@ test_that("detect_peak_points() works without error for shep-smoothed data with 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1294,7 +1294,7 @@ test_that("detect_peak_points() works without error for non-smoothed data with w
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1322,7 +1322,7 @@ test_that("detect_peak_points() works without error for m.avg-smoothed data with
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1350,7 +1350,7 @@ test_that("detect_peak_points() works without error for grim-smoothed data with 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1378,7 +1378,7 @@ test_that("detect_peak_points() works without error for age.w-smoothed data with
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1406,7 +1406,7 @@ test_that("detect_peak_points() works without error for shep-smoothed data with 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1435,7 +1435,7 @@ test_that("detect_peak_points() works without error for non-smoothed data with w
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1463,7 +1463,7 @@ test_that("detect_peak_points() works without error for m.avg-smoothed data with
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1491,7 +1491,7 @@ test_that("detect_peak_points() works without error for grim-smoothed data with 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1519,7 +1519,7 @@ test_that("detect_peak_points() works without error for age.w-smoothed data with
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1547,7 +1547,7 @@ test_that("detect_peak_points() works without error for shep-smoothed data with 
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -1577,7 +1577,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1615,7 +1615,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1653,7 +1653,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1691,7 +1691,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1729,7 +1729,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1768,7 +1768,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1806,7 +1806,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1844,7 +1844,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1882,7 +1882,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1920,7 +1920,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1959,7 +1959,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -1997,7 +1997,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -2035,7 +2035,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -2073,7 +2073,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -2111,7 +2111,7 @@ test_that("detect_peak_points() returns data.frame with Peak column and preserve
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -2146,7 +2146,7 @@ test_that("detect_peak_points() works with standardised data", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE,
+      silent = TRUE,
       rand = 10
     )
 
@@ -2161,7 +2161,7 @@ test_that("detect_peak_points() works with standardised data", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE,
+      silent = TRUE,
       rand = 10
     )
 

@@ -661,7 +661,7 @@ test_that(
 #       transform_into_proportions(
 #         data_source_trans = .,
 #         sel_method = "proportions",
-#         verbose = FALSE
+#         silent = TRUE
 #       )
 #     expect_warning(
 #       dc_res <-
@@ -747,7 +747,7 @@ test_that(
 #       transform_into_proportions(
 #         data_source_trans = .,
 #         sel_method = "percentages",
-#         verbose = FALSE
+#         silent = TRUE
 #       )
 #     expect_warning(
 #       dc_res <-
@@ -834,7 +834,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -920,7 +920,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1007,7 +1007,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1093,7 +1093,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1180,7 +1180,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1266,7 +1266,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1353,7 +1353,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1439,7 +1439,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1526,7 +1526,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1612,7 +1612,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1699,7 +1699,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1785,7 +1785,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     expect_error(
       dc_res <-
@@ -1874,7 +1874,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -1983,7 +1983,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -2093,7 +2093,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -2242,7 +2242,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -2392,7 +2392,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -2501,7 +2501,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -2611,7 +2611,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -2721,7 +2721,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -2831,7 +2831,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -2939,7 +2939,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3048,7 +3048,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3158,7 +3158,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3271,7 +3271,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3358,7 +3358,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3446,7 +3446,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3533,7 +3533,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3621,7 +3621,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3708,7 +3708,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3796,7 +3796,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3883,7 +3883,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -3971,7 +3971,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -4058,7 +4058,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -4146,7 +4146,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "proportions",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(
@@ -4233,7 +4233,7 @@ test_that(
       transform_into_proportions(
         data_source_trans = .,
         sel_method = "percentages",
-        verbose = FALSE
+        silent = TRUE
       )
     dc_res <-
       estimate_dissimilarity_coefficient(

@@ -16,7 +16,7 @@ test_that("run_iteration throws error when data_source_run argument is missing (
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     'argument "data_source_run" is missing, with no default'
   )
@@ -32,7 +32,7 @@ test_that("run_iteration throws error when data_source_run is NULL (invalid empt
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "argument of length 0"
   )
@@ -49,7 +49,7 @@ test_that("run_iteration throws error when data_source_run is a character string
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "invalid for atomic vectors"
   )
@@ -66,7 +66,7 @@ test_that("run_iteration throws error when data_source_run is a numeric value (1
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "invalid for atomic vectors"
   )
@@ -83,7 +83,7 @@ test_that("run_iteration throws error when data_source_run is zero (numeric 0) i
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "invalid for atomic vectors"
   )
@@ -100,7 +100,7 @@ test_that("run_iteration throws error when data_source_run is NA (missing value)
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "invalid for atomic vectors"
   )
@@ -117,7 +117,7 @@ test_that("run_iteration throws error when data_source_run is an empty list (lis
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "argument of length 0"
   )
@@ -134,7 +134,7 @@ test_that("run_iteration throws error when data_source_run is an empty data fram
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "argument of length 0"
   )
@@ -182,7 +182,7 @@ test_that("run_iteration throws error when bin_selection is an invalid string ('
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "invalid 'length' argument"
   )
@@ -225,7 +225,7 @@ test_that("run_iteration throws error when bin_selection is a numeric value (1) 
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "invalid 'length' argument"
   )
@@ -268,7 +268,7 @@ test_that("run_iteration throws error when bin_selection contains multiple value
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "the condition has length > 1"
   )
@@ -311,7 +311,7 @@ test_that("run_iteration throws error when bin_selection contains multiple value
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "the condition has length > 1"
   )
@@ -354,7 +354,7 @@ test_that("run_iteration throws error when bin_selection contains multiple value
 #                 tranform_to_proportions = TRUE,
 #                 dissimilarity_coefficient = "euc",
 #                 time_standardisation = 500,
-#                 verbose = FALSE
+#                 silent = TRUE
 #             ),
 #             # none programmed into the function yet.
 #             # e.g., "Warning: No bin_selection supplied.Using default 'first' instead"
@@ -399,7 +399,7 @@ test_that("run_iteration throws error when bin_selection is NULL instead of a va
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "argument is of length zero"
   )
@@ -450,7 +450,7 @@ test_that("run_iteration throws error with NULL in standardise parameter", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     # No error programmed into the fuction for standardise != TRUE
     # gets ignored - i.e., equivalent to standardise = FALSE
@@ -495,7 +495,7 @@ test_that("run_iteration treats non-boolean value for standardise as FALSE", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_s3_class(result, "data.frame")
@@ -543,7 +543,7 @@ test_that("run_iteration throws error when n_individuals is zero with standardis
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "invalid 'length' argument"
   )
@@ -586,7 +586,7 @@ test_that("run_iteration throws warning for invalid combinations of standardise=
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     # this scenario silently uses the minimum count available
     # instead of user supplied n_individuals
@@ -635,7 +635,7 @@ test_that("run_iteration throws error for non-boolian tranform_to_proportions = 
       tranform_to_proportions = 0,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
     # None programmed into the function yet since it only recognizes TRUE
     # gets ignored - i.e., equivalent to tranform_to_proportions = FALSE
@@ -686,7 +686,7 @@ test_that("run_iteration throws error for non-boolian tranform_to_proportions = 
 #                 tranform_to_proportions = TRUE,
 #                 dissimilarity_coefficient = ,
 #                 time_standardisation = 500,
-#                 verbose = FALSE
+#                 silent = TRUE
 #             ),
 #             # none programmed into the function yet.
 #             # e.g., "No dissimilarity_coefficient supplied. Defaulting to to 'euc'."
@@ -730,7 +730,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is NULL ins
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "argument is of length zero"
   )
@@ -773,7 +773,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is an inval
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "my_choice",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "object 'corrmat' not found"
   )
@@ -816,7 +816,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is a numeri
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = 123,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "object 'corrmat' not found"
   )
@@ -859,7 +859,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient contains mu
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = c("euc", "euc.sd"),
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "the condition has length > 1"
   )
@@ -902,7 +902,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is zero (nu
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = 0,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "object 'corrmat' not found"
   )
@@ -945,7 +945,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is NA (miss
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = NA,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "missing value where TRUE/FALSE needed"
   )
@@ -994,7 +994,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is NA (miss
 #                 tranform_to_proportions = TRUE,
 #                 dissimilarity_coefficient = "euc",
 #                 time_standardisation = ,
-#                 verbose = FALSE
+#                 silent = TRUE
 #             ),
 #             # none programmed into the function yet.
 #             # e.g., "No time_standardization supplied.
@@ -1040,7 +1040,7 @@ test_that("run_iteration throws error when time_standardisation is NULL", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     ),
     "`age_diff_st` must be size" # 16 or 1, not 0.
   )
@@ -1083,7 +1083,7 @@ test_that("run_iteration throws error when time_standardisation is a character s
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = "123",
-      verbose = FALSE
+      silent = TRUE
     ),
     "non-numeric argument to binary operator"
     # none programmed into the function yet.
@@ -1128,7 +1128,7 @@ test_that("run_iteration throws error when time_standardisation is zero", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 0,
-      verbose = FALSE
+      silent = TRUE
     ),
     # none programmed into the function yet.
     # e.g., "Error: time_standardisation = 0 results in zero roc."
@@ -1171,7 +1171,7 @@ test_that("run_iteration throws error when time_standardisation is NA", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = NA,
-      verbose = FALSE
+      silent = TRUE
     ),
     # none programmed into the function yet.
     # e.g.,
@@ -1226,7 +1226,7 @@ test_that("run_iteration handles community data with all zeros when using euc di
           tranform_to_proportions = TRUE,
           dissimilarity_coefficient = "euc",
           time_standardisation = TRUE,
-          verbose = FALSE
+          silent = TRUE
         )
     ),
     "subscript out of bounds"
@@ -1274,7 +1274,7 @@ test_that("run_iteration handles community data with all zeros when using euc.sd
           tranform_to_proportions = TRUE,
           dissimilarity_coefficient = "euc.sd",
           time_standardisation = TRUE,
-          verbose = FALSE
+          silent = TRUE
         )
     ),
     "subscript out of bounds"
@@ -1320,7 +1320,7 @@ test_that("run_iteration treats non-boolean value for tranform_to_proportions as
       tranform_to_proportions = 1,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_s3_class(result, "data.frame")
@@ -1363,7 +1363,7 @@ test_that("run_iteration handles boolean TRUE for time_standardisation as 1", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = TRUE, # TRUE is coerced to 1
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_s3_class(result, "data.frame")
@@ -1457,7 +1457,7 @@ test_that("run_iteration throws no message if standardisation failed if verbose 
         tranform_to_proportions = TRUE,
         dissimilarity_coefficient = "euc",
         time_standardisation = 500,
-        verbose = FALSE
+        silent = TRUE
       )
   )
 })
@@ -1500,7 +1500,7 @@ test_that("run_iteration throws error with numeric zero for tranform_to_proporti
       tranform_to_proportions = 0,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
     # None programmed into the function yet
     # e.g., "invalid argument supplied to 'tranform_to_proportions'"
@@ -1545,7 +1545,7 @@ test_that("run_iteration throws error with numeric zero for tranform_to_proporti
 #                 tranform_to_proportions = TRUE,
 #                 dissimilarity_coefficient = ,
 #                 time_standardisation = 500,
-#                 verbose = FALSE
+#                 silent = TRUE
 #             ),
 #             # none programmed into the function yet.
 #             # e.g., "No dissimilarity_coefficient supplied. Defaulting to to 'euc'."
@@ -1590,7 +1590,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is NULL", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "argument is of length zero"
   )
@@ -1633,7 +1633,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is an inval
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "my_choice",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "object 'corrmat' not found"
   )
@@ -1676,7 +1676,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is a numeri
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = 123,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "object 'corrmat' not found"
   )
@@ -1719,7 +1719,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient contains mu
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = c("euc", "euc.sd"),
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "the condition has length > 1"
   )
@@ -1762,7 +1762,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is zero", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = 0,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "object 'corrmat' not found"
   )
@@ -1805,7 +1805,7 @@ test_that("run_iteration throws error when dissimilarity_coefficient is NA", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = NA,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "missing value where TRUE/FALSE needed"
   )
@@ -1990,7 +1990,7 @@ test_that("run_iteration output has non-NA values in expected columns", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Check for NA values
@@ -2036,7 +2036,7 @@ test_that("run_iteration RoC values are numeric and positive", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Check RoC values
@@ -2092,7 +2092,7 @@ test_that("run_iteration with different time_standardisation gives proportional 
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   set.seed(123)
@@ -2105,7 +2105,7 @@ test_that("run_iteration with different time_standardisation gives proportional 
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 1000, # Double the time standardization
-      verbose = FALSE
+      silent = TRUE
     )
 
   # With double time_standardisation, RoC should be doubled
@@ -2150,7 +2150,7 @@ test_that("run_iteration with standardise=TRUE produces valid output", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Check output with standardization
@@ -2197,7 +2197,7 @@ test_that("run_iteration with different dissimilarity_coefficient produces diffe
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   set.seed(123)
@@ -2210,7 +2210,7 @@ test_that("run_iteration with different dissimilarity_coefficient produces diffe
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc.sd",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Different dissimilarity coefficients should produce different results
@@ -2254,7 +2254,7 @@ test_that("run_iteration output is deterministic with fixed seed for random bin_
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   set.seed(123)
@@ -2267,7 +2267,7 @@ test_that("run_iteration output is deterministic with fixed seed for random bin_
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Same seed should produce identical results with random bin selection
@@ -2311,7 +2311,7 @@ test_that("run_iteration output has valid label column", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Check that labels are valid
@@ -2366,7 +2366,7 @@ test_that("run_iteration handles very small time_standardisation correctly", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 0.001, # Very small value to test division behavior
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Check that results are still valid (not Inf)
@@ -2410,7 +2410,7 @@ test_that("run_iteration output age values match input data range", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Check age range consistency
@@ -2467,7 +2467,7 @@ test_that("run_iteration output has reasonable RoC values for typical inputs", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # RoC values should be in a reasonable range for ecological data
@@ -2514,7 +2514,7 @@ test_that("run_iteration executes successfully with all valid parameters", {
       tranform_to_proportions = TRUE,
       dissimilarity_coefficient = "euc",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_s3_class(result, "data.frame")
