@@ -6,7 +6,7 @@ test_that(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
 
     class(data_source_check) <-
@@ -15,6 +15,7 @@ test_that(
     expect_error(
       check_data(
         data_source_check,
+        silent = TRUE,
         "'data_source_check' must be one of the following: 'list'"
       )
     )
@@ -39,12 +40,13 @@ test_that(
         data_community_extract = empty_community,
         data_age_extract = empty_age,
         age_uncertainty = empty_uncertainty,
-        verbose = FALSE
+        silent = TRUE
       )
 
     expect_error(
       check_data(
-        result_empty
+        result_empty,
+        silent = TRUE
       ),
       "Object 'data_source_check' was supplied with empty elements: 'community' and 'age'"
     )
@@ -85,7 +87,8 @@ test_that(
     msg <-
       capture.output(
         check_data(
-          result_NA
+          result_NA,
+          silent = FALSE
         ),
         type = "message"
       )

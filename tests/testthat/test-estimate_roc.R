@@ -30,7 +30,7 @@ test_that("estimate_roc returns dataframe with valid inputs", {
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
     })
   )
@@ -76,7 +76,7 @@ test_that("data_source_community: Missing argument throws error indicating requi
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "Object 'data_source_community' must be included as a 'data.frame'"
   )
@@ -110,7 +110,7 @@ test_that("data_source_community: NULL value throws error indicating data.frame 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_community' must be one of the following: 'data.frame'"
   )
@@ -145,7 +145,7 @@ test_that("data_source_community: Character string instead of data.frame throws 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_community' must be one of the following: 'data.frame'"
   )
@@ -181,7 +181,7 @@ test_that("data_source_community: Numeric value instead of data.frame throws err
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_community' must be one of the following: 'data.frame'"
   )
@@ -216,7 +216,7 @@ test_that("data_source_community: Zero value instead of data.frame throws error"
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_community' must be one of the following: 'data.frame'"
   )
@@ -251,7 +251,7 @@ test_that("data_source_community: NA value instead of data.frame throws error", 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_community' must be one of the following: 'data.frame'"
   )
@@ -287,7 +287,7 @@ test_that("data_source_community: Empty list instead of data.frame throws error"
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_community' must be one of the following: 'data.frame'"
   )
@@ -323,7 +323,7 @@ test_that("data_source_community: Empty data.frame throws error about missing re
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_community_extract' must contains following columns: 'sample_id'"
   )
@@ -358,7 +358,7 @@ test_that("data_source_age: Missing argument throws error indicating required da
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "Object 'data_source_age' must be included as a 'data.frame'"
   )
@@ -392,7 +392,7 @@ test_that("data_source_age: NULL value throws error indicating data.frame requir
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_age' must be one of the following: 'data.frame'"
   )
@@ -427,7 +427,7 @@ test_that("data_source_age: Character string instead of data.frame throws error"
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_age' must be one of the following: 'data.frame'"
   )
@@ -463,7 +463,7 @@ test_that("data_source_age: Numeric value instead of data.frame throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_age' must be one of the following: 'data.frame'"
   )
@@ -498,7 +498,7 @@ test_that("data_source_age: Zero value instead of data.frame throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_age' must be one of the following: 'data.frame'"
   )
@@ -533,7 +533,7 @@ test_that("data_source_age: NA value instead of data.frame throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_age' must be one of the following: 'data.frame'"
   )
@@ -569,7 +569,7 @@ test_that("data_source_age: Empty list instead of data.frame throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_source_age' must be one of the following: 'data.frame'"
   )
@@ -605,7 +605,7 @@ test_that("data_source_age: Empty data.frame throws error about missing required
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'data_age_extract' must contains following columns: 'sample_id'"
   )
@@ -644,7 +644,7 @@ test_that("age_uncertainty: NULL value is valid and function completes without e
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
     })
   )
@@ -688,7 +688,7 @@ test_that("age_uncertainty: Missing argument is valid and function completes wit
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
     })
   )
@@ -730,7 +730,7 @@ test_that("age_uncertainty: Character string instead of matrix throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
   )
@@ -765,7 +765,7 @@ test_that("age_uncertainty: Numeric value instead of matrix throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
   )
@@ -800,7 +800,7 @@ test_that("age_uncertainty: Zero value instead of matrix throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
   )
@@ -835,7 +835,7 @@ test_that("age_uncertainty: NA value instead of matrix throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
   )
@@ -870,7 +870,7 @@ test_that("age_uncertainty: Empty list instead of matrix throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
   )
@@ -905,7 +905,7 @@ test_that("age_uncertainty: Empty data.frame instead of matrix throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
   )
@@ -943,7 +943,7 @@ test_that("smooth_method: NULL value throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_method' must be one of the following: 'character'"
   )
@@ -982,7 +982,7 @@ test_that("smooth_method: Missing argument uses default value 'none' without err
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -1020,7 +1020,7 @@ test_that("smooth_method: NULL value throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_method' must be one of the following: 'character'"
   )
@@ -1057,7 +1057,7 @@ test_that("smooth_method: Multiple values throw error as only single value allow
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'arg' must be of length 1"
   )
@@ -1094,7 +1094,7 @@ test_that("smooth_method: Invalid character value throws error listing allowed o
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_method' must contains one of the following values: 'none', 'm.avg', 'grim', 'age.w', 'shep'"
   )
@@ -1131,7 +1131,7 @@ test_that("smooth_method: Numeric value throws error requiring character input",
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_method' must be one of the following: 'character'"
   )
@@ -1168,7 +1168,7 @@ test_that("smooth_method: Zero value throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_method' must be one of the following: 'character'"
   )
@@ -1205,7 +1205,7 @@ test_that("smooth_method: NA value throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_method' must be one of the following: 'character'"
   )
@@ -1242,7 +1242,7 @@ test_that("smooth_method: Empty list throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_method' must be one of the following: 'character'"
   )
@@ -1279,7 +1279,7 @@ test_that("smooth_method: Empty data.frame throws error requiring character inpu
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_method' must be one of the following: 'character'"
   )
@@ -1319,7 +1319,7 @@ test_that("smooth_n_points: Missing argument uses default value 5 without error"
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -1357,7 +1357,7 @@ test_that("smooth_n_points: NULL value throws error requiring numeric value", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: length of assertion is not 1"
   )
@@ -1394,7 +1394,7 @@ test_that("smooth_n_points: Multiple values throw error as only single value all
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "length of assertion is not 1"
   )
@@ -1431,7 +1431,7 @@ test_that("smooth_n_points: Character value throws error requiring numeric input
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "non-numeric argument to binary operator"
   )
@@ -1468,7 +1468,7 @@ test_that("smooth_n_points: Even number throws error as odd number required", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_n_points' must be an odd number"
   )
@@ -1505,7 +1505,7 @@ test_that("smooth_n_points: Zero value throws error as odd number required", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_n_points' must be an odd number"
   )
@@ -1541,7 +1541,7 @@ test_that("smooth_n_points: NA value throws error requiring non-missing value", 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: missing values present in assertion"
   )
@@ -1578,7 +1578,7 @@ test_that("smooth_n_points: Empty list throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "non-numeric argument to binary operator"
   )
@@ -1614,7 +1614,7 @@ test_that("smooth_n_points: Empty data.frame throws error requiring single value
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: length of assertion is not 1"
   )
@@ -1654,7 +1654,7 @@ test_that("smooth_age_range: Missing argument uses default value 500 without err
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -1692,7 +1692,7 @@ test_that("smooth_age_range: NULL value throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_age_range' must be one of the following: 'numeric'"
   )
@@ -1730,7 +1730,7 @@ test_that("smooth_age_range: Multiple values causes error in internal function",
         use_parallel = FALSE,
         interest_threshold = NULL,
         time_standardisation = 500,
-        verbose = FALSE
+        silent = TRUE
       )
     ),
     # none programmed into the function yet
@@ -1769,7 +1769,7 @@ test_that("smooth_age_range: Character value throws error requiring numeric inpu
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_age_range' must be one of the following: 'numeric'"
   )
@@ -1806,7 +1806,7 @@ test_that("smooth_age_range: Zero value causes error in internal calculations", 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "`age_diff` must be size 1, not 2"
   )
@@ -1843,7 +1843,7 @@ test_that("smooth_age_range: NA value throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_age_range' must be one of the following: 'numeric'"
   )
@@ -1880,7 +1880,7 @@ test_that("smooth_age_range: Empty list throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_age_range' must be one of the following: 'numeric'"
   )
@@ -1916,7 +1916,7 @@ test_that("smooth_age_range: Empty data.frame throws error requiring numeric inp
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_age_range' must be one of the following: 'numeric'"
   )
@@ -1957,7 +1957,7 @@ test_that("smooth_n_max: Missing argument uses default value 9 without error", {
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -1995,7 +1995,7 @@ test_that("smooth_n_max: NULL value throws error requiring single value", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "length of assertion is not 1"
   )
@@ -2032,7 +2032,7 @@ test_that("smooth_n_max: Multiple values throw error as only single value allowe
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: length of assertion is not 1"
   )
@@ -2069,7 +2069,7 @@ test_that("smooth_n_max: Character value throws error requiring numeric input", 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "non-numeric argument to binary operator"
   )
@@ -2107,7 +2107,7 @@ test_that("smooth_n_max: Even number throws error as odd number required", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_n_max' must be an odd number"
   )
@@ -2143,7 +2143,7 @@ test_that("smooth_n_max: Value not larger than smooth_n_points throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_n_max' must be bigger than 'smooth_n_points"
   )
@@ -2180,7 +2180,7 @@ test_that("smooth_n_max: Zero value throws error as odd number required", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'smooth_n_max' must be an odd number"
   )
@@ -2217,7 +2217,7 @@ test_that("smooth_n_max: NA value throws error requiring non-missing value", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: missing values present in assertion"
   )
@@ -2254,7 +2254,7 @@ test_that("smooth_n_max: Empty list throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "non-numeric argument to binary operator"
   )
@@ -2291,7 +2291,7 @@ test_that("smooth_n_max: Empty data.frame throws error requiring single value", 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: length of assertion is not 1"
   )
@@ -2329,7 +2329,7 @@ test_that("working_units: Missing argument uses default value 'levels' without e
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -2365,7 +2365,7 @@ test_that("working_units: NULL value throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'working_units' must be one of the following: 'character'"
   )
@@ -2400,7 +2400,7 @@ test_that("working_units: Multiple values throw error as only single value allow
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'arg' must be of length 1"
   )
@@ -2435,7 +2435,7 @@ test_that("working_units: Invalid character value throws error listing allowed o
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'working_units' must contains one of the following values: 'levels', 'bins', 'MW'"
   )
@@ -2470,7 +2470,7 @@ test_that("working_units: Numeric value throws error requiring character input",
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'working_units' must be one of the following: 'character'"
   )
@@ -2505,7 +2505,7 @@ test_that("working_units: Zero value throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'working_units' must be one of the following: 'character'"
   )
@@ -2540,7 +2540,7 @@ test_that("working_units: NA value throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'working_units' must be one of the following: 'character'"
   )
@@ -2575,7 +2575,7 @@ test_that("working_units: Empty list throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'working_units' must be one of the following: 'character'"
   )
@@ -2610,7 +2610,7 @@ test_that("working_units: Empty data.frame throws error requiring character inpu
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'working_units' must be one of the following: 'character'"
   )
@@ -2648,7 +2648,7 @@ test_that("bin_size: Missing argument uses default value 500 without error", {
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -2683,7 +2683,7 @@ test_that("bin_size: NULL value throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_size' must be one of the following: 'numeric'"
   )
@@ -2718,7 +2718,7 @@ test_that("bin_size: Multiple numeric values throws error requiring single argum
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: length of assertion is not 1"
   )
@@ -2753,7 +2753,7 @@ test_that("bin_size: Character value throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_size' must be one of the following: 'numeric'"
   )
@@ -2788,7 +2788,7 @@ test_that("bin_size: Zero value throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "invalid"
   )
@@ -2823,7 +2823,7 @@ test_that("bin_size: NA value throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_size' must be one of the following: 'numeric'"
   )
@@ -2858,7 +2858,7 @@ test_that("bin_size: Empty list throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_size' must be one of the following: 'numeric'"
   )
@@ -2893,7 +2893,7 @@ test_that("bin_size: Empty data.frame throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_size' must be one of the following: 'numeric'"
   )
@@ -2932,7 +2932,7 @@ test_that("number_of_shifts: Missing argument uses default value 5 without error
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -2967,7 +2967,7 @@ test_that("number_of_shifts: NULL value throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'number_of_shifts' must be one of the following: 'numeric'"
   )
@@ -3002,7 +3002,7 @@ test_that("number_of_shifts: Multiple values throw error as only single value al
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: length of assertion is not 1"
   )
@@ -3037,7 +3037,7 @@ test_that("number_of_shifts: Character value throws error requiring numeric inpu
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'number_of_shifts' must be one of the following: 'numeric'"
   )
@@ -3074,7 +3074,7 @@ test_that("number_of_shifts: Valid numeric value works without error", {
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -3112,7 +3112,7 @@ test_that("number_of_shifts: Zero value is overwritten with 1 without error", {
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -3148,7 +3148,7 @@ test_that("number_of_shifts: NA value throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'number_of_shifts' must be one of the following: 'numeric'"
   )
@@ -3183,7 +3183,7 @@ test_that("number_of_shifts: Empty list throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'number_of_shifts' must be one of the following: 'numeric'"
   )
@@ -3218,7 +3218,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'number_of_shifts' must be one of the following: 'numeric'"
   )
@@ -3256,7 +3256,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
   )
 })
@@ -3292,7 +3292,7 @@ test_that("bin_selection: NULL value throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_selection' must be one of the following: 'character'"
   )
@@ -3329,7 +3329,7 @@ test_that("bin_selection: Multiple values throw error as only single value allow
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'arg' must be of length 1"
   )
@@ -3366,7 +3366,7 @@ test_that("bin_selection: Invalid character value throws error listing allowed o
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_selection' must contains one of the following values: 'first', 'random'"
   )
@@ -3403,7 +3403,7 @@ test_that("bin_selection: Numeric value throws error requiring character input",
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_selection' must be one of the following: 'character'"
   )
@@ -3440,7 +3440,7 @@ test_that("bin_selection: Zero value throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_selection' must be one of the following: 'character'"
   )
@@ -3477,7 +3477,7 @@ test_that("bin_selection: NA value throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_selection' must be one of the following: 'character'"
   )
@@ -3514,7 +3514,7 @@ test_that("bin_selection: Empty list throws error requiring character input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_selection' must be one of the following: 'character'"
   )
@@ -3551,7 +3551,7 @@ test_that("bin_selection: Empty data.frame throws error requiring character inpu
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'bin_selection' must be one of the following: 'character'"
   )
@@ -3592,7 +3592,7 @@ test_that("standardise: Missing argument uses default value FALSE without error"
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -3630,7 +3630,7 @@ test_that("standardise: NULL value throws error requiring logical input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'standardise' must be one of the following: 'logical'"
   )
@@ -3667,7 +3667,7 @@ test_that("standardise: Multiple values throw error as only single value allowed
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     # none programmed into function yet. will use first element in vector
     # e.g., "assert_that: length of assertion is not 1"
@@ -3705,7 +3705,7 @@ test_that("standardise: Character value throws error requiring logical input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'standardise' must be one of the following: 'logical'"
   )
@@ -3742,7 +3742,7 @@ test_that("standardise: Numeric value throws error requiring logical input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'standardise' must be one of the following: 'logical'"
   )
@@ -3779,7 +3779,7 @@ test_that("standardise: Zero value throws error requiring logical input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'standardise' must be one of the following: 'logical'"
   )
@@ -3816,7 +3816,7 @@ test_that("standardise: NA value throws error instead of using FALSE silently", 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     # none programmed into the function yet. Skips standardising
     # e.g., "'standardise' must be one of the following: c(TRUE, FALSE)"
@@ -3854,7 +3854,7 @@ test_that("standardise: Empty list throws error requiring logical input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'standardise' must be one of the following: 'logical'"
   )
@@ -3891,7 +3891,7 @@ test_that("standardise: Empty data.frame throws error requiring logical input", 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'standardise' must be one of the following: 'logical'"
   )
@@ -3932,7 +3932,7 @@ test_that("n_individuals: Missing argument uses default value 150 without error"
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -3970,7 +3970,7 @@ test_that("n_individuals: NULL value throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'n_individuals' must be one of the following: 'numeric'"
   )
@@ -4007,7 +4007,7 @@ test_that("n_individuals: Multiple values throw error as only single value allow
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: length of assertion is not 1"
   )
@@ -4044,7 +4044,7 @@ test_that("n_individuals: Character value throws error requiring numeric input",
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'n_individuals' must be one of the following: 'numeric'"
   )
@@ -4082,7 +4082,7 @@ test_that("n_individuals: Zero value throws error in internal calculations", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "invalid 'length' argument"
   )
@@ -4119,7 +4119,7 @@ test_that("n_individuals: NA value throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'n_individuals' must be one of the following: 'numeric'"
   )
@@ -4156,7 +4156,7 @@ test_that("n_individuals: Empty list throws error requiring numeric input", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'n_individuals' must be one of the following: 'numeric'"
   )
@@ -4193,7 +4193,7 @@ test_that("n_individuals: Empty dataframe throws error requiring numeric input",
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'n_individuals' must be one of the following: 'numeric'"
   )
@@ -4233,7 +4233,7 @@ test_that("dissimilarity_coefficient: Missing argument uses default value 'euc' 
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -4271,7 +4271,7 @@ test_that("dissimilarity_coefficient: NULL value throws error requiring characte
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'dissimilarity_coefficient' must be one of the following: 'character'"
   )
@@ -4308,7 +4308,7 @@ test_that("dissimilarity_coefficient: Multiple values throw error as only single
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'arg' must be of length 1"
   )
@@ -4344,7 +4344,7 @@ test_that("dissimilarity_coefficient: invalid character values throw error as on
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'dissimilarity_coefficient' must contains one of the following values: 'euc', 'euc.sd', 'chord', 'chisq', 'gower', 'bray'"
   )
@@ -4381,7 +4381,7 @@ test_that("dissimilarity_coefficient: Numeric value throws error requiring chara
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'dissimilarity_coefficient' must be one of the following: 'character'"
   )
@@ -4418,7 +4418,7 @@ test_that("dissimilarity_coefficient: Zero value throws error requiring characte
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'dissimilarity_coefficient' must be one of the following: 'character'"
   )
@@ -4455,7 +4455,7 @@ test_that("dissimilarity_coefficient: NA value throws error requiring character 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'dissimilarity_coefficient' must be one of the following: 'character'"
   )
@@ -4492,7 +4492,7 @@ test_that("dissimilarity_coefficient: Empty list throws error requiring characte
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'dissimilarity_coefficient' must be one of the following: 'character'"
   )
@@ -4529,7 +4529,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'dissimilarity_coefficient' must be one of the following: 'character'"
   )
@@ -4567,7 +4567,7 @@ test_that("estimate_roc throws error when smooth_method is NULL (invalid empty i
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     )
   )
 })
@@ -4603,7 +4603,7 @@ test_that("tranform_to_proportions: NULL value throws error requiring logical in
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'tranform_to_proportions' must be one of the following: 'logical'"
   )
@@ -4640,7 +4640,7 @@ test_that("tranform_to_proportions: Multiple values throw error as only single v
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     # none programmed into function yet
     "'arg' must be of length 1"
@@ -4678,7 +4678,7 @@ test_that("tranform_to_proportions: Character value throws error requiring logic
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'tranform_to_proportions' must be one of the following: 'logical'"
   )
@@ -4715,7 +4715,7 @@ test_that("tranform_to_proportions: Numeric value throws error requiring logical
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'tranform_to_proportions' must be one of the following: 'logical'"
   )
@@ -4752,7 +4752,7 @@ test_that("tranform_to_proportions: Zero value throws error requiring logical in
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'tranform_to_proportions' must be one of the following: 'logical'"
   )
@@ -4789,7 +4789,7 @@ test_that("tranform_to_proportions: NA value throws error requiring non-missing 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: missing values present in assertion"
   )
@@ -4825,7 +4825,7 @@ test_that("tranform_to_proportions: Empty list throws error requiring logical in
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'tranform_to_proportions' must be one of the following: 'logical'"
   )
@@ -4861,7 +4861,7 @@ test_that("tranform_to_proportions: Empty data.frame throws error requiring logi
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'tranform_to_proportions' must be one of the following: 'logical'"
   )
@@ -4900,7 +4900,7 @@ test_that("rand: Missing argument uses default value without error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "argument is of length zero"
   )
@@ -4937,7 +4937,7 @@ test_that("rand: NULL value throws error requiring non-zero input for rand", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "argument is of length zero"
   )
@@ -4974,7 +4974,7 @@ test_that("rand: Multiple values for tranform_to_proportions throw error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: length of assertion is not 1"
   )
@@ -5011,7 +5011,7 @@ test_that("rand: Character value throws error requiring numeric or NULL", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'rand' must be one of the following: 'NULL', 'numeric'"
   )
@@ -5048,7 +5048,7 @@ test_that("rand: Zero value causes error in internal function calculation", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "subscript out of bounds"
   )
@@ -5085,7 +5085,7 @@ test_that("rand: NA value throws error requiring numeric or NULL", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'rand' must be one of the following: 'NULL', 'numeric'"
   )
@@ -5122,7 +5122,7 @@ test_that("rand: Empty list throws error requiring numeric or NULL", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'rand' must be one of the following: 'NULL', 'numeric'"
   )
@@ -5159,7 +5159,7 @@ test_that("rand: Empty data.frame throws error requiring numeric or NULL", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'rand' must be one of the following: 'NULL', 'numeric'"
   )
@@ -5199,7 +5199,7 @@ test_that("use_parallel: Missing argument uses default value without error", {
           use_parallel = , # will use default FALSE
           interest_threshold = NULL,
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -5237,7 +5237,7 @@ test_that("use_parallel: NULL input throws error requiring logical or numeric", 
       use_parallel = NULL,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'use_parallel' must be one of the following: 'logical', 'numeric'"
   )
@@ -5274,7 +5274,7 @@ test_that("use_parallel: multiple input throws error", {
       use_parallel = c(TRUE, 100),
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: length of assertion is not 1"
   )
@@ -5311,7 +5311,7 @@ test_that("use_parallel: Character input throws error requiring logical or numer
       use_parallel = "TRUE",
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'use_parallel' must be one of the following: 'logical', 'numeric'"
   )
@@ -5348,7 +5348,7 @@ test_that("use_parallel: Zero (0) input throws error requiring more than 0 cores
       use_parallel = 0,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     # this should throw an error
     # - not sure what it does if 0 cores are entered as input
@@ -5386,7 +5386,7 @@ test_that("use_parallel: NA throws error requiring non-NA input", {
       use_parallel = NA,
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     # should throw an error.
     # not sure what it does if NA is entered as input
@@ -5424,7 +5424,7 @@ test_that("use_parallel: empty list input throws error requiring logical or nume
       use_parallel = list(),
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'use_parallel' must be one of the following: 'logical', 'numeric'"
   )
@@ -5460,7 +5460,7 @@ test_that("use_parallel: empty dataframe input throws error requiring logical or
       use_parallel = data.frame(),
       interest_threshold = NULL,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'use_parallel' must be one of the following: 'logical', 'numeric'"
   )
@@ -5501,7 +5501,7 @@ test_that("interest_threshold: empty input uses default with no error", {
           use_parallel = FALSE,
           interest_threshold = , # will use default NULL
           time_standardisation = 500,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -5540,7 +5540,7 @@ test_that("interest_threshold: multiple input throws error requiring single valu
         use_parallel = FALSE,
         interest_threshold = c(2000, 3000),
         time_standardisation = 500,
-        verbose = FALSE
+        silent = TRUE
       )
     ),
     # none programmed into the function yet.
@@ -5579,7 +5579,7 @@ test_that("interest_threshold: Character input throws error requiring numeric", 
       use_parallel = FALSE,
       interest_threshold = "3000",
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "interest_threshold' must be one of the following: 'NULL', 'numeric'"
   )
@@ -5616,7 +5616,7 @@ test_that("interest_threshold: NA input throws error requiring numeric", {
       use_parallel = FALSE,
       interest_threshold = NA,
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "interest_threshold' must be one of the following: 'NULL', 'numeric'"
   )
@@ -5653,7 +5653,7 @@ test_that("interest_threshold: list input throws error requiring numeric", {
       use_parallel = FALSE,
       interest_threshold = list(),
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "interest_threshold' must be one of the following: 'NULL', 'numeric'"
   )
@@ -5689,7 +5689,7 @@ test_that("interest_threshold: Empty dataframe input throws error requiring nume
       use_parallel = FALSE,
       interest_threshold = data.frame(),
       time_standardisation = 500,
-      verbose = FALSE
+      silent = TRUE
     ),
     "interest_threshold' must be one of the following: 'NULL', 'numeric'"
   )
@@ -5730,7 +5730,7 @@ test_that("time_standardisation: empty input uses default with no error", {
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = ,
-          verbose = FALSE
+          silent = TRUE
         )
       })
     )
@@ -5768,7 +5768,7 @@ test_that("time_standardisation: multiple input throws error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = c(500, 1000),
-      verbose = FALSE
+      silent = TRUE
     ),
     "assert_that: length of assertion is not 1"
   )
@@ -5805,7 +5805,7 @@ test_that("time_standardisation: Character input throws error requiring numeric"
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = "500",
-      verbose = FALSE
+      silent = TRUE
     ),
     "'time_standardisation' must be one of the following: 'numeric'"
   )
@@ -5842,7 +5842,7 @@ test_that("time_standardisation: NA input throws error requiring numeric", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NA,
-      verbose = FALSE
+      silent = TRUE
     ),
     "time_standardisation' must be one of the following: 'numeric'"
   )
@@ -5879,7 +5879,7 @@ test_that("time_standardisation: Empty list input throws error requiring numeric
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = list(),
-      verbose = FALSE
+      silent = TRUE
     ),
     "time_standardisation' must be one of the following: 'numeric'"
   )
@@ -5916,7 +5916,7 @@ test_that("time_standardisation: Empty data.frame input throws error requiring n
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = data.frame(),
-      verbose = FALSE
+      silent = TRUE
     ),
     "time_standardisation' must be one of the following: 'numeric'"
   )
@@ -5955,8 +5955,7 @@ test_that("verbose: Empty input uses default without error", {
           rand = 1,
           use_parallel = FALSE,
           interest_threshold = NULL,
-          time_standardisation = NULL,
-          verbose =
+          time_standardisation = NULL
         )
       })
     )
@@ -6292,7 +6291,7 @@ test_that("Valid data input returns a data.frame", {
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = NULL,
-          verbose = FALSE
+          silent = TRUE
         )
     })
   )
@@ -6326,7 +6325,7 @@ test_that("Valid data input returns correct column types", {
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = NULL,
-          verbose = FALSE
+          silent = TRUE
         )
     })
   )
@@ -6361,7 +6360,7 @@ test_that("Valid data input returns correct column types", {
           use_parallel = FALSE,
           interest_threshold = NULL,
           time_standardisation = NULL,
-          verbose = FALSE
+          silent = TRUE
         )
     })
   )
@@ -6396,7 +6395,7 @@ test_that("Valid data input returns correct columns", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_identical(
@@ -6434,7 +6433,7 @@ test_that("Valid data input returns correct column types", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
   expect_identical(
     c(
@@ -6471,7 +6470,7 @@ test_that("Valid data input returns correct column types", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
   expect_identical(
     c(
@@ -6509,7 +6508,7 @@ test_that("Valid data input returns correct column types", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_type(
@@ -6557,7 +6556,7 @@ test_that("Valid data input returns correct column types", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_type(
@@ -6605,7 +6604,7 @@ test_that("Valid data input returns correct column types", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_type(
@@ -6650,7 +6649,7 @@ test_that("estimate_roc output has correct structure with required columns", {
           bin_selection = "first",
           dissimilarity_coefficient = "euc",
           rand = 1,
-          verbose = FALSE
+          silent = TRUE
         )
     })
   )
@@ -6690,7 +6689,7 @@ test_that("estimate_roc output has rows sorted by Age", {
           bin_selection = "first",
           dissimilarity_coefficient = "euc",
           rand = 1,
-          verbose = FALSE
+          silent = TRUE
         )
     })
   )
@@ -6729,7 +6728,7 @@ test_that("estimate_roc properly applies interest_threshold", {
       dissimilarity_coefficient = "euc",
       interest_threshold = median_age,
       rand = 1,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Check that all ages in result are less than or equal to the threshold
@@ -6757,7 +6756,7 @@ test_that("estimate_roc produces different ROC values with different dissimilari
       bin_selection = "first",
       dissimilarity_coefficient = "chisq",
       rand = 1,
-      verbose = FALSE
+      silent = TRUE
     )
 
   set.seed(123)
@@ -6771,7 +6770,7 @@ test_that("estimate_roc produces different ROC values with different dissimilari
       bin_selection = "first",
       dissimilarity_coefficient = "chord",
       rand = 1,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Check that ROC values differ between methods
@@ -6801,7 +6800,7 @@ test_that("estimate_roc produces more working units with MW compared to bins met
       bin_selection = "first",
       dissimilarity_coefficient = "euc",
       rand = 1,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Run with MW (moving window)
@@ -6816,7 +6815,7 @@ test_that("estimate_roc produces more working units with MW compared to bins met
       bin_selection = "first",
       dissimilarity_coefficient = "euc",
       rand = 1,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Check that MW produces more working units than bins
@@ -6847,7 +6846,7 @@ test_that("estimate_roc returns ROC values within expected range for proportion 
           dissimilarity_coefficient = "euc",
           tranform_to_proportions = TRUE,
           rand = 1,
-          verbose = FALSE
+          silent = TRUE
         )
     })
   )
@@ -6875,33 +6874,41 @@ test_that("estimate_roc with time_standardisation properly scales ROC values", {
 
   # Run with different time_standardisation values
   set.seed(123)
-  result_500 <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      smooth_method = "none",
-      working_units = "levels",
-      bin_size = 500,
-      bin_selection = "first",
-      dissimilarity_coefficient = "euc",
-      time_standardisation = 500,
-      rand = 1,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result_500 <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          smooth_method = "none",
+          working_units = "levels",
+          bin_size = 500,
+          bin_selection = "first",
+          dissimilarity_coefficient = "euc",
+          time_standardisation = 500,
+          rand = 1,
+          silent = TRUE
+        )
+    })
+  )
   set.seed(123)
-  result_1000 <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      smooth_method = "none",
-      working_units = "levels",
-      bin_size = 500,
-      bin_selection = "first",
-      dissimilarity_coefficient = "euc",
-      time_standardisation = 1000,
-      rand = 1,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result_1000 <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          smooth_method = "none",
+          working_units = "levels",
+          bin_size = 500,
+          bin_selection = "first",
+          dissimilarity_coefficient = "euc",
+          time_standardisation = 1000,
+          rand = 1,
+          silent = TRUE
+        )
+    })
+  )
 
   # When time_standardisation is doubled, ROC values should be doubled
   # This is an approximate test due to randomization
@@ -6926,33 +6933,41 @@ test_that("estimate_roc applies smoothing correctly", {
 
   # Run with no smoothing
   set.seed(123)
-  result_none <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      smooth_method = "none",
-      working_units = "levels",
-      bin_size = 500,
-      bin_selection = "first",
-      dissimilarity_coefficient = "euc",
-      rand = 1,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result_none <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          smooth_method = "none",
+          working_units = "levels",
+          bin_size = 500,
+          bin_selection = "first",
+          dissimilarity_coefficient = "euc",
+          rand = 1,
+          silent = TRUE
+        )
+    })
+  )
 
   # Run with Shepard smoothing
   set.seed(123)
-  result_shep <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      smooth_method = "shep",
-      working_units = "levels",
-      bin_size = 500,
-      bin_selection = "first",
-      dissimilarity_coefficient = "euc",
-      rand = 1,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result_shep <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          smooth_method = "shep",
+          working_units = "levels",
+          bin_size = 500,
+          bin_selection = "first",
+          dissimilarity_coefficient = "euc",
+          rand = 1,
+          silent = TRUE
+        )
+    })
+  )
 
   # Smoothing should typically result in different ROC values
   # and often lower variance in the results
@@ -7002,35 +7017,43 @@ test_that("estimate_roc confidence intervals (ROC_up, ROC_dw) widen with higher 
 
   # Run with original uncertainty
   set.seed(123)
-  result_orig <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "none",
-      working_units = "levels",
-      bin_size = 500,
-      bin_selection = "first",
-      dissimilarity_coefficient = "euc",
-      rand = 10,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result_orig <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "none",
+          working_units = "levels",
+          bin_size = 500,
+          bin_selection = "first",
+          dissimilarity_coefficient = "euc",
+          rand = 10,
+          silent = TRUE
+        )
+    })
+  )
 
   # Run with increased uncertainty
   set.seed(123)
-  result_high <-
-    estimate_roc(
-      data_source_community = data_source_community,
-      data_source_age = data_source_age,
-      age_uncertainty = increased_uncertainty,
-      smooth_method = "none",
-      working_units = "levels",
-      bin_size = 500,
-      bin_selection = "first",
-      dissimilarity_coefficient = "euc",
-      rand = 10,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      result_high <-
+        estimate_roc(
+          data_source_community = data_source_community,
+          data_source_age = data_source_age,
+          age_uncertainty = increased_uncertainty,
+          smooth_method = "none",
+          working_units = "levels",
+          bin_size = 500,
+          bin_selection = "first",
+          dissimilarity_coefficient = "euc",
+          rand = 10,
+          silent = TRUE
+        )
+    })
+  )
 
   # Calculate confidence interval width
   ci_width_orig <-
@@ -7071,29 +7094,33 @@ test_that("Community data with all-zero samples drops samples correctly", {
   community[1:5, -1] <-
     0 # first five rows all zero (sample_id = 392671:392675)
 
-  res <-
-    estimate_roc(
-      data_source_community = community,
-      data_source_age = age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "levels",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = NULL,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      res <-
+        estimate_roc(
+          data_source_community = community,
+          data_source_age = age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "levels",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = NULL,
+          silent = TRUE
+        )
+    })
+  )
   expect_false(
     any(
       grepl(
@@ -7140,7 +7167,7 @@ test_that("All zero community data input returns error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     ),
     "subscript out of bounds"
   )
@@ -7158,29 +7185,33 @@ test_that("Community data with all-NA samples drops samples correctly", {
   community[1:5, -1] <-
     NA # first five rows all NA (sample_id = 392671:392675)
 
-  res <-
-    estimate_roc(
-      data_source_community = community,
-      data_source_age = age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "grim",
-      smooth_n_points = 5,
-      smooth_age_range = 500,
-      smooth_n_max = 9,
-      working_units = "levels",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = NULL,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      res <-
+        estimate_roc(
+          data_source_community = community,
+          data_source_age = age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "grim",
+          smooth_n_points = 5,
+          smooth_age_range = 500,
+          smooth_n_max = 9,
+          working_units = "levels",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = NULL,
+          silent = TRUE
+        )
+    })
+  )
   expect_false(
     any(
       grepl(
@@ -7227,7 +7258,7 @@ test_that("All NA community data input returns error", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     ),
     "subscript out of bounds"
   )
@@ -7248,26 +7279,30 @@ test_that("estimate_roc() correctly handles age data with NAs", {
   age_uncertainty[, 1:5] <-
     NA
 
-  res <-
-    estimate_roc(
-      data_source_community = community,
-      data_source_age = age,
-      age_uncertainty = age_uncertainty,
-      smooth_method = "none",
-      working_units = "levels",
-      bin_size = 500,
-      number_of_shifts = 1,
-      bin_selection = "first",
-      standardise = TRUE,
-      n_individuals = 150,
-      dissimilarity_coefficient = "euc",
-      tranform_to_proportions = TRUE,
-      rand = 1,
-      use_parallel = FALSE,
-      interest_threshold = NULL,
-      time_standardisation = NULL,
-      verbose = FALSE
-    )
+  invisible(
+    capture.output({
+      res <-
+        estimate_roc(
+          data_source_community = community,
+          data_source_age = age,
+          age_uncertainty = age_uncertainty,
+          smooth_method = "none",
+          working_units = "levels",
+          bin_size = 500,
+          number_of_shifts = 1,
+          bin_selection = "first",
+          standardise = TRUE,
+          n_individuals = 150,
+          dissimilarity_coefficient = "euc",
+          tranform_to_proportions = TRUE,
+          rand = 1,
+          use_parallel = FALSE,
+          interest_threshold = NULL,
+          time_standardisation = NULL,
+          silent = TRUE
+        )
+    })
+  )
 
   expect_false(
     any(
@@ -7309,7 +7344,7 @@ test_that("estimate_roc() correctly handles age data with NAs", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     ),
     # none programmed into the function yet
     # e.g., "No valid age data available (all NA)"

@@ -134,7 +134,7 @@ test_that("detect_sni rejects missing BandWidth input", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -178,7 +178,7 @@ test_that("detect_sni rejects NULL BandWidth input", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -222,7 +222,7 @@ test_that("detect_sni rejects character BandWidth input", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -266,7 +266,7 @@ test_that("detect_sni throws error with negative BandWidth input", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -309,7 +309,7 @@ test_that("detect_sni handles zero BandWidth input", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -357,7 +357,7 @@ test_that("detect_sni rejects CharData with incorrect number of columns", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Create input for detect_sni with only 2 columns instead of required 3
@@ -394,7 +394,7 @@ test_that("detect_sni handles CharData with NAs in ages column", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -443,7 +443,7 @@ test_that("detect_sni handles CharData with NAs in ROC column", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -492,7 +492,7 @@ test_that("detect_sni handles CharData with NAs in threshold column", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -545,7 +545,7 @@ test_that("detect_sni returns a list with expected elements", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -594,7 +594,7 @@ test_that("detect_sni returns SNI as numeric vector with proper length", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -647,7 +647,7 @@ test_that("detect_sni returns winInd as matrix with proper dimensions", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -698,7 +698,7 @@ test_that("detect_sni returns popN and popS as lists with proper length", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -755,7 +755,7 @@ test_that("detect_sni returns meanN, stdN, CF as numeric vectors with proper len
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -828,7 +828,7 @@ test_that("detect_sni produces SNI values within expected range", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -880,7 +880,7 @@ test_that("detect_sni produces different results with different bandwidth", {
       dissimilarity_coefficient = "euc",
       tranform_to_proportions = TRUE,
       use_parallel = FALSE,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -941,7 +941,7 @@ test_that("detect_sni produces a list output", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -991,7 +991,7 @@ test_that("detect_sni returns correct names in list elements", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-
@@ -1040,7 +1040,7 @@ test_that("detect_sni produces output with no NA values", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   pred_gam <-

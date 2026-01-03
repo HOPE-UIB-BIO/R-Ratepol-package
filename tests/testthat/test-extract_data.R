@@ -11,7 +11,7 @@ test_that("extract_data works with default parameters (age_uncertainty = NULL)",
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = NULL,
-        verbose = FALSE
+        silent = TRUE
       )
   )
 
@@ -110,7 +110,7 @@ test_that("extract_data works with default parameters (with age_uncertainty)", {
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = RRatepol::example_data$sample_age[[1]],
         age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        verbose = FALSE
+        silent = TRUE
       )
   )
 
@@ -539,7 +539,7 @@ test_that("extract_data() handles community data with character columns - return
     extract_data(
       data_community_extract = char_community,
       data_age_extract = RRatepol::example_data$sample_age[[1]],
-      verbose = FALSE
+      silent = TRUE
     ),
     "'x' must be numeric"
   )
@@ -1114,7 +1114,7 @@ test_that("extract_data() throws error if sample_id is numeric in community data
     extract_data(
       data_community_extract = community_numeric_id,
       data_age_extract = RRatepol::example_data$sample_age[[1]],
-      verbose = FALSE
+      silent = TRUE
     ),
     "Variable 'sample_id' in 'data_community' must.*be a 'character'"
   )
@@ -1131,7 +1131,7 @@ test_that("extract_data() throws error if sample_id is factor in community data"
     extract_data(
       data_community_extract = community_factor_id,
       data_age_extract = RRatepol::example_data$sample_age[[1]],
-      verbose = FALSE
+      silent = TRUE
     ),
     "Variable 'sample_id' in 'data_community' must.*be a 'character'"
   )
@@ -1148,7 +1148,7 @@ test_that("extract_data() throws error if sample_id is numeric in age data", {
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = age_numeric_id,
-      verbose = FALSE
+      silent = TRUE
     ),
     "Variable 'sample_id' must have same values in.*'data_age' and 'data_community'"
   )
@@ -1168,7 +1168,7 @@ test_that("extract_data() throws error if age column is missing in age data", {
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = age_no_age_col,
-      verbose = FALSE
+      silent = TRUE
     ),
     "Variable 'age' in 'data_source_age' must be a 'numeric'"
   )
@@ -1185,7 +1185,7 @@ test_that("extract_data() throws error if age column is character", {
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = age_char_age,
-      verbose = FALSE
+      silent = TRUE
     ),
     "Variable 'age' in 'data_source_age' must be a 'numeric'"
   )
@@ -1202,7 +1202,7 @@ test_that("extract_data() throws error if age column is factor", {
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = age_factor_age,
-      verbose = FALSE
+      silent = TRUE
     ),
     "Variable 'age' in 'data_source_age' must be a 'numeric'"
   )
@@ -1222,7 +1222,7 @@ test_that("extract_data() throws error if age_uncertainty has wrong number of co
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = age_un_wrong_size,
-      verbose = FALSE
+      silent = TRUE
     ),
     "Object 'data_source_age' and 'age_uncertainty' must have.*the same number of levels"
   )
@@ -1241,7 +1241,7 @@ test_that("extract_data() throws error if age_uncertainty has too many columns",
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = age_un_extra,
-      verbose = FALSE
+      silent = TRUE
     ),
     "Object 'data_source_age' and 'age_uncertainty' must have.*the same number of levels"
   )
@@ -1257,7 +1257,7 @@ test_that("extract_data() throws error if age_uncertainty is data.frame instead 
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = age_un_df,
-      verbose = FALSE
+      silent = TRUE
     ),
     "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
   )
@@ -1270,7 +1270,7 @@ test_that("extract_data() throws error if age_uncertainty is character vector", 
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = "uncertainty_data",
-      verbose = FALSE
+      silent = TRUE
     ),
     "'age_uncertainty' must be one of the following: 'NULL', 'matrix'"
   )
@@ -1297,7 +1297,7 @@ test_that("extract_data() throws error if community has additional samples (rows
     extract_data(
       data_community_extract = extra_sample_in_community,
       data_age_extract = RRatepol::example_data$sample_age[[1]],
-      verbose = FALSE
+      silent = TRUE
     ),
     "Variable 'sample_id' must have same values in.*'data_age' and 'data_community'"
   )
@@ -1315,7 +1315,7 @@ test_that("extract_data() throws error if age has more rows than community data"
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = extra_age,
-      verbose = FALSE
+      silent = TRUE
     ),
     "Variable 'sample_id' must have same values in.*'data_age' and 'data_community'"
   )
@@ -1336,7 +1336,7 @@ test_that("extract_data() throws error if data comunity and age is empty", {
     extract_data(
       data_community_extract = empty_community,
       data_age_extract = empty_age,
-      verbose = FALSE
+      silent = TRUE
     ),
 
     # none programmed into the function yet
@@ -1354,7 +1354,7 @@ test_that("extract_data() handles single row data - returns list", {
     extract_data(
       data_community_extract = single_community,
       data_age_extract = single_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_type(result, "list")
@@ -1371,7 +1371,7 @@ test_that("extract_data() handles single row data - returns named list", {
     extract_data(
       data_community_extract = single_community,
       data_age_extract = single_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_named(result, c("community", "age", "age_un"))
@@ -1388,7 +1388,7 @@ test_that("extract_data() handles single row data - community has 1 row", {
     extract_data(
       data_community_extract = single_community,
       data_age_extract = single_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_equal(nrow(result$community), 1)
@@ -1405,7 +1405,7 @@ test_that("extract_data() handles single row data - age has 1 row", {
     extract_data(
       data_community_extract = single_community,
       data_age_extract = single_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_equal(nrow(result$age), 1)
@@ -1420,7 +1420,7 @@ test_that("extract_data() handles minimal community data - returns list", {
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = RRatepol::example_data$sample_age[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_type(result, "list")
@@ -1435,7 +1435,7 @@ test_that("extract_data() throws error if community has 0 columns", {
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = RRatepol::example_data$sample_age[[1]],
-      verbose = FALSE
+      silent = TRUE
     ),
     # none programmed into function yet
   )
@@ -1462,7 +1462,7 @@ test_that("extract_data() throws error with duplicate sample_id in community dat
       extract_data(
         data_community_extract = dup_community,
         data_age_extract = dup_age,
-        verbose = FALSE
+        silent = TRUE
       )
     ),
     "duplicate 'row.names' are not allowed"
@@ -1496,7 +1496,7 @@ test_that("extract_data() sorts unsorted age data", {
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = unsorted_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   # Check that result ages are sorted
@@ -1513,7 +1513,7 @@ test_that("extract_data() maintains sorted age data", {
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = sorted_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_true(is.unsorted(result$age$age) == FALSE)
@@ -1535,7 +1535,7 @@ test_that("extract_data() handles partial NA in age data - produces message", {
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = partial_na_age,
-      verbose = FALSE
+      silent = TRUE
     ),
     "Missing 'age' values"
   )
@@ -1554,7 +1554,7 @@ test_that("extract_data() handles some NA in age data - filters out NA rows", {
       extract_data(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = partial_na_age,
-        verbose = FALSE
+        silent = TRUE
       )
     )
 
@@ -1575,7 +1575,7 @@ test_that("extract_data() handles partial NA in age data - no remaining NAs", {
       extract_data(
         data_community_extract = RRatepol::example_data$pollen_data[[1]],
         data_age_extract = partial_na_age,
-        verbose = FALSE
+        silent = TRUE
       )
     )
 
@@ -1598,7 +1598,7 @@ test_that("extract_data() returns correct structure with minimal data - returns 
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = minimal_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_type(result, "list")
@@ -1616,7 +1616,7 @@ test_that("extract_data() returns correct structure with minimal data - named co
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = minimal_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_named(result, c("community", "age", "age_un"))
@@ -1634,7 +1634,7 @@ test_that("extract_data() returns correct structure with minimal data - communit
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = minimal_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_s3_class(result$community, "data.frame")
@@ -1652,7 +1652,7 @@ test_that("extract_data() returns correct structure with minimal data - age is d
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = minimal_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_s3_class(result$age, "data.frame")
@@ -1670,7 +1670,7 @@ test_that("extract_data() returns correct structure with minimal data - age_un i
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = minimal_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_null(result$age_un)
@@ -1688,7 +1688,7 @@ test_that("extract_data() returns correct structure with minimal data - communit
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = minimal_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_equal(rownames(result$community), minimal_community$sample_id)
@@ -1706,7 +1706,7 @@ test_that("extract_data() returns correct structure with minimal data - age rown
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = minimal_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_equal(rownames(result$age), minimal_age$sample_id)
@@ -1724,7 +1724,7 @@ test_that("extract_data() returns correct structure with minimal data - communit
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = minimal_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_equal(
@@ -1745,7 +1745,7 @@ test_that("extract_data() returns correct structure with minimal data - age valu
     extract_data(
       data_community_extract = minimal_community,
       data_age_extract = minimal_age,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_equal(result$age$age, minimal_age$age)
@@ -1758,7 +1758,7 @@ test_that("extract_data() correctly assigns column names to age uncertainty", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   expected_names <-

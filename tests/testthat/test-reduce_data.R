@@ -75,7 +75,7 @@ test_that("reduce_data rejects invalid check_taxa argument", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
   expect_error(
     reduce_data(
@@ -92,7 +92,7 @@ test_that("reduce_data rejects invalid check_taxa argument", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
   expect_error(
     reduce_data(
@@ -109,7 +109,7 @@ test_that("reduce_data rejects invalid check_taxa argument", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
   expect_error(
     reduce_data(
@@ -127,7 +127,7 @@ test_that("reduce_data rejects invalid check_levels argument", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
   expect_error(
     reduce_data(
@@ -144,7 +144,7 @@ test_that("reduce_data rejects invalid check_levels argument", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
   expect_error(
     reduce_data(
@@ -161,7 +161,7 @@ test_that("reduce_data rejects invalid check_levels argument", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
   expect_error(
     reduce_data(
@@ -179,7 +179,7 @@ test_that("reduce_data rejects missing community component", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   incomplete_data <-
@@ -201,7 +201,7 @@ test_that("reduce_data rejects missing age component", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   incomplete_data <-
@@ -223,7 +223,7 @@ test_that("reduce_data rejects community as matrix", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$community <-
@@ -242,7 +242,7 @@ test_that("reduce_data rejects age as matrix", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$age <-
@@ -262,7 +262,7 @@ test_that("reduce_data rejects community as list", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$community <-
@@ -282,7 +282,7 @@ test_that("reduce_data rejects age as list", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$age <-
@@ -302,7 +302,7 @@ test_that("reduce_data validates age_un is not a list", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$age_un <-
@@ -323,7 +323,7 @@ test_that("reduce_data rejects community with non-numeric columns", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$community$text_col <-
@@ -342,7 +342,7 @@ test_that("reduce_data validates community must have colnames", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   colnames(raw_data$community) <-
@@ -364,7 +364,7 @@ test_that("reduce_data validates community must have colnames", {
 #       data_community_extract = RRatepol::example_data$pollen_data[[1]],
 #       data_age_extract = RRatepol::example_data$sample_age[[1]],
 #       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-#       verbose = FALSE
+#       silent = TRUE
 #     )
 #
 #   rownames(raw_data$community) <-
@@ -383,7 +383,7 @@ test_that("reduce_data validates community must have colnames", {
 #       data_community_extract = RRatepol::example_data$pollen_data[[1]],
 #       data_age_extract = RRatepol::example_data$sample_age[[1]],
 #       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-#       verbose = FALSE
+#       silent = TRUE
 #     )
 #
 #   rownames(raw_data$age) <-
@@ -404,7 +404,7 @@ test_that("reduce_data with no filtering returns identical data", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -434,7 +434,7 @@ test_that("taxa filtering drops taxa with zero column sums", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column/taxa in community
@@ -459,7 +459,7 @@ test_that("check_levels = FALSE preserves rownames / sample ids", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -487,7 +487,7 @@ test_that("taxa filtering removes all-NA taxa", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$community$na_taxon <-
@@ -513,7 +513,7 @@ test_that("levels filtering removes zero-sum levels from community and age", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -547,7 +547,7 @@ test_that("levels filtering preserves community colnames/taxa", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -576,7 +576,7 @@ test_that("levels filtering maintains matching rownames between community and ag
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -609,7 +609,7 @@ test_that("levels filtering works with NULL age_un", {
     extract_data(
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$community[1, ] <-
@@ -630,7 +630,7 @@ test_that("levels filtering removes all-NA sample", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   first_level <-
@@ -658,7 +658,7 @@ test_that("both filtering removes zero-sum taxa", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -685,7 +685,7 @@ test_that("both filtering removes zero-sum levels", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   first_level <-
@@ -718,7 +718,7 @@ test_that("both filtering removes samples with zero taxa", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -744,7 +744,7 @@ test_that("both filtering maintains matching rownames between community and age 
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -771,7 +771,7 @@ test_that("both filtering handles NULL age_un", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -809,7 +809,7 @@ test_that("reduce_data works with a single sample in community", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$community <-
@@ -830,7 +830,7 @@ test_that("reduce_data works with a single taxon in community", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]][1:2],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -850,7 +850,7 @@ test_that("taxa filtering with all-zero community data throws error", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$community[,] <-
@@ -872,7 +872,7 @@ test_that("levels filtering with all zero levels throws error", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$community[,] <-
@@ -897,7 +897,7 @@ test_that("both filtering with all zero data throws error", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # all zero in community
@@ -920,7 +920,7 @@ test_that("reduce_data throws error if community has no columns", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # 0 columns in community
@@ -942,7 +942,7 @@ test_that("both filtering throws error if all data are NA", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   raw_data$community[,] <-
@@ -970,7 +970,7 @@ test_that("reduce_data produces valid output structure", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -1004,7 +1004,7 @@ test_that("reduce_data produces valid community structure", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -1054,7 +1054,7 @@ test_that("reduce_data produces valid age structure", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community
@@ -1100,7 +1100,7 @@ test_that("reduce_data produces valid age_un structure", {
       data_community_extract = RRatepol::example_data$pollen_data[[1]],
       data_age_extract = RRatepol::example_data$sample_age[[1]],
       age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-      verbose = FALSE
+      silent = TRUE
     )
 
   # one zero column in community

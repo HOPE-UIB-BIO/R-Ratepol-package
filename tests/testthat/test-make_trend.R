@@ -201,7 +201,7 @@ test_that("make_trend uses default 'linear' when sel_method is missing and data_
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_no_error(
@@ -235,7 +235,7 @@ test_that("make_trend errors when sel_method is NULL and data_source is valid", 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -270,7 +270,7 @@ test_that("make_trend errors when sel_method is invalid character and data_sourc
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -305,7 +305,7 @@ test_that("make_trend errors when sel_method is numeric and data_source is valid
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -340,7 +340,7 @@ test_that("make_trend errors when sel_method is zero and data_source is valid", 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -376,7 +376,7 @@ test_that("make_trend errors when sel_method is NA and data_source is valid", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -412,7 +412,7 @@ test_that("make_trend errors when sel_method is length > 1 and data_source is va
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -448,7 +448,7 @@ test_that("make_trend errors when sel_method is an empty list and data_source is
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -484,7 +484,7 @@ test_that("make_trend errors when sel_method is an empty data.frame and data_sou
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   expect_error(
@@ -520,7 +520,7 @@ test_that("make_trend produces different results for 'linear' and 'non_linear' s
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res_linear <-
@@ -566,7 +566,7 @@ test_that("make_trend returns a numeric vector when data_source is valid and sel
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -602,7 +602,7 @@ test_that("make_trend returns a numeric vector when data_source is valid and sel
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -641,7 +641,7 @@ test_that("make_trend with 'linear' handles NA values in ROC column appropriatel
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   data_source$ROC[2] <- NA # Introduce NA value in ROC column
@@ -680,7 +680,7 @@ test_that("make_trend with 'non_linear' handles NA values in ROC column appropri
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   data_source$ROC[2] <- NA # Introduce NA value in ROC column
@@ -720,7 +720,7 @@ test_that("make_trend with 'linear' handles NA values in Age column appropriatel
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   data_source$Age[2] <- NA # Introduce NA value in Age column
@@ -759,7 +759,7 @@ test_that("make_trend with 'non_linear' handles NA values in Age column appropri
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   data_source$Age[2] <- NA # Introduce NA value in Age column
@@ -799,7 +799,7 @@ test_that("make_trend with 'linear' throws warning with single row data frame", 
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
   data_source <-
     data_source[1, ] # Keep only the first row
@@ -836,7 +836,7 @@ test_that("make_trend with 'non_linear' throws error with single row data frame"
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
   data_source <-
     data_source[1, ] # Keep only the first row
@@ -874,7 +874,7 @@ test_that("make_trend with 'linear' rejects negative ROC values", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   data_source$ROC <-
@@ -914,7 +914,7 @@ test_that("make_trend with 'non_linear' rejects negative ROC values", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   data_source$ROC <-
@@ -955,7 +955,7 @@ test_that("make_trend output length matches input rows with 'linear'", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
@@ -992,7 +992,7 @@ test_that("make_trend output length matches input rows with 'non_linear'", {
       use_parallel = FALSE,
       interest_threshold = NULL,
       time_standardisation = NULL,
-      verbose = FALSE
+      silent = TRUE
     )
 
   res <-
