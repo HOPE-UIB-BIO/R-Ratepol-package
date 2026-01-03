@@ -95,7 +95,7 @@
 #' dissimilarity per 100 yr.
 #' @param verbose
 #' Logical. If `TRUE`, function will output messages about internal processes
-#' @param silence
+#' @param silent
 #' Logical. If `TRUE`, suppress all console outputs (overrides verbose). Useful for testing.
 #' @description
 #' A function to estimate Rate of change in community data in time series
@@ -265,7 +265,7 @@ estimate_roc <- function(
   interest_threshold = NULL,
   time_standardisation = NULL,
   verbose = FALSE,
-  silence = FALSE
+  silent = FALSE
 ) {
   # Start of the code
 
@@ -387,7 +387,7 @@ estimate_roc <- function(
 
   RUtilpol::check_class("verbose", "logical")
 
-  RUtilpol::check_class("silence", "logical")
+  RUtilpol::check_class("silent", "logical")
 
   #--------------------------------------------------#
   # 0.1. Report to user -----
@@ -395,7 +395,7 @@ estimate_roc <- function(
 
   start_time <- Sys.time()
 
-  if (isFALSE(silence)) {
+  if (isFALSE(silent)) {
     RUtilpol::output_heading(
       paste("RRatepol started", start_time),
       size = "h1"
@@ -403,14 +403,14 @@ estimate_roc <- function(
   }
 
   if (isFALSE(is.null(age_uncertainty))) {
-    if (isFALSE(silence)) {
+    if (isFALSE(silent)) {
       RUtilpol::output_comment(
         "'age_uncertainty' will be used for in the RoC estimation"
       )
     }
 
     if (rand < 100) {
-      if (isFALSE(silence)) {
+      if (isFALSE(silent)) {
         RUtilpol::output_warning(
           paste(
             "'age_uncertainty' was selected to be used with low number",
@@ -421,7 +421,7 @@ estimate_roc <- function(
     }
   }
 
-  if (isFALSE(silence)) {
+  if (isFALSE(silent)) {
     switch(
       working_units,
       "levels" = {
@@ -454,14 +454,14 @@ estimate_roc <- function(
 
   if (working_units != "levels") {
     if (bin_selection == "random") {
-      if (isFALSE(silence)) {
+      if (isFALSE(silent)) {
         RUtilpol::output_comment(
           "Sample will randomly selected for each bin"
         )
       }
 
       if (rand < 100) {
-        if (isFALSE(silence)) {
+        if (isFALSE(silent)) {
           RUtilpol::output_warning(
             paste(
               "'bin_selection' was selected as 'random' with low number",
@@ -471,7 +471,7 @@ estimate_roc <- function(
         }
       }
     } else {
-      if (isFALSE(silence)) {
+      if (isFALSE(silent)) {
         RUtilpol::output_comment(
           "First sample of each time bin will selected"
         )
@@ -479,7 +479,7 @@ estimate_roc <- function(
     }
   }
 
-  if (isFALSE(silence)) {
+  if (isFALSE(silent)) {
     RUtilpol::output_comment(
       paste(
         "'time_standardisation' =",
@@ -493,7 +493,7 @@ estimate_roc <- function(
   }
 
   if (working_units != "levels" && time_standardisation != bin_size) {
-    if (isFALSE(silence)) {
+    if (isFALSE(silent)) {
       RUtilpol::output_comment(
         paste(
           "RoC values will be reported in different units than size of bin.",
@@ -505,7 +505,7 @@ estimate_roc <- function(
   }
 
   if (isTRUE(standardise)) {
-    if (isFALSE(silence)) {
+    if (isFALSE(silent)) {
       RUtilpol::output_comment(
         paste(
           "Data will be standardise in each Working unit to",
@@ -516,7 +516,7 @@ estimate_roc <- function(
     }
 
     if (rand < 100) {
-      if (isFALSE(silence)) {
+      if (isFALSE(silent)) {
         RUtilpol::output_warning(
           paste(
             "'standardise' was selected as 'TRUE' with low number of replication.",
@@ -539,11 +539,11 @@ estimate_roc <- function(
       data_age_extract = data_source_age,
       age_uncertainty = age_uncertainty,
       verbose = verbose,
-      silence = silence
+      silent = silent
     )
 
   if (ncol(data_extract$community) == 1 && isTRUE(tranform_to_proportions)) {
-    if (isFALSE(silence)) {
+    if (isFALSE(silent)) {
       RUtilpol::output_warning(
         msg = paste(
           "Community data has only 1 variable and `tranform_to_proportions`",
@@ -572,7 +572,7 @@ estimate_roc <- function(
         smooth_age_range = smooth_age_range,
         round_results = standardise,
         verbose = verbose,
-        silence = silence
+        silent = silent
       )
   } else {
     data_smooth <- data_extract
@@ -584,8 +584,8 @@ estimate_roc <- function(
       data_source_reduce = data_smooth
     )
 
-  if (isFALSE(silence) && isTRUE(verbose)) {
-    check_data(data_work, silence = silence)
+  if (isFALSE(silent) && isTRUE(verbose)) {
+    check_data(data_work, silent = silent)
   }
 
   #----------------------------------------------------------#
@@ -598,7 +598,7 @@ estimate_roc <- function(
       isFALSE(is.null(rand)) &&
       (working_units == "levels" || bin_selection == "first")
   ) {
-    if (isFALSE(silence) && isTRUE(verbose)) {
+    if (isFALSE(silent) && isTRUE(verbose)) {
       RUtilpol::output_comment(
         msg = paste(
           "There is no need for randomisation.",
@@ -626,7 +626,7 @@ estimate_roc <- function(
   # 4. Estimation -----
   #----------------------------------------------------------#
 
-  if (isFALSE(silence) && isTRUE(verbose)) {
+  if (isFALSE(silent) && isTRUE(verbose)) {
     RUtilpol::output_heading(
       msg = "Start of estimation",
       size = "h2"
@@ -663,6 +663,13 @@ estimate_roc <- function(
     cl <- NULL
   }
 
+  pbapply::pboptions(type = "timer")
+
+  if (isTRUE(silent)) {
+    pbapply_setting <-
+      pbapply::pboptions(type = "none")
+  }
+
   # run the estimation with progress bar
   result_list <-
     pbapply::pblapply(
@@ -676,8 +683,12 @@ estimate_roc <- function(
       dissimilarity_coefficient = dissimilarity_coefficient,
       time_standardisation = time_standardisation,
       verbose = verbose,
-      silence = silence
+      silent = silent
     )
+
+  if (isTRUE(silent)) {
+    pbapply::pboptions(pbapply_setting)
+  }
 
   # close progress bar and cluster
   if (isFALSE(is.null(cl))) {
@@ -731,7 +742,7 @@ estimate_roc <- function(
   end_time <- Sys.time()
   time_duration <- end_time - start_time
 
-  if (isFALSE(silence)) {
+  if (isFALSE(silent)) {
     RUtilpol::output_heading(
       paste(
         "RRatepol finished",
