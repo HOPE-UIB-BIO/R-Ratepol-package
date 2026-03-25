@@ -12,7 +12,8 @@ run_iteration(
   tranform_to_proportions = TRUE,
   dissimilarity_coefficient = "euc",
   time_standardisation = 500,
-  verbose = FALSE
+  verbose = FALSE,
+  silent = FALSE
 )
 }
 \arguments{
@@ -53,6 +54,8 @@ if \code{time_standardisation} = 100, the RoC will be reported as
 dissimilarity per 100 yr.}
 
 \item{verbose}{Logical. If \code{TRUE}, function will output messages about internal processes}
+
+\item{silent}{Logical. If \code{TRUE}, suppress all console outputs (overrides verbose). Useful for testing.}
 }
 \description{
 A single run is computed following the simple steps:

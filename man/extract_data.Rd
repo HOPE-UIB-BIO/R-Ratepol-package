@@ -8,7 +8,8 @@ extract_data(
   data_community_extract,
   data_age_extract,
   age_uncertainty = NULL,
-  verbose = FALSE
+  verbose = FALSE,
+  silent = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ sampled from age-depth model uncertainties at the beginning of each run.
 
 \item{verbose}{DESCRIPTION.
 Logical. If \code{TRUE}, function will output messages about internal processes}
+
+\item{silent}{Logical. If \code{TRUE}, suppress all console outputs (overrides verbose). Useful for testing.}
 }
 \description{
 Function for general preparation of input data

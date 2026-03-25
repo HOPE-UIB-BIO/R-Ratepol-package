@@ -4,10 +4,12 @@
 \alias{check_data}
 \title{Check the data}
 \usage{
-check_data(data_source_check)
+check_data(data_source_check, silent = FALSE)
 }
 \arguments{
 \item{data_source_check}{List with \code{community} and \code{age}}
+
+\item{silent}{Logical. If \code{TRUE}, suppress all console outputs. Useful for testing.}
 }
 \description{
 Output summary information about the data

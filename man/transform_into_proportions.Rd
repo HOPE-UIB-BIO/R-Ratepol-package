@@ -7,7 +7,8 @@
 transform_into_proportions(
   data_source_trans,
   sel_method = c("proportions", "percentages"),
-  verbose = FALSE
+  verbose = FALSE,
+  silent = FALSE
 )
 }
 \arguments{
