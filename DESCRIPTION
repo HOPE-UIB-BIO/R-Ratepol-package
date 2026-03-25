@@ -26,11 +26,9 @@ Imports:
     pbapply,
     purrr,
     rlang,
-    RUtilpol,
     stats,
     tibble,
     tidyr,
-    usethis,
     utils,
     vegan
 Suggests: 
@@ -46,8 +44,6 @@ Suggests:
     tidyverse
 VignetteBuilder: 
     knitr
-Remotes: 
-    github::HOPE-UIB-BIO/R-Utilpol-package
 Config/testthat/edition: 3
 Config/testthat/start-first: check_data, 
     make_bins, 
@@ -71,4 +67,4 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

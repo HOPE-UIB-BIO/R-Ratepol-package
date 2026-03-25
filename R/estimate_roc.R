@@ -283,44 +283,44 @@ estimate_roc <- function(
     msg = "Object 'data_source_age' must be included as a 'data.frame'"
   )
 
-  RUtilpol::check_class("data_source_community", "data.frame")
+  util_check_class(data_source_community, "data.frame")
 
-  RUtilpol::check_class("data_source_age", "data.frame")
+  util_check_class(data_source_age, "data.frame")
 
-  RUtilpol::check_class("age_uncertainty", c("NULL", "matrix"))
+  util_check_class(age_uncertainty, c("NULL", "matrix"))
 
-  RUtilpol::check_class("working_units", "character")
+  util_check_class(working_units, "character")
 
-  RUtilpol::check_vector_values("working_units", c("levels", "bins", "MW"))
+  util_check_vector_values(working_units, c("levels", "bins", "MW"))
 
   working_units <- match.arg(working_units)
 
   if (is.null(time_standardisation)) {
     time_standardisation <- bin_size
   }
-  RUtilpol::check_class("time_standardisation", "numeric")
+  util_check_class(time_standardisation, "numeric")
 
-  RUtilpol::check_if_integer("time_standardisation")
+  util_check_if_integer(time_standardisation)
 
   if (working_units != "levels") {
-    RUtilpol::check_class("bin_size", "numeric")
+    util_check_class(bin_size, "numeric")
 
-    RUtilpol::check_if_integer("bin_size")
+    util_check_if_integer(bin_size)
 
-    RUtilpol::check_class("bin_selection", "character")
+    util_check_class(bin_selection, "character")
 
-    RUtilpol::check_vector_values("bin_selection", c("first", "random"))
+    util_check_vector_values(bin_selection, c("first", "random"))
 
     bin_selection <- match.arg(bin_selection)
 
     if (working_units == "MW") {
-      RUtilpol::check_class("number_of_shifts", "numeric")
+      util_check_class(number_of_shifts, "numeric")
 
-      RUtilpol::check_if_integer("number_of_shifts")
+      util_check_if_integer(number_of_shifts)
     }
   }
 
-  RUtilpol::check_class("standardise", "logical")
+  util_check_class(standardise, "logical")
 
   assertthat::assert_that(
     base::length(standardise) == 1,
@@ -328,19 +328,19 @@ estimate_roc <- function(
   )
 
   if (isTRUE(standardise)) {
-    RUtilpol::check_class("n_individuals", "numeric")
+    util_check_class(n_individuals, "numeric")
 
-    RUtilpol::check_if_integer("n_individuals")
+    util_check_if_integer(n_individuals)
   }
 
-  RUtilpol::check_class("tranform_to_proportions", "logical")
+  util_check_class(tranform_to_proportions, "logical")
 
   assertthat::assert_that(
     base::length(tranform_to_proportions) == 1,
     msg = "'tranform_to_proportions' must be a single TRUE or FALSE"
   )
 
-  RUtilpol::check_class("interest_threshold", c("NULL", "numeric"))
+  util_check_class(interest_threshold, c("NULL", "numeric"))
 
   if (!base::is.null(interest_threshold)) {
     assertthat::assert_that(
@@ -349,10 +349,10 @@ estimate_roc <- function(
     )
   }
 
-  RUtilpol::check_class("smooth_method", "character")
+  util_check_class(smooth_method, "character")
 
-  RUtilpol::check_vector_values(
-    "smooth_method",
+  util_check_vector_values(
+    smooth_method,
     c("none", "m.avg", "grim", "age.w", "shep")
   )
 
@@ -365,7 +365,7 @@ estimate_roc <- function(
     )
 
     if (smooth_method != "m.avg") {
-      RUtilpol::check_class("smooth_age_range", "numeric")
+      util_check_class(smooth_age_range, "numeric")
 
       if (smooth_method == "grim") {
         assertthat::assert_that(
@@ -381,25 +381,25 @@ estimate_roc <- function(
     }
   }
 
-  RUtilpol::check_class("dissimilarity_coefficient", "character")
+  util_check_class(dissimilarity_coefficient, "character")
 
-  RUtilpol::check_vector_values(
-    "dissimilarity_coefficient",
+  util_check_vector_values(
+    dissimilarity_coefficient,
     c("euc", "euc.sd", "chord", "chisq", "gower", "bray")
   )
 
   dissimilarity_coefficient <- match.arg(dissimilarity_coefficient)
 
-  RUtilpol::check_class("rand", c("NULL", "numeric"))
+  util_check_class(rand, c("NULL", "numeric"))
 
   if (isFALSE(is.null(rand))) {
-    RUtilpol::check_if_integer("rand")
+    util_check_if_integer(rand)
   }
 
-  RUtilpol::check_class("use_parallel", c("logical", "numeric"))
+  util_check_class(use_parallel, c("logical", "numeric"))
 
   if (is.numeric(use_parallel)) {
-    RUtilpol::check_if_integer("use_parallel")
+    util_check_if_integer(use_parallel)
 
     assertthat::assert_that(
       !base::is.na(use_parallel) && use_parallel != 0,
@@ -407,14 +407,14 @@ estimate_roc <- function(
     )
   }
 
-  RUtilpol::check_class("verbose", "logical")
+  util_check_class(verbose, "logical")
 
   assertthat::assert_that(
     base::length(verbose) == 1,
     msg = "'verbose' must be a single TRUE or FALSE"
   )
 
-  RUtilpol::check_class("silent", "logical")
+  util_check_class(silent, "logical")
 
   #--------------------------------------------------#
   # 0.1. Report to user -----
@@ -423,7 +423,7 @@ estimate_roc <- function(
   start_time <- Sys.time()
 
   if (isFALSE(silent)) {
-    RUtilpol::output_heading(
+    util_output_heading(
       paste("RRatepol started", start_time),
       size = "h1"
     )
@@ -431,14 +431,14 @@ estimate_roc <- function(
 
   if (isFALSE(is.null(age_uncertainty))) {
     if (isFALSE(silent)) {
-      RUtilpol::output_comment(
+      util_output_comment(
         "'age_uncertainty' will be used for in the RoC estimation"
       )
     }
 
     if (rand < 100) {
       if (isFALSE(silent)) {
-        RUtilpol::output_warning(
+        util_output_warning(
           paste(
             "'age_uncertainty' was selected to be used with low number",
             "of replication. Recommend to increase 'rand'"
@@ -452,12 +452,12 @@ estimate_roc <- function(
     switch(
       working_units,
       "levels" = {
-        RUtilpol::output_comment(
+        util_output_comment(
           "RoC will be estimated between individual subsequent levels"
         )
       },
       "bins" = {
-        RUtilpol::output_comment(
+        util_output_comment(
           paste(
             "RoC will be estimated using selective binning with",
             bin_size,
@@ -466,7 +466,7 @@ estimate_roc <- function(
         )
       },
       "MW" = {
-        RUtilpol::output_comment(
+        util_output_comment(
           paste(
             "RoC will be estimated using 'binning with the mowing window' of",
             bin_size,
@@ -482,14 +482,14 @@ estimate_roc <- function(
   if (working_units != "levels") {
     if (bin_selection == "random") {
       if (isFALSE(silent)) {
-        RUtilpol::output_comment(
+        util_output_comment(
           "Sample will randomly selected for each bin"
         )
       }
 
       if (rand < 100) {
         if (isFALSE(silent)) {
-          RUtilpol::output_warning(
+          util_output_warning(
             paste(
               "'bin_selection' was selected as 'random' with low number",
               "of replication. Recommend to increase 'rand'"
@@ -499,7 +499,7 @@ estimate_roc <- function(
       }
     } else {
       if (isFALSE(silent)) {
-        RUtilpol::output_comment(
+        util_output_comment(
           "First sample of each time bin will selected"
         )
       }
@@ -507,7 +507,7 @@ estimate_roc <- function(
   }
 
   if (isFALSE(silent)) {
-    RUtilpol::output_comment(
+    util_output_comment(
       paste(
         "'time_standardisation' =",
         time_standardisation,
@@ -521,7 +521,7 @@ estimate_roc <- function(
 
   if (working_units != "levels" && time_standardisation != bin_size) {
     if (isFALSE(silent)) {
-      RUtilpol::output_comment(
+      util_output_comment(
         paste(
           "RoC values will be reported in different units than size of bin.",
           "Recommend to keep 'time_standardisation'",
@@ -533,7 +533,7 @@ estimate_roc <- function(
 
   if (isTRUE(standardise)) {
     if (isFALSE(silent)) {
-      RUtilpol::output_comment(
+      util_output_comment(
         paste(
           "Data will be standardise in each Working unit to",
           n_individuals,
@@ -544,7 +544,7 @@ estimate_roc <- function(
 
     if (rand < 100) {
       if (isFALSE(silent)) {
-        RUtilpol::output_warning(
+        util_output_warning(
           paste(
             "'standardise' was selected as 'TRUE' with low number of replication.",
             "Recommend to increase 'rand'"
@@ -571,7 +571,7 @@ estimate_roc <- function(
 
   if (ncol(data_extract$community) == 1 && isTRUE(tranform_to_proportions)) {
     if (isFALSE(silent)) {
-      RUtilpol::output_warning(
+      util_output_warning(
         msg = paste(
           "Community data has only 1 variable and `tranform_to_proportions`",
           "is set to `TRUE`.",
@@ -626,7 +626,7 @@ estimate_roc <- function(
       (working_units == "levels" || bin_selection == "first")
   ) {
     if (isFALSE(silent) && isTRUE(verbose)) {
-      RUtilpol::output_comment(
+      util_output_comment(
         msg = paste(
           "There is no need for randomisation.",
           "Changing `rand` to NULL"
@@ -647,19 +647,19 @@ estimate_roc <- function(
     )
 
   data_to_run <-
-    RUtilpol::flatten_list_by_one(data_prepared)
+    util_flatten_list_by_one(data_prepared)
 
   #----------------------------------------------------------#
   # 4. Estimation -----
   #----------------------------------------------------------#
 
   if (isFALSE(silent) && isTRUE(verbose)) {
-    RUtilpol::output_heading(
+    util_output_heading(
       msg = "Start of estimation",
       size = "h2"
     )
 
-    RUtilpol::output_comment(
+    util_output_comment(
       msg = paste(
         "Number of estimation set to",
         length(data_to_run)
@@ -770,7 +770,7 @@ estimate_roc <- function(
   time_duration <- end_time - start_time
 
   if (isFALSE(silent)) {
-    RUtilpol::output_heading(
+    util_output_heading(
       paste(
         "RRatepol finished",
         end_time,

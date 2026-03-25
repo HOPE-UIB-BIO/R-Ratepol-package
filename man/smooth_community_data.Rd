@@ -11,7 +11,8 @@ smooth_community_data(
   smooth_n_max = 9,
   smooth_age_range = 500,
   round_results = FALSE,
-  verbose = FALSE
+  verbose = FALSE,
+  silent = FALSE
 )
 }
 \arguments{
@@ -36,6 +37,8 @@ Grimm and Age-Weighted smoothing (odd number)}
 \item{round_results}{Logical. Should smoothed values be rounded to integers?}
 
 \item{verbose}{Logical. If \code{TRUE}, function will output messages about internal processes}
+
+\item{silent}{Logical. If \code{TRUE}, suppress all console outputs (overrides verbose). Useful for testing.}
 }
 \description{
 A function to apply one of the 4 smoothers.

@@ -10,11 +10,11 @@ reduce_data <-
   function(data_source_reduce,
            check_taxa = TRUE,
            check_levels = TRUE) {
-    RUtilpol::check_class("data_source_reduce", "list")
+    util_check_class(data_source_reduce, "list")
 
-    RUtilpol::check_class("check_taxa", "logical")
+    util_check_class(check_taxa, "logical")
 
-    RUtilpol::check_class("check_levels", "logical")
+    util_check_class(check_levels, "logical")
 
     assertthat::assert_that(
       !base::is.null(data_source_reduce$community),
@@ -47,9 +47,14 @@ reduce_data <-
       valid_samples_community <-
         data_source_reduce$community %>%
         tibble::rownames_to_column("sample_id") %>%
-        dplyr::mutate(row_sum = rowSums(dplyr::across(-sample_id), na.rm = TRUE)) %>%
-        dplyr::filter(row_sum > 0) %>%
-        dplyr::pull(sample_id)
+        dplyr::mutate(
+          row_sum = base::rowSums(
+            dplyr::pick(-"sample_id"),
+            na.rm = TRUE
+          )
+        ) %>%
+        dplyr::filter(.data$row_sum > 0) %>%
+        dplyr::pull("sample_id")
 
       valid_levels_age_comm <-
         intersect(
@@ -59,13 +64,13 @@ reduce_data <-
       data_source_reduce$community <-
         data_source_reduce$community %>%
         tibble::rownames_to_column("sample_id") %>%
-        dplyr::filter(sample_id %in% valid_levels_age_comm) %>%
+        dplyr::filter(.data$sample_id %in% valid_levels_age_comm) %>%
         tibble::column_to_rownames("sample_id")
 
       data_source_reduce$age <-
         data_source_reduce$age %>%
         tibble::rownames_to_column("sample_id") %>%
-        dplyr::filter(sample_id %in% valid_levels_age_comm) %>%
+        dplyr::filter(.data$sample_id %in% valid_levels_age_comm) %>%
         tibble::column_to_rownames("sample_id")
 
       if (
@@ -80,13 +85,13 @@ reduce_data <-
         data_source_reduce$community <-
           data_source_reduce$community %>%
           tibble::rownames_to_column("sample_id") %>%
-          dplyr::filter(sample_id %in% valid_samples_all) %>%
+          dplyr::filter(.data$sample_id %in% valid_samples_all) %>%
           tibble::column_to_rownames("sample_id")
 
         data_source_reduce$age <-
           data_source_reduce$age %>%
           tibble::rownames_to_column("sample_id") %>%
-          dplyr::filter(sample_id %in% valid_samples_all) %>%
+          dplyr::filter(.data$sample_id %in% valid_samples_all) %>%
           tibble::column_to_rownames("sample_id")
 
         data_source_reduce$age_un <-

@@ -28,7 +28,7 @@ make_run_data <- function() {
     )
 
   purrr::chuck(
-    RUtilpol::flatten_list_by_one(data_prepared),
+    util_flatten_list_by_one(data_prepared),
     1
   )
 }
@@ -101,7 +101,7 @@ make_dc_data <- function(sel_method = "proportions") {
 
   data_flat <-
     purrr::chuck(
-      RUtilpol::flatten_list_by_one(data_prepared),
+      util_flatten_list_by_one(data_prepared),
       1
     )
 

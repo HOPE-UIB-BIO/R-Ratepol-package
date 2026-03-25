@@ -28,6 +28,8 @@
 #'  calculated from all the residuals. A peak is considered significant if it
 #'  is 2 SD higher than the model.
 #'  }
+#' @param silent
+#' Logical. If `TRUE`, suppress all console outputs. Useful for testing.
 #' @description Plot Rate-of-Change sequence with a error estimate and trend
 #' and/or peak-points in present.
 #' @export
@@ -86,17 +88,17 @@ plot_roc <- function(
   roc_threshold = NULL,
   peaks = FALSE,
   trend = NULL,
-  silent =FALSE
+  silent = FALSE
 ) {
   # age_threshold
-  RUtilpol::check_class("data_source", "data.frame")
+  util_check_class(data_source, "data.frame")
 
-  RUtilpol::check_col_names(
-    "data_source",
+  util_check_col_names(
+    data_source,
     c("Age", "ROC", "ROC_up", "ROC_dw")
   )
 
-  RUtilpol::check_class("age_threshold", c("NULL", "numeric"))
+  util_check_class(age_threshold, c("NULL", "numeric"))
 
   if (isTRUE(is.null(age_threshold))) {
     age_threshold <- max(data_source$Age)
@@ -114,13 +116,13 @@ plot_roc <- function(
   }
 
   # roc_threshold
-  RUtilpol::check_class("roc_threshold", c("NULL", "numeric"))
+  util_check_class(roc_threshold, c("NULL", "numeric"))
 
   if (isTRUE(is.null(roc_threshold))) {
     roc_threshold <- max(data_source$ROC_up)
   }
 
-  RUtilpol::check_class("peaks", "logical")
+  util_check_class(peaks, "logical")
 
   assertthat::assert_that(
     base::length(peaks) == 1,
@@ -132,7 +134,7 @@ plot_roc <- function(
     msg = "'peaks' must not be NA"
   )
 
-  RUtilpol::check_class("trend", c("NULL", "character"))
+  util_check_class(trend, c("NULL", "character"))
 
   p_res <-
     ggplot2::ggplot(
@@ -147,7 +149,7 @@ plot_roc <- function(
     ggplot2::geom_vline(
       xintercept = seq(0, age_threshold, 2e3),
       colour = "gray90",
-      size = 0.1
+      linewidth = 0.1
     ) +
     ggplot2::coord_flip(
       xlim = c(age_threshold, 0),
@@ -162,7 +164,7 @@ plot_roc <- function(
     ) +
     ggplot2::geom_line(
       alpha = 1,
-      size = 1,
+      linewidth = 1,
       color = "gray30"
     ) +
     ggplot2::geom_hline(
@@ -176,14 +178,14 @@ plot_roc <- function(
     )
 
   if (isFALSE(is.null(trend))) {
-    RUtilpol::check_vector_values(
-      "trend",
+    util_check_vector_values(
+      trend,
       c("threshold", "trend_linear", "trend_non_linear")
     )
 
     if (isFALSE(peaks)) {
       if (isFALSE(silent)) {
-        RUtilpol::output_comment(
+        util_output_comment(
           msg = paste(
             "'trend' has been set to NOT 'NULL',",
             "'peaks' will be plotted"
@@ -200,7 +202,7 @@ plot_roc <- function(
         ggplot2::geom_hline(
           yintercept = stats::median(data_source_filter$ROC),
           color = "blue",
-          size = 1
+          linewidth = 1
         )
     }
 
@@ -216,7 +218,7 @@ plot_roc <- function(
             Age = data_source$Age
           ),
           color = "blue",
-          size = 1
+          linewidth = 1
         )
     }
 
@@ -232,13 +234,13 @@ plot_roc <- function(
             Age = data_source$Age
           ),
           color = "blue",
-          size = 1
+          linewidth = 1
         )
     }
   }
 
   if (isTRUE(peaks)) {
-    RUtilpol::check_col_names("data_source", "Peak")
+    util_check_col_names(data_source, "Peak")
 
     p_res <-
       p_res +

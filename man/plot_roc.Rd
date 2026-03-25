@@ -9,7 +9,8 @@ plot_roc(
   age_threshold = NULL,
   roc_threshold = NULL,
   peaks = FALSE,
-  trend = NULL
+  trend = NULL,
+  silent = FALSE
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ fitted value is calculated (residuals). The standard deviation (SD) is
 calculated from all the residuals. A peak is considered significant if it
 is 2 SD higher than the model.
 }}
+
+\item{silent}{Logical. If \code{TRUE}, suppress all console outputs. Useful for testing.}
 }
 \description{
 Plot Rate-of-Change sequence with a error estimate and trend
@@ -83,7 +86,7 @@ sequence_02 <-
   )
 
 sequence_02_peak <-
-  detect_peak_points(sequence_01, sel_method = "trend_non_linear")
+  detect_peak_points(sequence_02, sel_method = "trend_non_linear")
 
 plot_roc(
   sequence_02_peak,

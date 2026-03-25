@@ -11,9 +11,9 @@
 standardise_community_data <-
   function(data_source_standard,
            n_individuals = 150) {
-    RUtilpol::check_class("data_source_standard", "data.frame")
+    util_check_class(data_source_standard, "data.frame")
 
-    RUtilpol::check_class("n_individuals", "numeric")
+    util_check_class(n_individuals, "numeric")
 
     assertthat::assert_that(
       !base::is.na(n_individuals) && n_individuals > 0,

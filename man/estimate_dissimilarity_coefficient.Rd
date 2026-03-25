@@ -7,7 +7,8 @@
 estimate_dissimilarity_coefficient(
   data_source_dc,
   dissimilarity_coefficient = "chord",
-  verbose = FALSE
+  verbose = FALSE,
+  silent = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ between Working Units. See \code{vegan::vegdist} for more details.
 }}
 
 \item{verbose}{Logical. If \code{TRUE}, function will output messages about internal processes}
+
+\item{silent}{Logical. If \code{TRUE}, suppress all console outputs (overrides verbose). Useful for testing.}
 }
 \description{
 Calculate the dissimilarity coeficient

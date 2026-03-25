@@ -55,7 +55,10 @@ test_that(
 
 
 test_that(
-  "does not return NA in min, max, mean, median age if there is NA in the data",
+  paste(
+    "check_data() reports cleaned missing-value counts and finite age",
+    "summary values"
+  ),
   {
     # introduce NAs:
     example_community_NA <-
@@ -96,7 +99,22 @@ test_that(
     expect_true(
       any(
         grepl(
-          "Community data has 0 NAs. Age data has 6 NAs. Age uncertainty data has 6 NAs.",
+          paste0(
+            "Community data has 0 NAs\\. Age data has 0 NAs\\. ",
+            "Age uncertainty data has 0 NAs\\."
+          ),
+          msg
+        )
+      )
+    )
+
+    expect_true(
+      any(
+        grepl(
+          paste0(
+            "Age data has values of min -21, max 8402, mean 4806, ",
+            "and median 4970"
+          ),
           msg
         )
       )

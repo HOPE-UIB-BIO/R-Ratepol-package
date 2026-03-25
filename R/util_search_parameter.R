@@ -1,7 +1,7 @@
 #' Window growth helper for GRIMM smoothing
 #'
-#' Expands the indices [A, B] while respecting (a) dataset bounds,
-#' (b) maximum window size, and (c) maximum age range.
+#' Expands the indices `A` and `B` while respecting dataset bounds,
+#' maximum window size, and maximum age range.
 #'
 #' @keywords internal
 #' @noRd

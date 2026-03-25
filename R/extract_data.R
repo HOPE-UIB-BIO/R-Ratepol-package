@@ -34,12 +34,12 @@ extract_data <- function(
 
   # 1.1 Data types -----
 
-  RUtilpol::check_class("verbose", "logical")
+  util_check_class(verbose, "logical")
 
-  RUtilpol::check_class("silent", "logical")
+  util_check_class(silent, "logical")
 
   if (isFALSE(silent) && isTRUE(verbose)) {
-    RUtilpol::output_heading(
+    util_output_heading(
       paste(
         "Data extraction started",
         Sys.time()
@@ -48,18 +48,18 @@ extract_data <- function(
     )
   }
 
-  RUtilpol::check_class("data_community_extract", "data.frame")
+  util_check_class(data_community_extract, "data.frame")
 
-  RUtilpol::check_class("data_age_extract", "data.frame")
+  util_check_class(data_age_extract, "data.frame")
 
-  RUtilpol::check_class("age_uncertainty", c("NULL", "matrix"))
+  util_check_class(age_uncertainty, c("NULL", "matrix"))
 
   # 1.2. Sample id -----
   # community
 
   if ("sample.id" %in% names(data_community_extract)) {
     if (isFALSE(silent)) {
-      usethis::ui_oops(
+      util_output_warning(
         paste(
           "'sample.id' was detected in 'data_community'",
           "but 'sample_id' is prefered.",
@@ -73,7 +73,7 @@ extract_data <- function(
       dplyr::rename(sample_id = .data$sample.id)
   }
 
-  RUtilpol::check_col_names("data_community_extract", "sample_id")
+  util_check_col_names(data_community_extract, "sample_id")
 
   assertthat::assert_that(
     "character" %in% class(data_community_extract$sample_id),
@@ -84,7 +84,7 @@ extract_data <- function(
   # age
   if ("sample.id" %in% names(data_age_extract)) {
     if (isFALSE(silent)) {
-      usethis::ui_oops(
+      util_output_warning(
         paste(
           "'sample.id' was detected in 'data_age' but 'sample_id' is prefered.",
           "Recomend renaming your data"
@@ -97,7 +97,7 @@ extract_data <- function(
       dplyr::rename(sample_id = .data$sample.id)
   }
 
-  RUtilpol::check_col_names("data_age_extract", "sample_id")
+  util_check_col_names(data_age_extract, "sample_id")
 
   assertthat::assert_that(
     all(data_community_extract$sample_id %in% data_age_extract$sample_id) &&
@@ -108,7 +108,7 @@ extract_data <- function(
 
   # 1.3. Age test -----
 
-  RUtilpol::check_col_names("data_age_extract", "sample_id")
+  util_check_col_names(data_age_extract, "sample_id")
 
   assertthat::assert_that(
     "numeric" %in% class(data_age_extract$age),
@@ -169,7 +169,7 @@ extract_data <- function(
 
   # if age_uncertainty is used
   if (isFALSE(is.null(age_uncertainty))) {
-    RUtilpol::check_class("age_uncertainty", "matrix")
+    util_check_class(age_uncertainty, "matrix")
 
     n_samples_un <- ncol(age_uncertainty)
 
@@ -203,7 +203,7 @@ extract_data <- function(
   # 2.4 Missing values ---
   if (any(is.na(dat_community))) {
     if (isFALSE(silent)) {
-      RUtilpol::output_warning(
+      util_output_warning(
         paste(
           "Missing data has been detected in community data",
           "and automatically replaces with '0'"
@@ -223,7 +223,7 @@ extract_data <- function(
 
   if (any(is.na(dat_age$age))) {
     if (isFALSE(silent)) {
-      RUtilpol::output_warning(
+      util_output_warning(
         paste(
           "Missing 'age' values has detected in age data",
           "Such levels has been filtered out"
@@ -260,7 +260,7 @@ extract_data <- function(
       silent = silent
     )
 
-    RUtilpol::output_heading(
+    util_output_heading(
       paste(
         "Data extraction completed",
         Sys.time()

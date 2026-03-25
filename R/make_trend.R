@@ -16,13 +16,13 @@
 make_trend <-
     function(data_source,
              sel_method = c("linear", "non_linear")) {
-        RUtilpol::check_class("data_source", "data.frame")
+        util_check_class(data_source, "data.frame")
 
-        RUtilpol::check_col_names("data_source", c("ROC", "Age"))
+        util_check_col_names(data_source, c("ROC", "Age"))
 
-        RUtilpol::check_class("sel_method", "character")
+        util_check_class(sel_method, "character")
 
-        RUtilpol::check_vector_values("sel_method", c("linear", "non_linear"))
+        util_check_vector_values(sel_method, c("linear", "non_linear"))
 
         assertthat::assert_that(
             base::length(sel_method) == 1,

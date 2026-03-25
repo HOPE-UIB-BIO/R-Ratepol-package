@@ -24,7 +24,8 @@ estimate_roc(
   use_parallel = FALSE,
   interest_threshold = NULL,
   time_standardisation = NULL,
-  verbose = FALSE
+  verbose = FALSE,
+  silent = FALSE
 )
 }
 \arguments{
@@ -122,6 +123,8 @@ if \code{time_standardisation} = 100, the RoC will be reported as
 dissimilarity per 100 yr.}
 
 \item{verbose}{Logical. If \code{TRUE}, function will output messages about internal processes}
+
+\item{silent}{Logical. If \code{TRUE}, suppress all console outputs (overrides verbose). Useful for testing.}
 }
 \description{
 A function to estimate Rate of change in community data in time series

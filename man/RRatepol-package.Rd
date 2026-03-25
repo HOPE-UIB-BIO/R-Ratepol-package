@@ -18,5 +18,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Ondrej Mottl \email{ondrej.mottl@gmail.com}
 
+Other contributors:
+\itemize{
+  \item Friederike Wolke \email{friederike.woelke@gmail.com} [contributor]
+}
+
 }
 \keyword{internal}
