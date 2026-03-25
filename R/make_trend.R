@@ -24,6 +24,11 @@ make_trend <-
 
         RUtilpol::check_vector_values("sel_method", c("linear", "non_linear"))
 
+        assertthat::assert_that(
+            base::length(sel_method) == 1,
+            msg = "'sel_method' must be a single value"
+        )
+
         sel_method <- match.arg(sel_method)
 
         if (
@@ -50,5 +55,5 @@ make_trend <-
                 )
         }
 
-        return(res)
+        return(base::as.numeric(res))
     }

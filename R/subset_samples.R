@@ -10,6 +10,15 @@ subset_samples <-
   function(data_source_subset,
            data_source_bins,
            bin_selection = "first") {
+    if (!base::is.null(bin_selection) && base::length(bin_selection) == 1) {
+      assertthat::assert_that(
+        bin_selection %in% c("first", "random"),
+        msg = paste(
+          "'bin_selection' must be 'first', 'random', or NULL"
+        )
+      )
+    }
+
     if (
       is.character(data_source_bins$start)
     ) {

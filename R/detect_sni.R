@@ -50,6 +50,16 @@ detect_sni <-
     # Data setup
     ages <- CharData[, 1]
 
+    assertthat::assert_that(
+      !base::any(base::is.na(CharData[, 2])),
+      msg = "ROC values in 'CharData' column 2 must not contain NAs"
+    )
+
+    assertthat::assert_that(
+      !base::any(base::is.na(CharData[, 3])),
+      msg = "Prediction values in 'CharData' column 3 must not contain NAs"
+    )
+
     CHAR <- CharData[, 2]
     CHAR.mean <- mean(CHAR)
     CHAR.sd <- stats::sd(CHAR)

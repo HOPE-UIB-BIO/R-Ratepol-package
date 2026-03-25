@@ -54,7 +54,6 @@ test_that(
 )
 
 
-
 test_that(
   "does not return NA in min, max, mean, median age if there is NA in the data",
   {
@@ -81,7 +80,8 @@ test_that(
       extract_data(
         example_community_NA,
         example_age_NA,
-        example_uncertainty_NA
+        example_uncertainty_NA,
+        silent = TRUE
       )
 
     msg <-
@@ -101,6 +101,5 @@ test_that(
         )
       )
     )
-
   }
 )

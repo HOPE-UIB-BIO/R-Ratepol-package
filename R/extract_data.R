@@ -122,6 +122,12 @@ extract_data <- function(
       dplyr::arrange(.data$age)
   }
 
+  assertthat::assert_that(
+    base::nrow(data_age_extract) == 0 ||
+      base::length(base::unique(data_age_extract$age)) > 1,
+    msg = "'age' values must not all be identical across samples"
+  )
+
   # 1.4. Size test -----
 
   n_samples_com <- nrow(data_community_extract)
@@ -178,6 +184,18 @@ extract_data <- function(
     age_un <- data.frame(age_uncertainty)
 
     names(age_un) <- row.names(dat_age)
+
+    assertthat::assert_that(
+      base::ncol(age_un) == 0 ||
+        !base::all(
+          base::apply(
+            age_un,
+            2,
+            function(x) base::length(base::unique(x)) == 1
+          )
+        ),
+      msg = "'age_uncertainty' columns must not all be identical"
+    )
   } else {
     age_un <- NULL
   }

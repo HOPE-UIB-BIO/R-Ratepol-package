@@ -1,7 +1,11 @@
-test_that(
-  "plot_roc throws error with empty data_source",
+# ================================================================ #
+# 1. data_source: input validation                                  #
+# ================================================================ #
+
+testthat::test_that(
+  "plot_roc() errors on missing data_source",
   {
-    expect_error(
+    testthat::expect_error(
       plot_roc(
         data_source = ,
         age_threshold = NULL,
@@ -14,112 +18,31 @@ test_that(
   }
 )
 
-# NULL
-test_that(
-  "plot_roc throws error with NULL data_source",
+testthat::test_that(
+  "plot_roc() errors on invalid data_source type",
   {
-    expect_error(
-      plot_roc(
-        data_source = NULL,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'data_source' must be one of the following: 'data.frame'"
+    purrr::walk(
+      .x = list(NULL, "data_source", 123, 0, NA, list()),
+      .f = function(bad_input) {
+        testthat::expect_error(
+          plot_roc(
+            data_source = bad_input,
+            age_threshold = NULL,
+            roc_threshold = NULL,
+            peaks = FALSE,
+            trend = NULL
+          ),
+          "'data_source' must be one of the following: 'data.frame'"
+        )
+      }
     )
   }
 )
 
-# character
-test_that(
-  "plot_roc() rejects character as data_source",
+testthat::test_that(
+  "plot_roc() errors when data_source lacks required columns",
   {
-    expect_error(
-      plot_roc(
-        data_source = "data_source",
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'data_source' must be one of the following: 'data.frame'"
-    )
-  }
-)
-
-# Numeric
-test_that(
-  "plot_roc() rejects numeric as data_source",
-  {
-    expect_error(
-      plot_roc(
-        data_source = 123,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'data_source' must be one of the following: 'data.frame'"
-    )
-  }
-)
-
-# zero
-test_that(
-  "plot_roc() rejects zero value as data_source",
-  {
-    expect_error(
-      plot_roc(
-        data_source = 0,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'data_source' must be one of the following: 'data.frame'"
-    )
-  }
-)
-
-# NA
-test_that(
-  "plot_roc() rejects NA as data_source",
-  {
-    expect_error(
-      plot_roc(
-        data_source = NA,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'data_source' must be one of the following: 'data.frame'"
-    )
-  }
-)
-
-# empty list
-test_that(
-  "plot_roc() rejects empty list as data_source",
-  {
-    expect_error(
-      plot_roc(
-        data_source = list(),
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'data_source' must be one of the following: 'data.frame'"
-    )
-  }
-)
-# empty data.frame
-test_that(
-  "plot_roc() rejects empty data.frame as data_source",
-  {
-    expect_error(
+    testthat::expect_error(
       plot_roc(
         data_source = data.frame(),
         age_threshold = NULL,
@@ -127,28 +50,25 @@ test_that(
         peaks = FALSE,
         trend = NULL
       ),
-      "'data_source' must contains following columns: 'Age', 'ROC', 'ROC_up', 'ROC_dw'"
+      paste0(
+        "'data_source' must contains following columns:",
+        " 'Age', 'ROC', 'ROC_up', 'ROC_dw'"
+      )
     )
   }
 )
 
-# 0 row dataframe
-test_that(
-  "plot_roc() rejects zero-row data.frame as data_source",
+testthat::test_that(
+  "plot_roc() errors on zero-row data_source",
   {
-    expect_error(
+    testthat::expect_error(
       suppressWarnings(
         plot_roc(
           data_source = data.frame(
-            Age = numeric(
-              0
-            ), ROC = numeric(
-              0
-            ), ROC_up = numeric(
-              0
-            ), ROC_dw = numeric(
-              0
-            )
+            Age = numeric(0),
+            ROC = numeric(0),
+            ROC_up = numeric(0),
+            ROC_dw = numeric(0)
           ),
           age_threshold = NULL,
           roc_threshold = NULL,
@@ -162,41 +82,20 @@ test_that(
   }
 )
 
-## age_threshold
-# empty
-test_that(
-  "plot_roc() accepts missing age_threshold parameter and uses NULL as default",
+# ================================================================ #
+# 2. age_threshold: input validation                                #
+# ================================================================ #
+
+testthat::test_that(
+  "plot_roc() accepts missing or NULL age_threshold",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_no_error(
+      make_plot_roc_data()
+
+    testthat::expect_no_error(
       plot_roc(
         data_source = data_source,
-        age_threshold = , # uses NULL as default
+        age_threshold = NULL,
         roc_threshold = NULL,
         peaks = FALSE,
         trend = NULL
@@ -205,170 +104,40 @@ test_that(
   }
 )
 
-# NULL
-test_that(
-  "plot_roc() uses max age when age_threshold is NULL",
+testthat::test_that(
+  "plot_roc() errors on invalid age_threshold type",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_no_error(
-      res <-
-        plot_roc(
-          data_source = data_source,
-          age_threshold = NULL,
-          roc_threshold = NULL,
-          peaks = FALSE,
-          trend = NULL
+      make_plot_roc_data()
+
+    purrr::walk(
+      .x = list("8000", NA, list(), data.frame()),
+      .f = function(bad_val) {
+        testthat::expect_error(
+          plot_roc(
+            data_source = data_source,
+            age_threshold = bad_val,
+            roc_threshold = NULL,
+            peaks = FALSE,
+            trend = NULL
+          ),
+          "'age_threshold' must be one of the following: 'NULL', 'numeric'"
         )
+      }
     )
   }
 )
 
-# character
-test_that(
-  "plot_roc() rejects character as age_threshold",
+testthat::test_that(
+  "plot_roc() errors when age_threshold has length > 1",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = "8000",
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'age_threshold' must be one of the following: 'NULL', 'numeric'"
-    )
-  }
-)
+      make_plot_roc_data()
 
-# NA
-test_that(
-  "plot_roc() rejects NA as age_threshold",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
+    testthat::expect_error(
       plot_roc(
         data_source = data_source,
-        age_threshold = NA,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'age_threshold' must be one of the following: 'NULL', 'numeric'"
-    )
-  }
-)
-# multiple
-test_that(
-  "plot_roc() rejects vector as age_threshold",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = c(
-          100, 8000
-        ),
+        age_threshold = c(100, 8000),
         roc_threshold = NULL,
         peaks = FALSE,
         trend = NULL
@@ -378,37 +147,13 @@ test_that(
   }
 )
 
-# negative
-test_that(
-  "plot_roc() rejects negative age_threshold",
+testthat::test_that(
+  "plot_roc() errors on negative age_threshold",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
+      make_plot_roc_data()
+
+    testthat::expect_error(
       plot_roc(
         data_source = data_source,
         age_threshold = -8000,
@@ -421,166 +166,17 @@ test_that(
   }
 )
 
-# empty list
-test_that(
-  "plot_roc() rejects list as age_threshold",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = list(),
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'age_threshold' must be one of the following: 'NULL', 'numeric'"
-    )
-  }
-)
+# ================================================================ #
+# 3. roc_threshold: input validation                                #
+# ================================================================ #
 
-# empty data.frame
-test_that(
-  "plot_roc() rejects data.frame as age_threshold",
+testthat::test_that(
+  "plot_roc() accepts missing or NULL roc_threshold",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = data.frame(),
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'age_threshold' must be one of the following: 'NULL', 'numeric'"
-    )
-  }
-)
+      make_plot_roc_data()
 
-# roc_threshold
-# empty
-test_that(
-  "plot_roc() accepts missing roc_threshold parameter",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_no_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = , # uses NULL as default
-        peaks = FALSE,
-        trend = NULL
-      )
-    )
-  }
-)
-
-# NULL (no error)
-test_that(
-  "plot_roc() uses max ROC when roc_threshold is NULL",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_no_error(
+    testthat::expect_no_error(
       plot_roc(
         data_source = data_source,
         age_threshold = NULL,
@@ -592,256 +188,60 @@ test_that(
   }
 )
 
-# character
-test_that(
-  "plot_roc() rejects character as roc_threshold",
+testthat::test_that(
+  "plot_roc() errors on invalid roc_threshold type",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = "1",
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'roc_threshold' must be one of the following: 'NULL', 'numeric'"
+      make_plot_roc_data()
+
+    purrr::walk(
+      .x = list("1", NA, list(), data.frame()),
+      .f = function(bad_val) {
+        testthat::expect_error(
+          plot_roc(
+            data_source = data_source,
+            age_threshold = NULL,
+            roc_threshold = bad_val,
+            peaks = FALSE,
+            trend = NULL
+          ),
+          "'roc_threshold' must be one of the following: 'NULL', 'numeric'"
+        )
+      }
     )
   }
 )
 
-# NA
-test_that(
-  "plot_roc() rejects NA as roc_threshold",
+testthat::test_that(
+  "plot_roc() errors when roc_threshold has length > 1",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
+      make_plot_roc_data()
+
+    testthat::expect_error(
       plot_roc(
         data_source = data_source,
         age_threshold = NULL,
-        roc_threshold = NA,
+        roc_threshold = c(1, 2),
         peaks = FALSE,
         trend = NULL
       ),
-      "'roc_threshold' must be one of the following: 'NULL', 'numeric'"
+      "`ylim` must be a vector of length 2"
     )
   }
 )
 
-# multiple
-test_that(
-  "plot_roc() rejects vector as roc_threshold",
+# ================================================================ #
+# 4. peaks: input validation                                        #
+# ================================================================ #
+
+testthat::test_that(
+  "plot_roc() accepts missing peaks and uses FALSE as default",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = c(
-          1, 2
-        ),
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "`ylim` must be a vector of length 2, not a double vector of length 3."
-    )
-  }
-)
+      make_plot_roc_data()
 
-# empty list
-test_that(
-  "plot_roc() rejects list as roc_threshold",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = list(),
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'roc_threshold' must be one of the following: 'NULL', 'numeric'"
-    )
-  }
-)
-
-# empty data.frame
-test_that(
-  "plot_roc() rejects data.frame as roc_threshold",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = data.frame(),
-        peaks = FALSE,
-        trend = NULL
-      ),
-      "'roc_threshold' must be one of the following: 'NULL', 'numeric'"
-    )
-  }
-)
-
-
-# peaks tests
-# empty
-test_that(
-  "plot_roc() accepts missing peaks parameter and uses FALSE as default",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_no_error(
+    testthat::expect_no_error(
       plot_roc(
         data_source = data_source,
         age_threshold = NULL,
@@ -852,388 +252,42 @@ test_that(
     )
   }
 )
-# NULL
-test_that(
-  "plot_roc() rejects NULL as peaks",
+
+testthat::test_that(
+  "plot_roc() errors on invalid non-logical peaks type",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = NULL,
-        trend = NULL
-      ),
-      "'peaks' must be one of the following: 'logical'"
-    )
-  }
-)
+      make_plot_roc_data()
 
-
-# character
-test_that(
-  "plot_roc() rejects character as peaks",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = "FALSE",
-        trend = NULL
-      ),
-      "'peaks' must be one of the following: 'logical'"
-    )
-  }
-)
-
-# numeric
-test_that(
-  "plot_roc() rejects numeric as peaks",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = 1,
-        trend = NULL
-      ),
-      "'peaks' must be one of the following: 'logical'"
-    )
-  }
-)
-
-# NA
-test_that(
-  "plot_roc() rejects NA as peaks",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = NA,
-        trend = NULL
-      ),
-      # none programmed into the function - it just checks for logical and isFalse()
-      "'peaks' must be one of the following: 'TRUE', 'FALSE'"
-    )
-  }
-)
-
-# multiple
-test_that(
-  "plot_roc() rejects vector as peaks",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = c(
-          TRUE, FALSE
-        ),
-        trend = NULL
-      ),
-      # none programmed into the function
-      # e.g.,
-      "peaks argument must be of length 1"
-    )
-  }
-)
-
-# empty list
-test_that(
-  "plot_roc() rejects list as peaks",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = list(),
-        trend = NULL
-      ),
-      "'peaks' must be one of the following: 'logical'"
-    )
-  }
-)
-
-# empty data.frame
-test_that(
-  "plot_roc() rejects data.frame as peaks",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = data.frame(),
-        trend = NULL
-      ),
-      "'peaks' must be one of the following: 'logical'"
-    )
-  }
-)
-
-
-# Trend tests
-# empty
-test_that(
-  "plot_roc() accepts missing trend parameter and uses NULL as default",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_no_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = # uses NULL as default
+    purrr::walk(
+      .x = list(NULL, "FALSE", 1, list(), data.frame()),
+      .f = function(bad_val) {
+        testthat::expect_error(
+          plot_roc(
+            data_source = data_source,
+            age_threshold = NULL,
+            roc_threshold = NULL,
+            peaks = bad_val,
+            trend = NULL
+          ),
+          "'peaks' must be one of the following: 'logical'"
         )
+      }
     )
   }
 )
 
-# NULL (no error)
-test_that(
-  "plot_roc() accepts NULL as trend",
+# ================================================================ #
+# 5. trend: input validation                                        #
+# ================================================================ #
+
+testthat::test_that(
+  "plot_roc() accepts missing or NULL trend",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_no_error(
+      make_plot_roc_data()
+
+    testthat::expect_no_error(
       plot_roc(
         data_source = data_source,
         age_threshold = NULL,
@@ -1245,80 +299,37 @@ test_that(
   }
 )
 
-# FALSE
-test_that(
-  "plot_roc() rejects logical as trend",
+testthat::test_that(
+  "plot_roc() errors on invalid non-character trend type",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = FALSE
-      ),
-      "'trend' must be one of the following: 'NULL', 'character'"
+      make_plot_roc_data()
+
+    purrr::walk(
+      .x = list(FALSE, 1, NA, list(), data.frame()),
+      .f = function(bad_val) {
+        testthat::expect_error(
+          plot_roc(
+            data_source = data_source,
+            age_threshold = NULL,
+            roc_threshold = NULL,
+            peaks = FALSE,
+            trend = bad_val
+          ),
+          "'trend' must be one of the following: 'NULL', 'character'"
+        )
+      }
     )
   }
 )
 
-# invalid character
-test_that(
-  "plot_roc() rejects invalid trend method name",
+testthat::test_that(
+  "plot_roc() errors on invalid trend method name",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
+      make_plot_roc_data()
+
+    testthat::expect_error(
       plot_roc(
         data_source = data_source,
         age_threshold = NULL,
@@ -1326,42 +337,21 @@ test_that(
         peaks = FALSE,
         trend = "my_trend"
       ),
-      "'trend' must contains one of the following values: 'threshold', 'trend_linear', 'trend_non_linear'"
+      paste0(
+        "'trend' must contains one of the following values:",
+        " 'threshold', 'trend_linear', 'trend_non_linear'"
+      )
     )
   }
 )
 
-# multiple
-test_that(
-  "plot_roc() rejects multiple trend methods",
+testthat::test_that(
+  "plot_roc() errors when trend has length > 1",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
+      make_plot_roc_data()
+
+    testthat::expect_error(
       plot_roc(
         data_source = data_source,
         age_threshold = NULL,
@@ -1374,262 +364,79 @@ test_that(
   }
 )
 
-# numeric
-test_that(
-  "plot_roc() rejects numeric as trend",
+# ================================================================ #
+# 6. Functionality                                                   #
+# ================================================================ #
+
+testthat::test_that(
+  "plot_roc() returns a ggplot object",
   {
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
+      make_plot_roc_data()
+
+    res <-
       plot_roc(
         data_source = data_source,
         age_threshold = NULL,
         roc_threshold = NULL,
         peaks = FALSE,
-        trend = 1
-      ),
-      "'trend' must be one of the following: 'NULL', 'character'"
-    )
-  }
-)
-# NA
-test_that(
-  "plot_roc() rejects NA as trend",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
+        trend = NULL
       )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = NA
-      ),
-      "'trend' must be one of the following: 'NULL', 'character'"
-    )
+
+    testthat::expect_s3_class(res, "ggplot")
   }
 )
 
-# empty list
-test_that(
-  "plot_roc() rejects list as trend",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = list()
-      ),
-      "'trend' must be one of the following: 'NULL', 'character'"
-    )
-  }
-)
-# empty data.frame
-test_that(
-  "plot_roc() rejects data.frame as trend",
-  {
-    data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
-    expect_error(
-      plot_roc(
-        data_source = data_source,
-        age_threshold = NULL,
-        roc_threshold = NULL,
-        peaks = FALSE,
-        trend = data.frame()
-      ),
-      "'trend' must be one of the following: 'NULL', 'character'"
-    )
-  }
-)
-
-
-# Functionality tests
-test_that(
+testthat::test_that(
   "plot_roc() correctly displays peak points",
   {
-    # Setup test data with known peaks
-    set.seed(123)
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
+      make_plot_roc_data()
 
-    # Generate plot with peaks
     p <-
       plot_roc(
-        data_source,
-        age_threshold = 8000, peaks = TRUE
+        data_source = data_source,
+        age_threshold = 8000,
+        roc_threshold = NULL,
+        peaks = TRUE,
+        trend = NULL
       )
 
-    # Build the plot
     built <-
       ggplot2::ggplot_build(p)
 
-    # Check the point data - green points should correspond to peaks
     point_data <-
       built$data[[which(
         sapply(
           built$plot$layers, function(l) {
-            inherits(
-              l$geom, "GeomPoint"
-            )
+            inherits(l$geom, "GeomPoint")
           }
         )
       )]]
 
-    # Filter the original data for peaks
     expected_peaks <-
       dplyr::filter(data_source, Peak == TRUE)
 
-    # Test that the number of points matches the number of peaks
-    expect_equal(
-      nrow(
-        point_data
-      ),
-      nrow(expected_peaks)
+    testthat::expect_equal(
+      base::nrow(point_data),
+      base::nrow(expected_peaks)
     )
 
-    # Test that colors are correct
-    expect_true(
-      all(
-        point_data$colour == "green"
-      )
+    testthat::expect_true(
+      base::all(point_data$colour == "green")
     )
   }
 )
 
-test_that(
+testthat::test_that(
   "plot_roc() sets proper axis limits from threshold parameters",
   {
-    # Create test data
     data_source <-
       estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
+        data_source_community =
+          RRatepol::example_data$pollen_data[[1]],
+        data_source_age =
+          RRatepol::example_data$sample_age[[1]],
         smooth_method = "shep",
         smooth_n_points = 5,
         working_units = "levels",
@@ -1640,57 +447,47 @@ test_that(
         silent = TRUE
       )
 
-    # Define test parameters
-    age_threshold <-
-      8000
-    roc_threshold <-
-      2
+    age_threshold <- 8000
+    roc_threshold <- 2
 
-    # Create plot
     p <-
       plot_roc(
-        data_source,
+        data_source = data_source,
         age_threshold = age_threshold,
-        roc_threshold = roc_threshold
+        roc_threshold = roc_threshold,
+        peaks = FALSE,
+        trend = NULL
       )
 
-    # Test plot structure
-    expect_s3_class(
-      p, "ggplot"
-    )
+    testthat::expect_s3_class(p, "ggplot")
 
-    # Extract and test coordinate system
-    built <-
-      ggplot2::ggplot_build(p)
-    panel <-
-      built$layout$panel_params[[1]]
+    # Check the limits stored in the coord_flip object directly —
+    # panel_params includes ggplot2 axis expansion so those values differ.
+    # In coord_flip, $limits$x corresponds to Age (xlim) and
+    # $limits$y corresponds to ROC (ylim).
+    coord_limits <-
+      p$coordinates$limits
 
-    # Test x-axis (age) limits - note that in coord_flip, x and y are switched
-    expect_equal(
-      panel$y.range[1], 0
+    testthat::expect_equal(
+      base::sort(coord_limits$x),
+      c(0, age_threshold)
     )
-    expect_equal(
-      panel$y.range[2], age_threshold
-    )
-
-    # Test y-axis (RoC) limits
-    expect_equal(
-      panel$x.range[1], 0
-    )
-    expect_equal(
-      panel$x.range[2], roc_threshold
+    testthat::expect_equal(
+      coord_limits$y,
+      c(0, roc_threshold)
     )
   }
 )
 
-test_that(
-  "plot_roc() adds trend line when trend parameter is specified",
+testthat::test_that(
+  "plot_roc() adds trend line when trend is specified",
   {
-    # Create test data
     data_source <-
       estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
+        data_source_community =
+          RRatepol::example_data$pollen_data[[1]],
+        data_source_age =
+          RRatepol::example_data$sample_age[[1]],
         smooth_method = "shep",
         smooth_n_points = 5,
         working_units = "levels",
@@ -1699,64 +496,32 @@ test_that(
         tranform_to_proportions = TRUE,
         use_parallel = FALSE,
         silent = TRUE
-      )
-
-    # Add peaks
-    data_with_peaks <-
+      ) |>
       detect_peak_points(
-        data_source = data_source,
         sel_method = "trend_linear",
         sd_threshold = 2
       )
 
-    # Create plot with trend
     p <-
       plot_roc(
-        data_with_peaks,
+        data_source = data_source,
+        age_threshold = NULL,
+        roc_threshold = NULL,
         peaks = TRUE,
         trend = "trend_linear"
       )
 
-    # Count number of layers - should have extra line for trend
-    expect_true(
-      length(
-        p$layers
-      ) > 4
-    ) # base layers + point layer + trend layer
+    # base layers + point layer + trend layer
+    testthat::expect_true(base::length(p$layers) > 4)
   }
 )
 
-# different trend methods produce different results
-test_that(
+testthat::test_that(
   "plot_roc() produces different plots for different trend methods",
   {
-    set.seed(123)
     data_source <-
-      estimate_roc(
-        data_source_community = RRatepol::example_data$pollen_data[[1]],
-        data_source_age = RRatepol::example_data$sample_age[[1]],
-        age_uncertainty = RRatepol::example_data$age_uncertainty[[1]],
-        smooth_method = "grim",
-        smooth_n_points = 5,
-        smooth_age_range = 500,
-        smooth_n_max = 9,
-        working_units = "levels",
-        bin_size = 500,
-        number_of_shifts = 1,
-        bin_selection = "first",
-        standardise = TRUE,
-        n_individuals = 150,
-        dissimilarity_coefficient = "euc",
-        tranform_to_proportions = TRUE,
-        rand = 10,
-        use_parallel = FALSE,
-        interest_threshold = NULL,
-        time_standardisation = NULL,
-        silent = TRUE
-      ) %>%
-      detect_peak_points(
-        sel_method = "trend_linear"
-      )
+      make_plot_roc_data()
+
     p_linear <-
       plot_roc(
         data_source = data_source,
@@ -1782,25 +547,67 @@ test_that(
         trend = "threshold"
       )
 
-    expect_false(
-      identical(
-        p_linear,
-        p_nonlinear
-      )
-    )
+    testthat::expect_false(identical(p_linear, p_nonlinear))
+    testthat::expect_false(identical(p_linear, p_threshold))
+    testthat::expect_false(identical(p_threshold, p_nonlinear))
+  }
+)
 
-    expect_false(
-      identical(
-        p_linear,
-        p_threshold
-      )
-    )
+testthat::test_that(
+  "plot_roc() errors when peaks has length > 1",
+  {
+    data_source <-
+      make_plot_roc_data()
 
-    expect_false(
-      identical(
-        p_threshold,
-        p_nonlinear
-      )
+    testthat::expect_error(
+      plot_roc(
+        data_source = data_source,
+        age_threshold = NULL,
+        roc_threshold = NULL,
+        peaks = c(TRUE, FALSE),
+        trend = NULL
+      ),
+      "'peaks' must be a single value"
+    )
+  }
+)
+
+testthat::test_that(
+  "plot_roc() errors when peaks is NA",
+  {
+    data_source <-
+      make_plot_roc_data()
+
+    testthat::expect_error(
+      plot_roc(
+        data_source = data_source,
+        age_threshold = NULL,
+        roc_threshold = NULL,
+        peaks = NA,
+        trend = NULL
+      ),
+      "'peaks' must not be NA"
+    )
+  }
+)
+
+testthat::test_that(
+  "plot_roc() warns when ROC column contains NAs",
+  {
+    data_source <-
+      make_plot_roc_data()
+
+    data_source$ROC[1] <- NA
+
+    testthat::expect_warning(
+      plot_roc(
+        data_source = data_source,
+        age_threshold = NULL,
+        roc_threshold = NULL,
+        peaks = FALSE,
+        trend = NULL
+      ),
+      "NA values detected in 'ROC' column of 'data_source'"
     )
   }
 )

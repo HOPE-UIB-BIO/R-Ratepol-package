@@ -12,6 +12,27 @@ reduce_data_simple <-
              ommit_vars = c("label", "res_age", "age_diff"),
              check_taxa = TRUE,
              check_levels = TRUE) {
+        RUtilpol::check_class("data_source_reduce", "data.frame")
+
+        assertthat::assert_that(
+            base::nrow(data_source_reduce) > 0,
+            msg = "'data_source_reduce' must not be empty"
+        )
+
+        RUtilpol::check_class("check_taxa", "logical")
+
+        assertthat::assert_that(
+            base::length(check_taxa) == 1,
+            msg = "'check_taxa' must be a single TRUE or FALSE"
+        )
+
+        RUtilpol::check_class("check_levels", "logical")
+
+        assertthat::assert_that(
+            base::length(check_levels) == 1,
+            msg = "'check_levels' must be a single TRUE or FALSE"
+        )
+
         data_com <-
             subset_community(
                 data_source_reduce,

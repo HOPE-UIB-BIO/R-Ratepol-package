@@ -322,6 +322,11 @@ estimate_roc <- function(
 
   RUtilpol::check_class("standardise", "logical")
 
+  assertthat::assert_that(
+    base::length(standardise) == 1,
+    msg = "'standardise' must be a single TRUE or FALSE"
+  )
+
   if (isTRUE(standardise)) {
     RUtilpol::check_class("n_individuals", "numeric")
 
@@ -330,7 +335,19 @@ estimate_roc <- function(
 
   RUtilpol::check_class("tranform_to_proportions", "logical")
 
+  assertthat::assert_that(
+    base::length(tranform_to_proportions) == 1,
+    msg = "'tranform_to_proportions' must be a single TRUE or FALSE"
+  )
+
   RUtilpol::check_class("interest_threshold", c("NULL", "numeric"))
+
+  if (!base::is.null(interest_threshold)) {
+    assertthat::assert_that(
+      base::length(interest_threshold) == 1,
+      msg = "'interest_threshold' must be a single value"
+    )
+  }
 
   RUtilpol::check_class("smooth_method", "character")
 
@@ -383,9 +400,19 @@ estimate_roc <- function(
 
   if (is.numeric(use_parallel)) {
     RUtilpol::check_if_integer("use_parallel")
+
+    assertthat::assert_that(
+      !base::is.na(use_parallel) && use_parallel != 0,
+      msg = "'use_parallel' must not be 0 or NA when numeric"
+    )
   }
 
   RUtilpol::check_class("verbose", "logical")
+
+  assertthat::assert_that(
+    base::length(verbose) == 1,
+    msg = "'verbose' must be a single TRUE or FALSE"
+  )
 
   RUtilpol::check_class("silent", "logical")
 

@@ -15,11 +15,21 @@ transform_into_proportions <- function(
 ) {
   RUtilpol::check_class("data_source_trans", "data.frame")
 
+  assertthat::assert_that(
+    base::nrow(data_source_trans) > 0,
+    msg = "'data_source_trans' must not be empty"
+  )
+
   RUtilpol::check_class("sel_method", "character")
 
   RUtilpol::check_vector_values(
     "sel_method",
     c("percentages", "proportions")
+  )
+
+  assertthat::assert_that(
+    base::length(sel_method) == 1,
+    msg = "'sel_method' must be a single value"
   )
 
   sel_method <- match.arg(sel_method)
