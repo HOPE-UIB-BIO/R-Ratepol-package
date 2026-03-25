@@ -47,3 +47,38 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "make_trend() errors when sel_method has length > 1",
+  {
+    data_source <-
+      make_roc_data()
+
+    testthat::expect_error(
+      make_trend(
+        data_source = data_source,
+        sel_method = c("linear", "non_linear")
+      ),
+      "'sel_method' must be a single value"
+    )
+  }
+)
+
+testthat::test_that(
+  "make_trend() returns numeric (not array) for non_linear",
+  {
+    data_source <-
+      make_roc_data()
+
+    result <-
+      make_trend(
+        data_source = data_source,
+        sel_method = "non_linear"
+      )
+
+    testthat::expect_type(result, "double")
+    testthat::expect_false(
+      base::inherits(result, "array")
+    )
+  }
+)

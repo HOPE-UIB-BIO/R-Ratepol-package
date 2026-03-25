@@ -16,15 +16,29 @@ prepare_data <- function(
 ) {
   RUtilpol::check_class("data_source_prep", "list")
 
+  assertthat::assert_that(
+    !base::is.null(data_source_prep$community) &&
+      base::nrow(data_source_prep$community) > 0,
+    msg = "'data_source_prep$community' must not be empty"
+  )
+
+  assertthat::assert_that(
+    !base::is.null(data_source_prep$age) &&
+      base::nrow(data_source_prep$age) > 0,
+    msg = "'data_source_prep$age' must not be empty"
+  )
+
   RUtilpol::check_class("working_units", "character")
 
   RUtilpol::check_vector_values("working_units", c("levels", "bins", "MW"))
 
   working_units <- match.arg(working_units)
 
-  RUtilpol::check_class("bin_size", "numeric")
+  if (working_units != "levels") {
+    RUtilpol::check_class("bin_size", "numeric")
 
-  RUtilpol::check_if_integer("bin_size")
+    RUtilpol::check_if_integer("bin_size")
+  }
 
   RUtilpol::check_class("rand", c("NULL", "numeric"))
 

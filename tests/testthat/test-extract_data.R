@@ -68,3 +68,57 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "extract_data() errors when age is all identical",
+  {
+    data_community <-
+      RRatepol::example_data$pollen_data[[1]]
+
+    data_age <-
+      RRatepol::example_data$sample_age[[1]]
+
+    data_age$age <- base::rep(1000, base::nrow(data_age))
+
+    testthat::expect_error(
+      extract_data(
+        data_community_extract = data_community,
+        data_age_extract = data_age,
+        silent = TRUE
+      ),
+      "'age' values must not all be identical across samples"
+    )
+  }
+)
+
+testthat::test_that(
+  "extract_data() errors when age_uncertainty columns are all identical",
+  {
+    data_community <-
+      RRatepol::example_data$pollen_data[[1]]
+
+    data_age <-
+      RRatepol::example_data$sample_age[[1]]
+
+    n_samples <-
+      base::nrow(data_age)
+
+    # each column has a single repeated value (all-identical)
+    age_un_identical <-
+      base::matrix(
+        base::rep(1000, 10 * n_samples),
+        nrow = 10,
+        ncol = n_samples
+      )
+
+    testthat::expect_error(
+      extract_data(
+        data_community_extract = data_community,
+        data_age_extract = data_age,
+        age_uncertainty = age_un_identical,
+        silent = TRUE
+      ),
+      "'age_uncertainty' columns must not all be identical"
+    )
+  }
+)

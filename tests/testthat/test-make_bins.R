@@ -47,3 +47,19 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "make_bins() errors when working_units has length > 1",
+  {
+    data_input <-
+      make_extracted_data()
+
+    testthat::expect_error(
+      make_bins(
+        data_source_bins = data_input,
+        working_units = c("levels", "bins")
+      ),
+      "'working_units' must be a single value"
+    )
+  }
+)

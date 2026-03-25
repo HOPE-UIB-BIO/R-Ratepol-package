@@ -16,6 +16,16 @@ reduce_data <-
 
     RUtilpol::check_class("check_levels", "logical")
 
+    assertthat::assert_that(
+      !base::is.null(data_source_reduce$community),
+      msg = "'data_source_reduce$community' must not be NULL"
+    )
+
+    assertthat::assert_that(
+      !base::is.null(data_source_reduce$age),
+      msg = "'data_source_reduce$age' must not be NULL"
+    )
+
     if (
       isTRUE(check_taxa)
     ) {

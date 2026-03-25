@@ -11,7 +11,7 @@ testthat::test_that(
         data_source_age = RRatepol::example_data$sample_age[[1]],
         silent = TRUE
       ),
-      'argument "data_source_community" is missing, with no default'
+      "Object 'data_source_community' must be included as a 'data.frame'"
     )
   }
 )
@@ -332,6 +332,95 @@ testthat::test_that(
         testthat::expect_s3_class(result, "data.frame")
         testthat::expect_true(base::nrow(result) > 0)
       }
+    )
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() errors when standardise has length > 1",
+  {
+    testthat::expect_error(
+      estimate_roc(
+        data_source_community =
+          RRatepol::example_data$pollen_data[[1]],
+        data_source_age =
+          RRatepol::example_data$sample_age[[1]],
+        standardise = c(TRUE, FALSE),
+        use_parallel = FALSE,
+        silent = TRUE
+      ),
+      "'standardise' must be a single TRUE or FALSE"
+    )
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() errors when tranform_to_proportions has length > 1",
+  {
+    testthat::expect_error(
+      estimate_roc(
+        data_source_community =
+          RRatepol::example_data$pollen_data[[1]],
+        data_source_age =
+          RRatepol::example_data$sample_age[[1]],
+        tranform_to_proportions = c(TRUE, FALSE),
+        use_parallel = FALSE,
+        silent = TRUE
+      ),
+      "'tranform_to_proportions' must be a single TRUE or FALSE"
+    )
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() errors when verbose has length > 1",
+  {
+    testthat::expect_error(
+      estimate_roc(
+        data_source_community =
+          RRatepol::example_data$pollen_data[[1]],
+        data_source_age =
+          RRatepol::example_data$sample_age[[1]],
+        verbose = c(TRUE, FALSE),
+        use_parallel = FALSE,
+        silent = TRUE
+      ),
+      "'verbose' must be a single TRUE or FALSE"
+    )
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() errors when use_parallel is 0",
+  {
+    testthat::expect_error(
+      estimate_roc(
+        data_source_community =
+          RRatepol::example_data$pollen_data[[1]],
+        data_source_age =
+          RRatepol::example_data$sample_age[[1]],
+        use_parallel = 0,
+        silent = TRUE
+      ),
+      "'use_parallel' must not be 0 or NA when numeric"
+    )
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() errors when interest_threshold has length > 1",
+  {
+    testthat::expect_error(
+      estimate_roc(
+        data_source_community =
+          RRatepol::example_data$pollen_data[[1]],
+        data_source_age =
+          RRatepol::example_data$sample_age[[1]],
+        interest_threshold = c(100, 200),
+        use_parallel = FALSE,
+        silent = TRUE
+      ),
+      "'interest_threshold' must be a single value"
     )
   }
 )

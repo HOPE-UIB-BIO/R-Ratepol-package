@@ -76,3 +76,81 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "standardise_community_data() errors when n_individuals is 0",
+  {
+    data_run <-
+      make_run_data()
+
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce =
+          subset_samples(
+            data_source_subset = purrr::chuck(data_run, "data"),
+            data_source_bins = purrr::chuck(data_run, "bins"),
+            bin_selection = "first"
+          )
+      )
+
+    testthat::expect_error(
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = 0
+      ),
+      "'n_individuals' must be a positive number"
+    )
+  }
+)
+
+testthat::test_that(
+  "standardise_community_data() errors when n_individuals is negative",
+  {
+    data_run <-
+      make_run_data()
+
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce =
+          subset_samples(
+            data_source_subset = purrr::chuck(data_run, "data"),
+            data_source_bins = purrr::chuck(data_run, "bins"),
+            bin_selection = "first"
+          )
+      )
+
+    testthat::expect_error(
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = -10
+      ),
+      "'n_individuals' must be a positive number"
+    )
+  }
+)
+
+testthat::test_that(
+  "standardise_community_data() errors when n_individuals is NA",
+  {
+    data_run <-
+      make_run_data()
+
+    data_subset <-
+      reduce_data_simple(
+        data_source_reduce =
+          subset_samples(
+            data_source_subset = purrr::chuck(data_run, "data"),
+            data_source_bins = purrr::chuck(data_run, "bins"),
+            bin_selection = "first"
+          )
+      )
+
+    testthat::expect_error(
+      standardise_community_data(
+        data_source_standard = data_subset,
+        n_individuals = NA_real_
+      ),
+      "'n_individuals' must be a positive number"
+    )
+  }
+)

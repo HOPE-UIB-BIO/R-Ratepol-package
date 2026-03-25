@@ -146,3 +146,65 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "detect_sni() errors when CHAR column contains NAs",
+  {
+    data_source <-
+      make_roc_data()
+
+    pred_gam <-
+      make_trend(
+        data_source = data_source,
+        sel_method = "non_linear"
+      )
+
+    char_data <-
+      data.frame(
+        dplyr::pull(data_source, Age),
+        dplyr::pull(data_source, ROC),
+        pred_gam
+      )
+
+    char_data[1, 2] <- NA
+
+    testthat::expect_error(
+      detect_sni(
+        CharData = char_data,
+        BandWidth = 500
+      ),
+      "ROC values in 'CharData' column 2 must not contain NAs"
+    )
+  }
+)
+
+testthat::test_that(
+  "detect_sni() errors when threshold column contains NAs",
+  {
+    data_source <-
+      make_roc_data()
+
+    pred_gam <-
+      make_trend(
+        data_source = data_source,
+        sel_method = "non_linear"
+      )
+
+    char_data <-
+      data.frame(
+        dplyr::pull(data_source, Age),
+        dplyr::pull(data_source, ROC),
+        pred_gam
+      )
+
+    char_data[1, 3] <- NA
+
+    testthat::expect_error(
+      detect_sni(
+        CharData = char_data,
+        BandWidth = 500
+      ),
+      "Prediction values in 'CharData' column 3 must not contain NAs"
+    )
+  }
+)

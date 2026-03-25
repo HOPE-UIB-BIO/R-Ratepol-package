@@ -552,3 +552,62 @@ testthat::test_that(
     testthat::expect_false(identical(p_threshold, p_nonlinear))
   }
 )
+
+testthat::test_that(
+  "plot_roc() errors when peaks has length > 1",
+  {
+    data_source <-
+      make_plot_roc_data()
+
+    testthat::expect_error(
+      plot_roc(
+        data_source = data_source,
+        age_threshold = NULL,
+        roc_threshold = NULL,
+        peaks = c(TRUE, FALSE),
+        trend = NULL
+      ),
+      "'peaks' must be a single value"
+    )
+  }
+)
+
+testthat::test_that(
+  "plot_roc() errors when peaks is NA",
+  {
+    data_source <-
+      make_plot_roc_data()
+
+    testthat::expect_error(
+      plot_roc(
+        data_source = data_source,
+        age_threshold = NULL,
+        roc_threshold = NULL,
+        peaks = NA,
+        trend = NULL
+      ),
+      "'peaks' must not be NA"
+    )
+  }
+)
+
+testthat::test_that(
+  "plot_roc() warns when ROC column contains NAs",
+  {
+    data_source <-
+      make_plot_roc_data()
+
+    data_source$ROC[1] <- NA
+
+    testthat::expect_warning(
+      plot_roc(
+        data_source = data_source,
+        age_threshold = NULL,
+        roc_threshold = NULL,
+        peaks = FALSE,
+        trend = NULL
+      ),
+      "NA values detected in 'ROC' column of 'data_source'"
+    )
+  }
+)

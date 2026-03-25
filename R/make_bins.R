@@ -19,6 +19,11 @@ make_bins <- function(
     c("levels", "bins", "MW")
   )
 
+  assertthat::assert_that(
+    base::length(working_units) == 1,
+    msg = "'working_units' must be a single value"
+  )
+
   working_units <- match.arg(working_units)
 
   age_dat <-

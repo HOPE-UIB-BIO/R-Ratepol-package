@@ -25,6 +25,34 @@ run_iteration <- function(
   verbose = FALSE,
   silent = FALSE
 ) {
+  RUtilpol::check_class("data_source_run", "list")
+
+  RUtilpol::check_class("standardise", "logical")
+
+  assertthat::assert_that(
+    base::length(standardise) == 1,
+    msg = "'standardise' must be a single TRUE or FALSE"
+  )
+
+  RUtilpol::check_class("tranform_to_proportions", "logical")
+
+  assertthat::assert_that(
+    base::length(tranform_to_proportions) == 1,
+    msg = "'tranform_to_proportions' must be a single TRUE or FALSE"
+  )
+
+  RUtilpol::check_class("verbose", "logical")
+
+  assertthat::assert_that(
+    base::length(verbose) == 1,
+    msg = "'verbose' must be a single TRUE or FALSE"
+  )
+
+  assertthat::assert_that(
+    !base::is.na(time_standardisation) && time_standardisation != 0,
+    msg = "'time_standardisation' must not be 0 or NA"
+  )
+
   #----------------------------------------------------------#
   # 4.1 Data subsetting -----
   #----------------------------------------------------------#
@@ -84,21 +112,19 @@ run_iteration <- function(
         n_individuals = n_individuals
       )
 
-    if (isTRUE(verbose)) {
-      assertthat::assert_that(
-        all(
-          n_individuals ==
-            rowSums(
-              subset_community(data_sd),
-              na.rm = TRUE
-            )
-        ),
-        msg = paste(
-          "Data standardisation was unsuccesfull,",
-          "try 'standardise' = FALSE"
-        )
+    assertthat::assert_that(
+      all(
+        n_individuals ==
+          rowSums(
+            subset_community(data_sd),
+            na.rm = TRUE
+          )
+      ),
+      msg = paste(
+        "Data standardisation was unsuccessful,",
+        "try 'standardise' = FALSE"
       )
-    }
+    )
   } else {
     data_sd <- data_subset
   }

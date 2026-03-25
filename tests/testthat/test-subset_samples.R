@@ -41,3 +41,21 @@ testthat::test_that(
     testthat::expect_true(base::nrow(result) > 0)
   }
 )
+
+testthat::test_that(
+  "subset_samples() errors on invalid bin_selection value",
+  {
+    data_run <-
+      make_run_data()
+
+    testthat::expect_error(
+      subset_samples(
+        data_source_subset = purrr::chuck(data_run, "data"),
+        data_source_bins = purrr::chuck(data_run, "bins"),
+        bin_selection = "median"
+      ),
+      "'bin_selection' must be 'first', 'random', or NULL"
+    )
+  }
+)
+

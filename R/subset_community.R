@@ -7,6 +7,13 @@
 subset_community <-
     function(data_source,
              ommit_vars = c("label", "res_age", "age_diff", "age")) {
+        RUtilpol::check_class("data_source", "data.frame")
+
+        assertthat::assert_that(
+            base::nrow(data_source) > 0,
+            msg = "'data_source' must not be empty"
+        )
+
         data_source %>%
             dplyr::select(
                 !dplyr::any_of(

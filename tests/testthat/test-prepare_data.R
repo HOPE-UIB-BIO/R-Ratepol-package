@@ -59,3 +59,40 @@ testthat::test_that(
     testthat::expect_type(result, "list")
   }
 )
+
+testthat::test_that(
+  "prepare_data() works with working_units = 'levels' and bin_size = NULL",
+  {
+    result <-
+      suppressWarnings(
+        prepare_data(
+          data_source_prep = make_extracted_data(),
+          working_units = "levels",
+          bin_size = NULL,
+          rand = 1
+        )
+      )
+
+    testthat::expect_type(result, "list")
+  }
+)
+
+testthat::test_that(
+  "prepare_data() errors on empty community in data_source_prep",
+  {
+    data_extracted <-
+      make_extracted_data()
+
+    data_extracted$community <-
+      data_extracted$community[0, ]
+
+    testthat::expect_error(
+      prepare_data(
+        data_source_prep = data_extracted,
+        working_units = "levels",
+        rand = 1
+      ),
+      "'data_source_prep\\$community' must not be empty"
+    )
+  }
+)

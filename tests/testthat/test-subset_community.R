@@ -45,3 +45,13 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "subset_community() errors on empty data_source",
+  {
+    testthat::expect_error(
+      subset_community(data_source = data.frame()),
+      "'data_source' must not be empty"
+    )
+  }
+)

@@ -106,6 +106,13 @@ plot_roc <- function(
     data_source %>%
     dplyr::filter(.data$Age <= age_threshold)
 
+  if (base::any(base::is.na(data_source_filter$ROC))) {
+    warning(
+      "NA values detected in 'ROC' column of 'data_source'.",
+      call. = FALSE
+    )
+  }
+
   # roc_threshold
   RUtilpol::check_class("roc_threshold", c("NULL", "numeric"))
 
@@ -114,6 +121,16 @@ plot_roc <- function(
   }
 
   RUtilpol::check_class("peaks", "logical")
+
+  assertthat::assert_that(
+    base::length(peaks) == 1,
+    msg = "'peaks' must be a single value"
+  )
+
+  assertthat::assert_that(
+    !base::is.na(peaks),
+    msg = "'peaks' must not be NA"
+  )
 
   RUtilpol::check_class("trend", c("NULL", "character"))
 

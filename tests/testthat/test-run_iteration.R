@@ -99,3 +99,65 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "run_iteration() errors when time_standardisation is 0",
+  {
+    data_run <-
+      make_run_data()
+
+    testthat::expect_error(
+      run_iteration(
+        data_source_run = data_run,
+        bin_selection = "first",
+        standardise = FALSE,
+        tranform_to_proportions = TRUE,
+        dissimilarity_coefficient = "euc",
+        time_standardisation = 0,
+        silent = TRUE
+      ),
+      "'time_standardisation' must not be 0 or NA"
+    )
+  }
+)
+
+testthat::test_that(
+  "run_iteration() errors when time_standardisation is NA",
+  {
+    data_run <-
+      make_run_data()
+
+    testthat::expect_error(
+      run_iteration(
+        data_source_run = data_run,
+        bin_selection = "first",
+        standardise = FALSE,
+        tranform_to_proportions = TRUE,
+        dissimilarity_coefficient = "euc",
+        time_standardisation = NA_real_,
+        silent = TRUE
+      ),
+      "'time_standardisation' must not be 0 or NA"
+    )
+  }
+)
+
+testthat::test_that(
+  "run_iteration() errors when standardise is not logical",
+  {
+    data_run <-
+      make_run_data()
+
+    testthat::expect_error(
+      run_iteration(
+        data_source_run = data_run,
+        bin_selection = "first",
+        standardise = "yes",
+        tranform_to_proportions = TRUE,
+        dissimilarity_coefficient = "euc",
+        time_standardisation = 500,
+        silent = TRUE
+      )
+    )
+  }
+)
