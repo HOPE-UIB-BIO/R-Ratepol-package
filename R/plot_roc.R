@@ -28,6 +28,8 @@
 #'  calculated from all the residuals. A peak is considered significant if it
 #'  is 2 SD higher than the model.
 #'  }
+#' @param silent
+#' Logical. If `TRUE`, suppress all console outputs. Useful for testing.
 #' @description Plot Rate-of-Change sequence with a error estimate and trend
 #' and/or peak-points in present.
 #' @export
@@ -86,7 +88,7 @@ plot_roc <- function(
   roc_threshold = NULL,
   peaks = FALSE,
   trend = NULL,
-  silent =FALSE
+  silent = FALSE
 ) {
   # age_threshold
   util_check_class(data_source, "data.frame")
@@ -147,7 +149,7 @@ plot_roc <- function(
     ggplot2::geom_vline(
       xintercept = seq(0, age_threshold, 2e3),
       colour = "gray90",
-      size = 0.1
+      linewidth = 0.1
     ) +
     ggplot2::coord_flip(
       xlim = c(age_threshold, 0),
@@ -162,7 +164,7 @@ plot_roc <- function(
     ) +
     ggplot2::geom_line(
       alpha = 1,
-      size = 1,
+      linewidth = 1,
       color = "gray30"
     ) +
     ggplot2::geom_hline(
@@ -200,7 +202,7 @@ plot_roc <- function(
         ggplot2::geom_hline(
           yintercept = stats::median(data_source_filter$ROC),
           color = "blue",
-          size = 1
+          linewidth = 1
         )
     }
 
@@ -216,7 +218,7 @@ plot_roc <- function(
             Age = data_source$Age
           ),
           color = "blue",
-          size = 1
+          linewidth = 1
         )
     }
 
@@ -232,7 +234,7 @@ plot_roc <- function(
             Age = data_source$Age
           ),
           color = "blue",
-          size = 1
+          linewidth = 1
         )
     }
   }
