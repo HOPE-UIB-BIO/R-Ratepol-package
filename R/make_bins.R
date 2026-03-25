@@ -10,12 +10,12 @@ make_bins <- function(
   bin_size = 500,
   number_of_shifts = 5
 ) {
-  RUtilpol::check_class("data_source_bins", "list")
+  util_check_class(data_source_bins, "list")
 
-  RUtilpol::check_class("working_units", "character")
+  util_check_class(working_units, "character")
 
-  RUtilpol::check_vector_values(
-    "working_units",
+  util_check_vector_values(
+    working_units,
     c("levels", "bins", "MW")
   )
 
@@ -66,9 +66,9 @@ make_bins <- function(
     return(res)
   }
 
-  RUtilpol::check_class("bin_size", "numeric")
+  util_check_class(bin_size, "numeric")
 
-  RUtilpol::check_if_integer("bin_size")
+  util_check_if_integer(bin_size)
 
   bin_oldest <-
     ceiling(
@@ -94,9 +94,9 @@ make_bins <- function(
         shift = 1
       )
   } else {
-    RUtilpol::check_class("number_of_shifts", "numeric")
+    util_check_class(number_of_shifts, "numeric")
 
-    RUtilpol::check_if_integer("number_of_shifts")
+    util_check_if_integer(number_of_shifts)
   }
 
   if (working_units == "MW") {

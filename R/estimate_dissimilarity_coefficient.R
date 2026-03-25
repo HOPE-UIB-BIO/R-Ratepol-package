@@ -48,7 +48,7 @@ estimate_dissimilarity_coefficient <- function(
 
   if (dissimilarity_coefficient == "euc.sd") {
     if (isFALSE(silent) && isTRUE(verbose)) {
-      RUtilpol::output_comment(
+      util_output_comment(
         "Standardised Euclidan distance will be used as dissimilarity_coefficient"
       )
     }
@@ -110,7 +110,7 @@ estimate_dissimilarity_coefficient <- function(
 
   if (dissimilarity_coefficient == "euc") {
     if (isFALSE(silent) && isTRUE(verbose)) {
-      RUtilpol::output_comment(
+      util_output_comment(
         "Euclidan distance will be used as dissimilarity_coefficient"
       )
     }
@@ -129,7 +129,7 @@ estimate_dissimilarity_coefficient <- function(
 
   if (dissimilarity_coefficient == "chord") {
     if (isFALSE(silent) && isTRUE(verbose)) {
-      RUtilpol::output_comment(
+      util_output_comment(
         "Chord distance will be used as dissimilarity_coefficient"
       )
     }
@@ -151,7 +151,7 @@ estimate_dissimilarity_coefficient <- function(
 
   if (dissimilarity_coefficient == "chisq") {
     if (isFALSE(silent) && isTRUE(verbose)) {
-      RUtilpol::output_comment(
+      util_output_comment(
         "Chi-squared coeficient will be used as dissimilarity_coefficient"
       )
     }
@@ -173,7 +173,7 @@ estimate_dissimilarity_coefficient <- function(
 
   if (dissimilarity_coefficient == "gower") {
     if (isFALSE(silent) && isTRUE(verbose)) {
-      RUtilpol::output_comment(
+      util_output_comment(
         "Gower's distance will be used as dissimilarity_coefficient"
       )
     }
@@ -194,7 +194,7 @@ estimate_dissimilarity_coefficient <- function(
 
   if (dissimilarity_coefficient == "bray") {
     if (isFALSE(silent) && isTRUE(verbose)) {
-      RUtilpol::output_comment(
+      util_output_comment(
         "Bray-Curtis distance will be used as dissimilarity_coefficient"
       )
     }

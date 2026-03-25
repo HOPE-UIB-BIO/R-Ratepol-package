@@ -14,7 +14,7 @@ prepare_data <- function(
   number_of_shifts = 5,
   rand = NULL
 ) {
-  RUtilpol::check_class("data_source_prep", "list")
+  util_check_class(data_source_prep, "list")
 
   assertthat::assert_that(
     !base::is.null(data_source_prep$community) &&
@@ -28,19 +28,19 @@ prepare_data <- function(
     msg = "'data_source_prep$age' must not be empty"
   )
 
-  RUtilpol::check_class("working_units", "character")
+  util_check_class(working_units, "character")
 
-  RUtilpol::check_vector_values("working_units", c("levels", "bins", "MW"))
+  util_check_vector_values(working_units, c("levels", "bins", "MW"))
 
   working_units <- match.arg(working_units)
 
   if (working_units != "levels") {
-    RUtilpol::check_class("bin_size", "numeric")
+    util_check_class(bin_size, "numeric")
 
-    RUtilpol::check_if_integer("bin_size")
+    util_check_if_integer(bin_size)
   }
 
-  RUtilpol::check_class("rand", c("NULL", "numeric"))
+  util_check_class(rand, c("NULL", "numeric"))
 
   # check the condition
   is_shift_present <-
@@ -49,15 +49,15 @@ prepare_data <- function(
   if (isFALSE(is_shift_present)) {
     number_of_shifts <- 1
   } else {
-    RUtilpol::check_class("number_of_shifts", "numeric")
-    RUtilpol::check_if_integer("number_of_shifts")
+    util_check_class(number_of_shifts, "numeric")
+    util_check_if_integer(number_of_shifts)
   }
 
   is_rand_present <-
     isFALSE(is.null(rand))
 
   if (isTRUE(is_rand_present)) {
-    RUtilpol::check_if_integer("rand")
+    util_check_if_integer(rand)
   } else {
     rand <- 1
   }

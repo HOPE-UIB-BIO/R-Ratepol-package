@@ -89,14 +89,14 @@ plot_roc <- function(
   silent =FALSE
 ) {
   # age_threshold
-  RUtilpol::check_class("data_source", "data.frame")
+  util_check_class(data_source, "data.frame")
 
-  RUtilpol::check_col_names(
-    "data_source",
+  util_check_col_names(
+    data_source,
     c("Age", "ROC", "ROC_up", "ROC_dw")
   )
 
-  RUtilpol::check_class("age_threshold", c("NULL", "numeric"))
+  util_check_class(age_threshold, c("NULL", "numeric"))
 
   if (isTRUE(is.null(age_threshold))) {
     age_threshold <- max(data_source$Age)
@@ -114,13 +114,13 @@ plot_roc <- function(
   }
 
   # roc_threshold
-  RUtilpol::check_class("roc_threshold", c("NULL", "numeric"))
+  util_check_class(roc_threshold, c("NULL", "numeric"))
 
   if (isTRUE(is.null(roc_threshold))) {
     roc_threshold <- max(data_source$ROC_up)
   }
 
-  RUtilpol::check_class("peaks", "logical")
+  util_check_class(peaks, "logical")
 
   assertthat::assert_that(
     base::length(peaks) == 1,
@@ -132,7 +132,7 @@ plot_roc <- function(
     msg = "'peaks' must not be NA"
   )
 
-  RUtilpol::check_class("trend", c("NULL", "character"))
+  util_check_class(trend, c("NULL", "character"))
 
   p_res <-
     ggplot2::ggplot(
@@ -176,14 +176,14 @@ plot_roc <- function(
     )
 
   if (isFALSE(is.null(trend))) {
-    RUtilpol::check_vector_values(
-      "trend",
+    util_check_vector_values(
+      trend,
       c("threshold", "trend_linear", "trend_non_linear")
     )
 
     if (isFALSE(peaks)) {
       if (isFALSE(silent)) {
-        RUtilpol::output_comment(
+        util_output_comment(
           msg = paste(
             "'trend' has been set to NOT 'NULL',",
             "'peaks' will be plotted"
@@ -238,7 +238,7 @@ plot_roc <- function(
   }
 
   if (isTRUE(peaks)) {
-    RUtilpol::check_col_names("data_source", "Peak")
+    util_check_col_names(data_source, "Peak")
 
     p_res <-
       p_res +

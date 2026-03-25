@@ -10,11 +10,11 @@ reduce_data <-
   function(data_source_reduce,
            check_taxa = TRUE,
            check_levels = TRUE) {
-    RUtilpol::check_class("data_source_reduce", "list")
+    util_check_class(data_source_reduce, "list")
 
-    RUtilpol::check_class("check_taxa", "logical")
+    util_check_class(check_taxa, "logical")
 
-    RUtilpol::check_class("check_levels", "logical")
+    util_check_class(check_levels, "logical")
 
     assertthat::assert_that(
       !base::is.null(data_source_reduce$community),

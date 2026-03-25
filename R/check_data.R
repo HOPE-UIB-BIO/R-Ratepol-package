@@ -7,7 +7,7 @@
 #' @description Output summary information about the data
 #' @keywords internal
 check_data <- function(data_source_check, silent = FALSE) {
-  RUtilpol::check_class("data_source_check", "list")
+  util_check_class(data_source_check, "list")
 
   assertthat::assert_that(
     nrow(data_source_check$community) > 0,
@@ -22,7 +22,7 @@ check_data <- function(data_source_check, silent = FALSE) {
 
   if (isFALSE(silent)) {
     if (length(dims) == 3) {
-      RUtilpol::output_comment(
+      util_output_comment(
         paste(
           "Community data have",
           dims$community[2],
@@ -38,7 +38,7 @@ check_data <- function(data_source_check, silent = FALSE) {
         )
       )
     } else if (length(dims) == 2) {
-      RUtilpol::output_comment(
+      util_output_comment(
         paste(
           "Community data have",
           dims$community[2],
@@ -62,7 +62,7 @@ check_data <- function(data_source_check, silent = FALSE) {
 
   if (isFALSE(silent)) {
     if (length(nas) == 3) {
-      RUtilpol::output_comment(
+      util_output_comment(
         paste(
           "Community data has",
           nas$community,
@@ -76,7 +76,7 @@ check_data <- function(data_source_check, silent = FALSE) {
         )
       )
     } else if (length(nas) == 2) {
-      RUtilpol::output_comment(
+      util_output_comment(
         paste(
           "Community data has",
           nas$community,
@@ -90,7 +90,7 @@ check_data <- function(data_source_check, silent = FALSE) {
     }
 
     # 3. Summary of data
-    RUtilpol::output_comment(
+    util_output_comment(
       paste0(
         "Community data has a value of min ",
         round(min(rowSums(data_source_check$community, na.rm = TRUE))),
@@ -107,7 +107,7 @@ check_data <- function(data_source_check, silent = FALSE) {
       )
     )
 
-    RUtilpol::output_comment(
+    util_output_comment(
       paste0(
         "Age data has values of min ",
         round(min(data_source_check$age$age, na.rm = TRUE)),

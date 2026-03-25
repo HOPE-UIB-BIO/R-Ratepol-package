@@ -25,23 +25,23 @@ run_iteration <- function(
   verbose = FALSE,
   silent = FALSE
 ) {
-  RUtilpol::check_class("data_source_run", "list")
+  util_check_class(data_source_run, "list")
 
-  RUtilpol::check_class("standardise", "logical")
+  util_check_class(standardise, "logical")
 
   assertthat::assert_that(
     base::length(standardise) == 1,
     msg = "'standardise' must be a single TRUE or FALSE"
   )
 
-  RUtilpol::check_class("tranform_to_proportions", "logical")
+  util_check_class(tranform_to_proportions, "logical")
 
   assertthat::assert_that(
     base::length(tranform_to_proportions) == 1,
     msg = "'tranform_to_proportions' must be a single TRUE or FALSE"
   )
 
-  RUtilpol::check_class("verbose", "logical")
+  util_check_class(verbose, "logical")
 
   assertthat::assert_that(
     base::length(verbose) == 1,

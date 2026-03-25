@@ -43,11 +43,7 @@ smooth_community_data <- function(
   # SETUP -----
   # ----------------------------------------------
   # Mandatory assertions for all methods:
-  # Assert data_source_smooth is a list
-  assertthat::assert_that(
-    is.list(data_source_smooth),
-    msg = "'data_source_smooth' must be a list"
-  )
+  util_check_class(data_source_smooth, "list")
   # Assert that community is not empty
   assertthat::assert_that(
     nrow(data_source_smooth$community) > 0,
@@ -193,7 +189,7 @@ smooth_community_data <- function(
     switch(
       smooth_method,
       "m.avg" = {
-        RUtilpol::output_comment(
+        util_output_comment(
           paste(
             "Data will be smoothed by 'moving average' over",
             smooth_n_points,
@@ -202,7 +198,7 @@ smooth_community_data <- function(
         )
       },
       "grim" = {
-        RUtilpol::output_comment(
+        util_output_comment(
           paste(
             "Data will be smoothed by 'Grimm method' with min samples",
             smooth_n_points,
@@ -214,7 +210,7 @@ smooth_community_data <- function(
         )
       },
       "age.w" = {
-        RUtilpol::output_comment(
+        util_output_comment(
           paste(
             "Data will be smoothed by 'age-weighed average' over",
             smooth_n_points,
@@ -224,7 +220,7 @@ smooth_community_data <- function(
         )
       },
       "shep" = {
-        RUtilpol::output_comment(
+        util_output_comment(
           paste(
             "Data will be smoothed by 'Shepard's 5-term filter'"
           )

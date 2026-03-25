@@ -13,17 +13,17 @@ transform_into_proportions <- function(
   verbose = FALSE,
   silent =FALSE
 ) {
-  RUtilpol::check_class("data_source_trans", "data.frame")
+  util_check_class(data_source_trans, "data.frame")
 
   assertthat::assert_that(
     base::nrow(data_source_trans) > 0,
     msg = "'data_source_trans' must not be empty"
   )
 
-  RUtilpol::check_class("sel_method", "character")
+  util_check_class(sel_method, "character")
 
-  RUtilpol::check_vector_values(
-    "sel_method",
+  util_check_vector_values(
+    sel_method,
     c("percentages", "proportions")
   )
 
@@ -34,12 +34,12 @@ transform_into_proportions <- function(
 
   sel_method <- match.arg(sel_method)
 
-  RUtilpol::check_class("verbose", "logical")
+  util_check_class(verbose, "logical")
 
-  RUtilpol::check_class("silent", "logical")
+  util_check_class(silent, "logical")
 
   if (isFALSE(silent) && isTRUE(verbose)) {
-    RUtilpol::output_comment(
+    util_output_comment(
       "Community data values are being converted to proportions"
     )
   }
