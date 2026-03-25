@@ -49,6 +49,24 @@ VignetteBuilder:
 Remotes: 
     github::HOPE-UIB-BIO/R-Utilpol-package
 Config/testthat/edition: 3
+Config/testthat/start-first: check_data, 
+    make_bins, 
+    subset_community,
+    subset_samples,
+    reduce_data,
+    make_trend,
+    detect_sni,
+    prepare_data,
+    smooth_community_data,
+    transform_into_proportions,
+    standardise_community_data,
+    reduce_data_simple,
+    estimate_dissimilarity_coefficient,
+    detect_peak_points,
+    run_iteration,
+    extract_data,
+    plot_roc,
+    estimate_roc
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
