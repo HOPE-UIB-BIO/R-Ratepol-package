@@ -16,3 +16,7 @@
 ^CRAN-SUBMISSION$
 ^doc$
 ^Meta$
+^vignettes/package-description\.qmd$
+^vignettes/workflow-example\.qmd$
+^vignettes/.*_files$
+^vignettes/\.quarto$

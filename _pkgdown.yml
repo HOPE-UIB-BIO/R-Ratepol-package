@@ -21,3 +21,10 @@ navbar:
       icon: fa-twitter
       href: http://twitter.com/OndrejMottl
       aria-label: Twitter
+
+articles:
+- title: "Guides"
+  navbar: "Guides"
+  contents:
+  - package-description
+  - workflow-example
