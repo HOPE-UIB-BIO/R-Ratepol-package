@@ -1,3 +1,58 @@
+# RRatepol 1.3.0
+
+## Complete unit test suite
+
+- `tests/testthat/` created from scratch (~3,000 lines across 19 test files, one per function)
+- shared `helper-fixtures.R` added for reusable test data
+- every function now has tests for valid input, invalid input with informative errors, and function-specific edge cases
+
+## CI and test coverage
+
+- new `test-coverage.yaml` workflow uploads coverage results to Codecov on every push
+- `R-CMD-check.yaml` updated to current `r-lib/actions` conventions
+- `testthat` (≥ 3.0.0) added to `Suggests`; test execution order declared via `Config/testthat/start-first`
+
+## Removed runtime dependencies
+
+- `RUtilpol` (GitHub-only) and `usethis` removed from `Imports`
+- `Remotes:` field removed; package is now installable from CRAN without any GitHub dependency
+
+## New internal utilities
+
+- `R/util_internal.R`: `util_check_class()`, `util_check_col_names()`, `util_check_vector_values()`, `util_check_if_integer()`, `util_output_comment()`, `util_output_heading()`, `util_output_warning()`, `util_flatten_list_by_one()`
+- `R/util_search_parameter.R`: Grimm-smoothing window-growth logic extracted into `util_search_parameter()`
+
+## New `silent` argument
+
+- `silent = FALSE` added to `estimate_roc()`, `run_iteration()`, `extract_data()`, `transform_into_proportions()`, `plot_roc()`, and all functions that produce console output
+- when `TRUE`, suppresses all messages and warnings without affecting `verbose`
+
+## Input validation — new assertions
+
+- `estimate_roc()`: `standardise`, `tranform_to_proportions`, `verbose` must each be a single `TRUE`/`FALSE`; `interest_threshold` must be a single value when supplied; `use_parallel`, when numeric, must not be `0` or `NA` (closes #95)
+- `plot_roc()`: `peaks` must be a single non-`NA` value; warning raised when `ROC` column contains `NA`s (closes #94)
+- `detect_sni()`: columns 2 and 3 of `CharData` must not contain `NA`s (closes #93)
+- `make_trend()`: `sel_method` must be a single value; return value always coerced to numeric vector, fixing `"non_linear"` returning an array (closes #92, closes #78)
+- `transform_into_proportions()`: input must not be an empty data frame; `sel_method` must be a single value (closes #91)
+- `subset_community()`: input must not be an empty data frame (closes #89)
+- `reduce_data_simple()`: input must not be empty; `check_taxa` and `check_levels` must each be a single `TRUE`/`FALSE` (closes #88)
+- `subset_samples()`: `bin_selection` must be `"first"`, `"random"`, or `NULL` (closes #87)
+- `run_iteration()`: `standardise`, `tranform_to_proportions`, `verbose` must each be a single `TRUE`/`FALSE`; `time_standardisation` must not be `0` or `NA`; standardisation-failure error is now unconditional, not gated on `verbose` (closes #86, closes #62)
+- `make_bins()`: `working_units` must be a single value (closes #85)
+- `prepare_data()`: community and age inputs must not be `NULL` or empty; `bin_size` assertion runs only when `working_units != "levels"`, fixing spurious error with `working_units = "levels"` and `bin_size = NULL` (closes #84, closes #79)
+- `reduce_data()`: community and age inputs must not be `NULL`; sample alignment uses `intersect()` across community, age, and age_un so all-zero rows and mismatched samples are dropped consistently (closes #82, closes #37)
+- `extract_data()`: `age` values must not all be identical; `age_uncertainty` columns must not all be identical (closes #81)
+
+## Documentation and site
+
+- Roxygen2 updated from 7.2.3 → 7.3.3; all `man/*.Rd` files regenerated
+- `pkgdown` site rebuilt; reference index and article pages updated
+- `quarto` added to `Suggests` to support vignette rendering
+
+## New contributor
+
+- Friederike Wolke (@FriedaRosa) added as contributor (`ctb`) for authoring the test suite and filing the issues that drove this release's validation improvements
+
 # RRatepol 1.2.3
 
 - fix an issue with subsetting the uncertainty matrix to correctly align with the rest of the data (thanks to Giacomo Galli for reporting the bug)
