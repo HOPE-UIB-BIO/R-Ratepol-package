@@ -40,6 +40,90 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3.0" id="rratepol-130">RRatepol 1.3.0<a class="anchor" aria-label="anchor" href="#rratepol-130"></a></h2>
+<div class="section level3">
+<h3 id="complete-unit-test-suite-1-3-0">Complete unit test suite<a class="anchor" aria-label="anchor" href="#complete-unit-test-suite-1-3-0"></a></h3>
+<ul><li>
+<code>tests/testthat/</code> created from scratch (~3,000 lines across 19 test files, one per function)</li>
+<li>shared <code>helper-fixtures.R</code> added for reusable test data</li>
+<li>every function now has tests for valid input, invalid input with informative errors, and function-specific edge cases</li>
+</ul></div>
+<div class="section level3">
+<h3 id="ci-and-test-coverage-1-3-0">CI and test coverage<a class="anchor" aria-label="anchor" href="#ci-and-test-coverage-1-3-0"></a></h3>
+<ul><li>new <code>test-coverage.yaml</code> workflow uploads coverage results to Codecov on every push</li>
+<li>
+<code>R-CMD-check.yaml</code> updated to current <code>r-lib/actions</code> conventions</li>
+<li>
+<code>testthat</code> (≥ 3.0.0) added to <code>Suggests</code>; test execution order declared via <code>Config/testthat/start-first</code>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="removed-runtime-dependencies-1-3-0">Removed runtime dependencies<a class="anchor" aria-label="anchor" href="#removed-runtime-dependencies-1-3-0"></a></h3>
+<ul><li>
+<code>RUtilpol</code> (GitHub-only) and <code>usethis</code> removed from <code>Imports</code>
+</li>
+<li>
+<code>Remotes:</code> field removed; package is now installable from CRAN without any GitHub dependency</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-internal-utilities-1-3-0">New internal utilities<a class="anchor" aria-label="anchor" href="#new-internal-utilities-1-3-0"></a></h3>
+<ul><li>
+<code>R/util_internal.R</code>: <code>util_check_class()</code>, <code>util_check_col_names()</code>, <code>util_check_vector_values()</code>, <code>util_check_if_integer()</code>, <code>util_output_comment()</code>, <code>util_output_heading()</code>, <code>util_output_warning()</code>, <code>util_flatten_list_by_one()</code>
+</li>
+<li>
+<code>R/util_search_parameter.R</code>: Grimm-smoothing window-growth logic extracted into <code>util_search_parameter()</code>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-silent-argument-1-3-0">New <code>silent</code> argument<a class="anchor" aria-label="anchor" href="#new-silent-argument-1-3-0"></a></h3>
+<ul><li>
+<code>silent = FALSE</code> added to <code><a href="../reference/estimate_roc.html">estimate_roc()</a></code>, <code><a href="../reference/run_iteration.html">run_iteration()</a></code>, <code><a href="../reference/extract_data.html">extract_data()</a></code>, <code><a href="../reference/transform_into_proportions.html">transform_into_proportions()</a></code>, <code><a href="../reference/plot_roc.html">plot_roc()</a></code>, and all functions that produce console output</li>
+<li>when <code>TRUE</code>, suppresses all messages and warnings without affecting <code>verbose</code>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="input-validation--new-assertions-1-3-0">Input validation — new assertions<a class="anchor" aria-label="anchor" href="#input-validation--new-assertions-1-3-0"></a></h3>
+<ul><li>
+<code><a href="../reference/estimate_roc.html">estimate_roc()</a></code>: <code>standardise</code>, <code>tranform_to_proportions</code>, <code>verbose</code> must each be a single <code>TRUE</code>/<code>FALSE</code>; <code>interest_threshold</code> must be a single value when supplied; <code>use_parallel</code>, when numeric, must not be <code>0</code> or <code>NA</code> (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/95" class="external-link">#95</a>)</li>
+<li>
+<code><a href="../reference/plot_roc.html">plot_roc()</a></code>: <code>peaks</code> must be a single non-<code>NA</code> value; warning raised when <code>ROC</code> column contains <code>NA</code>s (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/94" class="external-link">#94</a>)</li>
+<li>
+<code><a href="../reference/detect_sni.html">detect_sni()</a></code>: columns 2 and 3 of <code>CharData</code> must not contain <code>NA</code>s (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/93" class="external-link">#93</a>)</li>
+<li>
+<code><a href="../reference/make_trend.html">make_trend()</a></code>: <code>sel_method</code> must be a single value; return value always coerced to numeric vector, fixing <code>"non_linear"</code> returning an array (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/92" class="external-link">#92</a>, closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/78" class="external-link">#78</a>)</li>
+<li>
+<code><a href="../reference/transform_into_proportions.html">transform_into_proportions()</a></code>: input must not be an empty data frame; <code>sel_method</code> must be a single value (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/91" class="external-link">#91</a>)</li>
+<li>
+<code><a href="../reference/subset_community.html">subset_community()</a></code>: input must not be an empty data frame (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/89" class="external-link">#89</a>)</li>
+<li>
+<code><a href="../reference/reduce_data_simple.html">reduce_data_simple()</a></code>: input must not be empty; <code>check_taxa</code> and <code>check_levels</code> must each be a single <code>TRUE</code>/<code>FALSE</code> (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/88" class="external-link">#88</a>)</li>
+<li>
+<code><a href="../reference/subset_samples.html">subset_samples()</a></code>: <code>bin_selection</code> must be <code>"first"</code>, <code>"random"</code>, or <code>NULL</code> (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/87" class="external-link">#87</a>)</li>
+<li>
+<code><a href="../reference/run_iteration.html">run_iteration()</a></code>: <code>standardise</code>, <code>tranform_to_proportions</code>, <code>verbose</code> must each be a single <code>TRUE</code>/<code>FALSE</code>; <code>time_standardisation</code> must not be <code>0</code> or <code>NA</code>; standardisation-failure error is now unconditional, not gated on <code>verbose</code> (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/86" class="external-link">#86</a>, closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/62" class="external-link">#62</a>)</li>
+<li>
+<code><a href="../reference/make_bins.html">make_bins()</a></code>: <code>working_units</code> must be a single value (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/85" class="external-link">#85</a>)</li>
+<li>
+<code><a href="../reference/prepare_data.html">prepare_data()</a></code>: community and age inputs must not be <code>NULL</code> or empty; <code>bin_size</code> assertion runs only when <code>working_units != "levels"</code>, fixing spurious error with <code>working_units = "levels"</code> and <code>bin_size = NULL</code> (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/84" class="external-link">#84</a>, closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/79" class="external-link">#79</a>)</li>
+<li>
+<code><a href="../reference/reduce_data.html">reduce_data()</a></code>: community and age inputs must not be <code>NULL</code>; sample alignment uses <code><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect()</a></code> across community, age, and age_un so all-zero rows and mismatched samples are dropped consistently (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/82" class="external-link">#82</a>, closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/37" class="external-link">#37</a>)</li>
+<li>
+<code><a href="../reference/extract_data.html">extract_data()</a></code>: <code>age</code> values must not all be identical; <code>age_uncertainty</code> columns must not all be identical (closes <a href="https://github.com/HOPE-UIB-BIO/R-Ratepol-package/issues/81" class="external-link">#81</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-and-site-1-3-0">Documentation and site<a class="anchor" aria-label="anchor" href="#documentation-and-site-1-3-0"></a></h3>
+<ul><li>Roxygen2 updated from 7.2.3 → 7.3.3; all <code>man/*.Rd</code> files regenerated</li>
+<li>
+<code>pkgdown</code> site rebuilt; reference index and article pages updated</li>
+<li>
+<code>quarto</code> added to <code>Suggests</code> to support vignette rendering</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-contributor-1-3-0">New contributor<a class="anchor" aria-label="anchor" href="#new-contributor-1-3-0"></a></h3>
+<ul><li>Friederike Wolke (<a href="https://github.com/FriedaRosa" class="external-link">@FriedaRosa</a>) added as contributor (<code>ctb</code>) for authoring the test suite and filing the issues that drove this release’s validation improvements</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.3" id="rratepol-123">RRatepol 1.2.3<a class="anchor" aria-label="anchor" href="#rratepol-123"></a></h2>
 <ul><li>fix an issue with subsetting the uncertainty matrix to correctly align with the rest of the data (thanks to Giacomo Galli for reporting the bug)</li>
 <li>replace all not a basic ASCII character in documentation</li>
