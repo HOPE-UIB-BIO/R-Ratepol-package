@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# RRatepol package <img src="man/figures/RRatepol_logo.png" align="right" width="200" />
+# RRatepol package <img src="man/figures/RRatepol_logo.png" align="right" width="200" alt="RRatepol package logo" />
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/RRatepol)](https://CRAN.R-project.org/package=RRatepol)
@@ -21,8 +21,6 @@ knitr::opts_chunk$set(
 [![Codecov-test-coverage](https://codecov.io/gh//HOPE-UIB-BIO/R-Ratepol-package/branch/main/graph/badge.svg)](https://app.codecov.io/gh//HOPE-UIB-BIO/R-Ratepol-package?branch=main)
 
 <!-- badges: end -->
-
-## Current version: 1.2.3
 
 What is new in the package? See [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)
 
@@ -47,7 +45,7 @@ citation(package = "RRatepol")
 
 Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new approach
 Review of Palaeobotany and Palynology 293,
-doi: `r badger::badge_doi("10.1016/j.revpalbo.2021.104483", "yellow")`
+doi: [![DOI badge](https://img.shields.io/badge/doi-10.1016/j.revpalbo.2021.104483-yellow.svg)](https://doi.org/10.1016/j.revpalbo.2021.104483)
 
 ## Package website
 
@@ -95,7 +93,7 @@ example_data <-
 dplyr::glimpse(example_data)
 ```
 
-```{r plot_data, echo=TRUE}
+```{r plot_data, echo=TRUE, fig.alt="Map showing the four European example sequences included in RRatepol::example_data."}
 example_data %>%
   ggplot2::ggplot(
     ggplot2::aes(
@@ -141,7 +139,7 @@ sequence_01 <-
   )
 ```
 
-```{r plot_1, echo=TRUE}
+```{r plot_1, echo=TRUE, fig.alt="Rate of change score through time for the first example sequence using age-weighted smoothing and chi-squared dissimilarity."}
 RRatepol::plot_roc(
   data_source = sequence_01
 )
@@ -169,7 +167,7 @@ sequence_02 <-
   )
 ```
 
-```{r plot_2, echo=TRUE}
+```{r plot_2, echo=TRUE, fig.alt="Rate of change score through time for the first example sequence with standardisation and age uncertainty, including uncertainty envelopes."}
 RRatepol::plot_roc(
   data_source = sequence_02
 )
@@ -197,7 +195,7 @@ sequence_03 <-
   )
 ```
 
-```{r plot_3, echo=TRUE}
+```{r plot_3, echo=TRUE, fig.alt="Rate of change score through time for the first example sequence using binning with a moving window."}
 RRatepol::plot_roc(
   data_source = sequence_03
 )
@@ -207,7 +205,7 @@ RRatepol::plot_roc(
 
 Detect the *peak points* using *trend_non_linear* method.
 
-```{r plot_4, echo=TRUE}
+```{r plot_4, echo=TRUE, fig.alt="Rate of change score through time with detected peak points and a non-linear trend fitted to the first example sequence."}
 sequence_03_with_peaks <-
   RRatepol::detect_peak_points(
     data_source = sequence_03,

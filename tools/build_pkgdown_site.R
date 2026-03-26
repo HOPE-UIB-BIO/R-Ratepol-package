@@ -1,6 +1,23 @@
 build_pkgdown_site <- function() {
   cnd_build_error <- NULL
 
+  # Patch README.md: Quarto renders fig.alt as data-fig-alt, but pkgdown's
+  # accessibility checker requires the standard HTML alt attribute.
+  # Convert every occurrence before pkgdown reads the file.
+  # Use file() connections so R transcodes UTF-8 bytes correctly on Windows.
+  con_readme_r <- file("README.md", open = "r", encoding = "UTF-8")
+  vec_readme <- readLines(con_readme_r, warn = FALSE)
+  close(con_readme_r)
+  vec_readme <- gsub(
+    pattern = " data-fig-alt=\"",
+    replacement = " alt=\"",
+    x = vec_readme,
+    fixed = TRUE
+  )
+  con_readme_w <- file("README.md", open = "w", encoding = "UTF-8")
+  writeLines(vec_readme, con_readme_w)
+  close(con_readme_w)
+
   tryCatch(
     expr = {
       pkgdown::build_site_github_pages(

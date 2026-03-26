@@ -1,14 +1,12 @@
 
 
-# RRatepol package <img src="man/figures/RRatepol_logo.png" align="right" width="200" />
+# RRatepol package <img src="man/figures/RRatepol_logo.png" align="right" width="200" alt="RRatepol package logo" />
 
 <!-- badges: start -->
 
 [![CRAN status](https://www.r-pkg.org/badges/version/RRatepol.png)](https://CRAN.R-project.org/package=RRatepol) [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions) [![Codecov-test-coverage](https://codecov.io/gh//HOPE-UIB-BIO/R-Ratepol-package/branch/main/graph/badge.svg)](https://app.codecov.io/gh//HOPE-UIB-BIO/R-Ratepol-package?branch=main)
 
 <!-- badges: end -->
-
-## Current version: 1.2.3
 
 What is new in the package? See [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)
 
@@ -34,7 +32,7 @@ devtools::install_github("HOPE-UIB-BIO/R-Ratepol-package")
 citation(package = "RRatepol")
 ```
 
-Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new approach Review of Palaeobotany and Palynology 293, doi: [![](https://img.shields.io/badge/doi-10.1016/j.revpalbo.2021.104483-yellow.svg)](https://doi.org/10.1016/j.revpalbo.2021.104483)
+Ondrej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new approach Review of Palaeobotany and Palynology 293, doi: [![DOI badge](https://img.shields.io/badge/doi-10.1016/j.revpalbo.2021.104483-yellow.svg)](https://doi.org/10.1016/j.revpalbo.2021.104483)
 
 ## Package website
 
@@ -118,136 +116,5 @@ example_data %>%
     y = "Latitude"
   ) +
   ggplot2::theme_classic()
-```
-
-![](man/figures/README-plot_data-1.png)
-
-#### Example 1
-
-Estimate RoC values for *Dallican Water* site using *Age-weighed smoothing* of the data and *Chord dissimilarity* coefficient. Pollen data will not standardised to a certain pollen count and age uncertainties from *Bchron* will not be used.
-
-``` r
-sequence_01 <-
-  RRatepol::estimate_roc(
-    data_source_community = example_data$pollen_data[[1]],
-    data_source_age = example_data$sample_age[[1]],
-    smooth_method = "shep",
-    dissimilarity_coefficient = "chisq",
-    working_units = "levels"
-  )
-#> #----------------------------------------------------------#
-#> ℹ RRatepol started 2025-08-06 08:18:58.229451
-#> #----------------------------------------------------------#
-#> ℹ RoC will be estimated between individual subsequent levels
-#> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
-#> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2025-08-06 08:18:58.961729 taking 0.73 secs
-#> #----------------------------------------------------------#
-```
-
-``` r
-RRatepol::plot_roc(
-  data_source = sequence_01
-)
-```
-
-![](man/figures/README-plot_1-1.png)
-
-#### Example 2
-
-Now try to standardise pollen data in each sample to a maximum of 150 pollen grains and use age uncertainties from *age-depth model*. Process will be repeated 1000 times on multiple cores using parallel computation. This will produce error *wrapper* showing 95th percent quantile.
-
-``` r
-sequence_02 <-
-  RRatepol::estimate_roc(
-    data_source_community = example_data$pollen_data[[1]],
-    data_source_age = example_data$sample_age[[1]],
-    age_uncertainty = example_data$age_uncertainty[[1]],
-    smooth_method = "shep",
-    dissimilarity_coefficient = "chisq",
-    working_units = "levels",
-    standardise = TRUE,
-    n_individuals = 150,
-    rand = 1000,
-    use_parallel = TRUE
-  )
-#> #----------------------------------------------------------#
-#> ℹ RRatepol started 2025-08-06 08:18:59.126229
-#> #----------------------------------------------------------#
-#> ℹ 'age_uncertainty' will be used for in the RoC estimation
-#> ℹ RoC will be estimated between individual subsequent levels
-#> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
-#> ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
-#> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2025-08-06 08:19:14.171268 taking 15.05 secs
-#> #----------------------------------------------------------#
-```
-
-``` r
-RRatepol::plot_roc(
-  data_source = sequence_02
-)
-```
-
-![](man/figures/README-plot_2-1.png)
-
-#### Example 3
-
-Use *Binning with the mowing window* approach with `bin_size` = 500 and `number_of_shifts` = 5.
-
-``` r
-sequence_03 <-
-  RRatepol::estimate_roc(
-    data_source_community = example_data$pollen_data[[1]],
-    data_source_age = example_data$sample_age[[1]],
-    age_uncertainty = example_data$age_uncertainty[[1]],
-    smooth_method = "shep",
-    dissimilarity_coefficient = "chisq",
-    working_units = "MW",
-    bin_size = 500,
-    number_of_shifts = 5,
-    standardise = TRUE,
-    n_individuals = 150,
-    rand = 1000,
-    use_parallel = TRUE
-  )
-#> #----------------------------------------------------------#
-#> ℹ RRatepol started 2025-08-06 08:19:14.328945
-#> #----------------------------------------------------------#
-#> ℹ 'age_uncertainty' will be used for in the RoC estimation
-#> ℹ RoC will be estimated using 'binning with the mowing window' of 500 yr time bin over 5 number of window shifts
-#> ℹ Sample will randomly selected for each bin
-#> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
-#> ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
-#> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2025-08-06 08:19:48.149412 taking 33.82 secs
-#> #----------------------------------------------------------#
-```
-
-``` r
-RRatepol::plot_roc(
-  data_source = sequence_03
-)
-```
-
-![](man/figures/README-plot_3-1.png)
-
-#### Example 4
-
-Detect the *peak points* using *trend_non_linear* method.
-
-``` r
-sequence_03_with_peaks <-
-  RRatepol::detect_peak_points(
-    data_source = sequence_03,
-    sel_method = "trend_non_linear"
-  )
-
-RRatepol::plot_roc(
-  data_source = sequence_03_with_peaks,
-  peaks = TRUE,
-  trend = "trend_non_linear"
-)
-```
-
-![](man/figures/README-plot_4-1.png)
+#> Warning: `borders()` was deprecated in ggplot2 4.0.0.
+#> 
