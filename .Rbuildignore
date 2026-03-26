@@ -20,3 +20,4 @@
 ^vignettes/workflow-example\.qmd$
 ^vignettes/.*_files$
 ^vignettes/\.quarto$
+^tools$
