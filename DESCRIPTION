@@ -38,12 +38,11 @@ Suggests:
     neotoma2,
     pander,
     qpdf,
+    quarto,
     remotes,
     rmarkdown,
     testthat (>= 3.0.0),
     tidyverse
-VignetteBuilder: 
-    knitr
 Config/testthat/edition: 3
 Config/testthat/start-first: check_data, 
     make_bins, 
