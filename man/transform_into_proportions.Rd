@@ -7,18 +7,26 @@
 transform_into_proportions(
   data_source_trans,
   sel_method = c("proportions", "percentages"),
-  verbose = FALSE
+  verbose = FALSE,
+  silent = FALSE
 )
 }
 \arguments{
-\item{data_source_trans}{Data.frame with \code{label}, \code{res_age}, and all community data}
+\item{data_source_trans}{\code{data.frame} with \code{label}, \code{res_age}, and community count columns.}
 
-\item{sel_method}{variable to select result as either proportions (\code{percentages}) or
-percentage (\code{percentages}).}
+\item{sel_method}{\code{character}. Scale of the output:
+\itemize{
+\item \code{"proportions"} - values sum to 1 per sample.
+\item \code{"percentages"} - values sum to 100 per sample.
+}}
 
-\item{verbose}{Logical. Should additional information be output?}
+\item{verbose}{\code{logical}. If \code{TRUE}, print progress messages.}
+}
+\value{
+The input \code{data.frame} with community columns replaced by the
+transformed values.
 }
 \description{
-Tranform pollen data into proportions (or percentages)
+Transform community count data into proportions or percentages.
 }
 \keyword{internal}

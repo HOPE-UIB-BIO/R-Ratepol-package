@@ -1,14 +1,17 @@
 Type: Package
 Package: RRatepol
 Title: R-Ratepol: Estimating Rate of Change in Temporal Sequences
-Version: 1.2.3
-Authors@R: 
-    person("Ondrej", "Mottl", , "ondrej.mottl@gmail.com", role = c("aut", "cre"))
+Version: 1.3.0
+Authors@R: c(
+    person("Ondrej", "Mottl", , "ondrej.mottl@gmail.com", role = c("aut", "cre")),
+    person("Friederike", "Wolke", , "friederike.woelke@gmail.com", role = "ctb")
+  )
 Maintainer: Ondrej Mottl <ondrej.mottl@gmail.com>
 Description: R-Ratepol is an R package for estimating rate of change (RoC)
     from community data in time series.
 License: MIT + file LICENSE
-URL: https://github.com/HOPE-UIB-BIO/R-Ratepol-package
+URL: https://github.com/HOPE-UIB-BIO/R-Ratepol-package,
+    https://hope-uib-bio.github.io/R-Ratepol-package/
 Depends: 
     R (>= 4.0)
 Imports:
@@ -24,11 +27,9 @@ Imports:
     pbapply,
     purrr,
     rlang,
-    RUtilpol,
     stats,
     tibble,
     tidyr,
-    usethis,
     utils,
     vegan
 Suggests: 
@@ -38,15 +39,32 @@ Suggests:
     neotoma2,
     pander,
     qpdf,
+    quarto,
     remotes,
     rmarkdown,
+    testthat (>= 3.0.0),
     tidyverse
-VignetteBuilder: 
-    knitr
-Remotes: 
-    github::HOPE-UIB-BIO/R-Utilpol-package
+Config/testthat/edition: 3
+Config/testthat/start-first: check_data, 
+    make_bins, 
+    subset_community,
+    subset_samples,
+    reduce_data,
+    make_trend,
+    detect_sni,
+    prepare_data,
+    smooth_community_data,
+    transform_into_proportions,
+    standardise_community_data,
+    reduce_data_simple,
+    estimate_dissimilarity_coefficient,
+    detect_peak_points,
+    run_iteration,
+    extract_data,
+    plot_roc,
+    estimate_roc
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3

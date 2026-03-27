@@ -8,8 +8,11 @@
 #' (pieces/cm^2/yr)
 #' \item Column 3: threshold value (pieces/cm^2/yr)
 #' }
-#' @param BandWidth = Width of moving window for computing SNI
-#' @description Code obtained and from Kelly et al. 2010
+#' @param BandWidth
+#' Width of moving window for computing SNI.
+#' @description
+#' Compute the Signal-to-Noise Index (SNI) as described in Kelly et al.
+#' (2011).
 #' @keywords internal
 #' @details
 #' This function computes SNI as described in Kelly et al. 2010.
@@ -49,6 +52,16 @@ detect_sni <-
            BandWidth) {
     # Data setup
     ages <- CharData[, 1]
+
+    assertthat::assert_that(
+      !base::any(base::is.na(CharData[, 2])),
+      msg = "ROC values in 'CharData' column 2 must not contain NAs"
+    )
+
+    assertthat::assert_that(
+      !base::any(base::is.na(CharData[, 3])),
+      msg = "Prediction values in 'CharData' column 3 must not contain NAs"
+    )
 
     CHAR <- CharData[, 2]
     CHAR.mean <- mean(CHAR)

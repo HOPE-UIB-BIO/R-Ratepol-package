@@ -1,50 +1,69 @@
-
 #' @title Transform community data into proportions
 #' @param data_source_trans
-#' Data.frame with `label`, `res_age`, and all community data
+#' `data.frame` with `label`, `res_age`, and community count columns.
 #' @param sel_method
-#' variable to select result as either proportions (`percentages`) or
-#' percentage (`percentages`).
-#' @param verbose Logical. Should additional information be output?
-#' @description Tranform pollen data into proportions (or percentages)
+#' `character`. Scale of the output:
+#' \itemize{
+#' \item `"proportions"` - values sum to 1 per sample.
+#' \item `"percentages"` - values sum to 100 per sample.
+#' }
+#' @param verbose `logical`. If `TRUE`, print progress messages.
+#' @description
+#' Transform community count data into proportions or percentages.
+#' @return
+#' The input `data.frame` with community columns replaced by the
+#' transformed values.
 #' @keywords internal
-transform_into_proportions <-
-    function(data_source_trans,
-             sel_method = c("proportions", "percentages"),
-             verbose = FALSE) {
-        RUtilpol::check_class("data_source_trans", "data.frame")
+transform_into_proportions <- function(
+  data_source_trans,
+  sel_method = c("proportions", "percentages"),
+  verbose = FALSE,
+  silent =FALSE
+) {
+  util_check_class(data_source_trans, "data.frame")
 
-        RUtilpol::check_class("sel_method", "character")
+  assertthat::assert_that(
+    base::nrow(data_source_trans) > 0,
+    msg = "'data_source_trans' must not be empty"
+  )
 
-        RUtilpol::check_vector_values("sel_method", c("percentages", "proportions"))
+  util_check_class(sel_method, "character")
 
-        sel_method <- match.arg(sel_method)
+  util_check_vector_values(
+    sel_method,
+    c("percentages", "proportions")
+  )
 
-        RUtilpol::check_class("verbose", "logical")
+  assertthat::assert_that(
+    base::length(sel_method) == 1,
+    msg = "'sel_method' must be a single value"
+  )
 
-        if (
-            isTRUE(verbose)
-        ) {
-            RUtilpol::output_comment(
-                "Community data values are being converted to proportions"
-            )
-        }
+  sel_method <- match.arg(sel_method)
 
-        data_com <-
-            subset_community(data_source_trans)
+  util_check_class(verbose, "logical")
 
-        # convert the values community data to proportion of sum of each sample
-        data_rowsums <-
-            rowSums(data_com, na.rm = TRUE)
+  util_check_class(silent, "logical")
 
-        data_com <-
-            data_com / data_rowsums *
-                switch(sel_method,
-                    "percentages" = 100,
-                    "proportions" = 1
-                )
-        data_source_trans[, names(data_com)] <-
-            data_com
+  if (isFALSE(silent) && isTRUE(verbose)) {
+    util_output_comment(
+      "Community data values are being converted to proportions"
+    )
+  }
 
-        return(data_source_trans)
-    }
+  data_com <-
+    subset_community(data_source_trans)
+
+  # convert the values community data to proportion of sum of each sample
+  data_rowsums <-
+    rowSums(data_com, na.rm = TRUE)
+
+  data_com <-
+    data_com /
+    data_rowsums *
+    switch(sel_method, "percentages" = 100, "proportions" = 1)
+  data_source_trans[, names(data_com)] <-
+    data_com
+
+  return(data_source_trans)
+}

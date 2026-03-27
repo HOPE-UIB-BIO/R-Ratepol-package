@@ -3,7 +3,7 @@
 \docType{data}
 \name{example_data}
 \alias{example_data}
-\title{Pollen data from four European sequences the Neotoma database (Goring et al., 2015)}
+\title{Pollen data from four European sequences in the Neotoma database (Goring et al., 2015)}
 \format{
 A data.frame with columns:
 \itemize{
@@ -55,7 +55,7 @@ with substantial human impact.
 }
 \examples{
 \dontrun{
-data(example_data)
+data("example_data", package = "RRatepol")
 }
 }
 \references{

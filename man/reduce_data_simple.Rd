@@ -12,16 +12,19 @@ reduce_data_simple(
 )
 }
 \arguments{
-\item{data_source_reduce}{List with \code{community}, \code{age}, and \code{age_un}}
+\item{data_source_reduce}{\code{list} with \code{community}, \code{age}, and \code{age_un}}
 
-\item{ommit_vars}{Character vector with names of columns to omit in community data.}
+\item{ommit_vars}{\code{character} vector of column names to exclude from community data.}
 
-\item{check_taxa}{Logical. Should columns be check for redundnat data?}
+\item{check_taxa}{\code{logical}. Should columns be checked for all-zero taxa?}
 
-\item{check_levels}{Logical. Should rows be check for redundnat data?}
+\item{check_levels}{\code{logical}. Should rows be checked for empty levels?}
+}
+\value{
+The input \code{data.frame} with redundant columns and rows removed.
 }
 \description{
-Check the community dataset for redundnat taxa and levels
-and filter them out. This function is simplified due to performance.
+Check the community dataset for all-zero taxa and empty levels and
+filter them out. This simplified version is optimised for performance.
 }
 \keyword{internal}

@@ -1,15 +1,28 @@
-#' @title Subsetting levels in each Working units (WU)
+#' @title Subset levels into Working Units
 #'
 #' @param data_source_subset
-#' Data.frame with community data
+#' `data.frame` with community data.
 #' @param data_source_bins
-#' Data.frame with individual WU to use
+#' `data.frame` defining individual Working Units.
 #' @inheritParams estimate_roc
+#' @description
+#' Select one representative level per bin according to `bin_selection`.
+#' @return
+#' A `data.frame` with one row per Working Unit.
 #' @keywords internal
 subset_samples <-
   function(data_source_subset,
            data_source_bins,
            bin_selection = "first") {
+    if (!base::is.null(bin_selection) && base::length(bin_selection) == 1) {
+      assertthat::assert_that(
+        bin_selection %in% c("first", "random"),
+        msg = paste(
+          "'bin_selection' must be 'first', 'random', or NULL"
+        )
+      )
+    }
+
     if (
       is.character(data_source_bins$start)
     ) {
@@ -75,6 +88,9 @@ subset_samples <-
           res_com[i, ] <-
             subset_w[1, -1]
         }
+      } else {
+        res_com[i, ] <-
+          rep(0, ncol(data_source_subset) - 1)
       }
     }
 

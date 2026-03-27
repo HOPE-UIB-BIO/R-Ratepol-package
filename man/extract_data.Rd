@@ -8,7 +8,8 @@ extract_data(
   data_community_extract,
   data_age_extract,
   age_uncertainty = NULL,
-  verbose = FALSE
+  verbose = FALSE,
+  silent = FALSE
 )
 }
 \arguments{
@@ -29,9 +30,16 @@ sampled from age-depth model uncertainties at the beginning of each run.
 \item \code{NULL} - Age uncertainties are not available and, therefore, will not be used.
 }}
 
-\item{verbose}{DESCRIPTION.
-Logical. If \code{TRUE}, function will output messages about internal processes}
+\item{verbose}{\code{logical}. If \code{TRUE}, print progress messages during extraction.}
+
+\item{silent}{Logical. If \code{TRUE}, suppress all console outputs (overrides verbose). Useful for testing.}
+}
+\value{
+A named \code{list} with elements \code{community} (\code{data.frame}), \code{age}
+(\code{data.frame}), and optionally \code{age_un} (\code{matrix}).
 }
 \description{
-Function for general preparation of input data
+Extract, validate, and align the community and age data ready for
+RoC estimation.
 }
+\keyword{internal}

@@ -1,17 +1,40 @@
 #' @title Reduce datasets in merged format
-#' @param data_source_reduce List with `community`, `age`, and `age_un`
+#' @param data_source_reduce `list` with `community`, `age`, and `age_un`
 #' @param ommit_vars
-#' Character vector with names of columns to omit in community data.
+#' `character` vector of column names to exclude from community data.
 #' @inheritParams reduce_data
 #' @description
-#' Check the community dataset for redundnat taxa and levels
-#' and filter them out. This function is simplified due to performance.
+#' Check the community dataset for all-zero taxa and empty levels and
+#' filter them out. This simplified version is optimised for performance.
+#' @return
+#' The input `data.frame` with redundant columns and rows removed.
 #' @keywords internal
 reduce_data_simple <-
     function(data_source_reduce,
              ommit_vars = c("label", "res_age", "age_diff"),
              check_taxa = TRUE,
              check_levels = TRUE) {
+        util_check_class(data_source_reduce, "data.frame")
+
+        assertthat::assert_that(
+            base::nrow(data_source_reduce) > 0,
+            msg = "'data_source_reduce' must not be empty"
+        )
+
+        util_check_class(check_taxa, "logical")
+
+        assertthat::assert_that(
+            base::length(check_taxa) == 1,
+            msg = "'check_taxa' must be a single TRUE or FALSE"
+        )
+
+        util_check_class(check_levels, "logical")
+
+        assertthat::assert_that(
+            base::length(check_levels) == 1,
+            msg = "'check_levels' must be a single TRUE or FALSE"
+        )
+
         data_com <-
             subset_community(
                 data_source_reduce,

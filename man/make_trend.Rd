@@ -2,24 +2,25 @@
 % Please edit documentation in R/make_trend.R
 \name{make_trend}
 \alias{make_trend}
-\title{Predict data for certain trend}
+\title{Predict data for a fitted trend}
 \usage{
 make_trend(data_source, sel_method = c("linear", "non_linear"))
 }
 \arguments{
-\item{data_source}{Data.frame with \code{ROC} and \code{Age}}
+\item{data_source}{\code{data.frame} with columns \code{ROC} and \code{Age}.}
 
-\item{sel_method}{Which trend should be used:
+\item{sel_method}{\code{character}. Which trend to fit:
 \itemize{
-\item \code{"linear"} - A linear model is fitted between the RoC values and
-their ages.
-\item \code{"non_linear"} - A conservative generalised additive model (GAM)
-is fitted through the RoC scores and their ages (GAM = \code{RoC ~ s(age, k = 3)}
-using the \code{mgcv} package (Wood, 2011).
+\item \code{"linear"} - a linear model fitted between RoC and age.
+\item \code{"non_linear"} - a conservative GAM
+(\code{RoC ~ s(age, k = 3)}) using the \code{mgcv} package.
 }}
 }
+\value{
+\code{numeric} vector of fitted values, one per row of \code{data_source}.
+}
 \description{
-Predict data for certain trend
+Fit a linear or GAM model to RoC scores and return the fitted values.
 }
 \seealso{
 \code{\link[=detect_peak_points]{detect_peak_points()}}

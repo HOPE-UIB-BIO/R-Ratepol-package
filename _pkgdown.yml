@@ -3,6 +3,8 @@ home:
   description: "An R package for estimating rate of change (RoC)
     from community data in time series"
 
+llm-docs: false
+
 url: https://hope-uib-bio.github.io/R-Ratepol-package/
 template:
   bootstrap: 5
@@ -21,3 +23,15 @@ navbar:
       icon: fa-twitter
       href: http://twitter.com/OndrejMottl
       aria-label: Twitter
+
+articles:
+- title: "Guides"
+  navbar: "Guides"
+  contents:
+  - package-description
+  - workflow-example
+
+search:
+  exclude:
+  - commit-instructions.html
+  - copilot-instructions.html

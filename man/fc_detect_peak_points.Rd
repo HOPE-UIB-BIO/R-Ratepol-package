@@ -2,13 +2,39 @@
 % Please edit documentation in R/fc_detect_peak_points.R
 \name{fc_detect_peak_points}
 \alias{fc_detect_peak_points}
-\title{Detect significant peak points}
+\title{Detect significant peak points (deprecated)}
 \usage{
 fc_detect_peak_points(
   data_source,
   sel_method = c("trend_linear", "trend_non_linear", "threshold", "GAM_deriv", "SNI"),
   sd_threshold = 2
 )
+}
+\arguments{
+\item{data_source}{\code{tibble}. Output of \code{\link[=estimate_roc]{estimate_roc()}}.}
+
+\item{sel_method}{\code{character}. Method to use for peak-point detection.
+\itemize{
+\item \code{"threshold"} - Each point is compared to the median of all RoC
+scores. A point is significant if its 95th-quantile RoC exceeds the
+median threshold.
+\item \code{"trend_linear"} - A linear model is fitted between RoC values
+and their ages. A peak is significant if it is \code{sd_threshold} SD
+above the fitted value.
+\item \code{"trend_non_linear"} - A conservative GAM
+(\code{RoC ~ s(age, k = 3)}) is fitted. A peak is significant if it is
+\code{sd_threshold} SD above the fitted value.
+\item \code{"GAM_deriv"} - A smooth GAM (\code{RoC ~ s(age)}) is fitted and the
+first derivative evaluated using the \code{gratia} package (Simpson, 2018).
+A peak is significant if the confidence interval of the first
+derivative excludes zero.
+\item \code{"SNI"} - Signal-to-noise index adapted from Kelly et al.
+(2011). A peak is significant if SNI > 3.
+}}
+
+\item{sd_threshold}{\code{numeric}. Number of standard deviations above the trend required for
+a point to be classified as a peak (default = 2). Used by
+\code{"trend_linear"} and \code{"trend_non_linear"}.}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}

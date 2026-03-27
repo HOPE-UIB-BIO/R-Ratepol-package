@@ -1,12 +1,12 @@
 
 
-# RRatepol package <img src="man/figures/RRatepol_logo.png" align="right" width="200" />
+# RRatepol package <img src="man/figures/RRatepol_logo.png" align="right" width="200" alt="RRatepol package logo" />
 
 <!-- badges: start -->
 
-[![CRAN status](https://www.r-pkg.org/badges/version/RRatepol.png)](https://CRAN.R-project.org/package=RRatepol) [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions) <!-- badges: end -->
+[![CRAN status](https://www.r-pkg.org/badges/version/RRatepol.png)](https://CRAN.R-project.org/package=RRatepol) [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions) [![Codecov-test-coverage](https://codecov.io/gh//HOPE-UIB-BIO/R-Ratepol-package/branch/main/graph/badge.svg)](https://app.codecov.io/gh//HOPE-UIB-BIO/R-Ratepol-package?branch=main)
 
-## Current version: 1.2.3
+<!-- badges: end -->
 
 What is new in the package? See [NEWS](https://hope-uib-bio.github.io/R-Ratepol-package/news/index.html)
 
@@ -32,7 +32,7 @@ devtools::install_github("HOPE-UIB-BIO/R-Ratepol-package")
 citation(package = "RRatepol")
 ```
 
-Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new approach Review of Palaeobotany and Palynology 293, doi: [![](https://img.shields.io/badge/doi-10.1016/j.revpalbo.2021.104483-yellow.svg)](https://doi.org/10.1016/j.revpalbo.2021.104483)
+Ondřej Mottl, John-Arvid Grytnes, Alistair W.R. Seddon, Manuel J. Steinbauer, Kuber P. Bhatta, Vivian A. Felde, Suzette G.A. Flantua, H. John B. Birks. Rate-of-change analysis in palaeoecology revisited: a new approach Review of Palaeobotany and Palynology 293, doi: [![DOI badge](https://img.shields.io/badge/doi-10.1016/j.revpalbo.2021.104483-yellow.svg)](https://doi.org/10.1016/j.revpalbo.2021.104483)
 
 ## Package website
 
@@ -116,9 +116,11 @@ example_data %>%
     y = "Latitude"
   ) +
   ggplot2::theme_classic()
+#> Warning: `borders()` was deprecated in ggplot2 4.0.0.
+#> ℹ Please use `annotation_borders()` instead.
 ```
 
-![](man/figures/README-plot_data-1.png)
+<img src="man/figures/README-plot_data-1.png" alt="Map showing the four European example sequences included in RRatepol::example_data." />
 
 #### Example 1
 
@@ -134,12 +136,12 @@ sequence_01 <-
     working_units = "levels"
   )
 #> #----------------------------------------------------------#
-#> ℹ RRatepol started 2024-03-01 09:24:43
+#> ℹ RRatepol started 2026-03-27 09:15:34.451306
 #> #----------------------------------------------------------#
 #> ℹ RoC will be estimated between individual subsequent levels
 #> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
 #> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2024-03-01 09:24:44 taking 0.93 secs
+#> ℹ RRatepol finished 2026-03-27 09:15:35.217412 taking 0.77 secs
 #> #----------------------------------------------------------#
 ```
 
@@ -147,9 +149,13 @@ sequence_01 <-
 RRatepol::plot_roc(
   data_source = sequence_01
 )
+#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+#> ℹ Please use `linewidth` instead.
+#> ℹ The deprecated feature was likely used in the RRatepol package.
+#>   Please report the issue to the authors.
 ```
 
-![](man/figures/README-plot_1-1.png)
+<img src="man/figures/README-plot_1-1.png" alt="Rate of change score through time for the first example sequence using age-weighted smoothing and chi-squared dissimilarity." />
 
 #### Example 2
 
@@ -170,14 +176,14 @@ sequence_02 <-
     use_parallel = TRUE
   )
 #> #----------------------------------------------------------#
-#> ℹ RRatepol started 2024-03-01 09:24:44
+#> ℹ RRatepol started 2026-03-27 09:15:35.435993
 #> #----------------------------------------------------------#
 #> ℹ 'age_uncertainty' will be used for in the RoC estimation
 #> ℹ RoC will be estimated between individual subsequent levels
 #> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
 #> ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
 #> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2024-03-01 09:25:00 taking 15.48 secs
+#> ℹ RRatepol finished 2026-03-27 09:15:46.922053 taking 11.49 secs
 #> #----------------------------------------------------------#
 ```
 
@@ -187,7 +193,7 @@ RRatepol::plot_roc(
 )
 ```
 
-![](man/figures/README-plot_2-1.png)
+<img src="man/figures/README-plot_2-1.png" alt="Rate of change score through time for the first example sequence with standardisation and age uncertainty, including uncertainty envelopes." />
 
 #### Example 3
 
@@ -210,7 +216,7 @@ sequence_03 <-
     use_parallel = TRUE
   )
 #> #----------------------------------------------------------#
-#> ℹ RRatepol started 2024-03-01 09:25:00
+#> ℹ RRatepol started 2026-03-27 09:15:47.139987
 #> #----------------------------------------------------------#
 #> ℹ 'age_uncertainty' will be used for in the RoC estimation
 #> ℹ RoC will be estimated using 'binning with the mowing window' of 500 yr time bin over 5 number of window shifts
@@ -218,7 +224,7 @@ sequence_03 <-
 #> ℹ 'time_standardisation' = 500 : RoC values will be reported as disimilarity per 500 years.
 #> ℹ Data will be standardise in each Working unit to 150 or the lowest number detected in dataset
 #> #----------------------------------------------------------#
-#> ℹ RRatepol finished 2024-03-01 09:25:30 taking 29.88 secs
+#> ℹ RRatepol finished 2026-03-27 09:16:06.350808 taking 19.21 secs
 #> #----------------------------------------------------------#
 ```
 
@@ -228,7 +234,7 @@ RRatepol::plot_roc(
 )
 ```
 
-![](man/figures/README-plot_3-1.png)
+<img src="man/figures/README-plot_3-1.png" alt="Rate of change score through time for the first example sequence using binning with a moving window." />
 
 #### Example 4
 
@@ -248,4 +254,4 @@ RRatepol::plot_roc(
 )
 ```
 
-![](man/figures/README-plot_4-1.png)
+<img src="man/figures/README-plot_4-1.png" alt="Rate of change score through time with detected peak points and a non-linear trend fitted to the first example sequence." />

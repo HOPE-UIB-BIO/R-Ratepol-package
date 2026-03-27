@@ -4,13 +4,23 @@
 #' Data.frame with taxons as columns
 #' @inheritParams estimate_roc
 #' @description
-#' Taxa in the assemblage dataset can be standardised to a certain count
-#' (e.g. number of pollen grains in each WU) by rarefaction. Random sampling
-#' without replacement is used to draw a selected number of individuals from
-#' each WU (e.g. 150 pollen grains).
+#' Rarefy each Working Unit to `n_individuals` by sampling without
+#' replacement.
+#' @return
+#' The input `data.frame` with counts replaced by rarefied values.
+#' @keywords internal
 standardise_community_data <-
   function(data_source_standard,
            n_individuals = 150) {
+    util_check_class(data_source_standard, "data.frame")
+
+    util_check_class(n_individuals, "numeric")
+
+    assertthat::assert_that(
+      !base::is.na(n_individuals) && n_individuals > 0,
+      msg = "'n_individuals' must be a positive number"
+    )
+
     data_community <-
       subset_community(data_source_standard) %>%
       round()
