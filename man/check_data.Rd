@@ -7,11 +7,15 @@
 check_data(data_source_check, silent = FALSE)
 }
 \arguments{
-\item{data_source_check}{List with \code{community} and \code{age}}
+\item{data_source_check}{\code{list} with \code{community} (\code{data.frame}) and \code{age} (\code{data.frame})
+elements.}
 
-\item{silent}{Logical. If \code{TRUE}, suppress all console outputs. Useful for testing.}
+\item{silent}{\code{logical}. If \code{TRUE}, suppress all console output.}
+}
+\value{
+\code{NULL} invisibly.
 }
 \description{
-Output summary information about the data
+Output summary information about the input data to the console.
 }
 \keyword{internal}

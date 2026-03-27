@@ -15,7 +15,7 @@ detect_sni(CharData, BandWidth)
 \item Column 3: threshold value (pieces/cm^2/yr)
 }}
 
-\item{BandWidth}{= Width of moving window for computing SNI}
+\item{BandWidth}{Width of moving window for computing SNI.}
 }
 \value{
 SNI_output is a data list containing the computed SNI and related data,
@@ -37,7 +37,8 @@ samples between A and B, inclusive.
 }
 }
 \description{
-Code obtained and from Kelly et al. 2010
+Compute the Signal-to-Noise Index (SNI) as described in Kelly et al.
+(2011).
 }
 \details{
 This function computes SNI as described in Kelly et al. 2010.

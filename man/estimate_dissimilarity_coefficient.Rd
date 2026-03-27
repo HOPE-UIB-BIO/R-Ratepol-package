@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate_dissimilarity_coefficient.R
 \name{estimate_dissimilarity_coefficient}
 \alias{estimate_dissimilarity_coefficient}
-\title{Calculate the dissimilarity coeficient}
+\title{Calculate the dissimilarity coefficient}
 \usage{
 estimate_dissimilarity_coefficient(
   data_source_dc,
@@ -12,45 +12,47 @@ estimate_dissimilarity_coefficient(
 )
 }
 \arguments{
-\item{data_source_dc}{Data.frame with taxons as columns}
+\item{data_source_dc}{\code{data.frame} with taxa as columns and Working Units as rows.}
 
-\item{dissimilarity_coefficient}{Character. Dissimilarity coefficient. Type of calculation of differences
-between Working Units. See \code{vegan::vegdist} for more details.
+\item{dissimilarity_coefficient}{\code{character}. Dissimilarity coefficient used to compare consecutive WUs.
+See \code{vegan::vegdist()} for details.
 \itemize{
 \item \code{"euc"} - Euclidean distance
-\item \code{"euc.sd"} - Standardised Euclidean distance
+\item \code{"euc.sd"} - standardised Euclidean distance
 \item \code{"chord"} - Chord distance
 \item \code{"chisq"} - Chi-squared coefficient
 \item \code{"gower"} - Gower's distance
-\item \code{"bray"} - Bray-Curtis distance
+\item \code{"bray"} - Bray-Curtis dissimilarity
 }}
 
-\item{verbose}{Logical. If \code{TRUE}, function will output messages about internal processes}
+\item{verbose}{\code{logical}. If \code{TRUE}, print progress messages during computation.}
 
-\item{silent}{Logical. If \code{TRUE}, suppress all console outputs (overrides verbose). Useful for testing.}
+\item{silent}{\code{logical}. If \code{TRUE}, suppress all console output (overrides
+\code{verbose}).}
+}
+\value{
+\code{numeric} vector of length \code{nrow(data_source_dc) - 1} with the
+dissimilarity score for each consecutive WU pair.
 }
 \description{
-Calculate the dissimilarity coeficient
+Calculate the pairwise dissimilarity coefficient between consecutive
+Working Units.
 }
 \details{
-Five in-built dissimilarity coefficients are available:
+Six dissimilarity coefficients are available:
 \itemize{
 \item Euclidean distance (\code{dissimilarity_coefficient} = \code{"euc"})
-\item standardised Euclidean distance (\code{dissimilarity_coefficient} = \code{"euc.sd"})
+\item Standardised Euclidean distance (\code{dissimilarity_coefficient} =
+\code{"euc.sd"})
 \item Chord distance (\code{dissimilarity_coefficient} = \code{"chord"})
-\item Chi-squared coefficient (\code{dissimilarity_coefficient} = \code{"chisq"})
+\item Chi-squared coefficient (\code{dissimilarity_coefficient} =
+\code{"chisq"})
 \item Gower's distance (\code{dissimilarity_coefficient} = \code{"gower"})
-\item Bray-Curtis distance (\code{dissimilarity_coefficient} = \code{"bray"})
+\item Bray-Curtis dissimilarity (\code{dissimilarity_coefficient} =
+\code{"bray"})
 }
-The choice of dissimilarity_coefficient depends on the type of assemblage data. In addition, RoC
-between WUs be calculated using every consecutive WU (\code{only_subsequent} = \code{FALSE}),
-or alternatively, calculation of RoC can be restricted to only directly
-adjacent WUs (\code{only_subsequent} = \code{TRUE}). Using the former increases
-the number of samples for which RoC can be calculated within a sequence,
-which varies in terms of sample resolution, but may still introduce
-biases related to the RoC estimation as a result of the varying
-inter-sample distances.
 }
 \seealso{
 \code{\link[vegan:vegdist]{vegan::vegdist()}}
 }
+\keyword{internal}

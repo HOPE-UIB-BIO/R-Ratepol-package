@@ -1,5 +1,6 @@
-#' @title Detect significant peak points
+#' @title Detect significant peak points (deprecated)
 #'
+#' @inheritParams detect_peak_points
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'

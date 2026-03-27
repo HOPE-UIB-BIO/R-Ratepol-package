@@ -1,8 +1,12 @@
 
 #' @title Subset data to only contain community (taxa)
 #'
-#' @param data_source Data.frame wich shuld be cleaned.
-#' @param ommit_vars Vector with names of columns to ommit.
+#' @param data_source
+#' `data.frame` to clean.
+#' @param ommit_vars
+#' `character` vector of column names to exclude.
+#' @return
+#' A `data.frame` containing only taxon columns.
 #' @keywords internal
 subset_community <-
     function(data_source,

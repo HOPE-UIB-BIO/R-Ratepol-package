@@ -1,54 +1,40 @@
-#' @title Function to plot the Rate-of-Change sequence
-#'
+#' @title Plot the Rate-of-Change sequence
+#' @description
+#' Plot RoC scores through time with an upper uncertainty envelope and,
+#' optionally, a superimposed trend curve and peak-point markers.
 #' @param data_source
-#' Data.frame. Output of `estimate_roc` function
+#' `tibble`. Output of [estimate_roc()] or [detect_peak_points()].
 #' @param age_threshold
-#' Numeric. Cut-off value used as maximum age.
+#' `numeric`. Optional. Upper (oldest) age cut-off; samples older than
+#' this value are excluded from the plot.
 #' @param roc_threshold
-#' Numeric Cut-off value used as maximum RoC value.
+#' `numeric`. Optional. Upper RoC cut-off; values above this are clipped.
 #' @param peaks
-#' Logical. If peak-points are presented in the dataset and `peaks` == `TRUE`,
-#' then peak points will be displayed
+#' `logical`. If `TRUE` and a `Peak` column is present in `data_source`,
+#' peak points are highlighted on the plot (default = `FALSE`).
 #' @param trend
-#' If peak-points are presented in the dataset and `peaks` == `TRUE`,
-#'  then one of the three method can be used to visualise the process of peak detection:
-#'  \itemize{
-#'  \item `"threshold"` - Each point in the RoC sequence is compared to a median
-#'  of all RoC scores from the whole sequence (i.e. threshold value).
-#'  The ROC value for a point is considered significant if the 95th quantile of
-#'  the RoC scores from all calculations is higher than the threshold value.
-#'  \item `"trend_linear"` -  A linear model is fitted between the RoC values
-#'  and their ages. Differences between the model and each point are calculated
-#'  (residuals). The standard deviation (SD) is calculated from all the residuals.
-#'  A peak is considered significant if it is 2 SD higher than the model.
-#'  \item `"trend_non_linear"` - A conservative generalised additive model (GAM)
-#'  is fitted through the RoC scores and their ages (GAM = `RoC ~ s(age, k = 3)` using
-#'  the `mgcv` package (Wood, 2011). The distance between each point and the
-#'  fitted value is calculated (residuals). The standard deviation (SD) is
-#'  calculated from all the residuals. A peak is considered significant if it
-#'  is 2 SD higher than the model.
-#'  }
+#' `character` or `NULL`. When `peaks = TRUE`, optionally overlay the
+#' trend curve used during peak detection. One of `"threshold"`,
+#' `"trend_linear"`, or `"trend_non_linear"`. `NULL` (default) shows no
+#' trend line.
 #' @param silent
-#' Logical. If `TRUE`, suppress all console outputs. Useful for testing.
-#' @description Plot Rate-of-Change sequence with a error estimate and trend
-#' and/or peak-points in present.
+#' `logical`. If `TRUE`, suppress all console output (default = `FALSE`).
+#' @return
+#' A `ggplot2` object.
+#' @seealso [estimate_roc()], [detect_peak_points()]
 #' @export
-#'
 #' @examples
 #' \dontrun{
+#' data("example_data", package = "RRatepol")
 #'
-#' example_data <- RRatepol::example_data
-#'
-#' # example 1
 #' sequence_01 <-
 #'   estimate_roc(
 #'     data_source_community = example_data$pollen_data[[1]],
 #'     data_source_age = example_data$sample_age[[1]],
-#'     age_uncertainty = FALSE,
 #'     smooth_method = "shep",
 #'     working_units = "MW",
 #'     rand = 1e3,
-#'     treads = TRUE,
+#'     use_parallel = TRUE,
 #'     dissimilarity_coefficient = "chisq"
 #'   )
 #'
@@ -56,30 +42,6 @@
 #'   sequence_01,
 #'   age_threshold = 8e3,
 #'   roc_threshold = 1
-#' )
-#'
-#' # example 2
-#' sequence_02 <-
-#'   estimate_roc(
-#'     data_source_community = example_data$pollen_data[[2]],
-#'     data_source_age = example_data$sample_age[[2]],
-#'     age_uncertainty = FALSE,
-#'     smooth_method = "shep",
-#'     working_units = "MW",
-#'     rand = 1e3,
-#'     treads = TRUE,
-#'     dissimilarity_coefficient = "chisq"
-#'   )
-#'
-#' sequence_02_peak <-
-#'   detect_peak_points(sequence_02, sel_method = "trend_non_linear")
-#'
-#' plot_roc(
-#'   sequence_02_peak,
-#'   age_threshold = 8e3,
-#'   roc_threshold = 2,
-#'   peaks = TRUE,
-#'   trend = "trend_non_linear"
 #' )
 #' }
 plot_roc <- function(

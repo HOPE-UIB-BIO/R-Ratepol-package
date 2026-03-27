@@ -1,10 +1,14 @@
 #' @title Reduce datasets
-#' @param data_source_reduce List with `community`, `age`, and `age_un`
-#' @param check_taxa Logical. Should columns be check for redundnat data?
-#' @param check_levels Logical. Should rows be check for redundnat data?
+#' @param data_source_reduce `list` with `community`, `age`, and `age_un`
+#' @param check_taxa
+#' `logical`. Should columns be checked for all-zero taxa?
+#' @param check_levels
+#' `logical`. Should rows be checked for empty levels?
 #' @description
-#' Check the community dataset for redundnat taxa and levels
-#' and filter them out.
+#' Check the community dataset for all-zero taxa and empty levels and
+#' filter them out.
+#' @return
+#' The input `list` with redundant columns and rows removed.
 #' @keywords internal
 reduce_data <-
   function(data_source_reduce,

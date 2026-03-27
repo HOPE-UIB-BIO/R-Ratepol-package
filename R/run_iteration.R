@@ -1,17 +1,19 @@
-#' @title Run a single interation of RoC estimation
+#' @title Run a single iteration of RoC estimation
 #'
 #' @param data_source_run
-#' List with `data` and `bins` prepared by `prepare_data`
+#' `list` with `data` and `bins` prepared by [prepare_data()].
 #' @inheritParams estimate_roc
 #' @description
-#' A single run is computed following the simple steps:
+#' A single run is computed following these steps:
 #' \itemize{
-#' \item Subsetting levels in each bin: Here the working units (WU) are defined
-#' \item Standardisation of assemblage data in each WU
-#' \item Calculation of calculated as the dissimilarity coefficient (dissimilarity_coefficient)
-#' \item Calculation of RoC between WUs: RoC is calculated as (dissimilarity_coefficient)
-#' standardised by age differences between WUs.
+#' \item Subset levels into each bin to define Working Units.
+#' \item Optionally standardise assemblage counts in each WU.
+#' \item Calculate dissimilarity between consecutive WUs.
+#' \item Standardise dissimilarity by age difference between WUs.
 #' }
+#' @return
+#' A `tibble` with one row per WU pair containing columns `Age`, `ROC`,
+#' `ROC_up`, `ROC_dw`, and `Working_Unit`.
 #' @seealso [estimate_roc()]
 #' @keywords internal
 run_iteration <- function(

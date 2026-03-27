@@ -1,11 +1,18 @@
 #' @title Transform community data into proportions
 #' @param data_source_trans
-#' Data.frame with `label`, `res_age`, and all community data
+#' `data.frame` with `label`, `res_age`, and community count columns.
 #' @param sel_method
-#' variable to select result as either proportions (`percentages`) or
-#' percentage (`percentages`).
-#' @param verbose Logical. Should additional information be output?
-#' @description Tranform pollen data into proportions (or percentages)
+#' `character`. Scale of the output:
+#' \itemize{
+#' \item `"proportions"` - values sum to 1 per sample.
+#' \item `"percentages"` - values sum to 100 per sample.
+#' }
+#' @param verbose `logical`. If `TRUE`, print progress messages.
+#' @description
+#' Transform community count data into proportions or percentages.
+#' @return
+#' The input `data.frame` with community columns replaced by the
+#' transformed values.
 #' @keywords internal
 transform_into_proportions <- function(
   data_source_trans,

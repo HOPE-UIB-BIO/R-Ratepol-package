@@ -1,26 +1,28 @@
-#' @title Calculate the dissimilarity coeficient
-#'
+#' @title Calculate the dissimilarity coefficient
+#' @description
+#' Calculate the pairwise dissimilarity coefficient between consecutive
+#' Working Units.
 #' @inheritParams estimate_roc
-#' @param data_source_dc Data.frame with taxons as columns
+#' @param data_source_dc
+#' `data.frame` with taxa as columns and Working Units as rows.
+#' @return
+#' `numeric` vector of length `nrow(data_source_dc) - 1` with the
+#' dissimilarity score for each consecutive WU pair.
 #' @details
-#' Five in-built dissimilarity coefficients are available:
+#' Six dissimilarity coefficients are available:
 #' \itemize{
 #' \item Euclidean distance (`dissimilarity_coefficient` = `"euc"`)
-#' \item standardised Euclidean distance (`dissimilarity_coefficient` = `"euc.sd"`)
+#' \item Standardised Euclidean distance (`dissimilarity_coefficient` =
+#' `"euc.sd"`)
 #' \item Chord distance (`dissimilarity_coefficient` = `"chord"`)
-#' \item Chi-squared coefficient (`dissimilarity_coefficient` = `"chisq"`)
+#' \item Chi-squared coefficient (`dissimilarity_coefficient` =
+#' `"chisq"`)
 #' \item Gower's distance (`dissimilarity_coefficient` = `"gower"`)
-#' \item Bray-Curtis distance (`dissimilarity_coefficient` = `"bray"`)
+#' \item Bray-Curtis dissimilarity (`dissimilarity_coefficient` =
+#' `"bray"`)
 #' }
-#' The choice of dissimilarity_coefficient depends on the type of assemblage data. In addition, RoC
-#' between WUs be calculated using every consecutive WU (`only_subsequent` = `FALSE`),
-#' or alternatively, calculation of RoC can be restricted to only directly
-#' adjacent WUs (`only_subsequent` = `TRUE`). Using the former increases
-#' the number of samples for which RoC can be calculated within a sequence,
-#' which varies in terms of sample resolution, but may still introduce
-#' biases related to the RoC estimation as a result of the varying
-#' inter-sample distances.
 #' @seealso [vegan::vegdist()]
+#' @keywords internal
 estimate_dissimilarity_coefficient <- function(
   data_source_dc,
   dissimilarity_coefficient = "chord",

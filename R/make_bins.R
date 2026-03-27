@@ -1,8 +1,13 @@
 #' @title Create template for RoC estimations
-#'
+#' @description
+#' Build the Working Unit template (bin boundaries and assignments) used
+#' throughout all randomisation runs.
 #' @inheritParams estimate_roc
 #' @param data_source_bins
-#' List with `community` and `age`
+#' `list` with `community` and `age` elements.
+#' @return
+#' A `data.frame` defining each Working Unit with columns `name`,
+#' `shift`, `age_diff`, `start`, `end`, `res_age`, and `label`.
 #' @keywords internal
 make_bins <- function(
   data_source_bins,

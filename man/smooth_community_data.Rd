@@ -18,54 +18,51 @@ smooth_community_data(
 \arguments{
 \item{data_source_smooth}{List with \code{community}, and \code{age}}
 
-\item{smooth_method}{Character. type of smoothing applied for the each of the pollen type
+\item{smooth_method}{\code{character}. Smoothing method applied to each taxon before RoC is
+computed.
 \itemize{
-\item \code{"none"} - Pollen data is not smoothed
-\item \code{"m.avg"} - Moving average
-\item \code{"grim"} - Grimm's smoothing
-\item \verb{"age.w""} - Age-weighted average
-\item \code{"shep"} - Shepard's 5-term filter
+\item \code{"none"} - no smoothing (default)
+\item \code{"shep"} - Shepard's 5-term filter (Davis, 1986; Wilkinson, 2005)
+\item \code{"m.avg"} - moving average
+\item \code{"age.w"} - age-weighted average
+\item \code{"grim"} - Grimm's smoothing (Grimm & Jacobson, 1992)
 }}
 
-\item{smooth_n_points}{Numeric. Number of points for used for moving average,
-Grimm and Age-Weighted smoothing (odd number)}
+\item{smooth_n_points}{\code{numeric}. Number of points used for moving average, Grimm, and
+age-weighted smoothing. Must be an odd number.}
 
-\item{smooth_n_max}{Numeric. Maximal number of samples to look in Grimm smoothing}
+\item{smooth_n_max}{\code{numeric}. Maximum number of samples included in a Grimm smoothing
+window.}
 
-\item{smooth_age_range}{Numeric. Maximal age range for both Grimm and Age-weight smoothing}
+\item{smooth_age_range}{\code{numeric}. Maximum age range (in years) for Grimm and age-weighted
+smoothing windows.}
 
 \item{round_results}{Logical. Should smoothed values be rounded to integers?}
 
-\item{verbose}{Logical. If \code{TRUE}, function will output messages about internal processes}
+\item{verbose}{\code{logical}. If \code{TRUE}, print progress messages during computation.}
 
-\item{silent}{Logical. If \code{TRUE}, suppress all console outputs (overrides verbose). Useful for testing.}
+\item{silent}{\code{logical}. If \code{TRUE}, suppress all console output (overrides
+\code{verbose}).}
+}
+\value{
+The input \code{list} with the \code{community} element replaced by the smoothed
+values.
 }
 \description{
-A function to apply one of the 4 smoothers.
-}
-\details{
-Smoothing of assemblage data: Each variable within the
-assemblage data is smoothed using one of five in-built smoothing methods:
-\itemize{
-\item Shepard's 5-term filter (\code{smooth_method} = \code{"shep"};
-Davis, 1986; Wilkinson, 2005)
-\item moving average (\code{smooth_method} = \verb{"m.avg"\}})
-\item age-weighted average (\code{smooth_method} = \code{"age.w"})
-\item Grimm's smoothing (\code{smooth_method} = \code{"grim"};
-Grimm and Jacobson, 1992)
-}
+Apply one of five smoothing methods to each taxon in the community
+data before RoC is computed.
 }
 \references{
-Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed.
+Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn.
 J. Wiley & Sons, New York.
 
 Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt
 climate changes during the past 18000 years in eastern North America.
 Clim. Dyn. 6, 179-184.
 
-Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York,
-USA 37.
+Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York.
 }
 \seealso{
 \code{\link[=estimate_roc]{estimate_roc()}}
 }
+\keyword{internal}

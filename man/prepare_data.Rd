@@ -15,25 +15,32 @@ prepare_data(
 \arguments{
 \item{data_source_prep}{List with \code{community} and \code{age}}
 
-\item{working_units}{Character. Selection of units that the dissimilarity_coefficient will be calculated between.
+\item{working_units}{\code{character}. Strategy used to define Working Units between which
+dissimilarity is calculated.
 \itemize{
-\item \code{"levels"} - individual levels are going to be used
-\item \code{"bins"} - samples in predefined bins will be pooled together and one sample
-will be selected from each time bin as a representation.
-\item \code{"MW"} - Bins of selected size are created, starting from the beginning of the core.
-This is repeated many times, with each time bin (window) shifting by Z years forward.
-This is repeated X times, where X = bin size / Z.
+\item \code{"levels"} - each stratigraphical level is its own WU.
+\item \code{"bins"} - one representative level is selected from each time
+bin of width \code{bin_size}.
+\item \code{"MW"} - moving-window binning: selective binning is repeated
+\code{number_of_shifts} times, shifting the window by
+\code{bin_size / number_of_shifts} years each time. All results are
+retained and summarised together.
 }}
 
-\item{bin_size}{Numeric. Size of the time bin (in years)}
+\item{bin_size}{\code{numeric}. Width of each time bin in years. Used when \code{working_units}
+is \code{"bins"} or \code{"MW"}.}
 
-\item{number_of_shifts}{Numeric. Value determining the number of shifts of window used
-in Moving window method}
+\item{number_of_shifts}{\code{numeric}. Number of window shifts in moving-window binning
+(\code{working_units = "MW"}).}
 
-\item{rand}{Numeric. Number of runs used in randomisation.}
+\item{rand}{\code{numeric}. Number of randomisation runs. Set to \code{NULL} (default) to
+skip randomisation and use a single deterministic run.}
+}
+\value{
+A \code{list} with preprocessed \code{data} and \code{bins} elements.
 }
 \description{
 Create a single list with all information needed to estimate RoC.
-This is done because such list can be then evaluated in parallel.
+This list can then be evaluated in parallel across randomisation runs.
 }
 \keyword{internal}

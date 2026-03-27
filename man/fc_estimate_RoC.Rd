@@ -2,7 +2,7 @@
 % Please edit documentation in R/fc_estimate_RoC.R
 \name{fc_estimate_RoC}
 \alias{fc_estimate_RoC}
-\title{RRatepol: Estimate rate of change}
+\title{Estimate rate of change (deprecated)}
 \usage{
 fc_estimate_RoC(
   data_source_community,
@@ -34,118 +34,123 @@ fc_estimate_RoC(
 )
 }
 \arguments{
-\item{data_source_community}{Data.frame. Community data with species as columns and
-levels (samples) as rows. First column should be \code{sample_id} (character).}
+\item{data_source_community}{\code{data.frame}. Community data with taxa as columns and samples as rows.
+The first column must be named \code{sample_id} (\code{character}).}
 
-\item{data_source_age}{Data.frame with two columns:
+\item{data_source_age}{\code{data.frame} with two columns:
 \itemize{
-\item \code{sample_id} - unique ID of each level (character)
-\item \code{age} - age of level (numeric)
+\item \code{sample_id} - unique identifier of each level (\code{character})
+\item \code{age} - age of the level (\code{numeric})
 }}
 
-\item{age_uncertainty}{Usage of age uncertainty form Age-depth models. Either:
+\item{age_uncertainty}{Optional age-uncertainty matrix from an age-depth model. Either:
 \itemize{
-\item matrix with number of columns as number of samples. Each column is one sample,
-each row is one age sequence from age-depth model. Age sequence is randomly
-sampled from age-depth model uncertainties at the beginning of each run.
-\item \code{NULL} - Age uncertainties are not available and, therefore, will not be used.
+\item A \code{matrix} with one column per sample and one row per age sequence
+drawn from a posterior age-depth model. One row is randomly selected at
+the start of each randomisation run.
+\item \code{NULL} (default) - age uncertainties are not used.
 }}
 
-\item{smooth_method}{Character. type of smoothing applied for the each of the pollen type
+\item{smooth_method}{\code{character}. Smoothing method applied to each taxon before RoC is
+computed.
 \itemize{
-\item \code{"none"} - Pollen data is not smoothed
-\item \code{"m.avg"} - Moving average
-\item \code{"grim"} - Grimm's smoothing
-\item \verb{"age.w""} - Age-weighted average
-\item \code{"shep"} - Shepard's 5-term filter
+\item \code{"none"} - no smoothing (default)
+\item \code{"shep"} - Shepard's 5-term filter (Davis, 1986; Wilkinson, 2005)
+\item \code{"m.avg"} - moving average
+\item \code{"age.w"} - age-weighted average
+\item \code{"grim"} - Grimm's smoothing (Grimm & Jacobson, 1992)
 }}
 
-\item{smooth_n_points}{Numeric. Number of points for used for moving average,
-Grimm and Age-Weighted smoothing (odd number)}
+\item{smooth_n_points}{\code{numeric}. Number of points used for moving average, Grimm, and
+age-weighted smoothing. Must be an odd number.}
 
 \item{smooth_N_points}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{smooth_N_points} is no
 longer supported; please use \code{smooth_n_points}}
 
-\item{smooth_age_range}{Numeric. Maximal age range for both Grimm and Age-weight smoothing}
+\item{smooth_age_range}{\code{numeric}. Maximum age range (in years) for Grimm and age-weighted
+smoothing windows.}
 
-\item{smooth_n_max}{Numeric. Maximal number of samples to look in Grimm smoothing}
+\item{smooth_n_max}{\code{numeric}. Maximum number of samples included in a Grimm smoothing
+window.}
 
 \item{smooth_N_max}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{smooth_N_max} is no
 longer supported; please use \code{smooth_n_max}}
 
-\item{working_units}{Character. Selection of units that the dissimilarity_coefficient will be calculated between.
+\item{working_units}{\code{character}. Strategy used to define Working Units between which
+dissimilarity is calculated.
 \itemize{
-\item \code{"levels"} - individual levels are going to be used
-\item \code{"bins"} - samples in predefined bins will be pooled together and one sample
-will be selected from each time bin as a representation.
-\item \code{"MW"} - Bins of selected size are created, starting from the beginning of the core.
-This is repeated many times, with each time bin (window) shifting by Z years forward.
-This is repeated X times, where X = bin size / Z.
+\item \code{"levels"} - each stratigraphical level is its own WU.
+\item \code{"bins"} - one representative level is selected from each time
+bin of width \code{bin_size}.
+\item \code{"MW"} - moving-window binning: selective binning is repeated
+\code{number_of_shifts} times, shifting the window by
+\code{bin_size / number_of_shifts} years each time. All results are
+retained and summarised together.
 }}
 
 \item{Working_Units}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{Working_Units} is no
 longer supported; please use \code{working_units}}
 
-\item{bin_size}{Numeric. Size of the time bin (in years)}
+\item{bin_size}{\code{numeric}. Width of each time bin in years. Used when \code{working_units}
+is \code{"bins"} or \code{"MW"}.}
 
-\item{number_of_shifts}{Numeric. Value determining the number of shifts of window used
-in Moving window method}
+\item{number_of_shifts}{\code{numeric}. Number of window shifts in moving-window binning
+(\code{working_units = "MW"}).}
 
 \item{Number_of_shifts}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{Number_of_shifts} is no
 longer supported; please use \code{number_of_shifts}}
 
-\item{bin_selection}{Character. Setting determining the the process of selection of
-samples from bins.
+\item{bin_selection}{\code{character}. Rule for selecting one level from each bin.
 \itemize{
-\item \code{"first"} - sample closest to the beginning of the bin is selected
-as a representation.
-\item \code{"random"} - a random sample is selected as a representation.
+\item \code{"random"} (default) - a level is selected at random.
+\item \code{"first"} - the level closest to the start of the bin is
+selected.
 }}
 
-\item{standardise}{Logical. If \code{standardise} == \code{TRUE}, then standardise
-each Working Unit to certain number of individuals (using random resampling
-without repetition)}
+\item{standardise}{\code{logical}. If \code{TRUE}, assemblage counts in each WU are rarefied to
+\code{n_individuals} before dissimilarity is computed.}
 
-\item{n_individuals}{Numeric. Number of grain to perform standardisation to.
-The \code{N_individual} is automatically adjusted to the smallest number
-of pollen grains in sequence.}
+\item{n_individuals}{\code{numeric}. Number of individuals to rarefy to when
+\code{standardise = TRUE}. Automatically reduced to the smallest count in
+the sequence if any WU has fewer individuals.}
 
 \item{N_individuals}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{N_individuals} is no
 longer supported; please use \code{n_individuals}}
 
-\item{dissimilarity_coefficient}{Character. Dissimilarity coefficient. Type of calculation of differences
-between Working Units. See \code{vegan::vegdist} for more details.
+\item{dissimilarity_coefficient}{\code{character}. Dissimilarity coefficient used to compare consecutive WUs.
+See \code{vegan::vegdist()} for details.
 \itemize{
 \item \code{"euc"} - Euclidean distance
-\item \code{"euc.sd"} - Standardised Euclidean distance
+\item \code{"euc.sd"} - standardised Euclidean distance
 \item \code{"chord"} - Chord distance
 \item \code{"chisq"} - Chi-squared coefficient
 \item \code{"gower"} - Gower's distance
-\item \code{"bray"} - Bray-Curtis distance
+\item \code{"bray"} - Bray-Curtis dissimilarity
 }}
 
 \item{DC}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{DC} is no
 longer supported; please use \code{dissimilarity_coefficient}}
 
-\item{tranform_to_proportions}{Logical. Should the community data be transformed to a
-proportion during calculations?}
+\item{tranform_to_proportions}{\code{logical}. If \code{TRUE} (default), community data are converted to
+proportions before dissimilarity is computed.}
 
-\item{rand}{Numeric. Number of runs used in randomisation.}
+\item{rand}{\code{numeric}. Number of randomisation runs. Set to \code{NULL} (default) to
+skip randomisation and use a single deterministic run.}
 
-\item{use_parallel}{Preference of usage of parallel computation of randomisation
+\item{use_parallel}{Controls parallel computation of randomisation runs.
 \itemize{
-\item \verb{[value]} - selected number of cores
-\item \code{TRUE} - automatically selected number of cores
-\item \code{FALSE} - does not use parallel computation (only single core)
+\item \code{FALSE} (default) - single core only.
+\item \code{TRUE} - number of cores detected automatically.
+\item A positive \code{numeric} - use that many cores.
 }}
 
-\item{interest_threshold}{Numeric. Optional. Age, after which all results of RoC are excluded.}
+\item{interest_threshold}{\code{numeric}. Optional. Samples older than this age are excluded from
+the output.}
 
-\item{time_standardisation}{Numeric. Units scaling for result RoC values. For example,
-if \code{time_standardisation} = 100, the RoC will be reported as
-dissimilarity per 100 yr.}
+\item{time_standardisation}{\code{numeric}. Time unit for RoC values. RoC is reported as dissimilarity
+per \code{time_standardisation} years. Defaults to \code{bin_size} when \code{NULL}.}
 
-\item{verbose}{Logical. If \code{TRUE}, function will output messages about internal processes}
+\item{verbose}{\code{logical}. If \code{TRUE}, print progress messages during computation.}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}

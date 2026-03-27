@@ -8,8 +8,11 @@
 #' (pieces/cm^2/yr)
 #' \item Column 3: threshold value (pieces/cm^2/yr)
 #' }
-#' @param BandWidth = Width of moving window for computing SNI
-#' @description Code obtained and from Kelly et al. 2010
+#' @param BandWidth
+#' Width of moving window for computing SNI.
+#' @description
+#' Compute the Signal-to-Noise Index (SNI) as described in Kelly et al.
+#' (2011).
 #' @keywords internal
 #' @details
 #' This function computes SNI as described in Kelly et al. 2010.

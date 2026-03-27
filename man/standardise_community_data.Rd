@@ -9,13 +9,15 @@ standardise_community_data(data_source_standard, n_individuals = 150)
 \arguments{
 \item{data_source_standard}{Data.frame with taxons as columns}
 
-\item{n_individuals}{Numeric. Number of grain to perform standardisation to.
-The \code{N_individual} is automatically adjusted to the smallest number
-of pollen grains in sequence.}
+\item{n_individuals}{\code{numeric}. Number of individuals to rarefy to when
+\code{standardise = TRUE}. Automatically reduced to the smallest count in
+the sequence if any WU has fewer individuals.}
+}
+\value{
+The input \code{data.frame} with counts replaced by rarefied values.
 }
 \description{
-Taxa in the assemblage dataset can be standardised to a certain count
-(e.g. number of pollen grains in each WU) by rarefaction. Random sampling
-without replacement is used to draw a selected number of individuals from
-each WU (e.g. 150 pollen grains).
+Rarefy each Working Unit to \code{n_individuals} by sampling without
+replacement.
 }
+\keyword{internal}

@@ -7,14 +7,17 @@
 reduce_data(data_source_reduce, check_taxa = TRUE, check_levels = TRUE)
 }
 \arguments{
-\item{data_source_reduce}{List with \code{community}, \code{age}, and \code{age_un}}
+\item{data_source_reduce}{\code{list} with \code{community}, \code{age}, and \code{age_un}}
 
-\item{check_taxa}{Logical. Should columns be check for redundnat data?}
+\item{check_taxa}{\code{logical}. Should columns be checked for all-zero taxa?}
 
-\item{check_levels}{Logical. Should rows be check for redundnat data?}
+\item{check_levels}{\code{logical}. Should rows be checked for empty levels?}
+}
+\value{
+The input \code{list} with redundant columns and rows removed.
 }
 \description{
-Check the community dataset for redundnat taxa and levels
-and filter them out.
+Check the community dataset for all-zero taxa and empty levels and
+filter them out.
 }
 \keyword{internal}

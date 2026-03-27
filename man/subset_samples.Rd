@@ -2,24 +2,26 @@
 % Please edit documentation in R/subset_samples.R
 \name{subset_samples}
 \alias{subset_samples}
-\title{Subsetting levels in each Working units (WU)}
+\title{Subset levels into Working Units}
 \usage{
 subset_samples(data_source_subset, data_source_bins, bin_selection = "first")
 }
 \arguments{
-\item{data_source_subset}{Data.frame with community data}
+\item{data_source_subset}{\code{data.frame} with community data.}
 
-\item{data_source_bins}{Data.frame with individual WU to use}
+\item{data_source_bins}{\code{data.frame} defining individual Working Units.}
 
-\item{bin_selection}{Character. Setting determining the the process of selection of
-samples from bins.
+\item{bin_selection}{\code{character}. Rule for selecting one level from each bin.
 \itemize{
-\item \code{"first"} - sample closest to the beginning of the bin is selected
-as a representation.
-\item \code{"random"} - a random sample is selected as a representation.
+\item \code{"random"} (default) - a level is selected at random.
+\item \code{"first"} - the level closest to the start of the bin is
+selected.
 }}
 }
+\value{
+A \code{data.frame} with one row per Working Unit.
+}
 \description{
-Subsetting levels in each Working units (WU)
+Select one representative level per bin according to \code{bin_selection}.
 }
 \keyword{internal}

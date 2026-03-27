@@ -1,4 +1,4 @@
-#' @title Function to plot the Rate-of-Change sequence
+#' @title Plot the Rate-of-Change sequence (deprecated)
 #'
 #' @inheritParams plot_roc
 #' @param Roc_threshold

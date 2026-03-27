@@ -1,4 +1,4 @@
-#' @title RRatepol: Estimate rate of change
+#' @title Estimate rate of change (deprecated)
 #'
 #' @inheritParams estimate_roc
 #' @param smooth_N_points

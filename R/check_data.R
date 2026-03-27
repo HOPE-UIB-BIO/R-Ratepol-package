@@ -1,10 +1,13 @@
 #' @title Check the data
-#'
+#' @description
+#' Output summary information about the input data to the console.
 #' @param data_source_check
-#' List with `community` and `age`
+#' `list` with `community` (`data.frame`) and `age` (`data.frame`)
+#' elements.
 #' @param silent
-#' Logical. If `TRUE`, suppress all console outputs. Useful for testing.
-#' @description Output summary information about the data
+#' `logical`. If `TRUE`, suppress all console output.
+#' @return
+#' `NULL` invisibly.
 #' @keywords internal
 check_data <- function(data_source_check, silent = FALSE) {
   util_check_class(data_source_check, "list")

@@ -5,7 +5,9 @@
 #' List with `community` and `age`
 #' @description
 #' Create a single list with all information needed to estimate RoC.
-#' This is done because such list can be then evaluated in parallel.
+#' This list can then be evaluated in parallel across randomisation runs.
+#' @return
+#' A `list` with preprocessed `data` and `bins` elements.
 #' @keywords internal
 prepare_data <- function(
   data_source_prep,

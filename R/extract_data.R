@@ -17,12 +17,17 @@
 #'  sampled from age-depth model uncertainties at the beginning of each run.
 #'  \item `NULL` - Age uncertainties are not available and, therefore, will not be used.
 #' }
-#' @param verbose DESCRIPTION.
-#' Logical. If `TRUE`, function will output messages about internal processes
+#' @param verbose
+#' `logical`. If `TRUE`, print progress messages during extraction.
 #' @param silent
 #' Logical. If `TRUE`, suppress all console outputs (overrides verbose). Useful for testing.
 #' @description
-#' Function for general preparation of input data
+#' Extract, validate, and align the community and age data ready for
+#' RoC estimation.
+#' @return
+#' A named `list` with elements `community` (`data.frame`), `age`
+#' (`data.frame`), and optionally `age_un` (`matrix`).
+#' @keywords internal
 extract_data <- function(
   data_community_extract,
   data_age_extract,

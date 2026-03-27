@@ -1,4 +1,4 @@
-#' @title Pollen data from four European sequences the Neotoma database (Goring et al., 2015)
+#' @title Pollen data from four European sequences in the Neotoma database (Goring et al., 2015)
 #'
 #' @docType data
 #' @description
@@ -73,6 +73,6 @@
 #' Curves 0-50,000 years cal BP. Radiocarbon 55, 1869-1887.
 #' @examples
 #' \dontrun{
-#' data(example_data)
+#' data("example_data", package = "RRatepol")
 #' }
 "example_data"

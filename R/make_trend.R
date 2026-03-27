@@ -1,16 +1,17 @@
-#' @title Predict data for certain trend
-#'
+#' @title Predict data for a fitted trend
+#' @description
+#' Fit a linear or GAM model to RoC scores and return the fitted values.
 #' @param data_source
-#' Data.frame with `ROC` and `Age`
+#' `data.frame` with columns `ROC` and `Age`.
 #' @param sel_method
-#' Which trend should be used:
+#' `character`. Which trend to fit:
 #' \itemize{
-#' \item `"linear"` - A linear model is fitted between the RoC values and
-#' their ages.
-#' \item `"non_linear"` - A conservative generalised additive model (GAM)
-#' is fitted through the RoC scores and their ages (GAM = `RoC ~ s(age, k = 3)`
-#' using the `mgcv` package (Wood, 2011).
+#' \item `"linear"` - a linear model fitted between RoC and age.
+#' \item `"non_linear"` - a conservative GAM
+#' (`RoC ~ s(age, k = 3)`) using the `mgcv` package.
 #' }
+#' @return
+#' `numeric` vector of fitted values, one per row of `data_source`.
 #' @seealso [detect_peak_points()]
 #' @keywords internal
 make_trend <-

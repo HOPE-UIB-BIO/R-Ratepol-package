@@ -1,11 +1,13 @@
 #' @title Reduce datasets in merged format
-#' @param data_source_reduce List with `community`, `age`, and `age_un`
+#' @param data_source_reduce `list` with `community`, `age`, and `age_un`
 #' @param ommit_vars
-#' Character vector with names of columns to omit in community data.
+#' `character` vector of column names to exclude from community data.
 #' @inheritParams reduce_data
 #' @description
-#' Check the community dataset for redundnat taxa and levels
-#' and filter them out. This function is simplified due to performance.
+#' Check the community dataset for all-zero taxa and empty levels and
+#' filter them out. This simplified version is optimised for performance.
+#' @return
+#' The input `data.frame` with redundant columns and rows removed.
 #' @keywords internal
 reduce_data_simple <-
     function(data_source_reduce,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/fc_plot_RoC_sequence.R
 \name{fc_plot_RoC_sequence}
 \alias{fc_plot_RoC_sequence}
-\title{Function to plot the Rate-of-Change sequence}
+\title{Plot the Rate-of-Change sequence (deprecated)}
 \usage{
 fc_plot_RoC_sequence(
   data_source,
@@ -15,39 +15,26 @@ fc_plot_RoC_sequence(
 )
 }
 \arguments{
-\item{data_source}{Data.frame. Output of \code{estimate_roc} function}
+\item{data_source}{\code{tibble}. Output of \code{\link[=estimate_roc]{estimate_roc()}} or \code{\link[=detect_peak_points]{detect_peak_points()}}.}
 
-\item{age_threshold}{Numeric. Cut-off value used as maximum age.}
+\item{age_threshold}{\code{numeric}. Optional. Upper (oldest) age cut-off; samples older than
+this value are excluded from the plot.}
 
-\item{roc_threshold}{Numeric Cut-off value used as maximum RoC value.}
+\item{roc_threshold}{\code{numeric}. Optional. Upper RoC cut-off; values above this are clipped.}
 
 \item{Roc_threshold}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{Roc_threshold} is no
 longer supported; please use \code{roc_threshold}}
 
-\item{peaks}{Logical. If peak-points are presented in the dataset and \code{peaks} == \code{TRUE},
-then peak points will be displayed}
+\item{peaks}{\code{logical}. If \code{TRUE} and a \code{Peak} column is present in \code{data_source},
+peak points are highlighted on the plot (default = \code{FALSE}).}
 
 \item{Peaks}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{Peaks} is no
 longer supported; please use \code{peaks}}
 
-\item{trend}{If peak-points are presented in the dataset and \code{peaks} == \code{TRUE},
-then one of the three method can be used to visualise the process of peak detection:
-\itemize{
-\item \code{"threshold"} - Each point in the RoC sequence is compared to a median
-of all RoC scores from the whole sequence (i.e. threshold value).
-The ROC value for a point is considered significant if the 95th quantile of
-the RoC scores from all calculations is higher than the threshold value.
-\item \code{"trend_linear"} -  A linear model is fitted between the RoC values
-and their ages. Differences between the model and each point are calculated
-(residuals). The standard deviation (SD) is calculated from all the residuals.
-A peak is considered significant if it is 2 SD higher than the model.
-\item \code{"trend_non_linear"} - A conservative generalised additive model (GAM)
-is fitted through the RoC scores and their ages (GAM = \code{RoC ~ s(age, k = 3)} using
-the \code{mgcv} package (Wood, 2011). The distance between each point and the
-fitted value is calculated (residuals). The standard deviation (SD) is
-calculated from all the residuals. A peak is considered significant if it
-is 2 SD higher than the model.
-}}
+\item{trend}{\code{character} or \code{NULL}. When \code{peaks = TRUE}, optionally overlay the
+trend curve used during peak detection. One of \code{"threshold"},
+\code{"trend_linear"}, or \code{"trend_non_linear"}. \code{NULL} (default) shows no
+trend line.}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}

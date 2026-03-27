@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_iteration.R
 \name{run_iteration}
 \alias{run_iteration}
-\title{Run a single interation of RoC estimation}
+\title{Run a single iteration of RoC estimation}
 \usage{
 run_iteration(
   data_source_run,
@@ -17,54 +17,55 @@ run_iteration(
 )
 }
 \arguments{
-\item{data_source_run}{List with \code{data} and \code{bins} prepared by \code{prepare_data}}
+\item{data_source_run}{\code{list} with \code{data} and \code{bins} prepared by \code{\link[=prepare_data]{prepare_data()}}.}
 
-\item{bin_selection}{Character. Setting determining the the process of selection of
-samples from bins.
+\item{bin_selection}{\code{character}. Rule for selecting one level from each bin.
 \itemize{
-\item \code{"first"} - sample closest to the beginning of the bin is selected
-as a representation.
-\item \code{"random"} - a random sample is selected as a representation.
+\item \code{"random"} (default) - a level is selected at random.
+\item \code{"first"} - the level closest to the start of the bin is
+selected.
 }}
 
-\item{standardise}{Logical. If \code{standardise} == \code{TRUE}, then standardise
-each Working Unit to certain number of individuals (using random resampling
-without repetition)}
+\item{standardise}{\code{logical}. If \code{TRUE}, assemblage counts in each WU are rarefied to
+\code{n_individuals} before dissimilarity is computed.}
 
-\item{n_individuals}{Numeric. Number of grain to perform standardisation to.
-The \code{N_individual} is automatically adjusted to the smallest number
-of pollen grains in sequence.}
+\item{n_individuals}{\code{numeric}. Number of individuals to rarefy to when
+\code{standardise = TRUE}. Automatically reduced to the smallest count in
+the sequence if any WU has fewer individuals.}
 
-\item{tranform_to_proportions}{Logical. Should the community data be transformed to a
-proportion during calculations?}
+\item{tranform_to_proportions}{\code{logical}. If \code{TRUE} (default), community data are converted to
+proportions before dissimilarity is computed.}
 
-\item{dissimilarity_coefficient}{Character. Dissimilarity coefficient. Type of calculation of differences
-between Working Units. See \code{vegan::vegdist} for more details.
+\item{dissimilarity_coefficient}{\code{character}. Dissimilarity coefficient used to compare consecutive WUs.
+See \code{vegan::vegdist()} for details.
 \itemize{
 \item \code{"euc"} - Euclidean distance
-\item \code{"euc.sd"} - Standardised Euclidean distance
+\item \code{"euc.sd"} - standardised Euclidean distance
 \item \code{"chord"} - Chord distance
 \item \code{"chisq"} - Chi-squared coefficient
 \item \code{"gower"} - Gower's distance
-\item \code{"bray"} - Bray-Curtis distance
+\item \code{"bray"} - Bray-Curtis dissimilarity
 }}
 
-\item{time_standardisation}{Numeric. Units scaling for result RoC values. For example,
-if \code{time_standardisation} = 100, the RoC will be reported as
-dissimilarity per 100 yr.}
+\item{time_standardisation}{\code{numeric}. Time unit for RoC values. RoC is reported as dissimilarity
+per \code{time_standardisation} years. Defaults to \code{bin_size} when \code{NULL}.}
 
-\item{verbose}{Logical. If \code{TRUE}, function will output messages about internal processes}
+\item{verbose}{\code{logical}. If \code{TRUE}, print progress messages during computation.}
 
-\item{silent}{Logical. If \code{TRUE}, suppress all console outputs (overrides verbose). Useful for testing.}
+\item{silent}{\code{logical}. If \code{TRUE}, suppress all console output (overrides
+\code{verbose}).}
+}
+\value{
+A \code{tibble} with one row per WU pair containing columns \code{Age}, \code{ROC},
+\code{ROC_up}, \code{ROC_dw}, and \code{Working_Unit}.
 }
 \description{
-A single run is computed following the simple steps:
+A single run is computed following these steps:
 \itemize{
-\item Subsetting levels in each bin: Here the working units (WU) are defined
-\item Standardisation of assemblage data in each WU
-\item Calculation of calculated as the dissimilarity coefficient (dissimilarity_coefficient)
-\item Calculation of RoC between WUs: RoC is calculated as (dissimilarity_coefficient)
-standardised by age differences between WUs.
+\item Subset levels into each bin to define Working Units.
+\item Optionally standardise assemblage counts in each WU.
+\item Calculate dissimilarity between consecutive WUs.
+\item Standardise dissimilarity by age difference between WUs.
 }
 }
 \seealso{

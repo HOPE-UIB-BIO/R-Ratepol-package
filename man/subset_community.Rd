@@ -10,9 +10,12 @@ subset_community(
 )
 }
 \arguments{
-\item{data_source}{Data.frame wich shuld be cleaned.}
+\item{data_source}{\code{data.frame} to clean.}
 
-\item{ommit_vars}{Vector with names of columns to ommit.}
+\item{ommit_vars}{\code{character} vector of column names to exclude.}
+}
+\value{
+A \code{data.frame} containing only taxon columns.
 }
 \description{
 Subset data to only contain community (taxa)

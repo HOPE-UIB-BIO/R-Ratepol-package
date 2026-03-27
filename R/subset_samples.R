@@ -1,10 +1,14 @@
-#' @title Subsetting levels in each Working units (WU)
+#' @title Subset levels into Working Units
 #'
 #' @param data_source_subset
-#' Data.frame with community data
+#' `data.frame` with community data.
 #' @param data_source_bins
-#' Data.frame with individual WU to use
+#' `data.frame` defining individual Working Units.
 #' @inheritParams estimate_roc
+#' @description
+#' Select one representative level per bin according to `bin_selection`.
+#' @return
+#' A `data.frame` with one row per Working Unit.
 #' @keywords internal
 subset_samples <-
   function(data_source_subset,
