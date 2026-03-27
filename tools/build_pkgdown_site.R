@@ -4,19 +4,28 @@ build_pkgdown_site <- function() {
   # Patch README.md: Quarto renders fig.alt as data-fig-alt, but pkgdown's
   # accessibility checker requires the standard HTML alt attribute.
   # Convert every occurrence before pkgdown reads the file.
-  # Use file() connections so R transcodes UTF-8 bytes correctly on Windows.
-  con_readme_r <- file("README.md", open = "r", encoding = "UTF-8")
-  vec_readme <- readLines(con_readme_r, warn = FALSE)
-  close(con_readme_r)
-  vec_readme <- gsub(
+  # Read and write as raw bytes to avoid iconv truncation on Windows:
+  # R text connections convert through the native locale (e.g. windows-1252),
+  # and characters like U+2139 (ℹ) that have no native equivalent cause
+  # writeLines() to stop mid-file. The substitution targets pure ASCII
+  # attribute names, so byte-level matching is correct.
+  raw_readme <- readBin(
+    con = "README.md",
+    what = "raw",
+    n = file.info("README.md")$size
+  )
+  str_readme <- rawToChar(raw_readme)
+  str_readme <- gsub(
     pattern = " data-fig-alt=\"",
     replacement = " alt=\"",
-    x = vec_readme,
-    fixed = TRUE
+    x = str_readme,
+    fixed = TRUE,
+    useBytes = TRUE
   )
-  con_readme_w <- file("README.md", open = "w", encoding = "UTF-8")
-  writeLines(vec_readme, con_readme_w)
-  close(con_readme_w)
+  writeBin(
+    object = charToRaw(str_readme),
+    con = "README.md"
+  )
 
   tryCatch(
     expr = {
