@@ -2,15 +2,15 @@
 
 ## Complete unit test suite
 
-- `tests/testthat/` created from scratch (~3,000 lines across 19 test files, one per function)
+- `tests/testthat/` created from scratch (~3 000 lines across 19 test files, one per function)
 - shared `helper-fixtures.R` added for reusable test data
-- every function now has tests for valid input, invalid input with informative errors, and function-specific edge cases
+- every function now has tests for valid input, invalid input with informative errors, and edge cases
 
 ## CI and test coverage
 
 - new `test-coverage.yaml` workflow uploads coverage results to Codecov on every push
 - `R-CMD-check.yaml` updated to current `r-lib/actions` conventions
-- `testthat` (≥ 3.0.0) added to `Suggests`; test execution order declared via `Config/testthat/start-first`
+- `testthat` (≥ 3.0.0) added to `Suggests`
 
 ## Removed runtime dependencies
 
@@ -19,29 +19,62 @@
 
 ## New internal utilities
 
-- `R/util_internal.R`: `util_check_class()`, `util_check_col_names()`, `util_check_vector_values()`, `util_check_if_integer()`, `util_output_comment()`, `util_output_heading()`, `util_output_warning()`, `util_flatten_list_by_one()`
-- `R/util_search_parameter.R`: Grimm-smoothing window-growth logic extracted into `util_search_parameter()`
+- `R/util_internal.R`: drop-in replacements for all `RUtilpol` helpers used in this package
+- `R/util_search_parameter.R`: Grimm-smoothing window-growth logic extracted into
+  `util_search_parameter()` (#96)
 
 ## New `silent` argument
 
-- `silent = FALSE` added to `estimate_roc()`, `run_iteration()`, `extract_data()`, `transform_into_proportions()`, `plot_roc()`, and all functions that produce console output
-- when `TRUE`, suppresses all messages and warnings without affecting `verbose`
+- `silent = FALSE` added to `estimate_roc()` and all functions that produce console output;
+  when `TRUE`, suppresses all messages and warnings without affecting `verbose` (#109)
+
+## Bug fixes
+
+- `extract_data()`: fix NULL column names in age-uncertainty matrix (#48); fix inverted sort
+  condition that left unsorted age data unsorted (#49); fix NA-detection condition that
+  silently passed NA age rows downstream (#50)
+- `reduce_data()`: add two-way sample alignment so community, age, and age-uncertainty stay
+  in sync when NA age rows are dropped (#52)
+- `prepare_data()`: remove orphaned `res` object that caused an error inside `purrr::map()`
+  (#55)
+- `estimate_dissimilarity_coefficient()`: fix copy-paste error where `"chisq"` called
+  `vegan::vegdist(method = "chord")` (#56)
+- `subset_samples()`: drop empty-bin rows instead of leaving NA-filled template rows in the
+  result (#61)
+- `detect_peak_points()`: adapt to renamed `gratia::derivatives()` columns (`.lower_ci`
+  replaces `lower`) and switch from deprecated `newdata` to `data` argument (#69)
+- `check_data()`: exclude NAs from summary statistics and report NA counts per column
+  (#43, #47)
+- `smooth_community_data()`: add assertions for logical parameters and `smooth_n_points`
+  bounds; raise informative errors for `shep` with ≤ 2 points (#51, #83)
+- `plot_roc()`: fix wrong object name (`sequence_01` → `sequence_02`) in function example
+  (#106)
 
 ## Input validation — new assertions
 
-- `estimate_roc()`: `standardise`, `tranform_to_proportions`, `verbose` must each be a single `TRUE`/`FALSE`; `interest_threshold` must be a single value when supplied; `use_parallel`, when numeric, must not be `0` or `NA` (closes #95)
-- `plot_roc()`: `peaks` must be a single non-`NA` value; warning raised when `ROC` column contains `NA`s (closes #94)
-- `detect_sni()`: columns 2 and 3 of `CharData` must not contain `NA`s (closes #93)
-- `make_trend()`: `sel_method` must be a single value; return value always coerced to numeric vector, fixing `"non_linear"` returning an array (closes #92, closes #78)
-- `transform_into_proportions()`: input must not be an empty data frame; `sel_method` must be a single value (closes #91)
-- `subset_community()`: input must not be an empty data frame (closes #89)
-- `reduce_data_simple()`: input must not be empty; `check_taxa` and `check_levels` must each be a single `TRUE`/`FALSE` (closes #88)
-- `subset_samples()`: `bin_selection` must be `"first"`, `"random"`, or `NULL` (closes #87)
-- `run_iteration()`: `standardise`, `tranform_to_proportions`, `verbose` must each be a single `TRUE`/`FALSE`; `time_standardisation` must not be `0` or `NA`; standardisation-failure error is now unconditional, not gated on `verbose` (closes #86, closes #62)
-- `make_bins()`: `working_units` must be a single value (closes #85)
-- `prepare_data()`: community and age inputs must not be `NULL` or empty; `bin_size` assertion runs only when `working_units != "levels"`, fixing spurious error with `working_units = "levels"` and `bin_size = NULL` (closes #84, closes #79)
-- `reduce_data()`: community and age inputs must not be `NULL`; sample alignment uses `intersect()` across community, age, and age_un so all-zero rows and mismatched samples are dropped consistently (closes #82, closes #37)
-- `extract_data()`: `age` values must not all be identical; `age_uncertainty` columns must not all be identical (closes #81)
+- assertions added across all exported functions to catch invalid, empty, or mismatched
+  inputs before they cause cryptic downstream errors
+- `extract_data()`: additional pre- and post-processing checks (#81)
+- `reduce_data()`: NULL/empty input guards; `intersect()`-based sample alignment fixes
+  all-zero row handling (#82, #37)
+- `prepare_data()`: NULL/empty guards; `bin_size` assertion skipped when
+  `working_units = "levels"` (#84, #79)
+- `make_bins()`: `working_units` must be a single value (#85)
+- `run_iteration()`: logical-parameter assertions; `time_standardisation` must not be `0`
+  or `NA`; standardisation-failure error is now unconditional (#86, #62)
+- `subset_samples()`: `bin_selection` must be `"first"`, `"random"`, or `NULL` (#87)
+- `reduce_data_simple()`: empty-input guard; logical-parameter assertions (#88)
+- `subset_community()`: empty-input guard (#89)
+- `standardise_community_data()`: guard against `n_individuals = 0`; message when minimum
+  count is used as default (#90)
+- `transform_into_proportions()`: empty-input guard; single-value `sel_method` check (#91)
+- `make_trend()`: single-value `sel_method` check; return value coerced to numeric vector,
+  fixing `"non_linear"` returning an array (#92, #78)
+- `detect_sni()`: NA checks on `CharData` columns 2 and 3 (#93)
+- `plot_roc()`: `peaks` must be a single non-`NA` value; warning when `ROC` contains NAs
+  (#94)
+- `estimate_roc()`: single-value and logical checks for `standardise`,
+  `tranform_to_proportions`, `verbose`, `interest_threshold`, and `use_parallel` (#95)
 
 ## Documentation and site
 
@@ -51,7 +84,8 @@
 
 ## New contributor
 
-- Friederike Wolke (@FriedaRosa) added as contributor (`ctb`) for authoring the test suite and filing the issues that drove this release's validation improvements
+- Friederike Wolke (@FriedaRosa) added as contributor (`ctb`) for authoring the test suite
+  and filing the issues that drove this release (#60)
 
 # RRatepol 1.2.3
 
