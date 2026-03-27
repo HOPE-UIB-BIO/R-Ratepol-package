@@ -6,83 +6,116 @@ format:
     fig-height: 6
 ---
 
-# General description
-The computation of RoC in RRatepol is performed using the following steps:
+## Overview
 
-1. Assemblage and age-model data are extracted from the original source and should be compiled together, i.e. depth, age, variable (taxon) 1, variable (taxon) 2, etc.
+RRatepol estimates the Rate of Change (RoC) in community composition along a temporal sequence. RoC is defined as the dissimilarity between consecutive assemblage samples, standardised by the time elapsed between them. The package is primarily designed for paleoecological data — such as fossil pollen records — but can be applied to any community dataset with a temporal axis.
 
-2. (optional) Smoothing of assemblage data: Each variable within the assemblage data is smoothed using one of five in-built smoothing methods: none (`smooth_method = "none"`), Shepard's 5-term filter (`smooth_method = "shep"`; Davis, 1986; Wilkinson, 2005), moving average (`smooth_method = "m.avg"`), age-weighted average (`smooth_method = "age.w"`), Grimm's smoothing (`smooth_method = "grim"`; Grimm and Jacobson, 1992). 
+The main function, `estimate_roc()`, accepts community counts and sample ages as inputs and returns a time series of RoC values. An optional second step, `detect_peak_points()`, identifies statistically significant peaks in that time series. Results can be visualised with `plot_roc()`.
 
-3. Creation of time bins: A template for all time bins in all window movements is created.
+## Input data
 
-4.  A single run (an individual loop) is computed:
+Two data frames are required:
 
-- (optional) Selection of one time series from age uncertainties (see section 2.1.1.2. on randomisation)
-    
-- Subsetting levels in each bin: Here the working units (WU) are defined  
+- **Community data** (`data_source_community`): samples as rows, taxa as columns, with the first column named `sample_id`.
+- **Age data** (`data_source_age`): two columns — `sample_id` and `age` (in years before present, or any consistent temporal unit).
 
-- (optional) Standardisation of assemblage data in each WU 
+An optional **age-uncertainty matrix** (`age_uncertainty`) can also be supplied. Each column represents one sample and each row a plausible age estimate drawn from a posterior age-depth model (e.g. from Bchron or Bacon). When provided, RRatepol uses this matrix to propagate age-model uncertainty through the RoC estimates (see [Randomisation](#randomisation)).
 
-- Calculation of RoC between WUs: RoC is calculated as the dissimilarity coefficient (dissimilarity_coefficient) standardised by age differences between WUs. Several in-built dissimilarity coefficients are available: Euclidean distance (`dissimilarity_coefficient = "euc`), standardised Euclidean distance (`dissimilarity_coefficient = "euc.sd`), Chord distance (`dissimilarity_coefficient = "chord`), Chi-squared coefficient (`dissimilarity_coefficient = "chisq`), Gower's distance (`dissimilarity_coefficient = "gower`), Bray-Curtis(`dissimilarity_coefficient = "bray`). See `vegan::vegdist`for more details. The choice of dissimilarity_coefficient depends on the type of assemblage data.
-    
-- The summary of a single run is produced based on all moving windows
+## Smoothing
 
-5. Step 4 is repeated multiple times (e.g. 10,000 times).
+Before RoC is computed, each taxon can optionally be smoothed along the temporal axis to reduce short-term noise. Five methods are available via the `smooth_method` argument of `estimate_roc()`:
 
-6. Validation and summary of results from all runs of RoC calculation are produced.
+| `smooth_method` | Description |
+|---|---|
+| `"none"` | No smoothing (default) |
+| `"shep"` | Shepard's 5-term filter (Davis, 1986; Wilkinson, 2005) |
+| `"m.avg"` | Moving average |
+| `"age.w"` | Age-weighted average |
+| `"grim"` | Grimm's smoothing (Grimm & Jacobson, 1992) |
 
-7. (Optional) Data beyond a certain age can be excluded.
+For `"m.avg"`, `"grim"`, and `"age.w"`, the window is controlled by `smooth_n_points` (number of samples; must be odd) and `smooth_age_range` (maximum age span of the window). For `"shep"`, `smooth_n_points` sets the number of points used in the polynomial fit.
 
-8. Detection and validation of significant peak-points. There are five in-built methods to detect significant peak-points: Threshold (`method = "threshold`), Linear trend (`method = "trend_linear`), Non-linear trend (`method = "trend_non_linear`), first derivative of a generalised additive model (`method = "GAM_deriv`; f-deriv GAM; Simpson, 2018), and Signal-to-Noise Index (`method = "SNI`; Kelly et al., 2011).  
+## Working units
 
+RoC is calculated between consecutive **Working Units (WUs)**. The definition of WUs is the most consequential methodological choice in an analysis. Three strategies are available via the `working_units` argument.
 
-## Selection of working units
+### Individual levels (`"levels"`)
 
-RoC is calculated between consecutive Working Units (WU). Traditionally, these WUs represent individual stratigraphical levels. However, changes in sedimentation rates and sampling strategies can result in an uneven temporal distribution of levels within a time sequence, which in turn makes the comparison of RoC between sequences problematic. There are various methods that attempt to minimise such problems. The first is interpolation of levels to evenly spaced time intervals, and the use of the interpolated data as WUs. This can lead to a loss of information when the density of levels is high. Second is binning of levels: assemblage data are pooled into age brackets of various size (i.e. time bins) and these serve as WUs. Here, the issue is a lower resolution of WUs and their uneven size in terms of total assemblage count (bins with more levels have higher assemblage counts). Third is selective binning: like classical binning, bins of selected size are created, but instead of pooling assemblage data together, only one level per time bin is selected as representative of each bin. This results in an even number of WUs in bins with a similar count size in the assemblage. However, the issue of low resolution remains. 
-Therefore, we propose a new method of binning with a moving window, which is a compromise between using individual levels and selective binning. This method follows a simple sequence: time bins are created, levels are selected as in selective binning, and RoC between bins is calculated. However, the brackets of the time bin (window) are then moved forward by a selected amount of time (Z), levels are selected again (subset into bins), and RoC calculated for the new set of WUs. This is repeated X times (where X is the bin size divided by Z) while retaining all the results. 
-RRatepol currently provides several options for selecting WU, namely as individual levels (`working_units = "levels"`), selective binning of levels (`working_units = "bins"`), and our new method of binning with a moving window (`working_units = "MW"`), which is summarised in figure.
+Each stratigraphical level is its own WU. This preserves maximum resolution but makes RoC values sensitive to uneven sampling density — closely spaced samples will produce smaller RoC values simply because less time elapsed between them.
 
-<img src="https://raw.githubusercontent.com/HOPE-UIB-BIO/R-Ratepol-package/master/man/figures/FIG_Scheme.png" alt="RRatepol scheme" align="middle" width="600"/>
+### Selective binning (`"bins"`)
+
+Levels are grouped into time bins of width `bin_size` (years). One representative level is selected per bin, either at random (`bin_selection = "random"`) or as the first level in the bin (`bin_selection = "first"`). Assemblage data are not pooled. This reduces sensitivity to uneven temporal spacing at the cost of resolution.
+
+### Moving-window binning (`"MW"`) — recommended
+
+Moving-window binning extends selective binning by repeating the selection step with the bin window shifted forward by a fraction of `bin_size`. The shift amount is `bin_size / number_of_shifts`. This creates `number_of_shifts` overlapping sets of WUs, all of which are retained and summarised together.
+
+This approach reduces the sensitivity of selective binning to the arbitrary placement of bin boundaries, while retaining its resistance to uneven sampling density. It is the recommended strategy for most analyses.
+
+![Schematic overview of working-unit strategies in RRatepol.](https://raw.githubusercontent.com/HOPE-UIB-BIO/R-Ratepol-package/master/man/figures/FIG_Scheme.png){width=600px fig-alt="Diagram showing level, bin, and moving-window working-unit strategies"}
+
+## Dissimilarity coefficients
+
+RoC between two consecutive WUs is defined as:
+
+$$\text{RoC} = \frac{D(WU_i,\ WU_{i+1})}{\Delta t}$$
+
+where $D$ is a dissimilarity coefficient and $\Delta t$ is the age difference between the two WUs. The choice of coefficient should match the properties of the assemblage data. Six coefficients are available via the `dissimilarity_coefficient` argument:
+
+| `dissimilarity_coefficient` | Description |
+|---|---|
+| `"euc"` | Euclidean distance |
+| `"euc.sd"` | Standardised Euclidean distance |
+| `"chord"` | Chord distance |
+| `"chisq"` | Chi-squared coefficient |
+| `"gower"` | Gower's distance |
+| `"bray"` | Bray-Curtis dissimilarity |
+
+See `vegan::vegdist()` for detailed definitions. For percentage-based data such as pollen, Chord distance or Chi-squared are typically preferred.
+
+By default $\Delta t$ equals `bin_size`. To standardise RoC values to a different time unit (e.g. per 100 years instead of per 500 years), set `time_standardisation` explicitly.
+
+Assemblage data are converted to proportions before dissimilarity is computed by default (`tranform_to_proportions = TRUE`).
 
 ## Randomisation
 
-Due to the inherent statistical errors in uncertainties in the age estimates from age-depth and the assemblage datasets (e.g. pollen counts in each level; Birks and Gordon, 1985), RRatepol can be run several times and the results summarised (Steps 5-6). Therefore, two optional settings are available by using age uncertainties and assemblage data standardisation.  
+Because both age estimates and assemblage counts carry statistical uncertainty, `estimate_roc()` can be run many times (`rand`) and results summarised across runs (Birks & Gordon, 1985). Two sources of uncertainty can be propagated independently or together.
 
-### Age uncertainties (Step 4a)
+### Age-model uncertainty
 
-For each run, a single age sequence from the age uncertainties is randomly selected. The calculation between two consecutive WUs (i.e. one working-unit combination) results in a RoC score and a time position (which is calculated as the mean age position of the two WUs). However, due to random sampling of the age sequence, each WU combination will result in multiple RoC values. The final RoC value for a single WU combination is calculated as the median of the scores from all randomisations. In addition, the 95th quantile from all randomisations is calculated as an error estimate.
+When `age_uncertainty` is supplied, each run draws one row at random from the matrix to use as the age sequence for that iteration. WU pairs therefore have slightly different time positions and $\Delta t$ values across runs. The final RoC value for each WU pair is reported as the median across all runs; the 95th quantile is reported as an upper uncertainty bound.
 
+### Assemblage standardisation
 
-### Data standardisation (Step 4b)
+When `standardise = TRUE`, assemblage counts in each WU are rarefied to `n_individuals` before dissimilarity is computed. Random sampling without replacement draws the specified number of individuals from each WU (e.g. `n_individuals = 150` pollen grains). This removes the influence of total count size on dissimilarity estimates and is especially important when count sizes vary substantially across samples.
 
-Variables (taxa) in the assemblage dataset can be standardised to a certain count (e.g. number of pollen grains in each WU) by rarefaction. Random sampling without replacement is used to draw a selected number of individuals from each WU (e.g. 150 pollen grains).
+## Peak-point detection
 
-## Detection of peak-points in RoC sequence (Step 8)
-A rapid change in composition or relative abundances of variables within the sequence can provide a means of comparing RoC between sequences and interpreting the potential drivers of assemblage change. To detect such significant peak-points of RoC scores in each sequence, each point is tested to see if it represents a significant increase in RoC values. There are various ways to detect peak-points in a time series and RRatepol is able to detect peak-points using five methods:
+After RoC has been estimated, `detect_peak_points()` identifies statistically significant increases in RoC values — intervals where the rate of compositional change was unusually rapid. A rapid change in composition or relative abundances can serve as a marker for comparing records and interpreting the potential drivers of assemblage change. Five detection methods are available via the `sel_method` argument:
 
-- Threshold (`method = "threshold`): Each point in the RoC sequence is compared to a median of all RoC scores from the whole sequence (i.e. threshold value). The ROC value for a point is considered significant if the 95th quantile of the RoC scores from all calculations is higher than the threshold value. 
+- **Threshold** (`sel_method = "threshold"`): Each point is compared to the median of the whole RoC sequence. A point is significant if its 95th-quantile RoC value (across randomisations) exceeds that global median.
 
-- Linear trend (`method = "trend_linear`): A linear model is fitted between the RoC values and their ages. Differences between the model and each point are calculated (residuals). The standard deviation (SD) is calculated from all the residuals. A peak is considered significant if it is 1.5 SD higher than the model (`sd_threshold = 1.5`).
+- **Linear trend** (`sel_method = "trend_linear"`): A linear model is fitted to RoC vs. age. A point is significant if its residual exceeds the mean by more than `sd_threshold` standard deviations (default `sd_threshold = 2`).
 
-- Non-linear trend (`method = "trend_non_linear`): A conservative generalised additive model (GAM) is fitted through the RoC scores and their ages (GAM= RoC ~ s(age,k=3) using the mgcv package (Wood, 2011). The distance between each point and the fitted value is calculated (residuals). The standard deviation (SD) is calculated from all the residuals. A peak is considered significant if it is 1.5 SD higher than the model (`sd_threshold = 1.5`). 
+- **Non-linear trend** (`sel_method = "trend_non_linear"`): A conservative GAM is fitted to RoC vs. age (RoC ~ s(age, k = 3); Wood, 2011). Residuals are used in the same way as for the linear trend, with the same `sd_threshold`.
 
-- F-deriv GAM  (`method = "GAM_deriv`): A smooth GAM model is fitted to the RoC scores and their ages (GAM= RoC ~ s(age). The first derivative as well as continuous confidence intervals are calculated from the model using the gratia package (Simpson, 2019). A peak is considered significant if the confidence intervals of the first derivative differ from 0 (for more information see Simpson, 2018).
+- **F-deriv GAM** (`sel_method = "GAM_deriv"`): A smooth GAM is fitted to RoC vs. age (RoC ~ s(age)). The first derivative and its simultaneous confidence intervals are estimated using the `gratia` package (Simpson, 2018). A point is significant if the confidence interval of the first derivative at that point excludes zero.
 
-- Signal-to-noise method (`method = "SNI`): We adapted SNI from Kelly et al. (2011), which was developed to detect changes in charcoal stratigraphical records. SNI is calculated for the whole RoC sequence and a peak-point is considered significant if it has an SNI value higher than 3.   
+- **Signal-to-noise index** (`sel_method = "SNI"`): The SNI approach of Kelly et al. (2011), originally developed for sediment-charcoal records, is applied to the RoC sequence. A point is significant if its SNI value exceeds 3.
 
-## References 
+## References
+
 Birks, H.J.B., Gordon, A.D., 1985. Numerical Methods in Quaternary Pollen Analysis. Academic Press, London.
 
-Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. ed. J. Wiley & Sons, New York.
+Davis, J.C., 1986. Statistics and Data Analysis in Geology, 2nd edn. J. Wiley & Sons, New York.
 
 Grimm, E.C., Jacobson, G.L., 1992. Fossil-pollen evidence for abrupt climate changes during the past 18000 years in eastern North America. Clim. Dyn. 6, 179–184.
 
 Kelly, R.F., Higuera, P.E., Barrett, C.M., Feng Sheng, H., 2011. A signal-to-noise index to quantify the potential for peak detection in sediment-charcoal records. Quat. Res. 75, 11–17. https://doi.org/10.1016/j.yqres.2010.07.011
 
-Simpson, G.L., 2019. gratia: graceful'ggplot'-based graphics and other functions for GAMs fitted using "mgcv." R Packag. version 0.2-1.
-
 Simpson, G.L., 2018. Modelling palaeoecological time series using generalised additive models. Front. Ecol. Evol. 6, 1–21. https://doi.org/10.3389/fevo.2018.00149
 
-Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York, USA 37. https://doi.org/10.2307/2669493
+Wilkinson, L., 2005. The Grammar of Graphics. Springer-Verlag, New York. https://doi.org/10.2307/2669493
 
 Wood, S.N., 2011. Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models. J. R. Stat. Soc. Ser. B Stat. Methodol. 73, 3–36.

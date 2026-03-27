@@ -12,6 +12,7 @@ R-Ratepol is an R package for estimating rate of change (RoC) from community dat
 Useful links:
 \itemize{
   \item \url{https://github.com/HOPE-UIB-BIO/R-Ratepol-package}
+  \item \url{https://hope-uib-bio.github.io/R-Ratepol-package/}
 }
 
 }
