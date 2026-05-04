@@ -4,7 +4,7 @@
 
 <!-- badges: start -->
 
-[![CRAN status](https://www.r-pkg.org/badges/version/RRatepol.png)](https://CRAN.R-project.org/package=RRatepol) [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions) [![Codecov-test-coverage](https://codecov.io/gh//HOPE-UIB-BIO/R-Ratepol-package/branch/main/graph/badge.svg)](https://app.codecov.io/gh//HOPE-UIB-BIO/R-Ratepol-package?branch=main)
+[![CRAN status](https://www.r-pkg.org/badges/version/RRatepol.png)](https://CRAN.R-project.org/package=RRatepol) [![R-CMD-check](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/workflows/R-CMD-check/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions) [![test-coverage.yaml](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/HOPE-UIB-BIO/R-Ratepol-package/actions/workflows/test-coverage.yaml)
 
 <!-- badges: end -->
 
