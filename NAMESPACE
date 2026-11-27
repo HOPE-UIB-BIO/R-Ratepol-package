@@ -8,5 +8,7 @@ export(fc_estimate_RoC)
 export(fc_plot_RoC_sequence)
 export(plot_roc)
 importFrom(magrittr,"%>%")
-importFrom(rlang,":=")
-importFrom(rlang,.data)
+importFrom(rlang,
+  ":=",
+  .data
+)
