@@ -52,7 +52,7 @@ data_roc <-
 - **Test first, then go parallel.** Try out settings with a small `rand` on a single core, where errors show up quickly and are easier to read. Switch on `use_parallel` for the final estimate with many runs.
 - **Leave some cores free.** While RRatepol uses all cores, the computer can become slow, the fans loud, and a laptop battery drains fast. On a computer you also use for other work, give a number of cores (for example `use_parallel = 4`) rather than `use_parallel = TRUE`.
 - **Watch the memory.** Each core works on its own copy of the data. If the computer runs out of memory or slows down sharply, use fewer cores.
-- **Results depend on the set-up.** With `set.seed()`, a parallel run gives the same results when repeated with the same number of cores and the same `silent` setting. Changing either changes the values slightly, as would any new set of randomisation runs. Report the seed, `rand`, and the number of cores with your results (see [Reproducible parallel results](#reproducible-parallel-results)).
+- **Set a seed to make results repeatable.** With `set.seed()` before `estimate_roc()`, the results are identical whether you use one core or many. Without a seed, every call gives slightly different values, as expected from new randomisation runs. Report the seed, `rand`, and the RRatepol version with your results (see [Reproducible parallel results](#reproducible-parallel-results)).
 - **Few runs gain little.** Starting the cores takes time, so with only a few randomisation runs, parallel computation saves little or nothing.
 - **Shared computers and HPC clusters have rules.** On a server or cluster shared with others, use only the cores you have been given. On an HPC cluster, run RRatepol inside a job, never on the login node (see [Running RRatepol on an HPC cluster](#running-rratepol-on-an-hpc-cluster)).
 
@@ -218,19 +218,20 @@ parallelly::availableCores()
 ```
 
 A number, such as `use_parallel = 4`, sets the number of cores explicitly.
-This is useful on a shared computer, or to keep the number of cores fixed for reproducible results (see the next section).
+This is useful on a shared computer, where `use_parallel = TRUE` would take all available cores.
 If only one core is available, `use_parallel = TRUE` runs on a single core without starting a cluster.
 
 ## Reproducible parallel results
 
-`estimate_roc()` seeds the random-number streams of the workers from the random-number generator of the main R session.
-Calling `set.seed()` before `estimate_roc()` therefore makes parallel results reproducible, as long as the number of cores and the `silent` setting stay the same.
-The `silent` setting matters because, with progress output shown, the runs are handed to the workers in several rounds instead of one, so the runs reach the workers in a different order.
+Each randomisation run has its own random-number stream, created from the random-number generator of the main R session before the runs start.
+A run draws the same random numbers whether it is computed in the main session or on any worker.
+Calling `set.seed()` before `estimate_roc()` therefore gives identical results on a single core and on any number of cores, with or without progress output (`silent`).
+The chunk below runs the same estimation on one core and on two cores:
 
 ```{r reproducibility, message=FALSE, warning=FALSE}
 list_roc_parallel <-
   purrr::map(
-    .x = 1:2,
+    .x = list(FALSE, 2),
     .f = ~ {
       base::set.seed(900723)
 
@@ -248,7 +249,7 @@ list_roc_parallel <-
         standardise = TRUE,
         n_individuals = 150,
         rand = 10,
-        use_parallel = 2,
+        use_parallel = .x,
         silent = TRUE
       )
     }
@@ -260,9 +261,9 @@ base::identical(
 )
 ```
 
-Parallel results differ from single-core results with the same seed, and results on 2 cores differ from those on 4 cores, because the runs draw from different random-number streams.
-Both are valid sets of randomisation runs, and the differences between their summaries become smaller as `rand` grows.
-For results that others should reproduce exactly, report the seed, `rand`, the number of cores, and the `silent` setting, and set `use_parallel` to a number rather than `TRUE`.
+For results that others should reproduce exactly, report the seed, `rand`, and the RRatepol version.
+The number of cores does not need to be reported, because it does not change the results.
+Versions before 1.4.0 gave different random draws for the same seed; to reproduce results of an earlier version, install that version.
 
 ## Memory
 
