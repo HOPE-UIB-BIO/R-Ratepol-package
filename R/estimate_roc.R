@@ -93,8 +93,13 @@
 #' \itemize{
 #' \item `FALSE` (default) - single core only.
 #' \item `TRUE` - number of cores detected automatically.
-#' \item A positive `numeric` - use that many cores.
+#' \item A positive `numeric` - use that many cores. `1` is the same as
+#' `FALSE`.
 #' }
+#' Worker random-number streams are seeded from the main session, so
+#' calling [set.seed()] before `estimate_roc()` makes parallel results
+#' reproducible for the same number of cores. These results differ from a
+#' single-core run with the same seed.
 #' @param interest_threshold
 #' `numeric`. Optional. Samples older than this age are excluded from
 #' the output.
@@ -325,6 +330,11 @@ estimate_roc <- function(
     assertthat::assert_that(
       !base::is.na(use_parallel) && use_parallel != 0,
       msg = "'use_parallel' must not be 0 or NA when numeric"
+    )
+
+    assertthat::assert_that(
+      use_parallel > 0,
+      msg = "'use_parallel' must be a positive number of cores when numeric"
     )
   }
 
@@ -588,25 +598,34 @@ estimate_roc <- function(
     )
   }
 
-  # select the preferred number of cores for of cores for parallel computation
-  if (isTRUE(use_parallel)) {
-    if (methods::is(use_parallel, "numeric")) {
-      n_cores <-
-        as.numeric(use_parallel) # set value
-    } else {
-      n_cores <-
-        parallel::detectCores() # detect number
-    }
+  # select the preferred number of cores for parallel computation
+  n_cores <-
+    util_select_n_cores(use_parallel)
 
-    # create cluster
+  if (
+    isFALSE(is.null(n_cores))
+  ) {
     cl <-
       parallel::makeCluster(n_cores)
 
-    # eval packages
-    parallel::clusterEvalQ(cl, {
-      library("tidyverse")
-      library("RRatepol")
-    })
+    # Stop the cluster also when an iteration errors
+    on.exit(
+      parallel::stopCluster(cl),
+      add = TRUE
+    )
+
+    # Seed the worker RNG streams from the main session's RNG, so that
+    #    set.seed() before estimate_roc() makes parallel results reproducible
+    #    for the same number of cores
+    parallel::clusterSetRNGStream(
+      cl = cl,
+      iseed = sample.int(n = .Machine$integer.max, size = 1)
+    )
+
+    parallel::clusterEvalQ(
+      cl = cl,
+      expr = library("RRatepol")
+    )
   } else {
     cl <- NULL
   }
@@ -638,11 +657,6 @@ estimate_roc <- function(
     pbapply::pboptions(pbapply_setting)
   }
 
-  # close progress bar and cluster
-  if (isFALSE(is.null(cl))) {
-    parallel::stopCluster(cl)
-    cl <- NULL
-  }
   gc(verbose = FALSE)
 
   #----------------------------------------------------------#
