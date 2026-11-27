@@ -408,6 +408,23 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "estimate_roc() errors when use_parallel is negative",
+  {
+    testthat::expect_error(
+      estimate_roc(
+        data_source_community =
+          purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+        data_source_age =
+          purrr::chuck(RRatepol::example_data, "sample_age", 1),
+        use_parallel = -2,
+        silent = TRUE
+      ),
+      "'use_parallel' must be a positive number of cores when numeric"
+    )
+  }
+)
+
+testthat::test_that(
   "estimate_roc() errors when interest_threshold has length > 1",
   {
     testthat::expect_error(
@@ -422,5 +439,205 @@ testthat::test_that(
       ),
       "'interest_threshold' must be a single value"
     )
+  }
+)
+
+# ================================================================ #
+# 5. Parallel computation                                          #
+# ================================================================ #
+
+# Workers load the installed RRatepol, so these tests need the package
+#    installed. CRAN limits checks to two cores.
+
+testthat::test_that(
+  "estimate_roc() runs with a numeric use_parallel",
+  {
+    testthat::skip_on_cran()
+    skip_if_rratepol_not_installed()
+
+    res_serial <-
+      estimate_roc(
+        data_source_community =
+          purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+        data_source_age =
+          purrr::chuck(RRatepol::example_data, "sample_age", 1),
+        smooth_method = "none",
+        working_units = "MW",
+        bin_size = 500,
+        number_of_shifts = 2,
+        bin_selection = "random",
+        rand = 4,
+        use_parallel = FALSE,
+        silent = TRUE
+      )
+
+    res_parallel <-
+      estimate_roc(
+        data_source_community =
+          purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+        data_source_age =
+          purrr::chuck(RRatepol::example_data, "sample_age", 1),
+        smooth_method = "none",
+        working_units = "MW",
+        bin_size = 500,
+        number_of_shifts = 2,
+        bin_selection = "random",
+        rand = 4,
+        use_parallel = 2,
+        silent = TRUE
+      )
+
+    testthat::expect_s3_class(res_parallel, "data.frame")
+
+    testthat::expect_identical(
+      base::colnames(res_parallel),
+      base::colnames(res_serial)
+    )
+
+    testthat::expect_identical(
+      base::nrow(res_parallel),
+      base::nrow(res_serial)
+    )
+  }
+)
+
+# A numeric use_parallel that silently ran on one core gave results
+#    identical to a serial run with the same seed. Worker RNG streams differ
+#    from the main session, so a real cluster gives different results.
+testthat::test_that(
+  "estimate_roc() numeric use_parallel runs on a cluster",
+  {
+    testthat::skip_on_cran()
+    skip_if_rratepol_not_installed()
+
+    list_res <-
+      purrr::map(
+        .x = list(FALSE, 2),
+        .f = ~ {
+          base::set.seed(900723)
+
+          estimate_roc(
+            data_source_community =
+              purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+            data_source_age =
+              purrr::chuck(RRatepol::example_data, "sample_age", 1),
+            smooth_method = "none",
+            working_units = "MW",
+            bin_size = 500,
+            number_of_shifts = 2,
+            bin_selection = "random",
+            standardise = TRUE,
+            rand = 4,
+            use_parallel = .x,
+            silent = TRUE
+          )
+        }
+      )
+
+    testthat::expect_false(
+      base::identical(
+        dplyr::pull(purrr::chuck(list_res, 1), "ROC"),
+        dplyr::pull(purrr::chuck(list_res, 2), "ROC")
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() use_parallel = 1 gives the single-core result",
+  {
+    list_res <-
+      purrr::map(
+        .x = list(FALSE, 1),
+        .f = ~ {
+          base::set.seed(900723)
+
+          estimate_roc(
+            data_source_community =
+              purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+            data_source_age =
+              purrr::chuck(RRatepol::example_data, "sample_age", 1),
+            smooth_method = "none",
+            working_units = "MW",
+            bin_size = 500,
+            number_of_shifts = 2,
+            bin_selection = "random",
+            standardise = TRUE,
+            rand = 4,
+            use_parallel = .x,
+            silent = TRUE
+          )
+        }
+      )
+
+    testthat::expect_identical(
+      purrr::chuck(list_res, 1),
+      purrr::chuck(list_res, 2)
+    )
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() parallel results are reproducible with a seed",
+  {
+    testthat::skip_on_cran()
+    skip_if_rratepol_not_installed()
+
+    list_res <-
+      purrr::map(
+        .x = 1:2,
+        .f = ~ {
+          base::set.seed(900723)
+
+          estimate_roc(
+            data_source_community =
+              purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+            data_source_age =
+              purrr::chuck(RRatepol::example_data, "sample_age", 1),
+            smooth_method = "none",
+            working_units = "MW",
+            bin_size = 500,
+            number_of_shifts = 2,
+            bin_selection = "random",
+            rand = 4,
+            use_parallel = 2,
+            silent = TRUE
+          )
+        }
+      )
+
+    testthat::expect_identical(
+      purrr::chuck(list_res, 1),
+      purrr::chuck(list_res, 2)
+    )
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() parallel run leaves the main RNG kind unchanged",
+  {
+    testthat::skip_on_cran()
+    skip_if_rratepol_not_installed()
+
+    vec_rng_before <-
+      base::RNGkind()
+
+    res <-
+      estimate_roc(
+        data_source_community =
+          purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+        data_source_age =
+          purrr::chuck(RRatepol::example_data, "sample_age", 1),
+        smooth_method = "none",
+        working_units = "MW",
+        bin_size = 500,
+        number_of_shifts = 2,
+        bin_selection = "random",
+        rand = 4,
+        use_parallel = 2,
+        silent = TRUE
+      )
+
+    testthat::expect_identical(base::RNGkind(), vec_rng_before)
   }
 )

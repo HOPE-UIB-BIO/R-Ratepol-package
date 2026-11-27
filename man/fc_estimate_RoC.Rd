@@ -141,8 +141,13 @@ skip randomisation and use a single deterministic run.}
 \itemize{
 \item \code{FALSE} (default) - single core only.
 \item \code{TRUE} - number of cores detected automatically.
-\item A positive \code{numeric} - use that many cores.
-}}
+\item A positive \code{numeric} - use that many cores. \code{1} is the same as
+\code{FALSE}.
+}
+Worker random-number streams are seeded from the main session, so
+calling \code{\link[=set.seed]{set.seed()}} before \code{estimate_roc()} makes parallel results
+reproducible for the same number of cores. These results differ from a
+single-core run with the same seed.}
 
 \item{interest_threshold}{\code{numeric}. Optional. Samples older than this age are excluded from
 the output.}

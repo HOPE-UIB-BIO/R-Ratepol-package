@@ -1,3 +1,13 @@
+# RRatepol 1.4.0
+
+## Bug fixes
+
+- `estimate_roc()`: a numeric `use_parallel` (for example `use_parallel = 4`) now runs on that many cores; previously it silently ran on a single core (#118). Parallel workers no longer load `tidyverse`, which is not a dependency, so parallel runs no longer fail where it is not installed. Negative `use_parallel` values now give an informative error, and the cluster is stopped also when an iteration fails.
+
+## Reproducible parallel results
+
+- `estimate_roc()`: worker random-number streams are now seeded from the main session, so `set.seed()` before `estimate_roc()` makes parallel results reproducible for the same number of cores (#118). Parallel results differ from a single-core run with the same seed. Calls with `use_parallel` above 1 that previously ran on a single core therefore give different randomisation results than before. Single-core results (`use_parallel = FALSE` or `1`) are unchanged.
+
 # RRatepol 1.3.0
 
 ## Complete unit test suite
