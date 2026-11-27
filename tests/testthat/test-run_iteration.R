@@ -161,3 +161,78 @@ testthat::test_that(
     )
   }
 )
+
+# ================================================================ #
+# 3. Random-number streams                                         #
+# ================================================================ #
+
+testthat::test_that(
+  "run_iteration() gives the same result for the same rng_stream",
+  {
+    base::set.seed(900723)
+
+    vec_seed_user <-
+      base::get(".Random.seed", envir = base::globalenv())
+
+    data_run <-
+      make_run_data()
+
+    data_run_stream <-
+      c(
+        data_run,
+        list(
+          rng_stream = purrr::chuck(
+            util_make_rng_streams(n_streams = 1, seed = 900723),
+            1
+          )
+        )
+      )
+
+    # Different generator states before each call: only the stream
+    #    should determine the random draws of the run
+    list_res <-
+      purrr::map(
+        .x = list(
+          list(data = data_run, seed = 1),
+          list(data = data_run, seed = 2),
+          list(data = data_run_stream, seed = 1),
+          list(data = data_run_stream, seed = 2)
+        ),
+        .f = ~ {
+          base::set.seed(purrr::chuck(.x, "seed"))
+
+          run_iteration(
+            data_source_run = purrr::chuck(.x, "data"),
+            bin_selection = "random",
+            standardise = TRUE,
+            n_individuals = 150,
+            tranform_to_proportions = TRUE,
+            dissimilarity_coefficient = "euc",
+            time_standardisation = 500,
+            silent = TRUE
+          )
+        }
+      )
+
+    # Restore the generator of the test session
+    base::assign(
+      x = ".Random.seed",
+      value = vec_seed_user,
+      envir = base::globalenv()
+    )
+
+    # Without a stream, the result follows the generator state
+    testthat::expect_false(
+      base::identical(
+        purrr::chuck(list_res, 1),
+        purrr::chuck(list_res, 2)
+      )
+    )
+
+    # With a stream, it does not
+    testthat::expect_identical(
+      purrr::chuck(list_res, 3),
+      purrr::chuck(list_res, 4)
+    )
+  }
+)

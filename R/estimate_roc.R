@@ -100,10 +100,10 @@
 #' \item A positive `numeric` - use that many cores. `1` is the same as
 #' `FALSE`.
 #' }
-#' Worker random-number streams are seeded from the main session, so
-#' calling [set.seed()] before `estimate_roc()` makes parallel results
-#' reproducible for the same number of cores. These results differ from a
-#' single-core run with the same seed.
+#' Each randomisation run has its own random-number stream, created from
+#' the main session's generator. Calling [set.seed()] before
+#' `estimate_roc()` therefore gives identical results for any value of
+#' `use_parallel` and `silent`.
 #' @param interest_threshold
 #' `numeric`. Optional. Samples older than this age are excluded from
 #' the output.
@@ -581,8 +581,41 @@ estimate_roc <- function(
       rand = rand
     )
 
-  data_to_run <-
+  data_to_run_base <-
     util_flatten_list_by_one(data_prepared)
+
+  # Give each run its own random-number stream, seeded from the user's
+  #    generator after the age sequences were drawn, so that set.seed()
+  #    gives the same results on any number of cores. Runs set their
+  #    stream in the main session when computed there, so the user's
+  #    generator is restored on exit, also when a run errors.
+  seed_streams <-
+    sample.int(n = .Machine$integer.max, size = 1)
+
+  vec_seed_user <-
+    base::get(".Random.seed", envir = base::globalenv())
+
+  on.exit(
+    base::assign(
+      x = ".Random.seed",
+      value = vec_seed_user,
+      envir = base::globalenv()
+    ),
+    add = TRUE
+  )
+
+  list_rng_streams <-
+    util_make_rng_streams(
+      n_streams = length(data_to_run_base),
+      seed = seed_streams
+    )
+
+  data_to_run <-
+    purrr::map2(
+      .x = data_to_run_base,
+      .y = list_rng_streams,
+      .f = ~ c(.x, list(rng_stream = .y))
+    )
 
   #----------------------------------------------------------#
   # 4. Estimation -----
@@ -616,14 +649,6 @@ estimate_roc <- function(
     on.exit(
       parallel::stopCluster(cl),
       add = TRUE
-    )
-
-    # Seed the worker RNG streams from the main session's RNG, so that
-    #    set.seed() before estimate_roc() makes parallel results reproducible
-    #    for the same number of cores
-    parallel::clusterSetRNGStream(
-      cl = cl,
-      iseed = sample.int(n = .Machine$integer.max, size = 1)
     )
 
     parallel::clusterEvalQ(

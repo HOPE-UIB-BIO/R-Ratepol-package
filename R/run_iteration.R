@@ -1,7 +1,11 @@
 #' @title Run a single iteration of RoC estimation
 #'
 #' @param data_source_run
-#' `list` with `data` and `bins` prepared by [prepare_data()].
+#' `list` with `data` and `bins` prepared by [prepare_data()], and
+#' optionally `rng_stream`, a random-number stream from
+#' [util_make_rng_streams()]. If `rng_stream` is present, it is set
+#' before any random draw, so the run gives the same result wherever it
+#' is computed. Without it, the run draws from the current generator.
 #' @inheritParams estimate_roc
 #' @description
 #' A single run is computed following these steps:
@@ -54,6 +58,14 @@ run_iteration <- function(
     !base::is.na(time_standardisation) && time_standardisation != 0,
     msg = "'time_standardisation' must not be 0 or NA"
   )
+
+  # Draw the random numbers of this run from its own stream, so that the
+  #    run gives the same result in the main session and on any worker
+  if (
+    isFALSE(is.null(data_source_run$rng_stream))
+  ) {
+    util_set_rng_stream(data_source_run$rng_stream)
+  }
 
   #----------------------------------------------------------#
   # 4.1 Data subsetting -----

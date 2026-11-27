@@ -501,45 +501,47 @@ testthat::test_that(
   }
 )
 
-# A numeric use_parallel that silently ran on one core gave results
-#    identical to a serial run with the same seed. Worker RNG streams differ
-#    from the main session, so a real cluster gives different results.
+# A numeric use_parallel once silently ran on one core. Results are now
+#    identical on any number of cores, so the cluster is detected by
+#    recording the number of cores passed to parallel::makeCluster().
 testthat::test_that(
   "estimate_roc() numeric use_parallel runs on a cluster",
   {
     testthat::skip_on_cran()
     skip_if_rratepol_not_installed()
 
-    list_res <-
-      purrr::map(
-        .x = list(FALSE, 2),
-        .f = ~ {
-          base::set.seed(900723)
+    fn_make_cluster <-
+      parallel::makeCluster
 
-          estimate_roc(
-            data_source_community =
-              purrr::chuck(RRatepol::example_data, "pollen_data", 1),
-            data_source_age =
-              purrr::chuck(RRatepol::example_data, "sample_age", 1),
-            smooth_method = "none",
-            working_units = "MW",
-            bin_size = 500,
-            number_of_shifts = 2,
-            bin_selection = "random",
-            standardise = TRUE,
-            rand = 4,
-            use_parallel = .x,
-            silent = TRUE
-          )
-        }
-      )
+    n_cores_requested <- NULL
 
-    testthat::expect_false(
-      base::identical(
-        dplyr::pull(purrr::chuck(list_res, 1), "ROC"),
-        dplyr::pull(purrr::chuck(list_res, 2), "ROC")
-      )
+    testthat::local_mocked_bindings(
+      makeCluster = function(spec, ...) {
+        n_cores_requested <<- spec
+
+        fn_make_cluster(spec, ...)
+      },
+      .package = "parallel"
     )
+
+    res <-
+      estimate_roc(
+        data_source_community =
+          purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+        data_source_age =
+          purrr::chuck(RRatepol::example_data, "sample_age", 1),
+        smooth_method = "none",
+        working_units = "MW",
+        bin_size = 500,
+        number_of_shifts = 2,
+        bin_selection = "random",
+        standardise = TRUE,
+        rand = 4,
+        use_parallel = 2,
+        silent = TRUE
+      )
+
+    testthat::expect_identical(n_cores_requested, 2L)
   }
 )
 
@@ -639,6 +641,132 @@ testthat::test_that(
       )
 
     testthat::expect_identical(base::RNGkind(), vec_rng_before)
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() single-core run leaves the main RNG kind unchanged",
+  {
+    vec_rng_before <-
+      base::RNGkind()
+
+    res <-
+      estimate_roc(
+        data_source_community =
+          purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+        data_source_age =
+          purrr::chuck(RRatepol::example_data, "sample_age", 1),
+        smooth_method = "none",
+        working_units = "MW",
+        bin_size = 500,
+        number_of_shifts = 2,
+        bin_selection = "random",
+        standardise = TRUE,
+        rand = 4,
+        use_parallel = FALSE,
+        silent = TRUE
+      )
+
+    testthat::expect_identical(base::RNGkind(), vec_rng_before)
+  }
+)
+
+# Each randomisation run has its own random-number stream, so the
+#    distribution of runs over cores must not change the results. R CMD
+#    check allows at most two cores.
+testthat::test_that(
+  "estimate_roc() gives the same result on any number of cores",
+  {
+    testthat::skip_on_cran()
+    skip_if_rratepol_not_installed()
+
+    list_res <-
+      purrr::map(
+        .x = list(FALSE, 1, 2),
+        .f = ~ {
+          base::set.seed(900723)
+
+          estimate_roc(
+            data_source_community =
+              purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+            data_source_age =
+              purrr::chuck(RRatepol::example_data, "sample_age", 1),
+            age_uncertainty =
+              purrr::chuck(RRatepol::example_data, "age_uncertainty", 1),
+            smooth_method = "none",
+            working_units = "MW",
+            bin_size = 500,
+            number_of_shifts = 2,
+            bin_selection = "random",
+            standardise = TRUE,
+            rand = 4,
+            use_parallel = .x,
+            silent = TRUE
+          )
+        }
+      )
+
+    purrr::walk(
+      .x = 2:3,
+      .f = ~ testthat::expect_identical(
+        purrr::chuck(list_res, .x),
+        purrr::chuck(list_res, 1)
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() parallel result does not depend on silent",
+  {
+    testthat::skip_on_cran()
+    skip_if_rratepol_not_installed()
+
+    data_community <-
+      purrr::chuck(RRatepol::example_data, "pollen_data", 1)
+
+    data_age <-
+      purrr::chuck(RRatepol::example_data, "sample_age", 1)
+
+    list_res <-
+      purrr::map(
+        .x = list(TRUE, FALSE),
+        .f = ~ {
+          base::set.seed(900723)
+
+          # silent = FALSE prints progress and warns about the low number
+          #    of runs; neither is checked here
+          output_console <-
+            utils::capture.output(
+              res_run <-
+                base::suppressWarnings(
+                  base::suppressMessages(
+                    estimate_roc(
+                      data_source_community = data_community,
+                      data_source_age = data_age,
+                      smooth_method = "none",
+                      working_units = "MW",
+                      bin_size = 500,
+                      number_of_shifts = 5,
+                      bin_selection = "random",
+                      standardise = TRUE,
+                      n_individuals = 150,
+                      rand = 20,
+                      use_parallel = 2,
+                      silent = .x
+                    )
+                  )
+                )
+            )
+
+          res_run
+        }
+      )
+
+    testthat::expect_identical(
+      purrr::chuck(list_res, 1),
+      purrr::chuck(list_res, 2)
+    )
   }
 )
 
