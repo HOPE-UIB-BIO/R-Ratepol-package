@@ -13,6 +13,49 @@ knitr:
 Robust rate-of-change (RoC) estimates need many randomisation runs (`rand`), and these can take minutes per record.
 This article explains when running `estimate_roc()` on several cores saves time, how to choose `use_parallel`, how to keep parallel results reproducible, and how to run RRatepol on a high-performance computing (HPC) cluster.
 
+## Why use parallel computation
+
+The processor of a computer has several cores, and each core can carry out one calculation at a time.
+By default, R uses only one of them, so most of the computer stays idle while RRatepol works.
+
+`estimate_roc()` repeats the same estimation many times, each time with a different random draw of sample ages and pollen counts, and then summarises all repetitions.
+These randomisation runs do not depend on each other, so they can be shared out among several cores, much like dividing a pile of samples to be counted among several people.
+The summary at the end is the same as with one core; only the waiting time is shorter.
+
+This matters because reliable estimates need many randomisation runs: the [workflow example](workflow-example.html) recommends 10 000.
+On a single core, this can keep the computer busy for a long time for each record, and the time multiplies with the number of records.
+With several cores, the same work finishes in a fraction of that time (see the timing table below).
+
+A typical call looks like this:
+
+```{r quick-start, eval=FALSE}
+# How many cores can R use on this computer?
+parallelly::availableCores()
+
+base::set.seed(900723)
+
+data_roc <-
+  RRatepol::estimate_roc(
+    data_source_community =
+      purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+    data_source_age =
+      purrr::chuck(RRatepol::example_data, "sample_age", 1),
+    age_uncertainty =
+      purrr::chuck(RRatepol::example_data, "age_uncertainty", 1),
+    rand = 10000,
+    use_parallel = 4 # number of cores
+  )
+```
+
+## What to watch for
+
+- **Test first, then go parallel.** Try out settings with a small `rand` on a single core, where errors show up quickly and are easier to read. Switch on `use_parallel` for the final estimate with many runs.
+- **Leave some cores free.** While RRatepol uses all cores, the computer can become slow, the fans loud, and a laptop battery drains fast. On a computer you also use for other work, give a number of cores (for example `use_parallel = 4`) rather than `use_parallel = TRUE`.
+- **Watch the memory.** Each core works on its own copy of the data. If the computer runs out of memory or slows down sharply, use fewer cores.
+- **Results depend on the set-up.** With `set.seed()`, a parallel run gives the same results when repeated with the same number of cores and the same `silent` setting. Changing either changes the values slightly, as would any new set of randomisation runs. Report the seed, `rand`, and the number of cores with your results (see [Reproducible parallel results](#reproducible-parallel-results)).
+- **Few runs gain little.** Starting the cores takes time, so with only a few randomisation runs, parallel computation saves little or nothing.
+- **Shared computers and HPC clusters have rules.** On a server or cluster shared with others, use only the cores you have been given. On an HPC cluster, run RRatepol inside a job, never on the login node (see [Running RRatepol on an HPC cluster](#running-rratepol-on-an-hpc-cluster)).
+
 ## How parallel computation works in RRatepol
 
 `estimate_roc()` repeats the whole estimation `rand` times.
@@ -181,7 +224,8 @@ If only one core is available, `use_parallel = TRUE` runs on a single core witho
 ## Reproducible parallel results
 
 `estimate_roc()` seeds the random-number streams of the workers from the random-number generator of the main R session.
-Calling `set.seed()` before `estimate_roc()` therefore makes parallel results reproducible, as long as the number of cores stays the same.
+Calling `set.seed()` before `estimate_roc()` therefore makes parallel results reproducible, as long as the number of cores and the `silent` setting stay the same.
+The `silent` setting matters because, with progress output shown, the runs are handed to the workers in several rounds instead of one, so the runs reach the workers in a different order.
 
 ```{r reproducibility, message=FALSE, warning=FALSE}
 list_roc_parallel <-
@@ -218,7 +262,7 @@ base::identical(
 
 Parallel results differ from single-core results with the same seed, and results on 2 cores differ from those on 4 cores, because the runs draw from different random-number streams.
 Both are valid sets of randomisation runs, and the differences between their summaries become smaller as `rand` grows.
-For results that others should reproduce exactly, report the seed, `rand`, and the number of cores, and set `use_parallel` to a number rather than `TRUE`.
+For results that others should reproduce exactly, report the seed, `rand`, the number of cores, and the `silent` setting, and set `use_parallel` to a number rather than `TRUE`.
 
 ## Memory
 
