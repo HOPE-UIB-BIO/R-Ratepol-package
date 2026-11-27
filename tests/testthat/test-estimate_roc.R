@@ -641,3 +641,64 @@ testthat::test_that(
     testthat::expect_identical(base::RNGkind(), vec_rng_before)
   }
 )
+
+# Opt-in timing test. Elapsed time depends on the load of the machine, and
+#    starting the workers costs about a second, so a speed-up shows only
+#    with enough runs. The test takes about 25 s and runs only when
+#    the environment variable RRATEPOL_TEST_TIMING is "true":
+#    Sys.setenv(RRATEPOL_TEST_TIMING = "true")
+testthat::test_that(
+  "estimate_roc() runs faster on 2 cores than on one",
+  {
+    testthat::skip_if_not(
+      base::identical(base::Sys.getenv("RRATEPOL_TEST_TIMING"), "true"),
+      message = "Set RRATEPOL_TEST_TIMING=true to run the timing test"
+    )
+    testthat::skip_on_cran()
+    testthat::skip_on_ci()
+    skip_if_rratepol_not_installed()
+
+    n_cores <-
+      parallel::detectCores()
+
+    testthat::skip_if(
+      base::is.na(n_cores) || n_cores < 2,
+      message = "Fewer than 2 cores detected"
+    )
+
+    vec_elapsed <-
+      purrr::map_dbl(
+        .x = list(FALSE, 2),
+        .f = ~ {
+          base::set.seed(900723)
+
+          time_run <-
+            base::system.time(
+              estimate_roc(
+                data_source_community =
+                  purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+                data_source_age =
+                  purrr::chuck(RRatepol::example_data, "sample_age", 1),
+                age_uncertainty =
+                  purrr::chuck(RRatepol::example_data, "age_uncertainty", 1),
+                smooth_method = "shep",
+                working_units = "MW",
+                bin_size = 500,
+                number_of_shifts = 5,
+                standardise = TRUE,
+                rand = 100,
+                use_parallel = .x,
+                silent = TRUE
+              )
+            )
+
+          purrr::chuck(time_run, "elapsed")
+        }
+      )
+
+    testthat::expect_lt(
+      purrr::chuck(vec_elapsed, 2),
+      0.8 * purrr::chuck(vec_elapsed, 1)
+    )
+  }
+)
