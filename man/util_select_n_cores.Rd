@@ -10,7 +10,9 @@ util_select_n_cores(use_parallel)
 \item{use_parallel}{\code{logical} or \code{numeric}, already validated by \code{\link[=estimate_roc]{estimate_roc()}}.
 \itemize{
 \item \code{FALSE} - no parallel computation.
-\item \code{TRUE} - number of cores detected by \code{\link[parallel:detectCores]{parallel::detectCores()}}.
+\item \code{TRUE} - number of cores available to the R session, as reported
+by \code{\link[parallelly:availableCores]{parallelly::availableCores()}}. One available core means no
+parallel computation.
 \item \code{1} - no parallel computation, same as \code{FALSE}.
 \item A whole \code{numeric} above 1 - use that many cores.
 }}
