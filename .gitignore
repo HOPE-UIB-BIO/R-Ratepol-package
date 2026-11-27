@@ -8,3 +8,4 @@ inst/doc
 /Meta/
 vignettes/.quarto
 vignettes/*_files
+vignettes/*_cache

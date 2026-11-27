@@ -1,0 +1,391 @@
+---
+title: "Parallel computation and HPC"
+format:
+  html:
+    fig-width: 7
+    fig-height: 6
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: "#>"
+---
+
+Robust rate-of-change (RoC) estimates need many randomisation runs (`rand`), and these can take minutes per record.
+This article explains when running `estimate_roc()` on several cores saves time, how to choose `use_parallel`, how to keep parallel results reproducible, and how to run RRatepol on a high-performance computing (HPC) cluster.
+
+## Why use parallel computation
+
+The processor of a computer has several cores, and each core can carry out one calculation at a time.
+By default, R uses only one of them, so most of the computer stays idle while RRatepol works.
+
+`estimate_roc()` repeats the same estimation many times, each time with a different random draw of sample ages and pollen counts, and then summarises all repetitions.
+These randomisation runs do not depend on each other, so they can be shared out among several cores, much like dividing a pile of samples to be counted among several people.
+The summary at the end is the same as with one core; only the waiting time is shorter.
+
+This matters because reliable estimates need many randomisation runs: the [workflow example](workflow-example.html) recommends 10 000.
+On a single core, this can keep the computer busy for a long time for each record, and the time multiplies with the number of records.
+With several cores, the same work finishes in a fraction of that time (see the timing table below).
+
+A typical call looks like this:
+
+```{r quick-start, eval=FALSE}
+# How many cores can R use on this computer?
+parallelly::availableCores()
+
+base::set.seed(900723)
+
+data_roc <-
+  RRatepol::estimate_roc(
+    data_source_community =
+      purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+    data_source_age =
+      purrr::chuck(RRatepol::example_data, "sample_age", 1),
+    age_uncertainty =
+      purrr::chuck(RRatepol::example_data, "age_uncertainty", 1),
+    rand = 10000,
+    use_parallel = 4 # number of cores
+  )
+```
+
+## What to watch for
+
+- **Test first, then go parallel.** Try out settings with a small `rand` on a single core, where errors show up quickly and are easier to read. Switch on `use_parallel` for the final estimate with many runs.
+- **Leave some cores free.** While RRatepol uses all cores, the computer can become slow, the fans loud, and a laptop battery drains fast. On a computer you also use for other work, give a number of cores (for example `use_parallel = 4`) rather than `use_parallel = TRUE`.
+- **Watch the memory.** Each core works on its own copy of the data. If the computer runs out of memory or slows down sharply, use fewer cores.
+- **Results depend on the set-up.** With `set.seed()`, a parallel run gives the same results when repeated with the same number of cores and the same `silent` setting. Changing either changes the values slightly, as would any new set of randomisation runs. Report the seed, `rand`, and the number of cores with your results (see [Reproducible parallel results](#reproducible-parallel-results)).
+- **Few runs gain little.** Starting the cores takes time, so with only a few randomisation runs, parallel computation saves little or nothing.
+- **Shared computers and HPC clusters have rules.** On a server or cluster shared with others, use only the cores you have been given. On an HPC cluster, run RRatepol inside a job, never on the login node (see [Running RRatepol on an HPC cluster](#running-rratepol-on-an-hpc-cluster)).
+
+## How parallel computation works in RRatepol
+
+`estimate_roc()` repeats the whole estimation `rand` times.
+In each randomisation run, it draws one age sequence from `age_uncertainty` (if supplied) and, with `standardise = TRUE`, a random subset of `n_individuals` from each working unit.
+The runs are independent of each other, so they can be spread over several cores.
+
+The argument `use_parallel` controls this:
+
+- `FALSE` (default) or `1`: all runs on a single core.
+- A whole number above 1: that many cores.
+- `TRUE`: all cores available to the R session, as reported by `parallelly::availableCores()`.
+
+With more than one core, `estimate_roc()` starts a local cluster of R worker processes on the same computer, sends the runs to the workers, and stops the cluster when the runs are finished, also when a run fails.
+
+## When parallel computation pays off
+
+Starting the workers and sending them the data takes time, so the time saved is small with few runs and grows with the number of runs.
+The table below compares elapsed times for the first record of `example_data` with age uncertainty, Shepard's 5-term filter, moving-window binning, and taxa standardisation.
+
+```{r benchmark-setup, message=FALSE, warning=FALSE}
+library(RRatepol)
+
+n_cores_available <-
+  base::as.integer(parallelly::availableCores())
+
+vec_cores <-
+  c(1, 2, 4, 8)
+
+vec_cores_tested <-
+  vec_cores[vec_cores <= n_cores_available]
+
+vec_rand <-
+  c(10, 100, 500)
+
+# Re-run the cached benchmark for a new package version or another number
+#    of available cores
+list_cache_key <-
+  list(
+    base::as.character(utils::packageVersion("RRatepol")),
+    n_cores_available
+  )
+```
+
+```{r benchmark, cache=TRUE, cache.extra=list_cache_key, message=FALSE, warning=FALSE}
+data_benchmark <-
+  tidyr::expand_grid(
+    rand = vec_rand,
+    n_cores = vec_cores_tested
+  ) %>%
+  dplyr::mutate(
+    elapsed = purrr::map2_dbl(
+      .x = rand,
+      .y = n_cores,
+      .f = ~ {
+        base::set.seed(900723)
+
+        time_run <-
+          base::system.time(
+            RRatepol::estimate_roc(
+              data_source_community =
+                purrr::chuck(example_data, "pollen_data", 1),
+              data_source_age =
+                purrr::chuck(example_data, "sample_age", 1),
+              age_uncertainty =
+                purrr::chuck(example_data, "age_uncertainty", 1),
+              smooth_method = "shep",
+              working_units = "MW",
+              bin_size = 500,
+              number_of_shifts = 5,
+              standardise = TRUE,
+              n_individuals = 150,
+              rand = .x,
+              use_parallel = .y,
+              silent = TRUE
+            )
+          )
+
+        purrr::chuck(time_run, "elapsed")
+      }
+    )
+  )
+
+benchmark_r_version <-
+  base::R.version.string
+
+benchmark_os <-
+  purrr::chuck(base::Sys.info(), "sysname")
+```
+
+```{r benchmark-table}
+data_benchmark_wide <-
+  data_benchmark %>%
+  dplyr::mutate(
+    n_cores = base::ifelse(
+      test = n_cores == 1,
+      yes = "1 core",
+      no = base::paste(n_cores, "cores")
+    ),
+    elapsed = base::round(elapsed, 1)
+  ) %>%
+  tidyr::pivot_wider(
+    names_from = n_cores,
+    values_from = elapsed
+  )
+
+knitr::kable(
+  data_benchmark_wide,
+  caption = "Elapsed time (s) of estimate_roc() by number of cores"
+)
+```
+
+```{r benchmark-summary, include=FALSE}
+data_speed_up <-
+  data_benchmark %>%
+  dplyr::group_by(rand) %>%
+  dplyr::mutate(
+    relative_time = elapsed / elapsed[n_cores == 1]
+  ) %>%
+  dplyr::ungroup()
+
+n_cores_max <-
+  base::max(vec_cores_tested)
+
+relative_time_small <-
+  data_speed_up %>%
+  dplyr::filter(
+    rand == base::min(vec_rand),
+    n_cores == n_cores_max
+  ) %>%
+  dplyr::pull(relative_time)
+
+relative_time_large <-
+  data_speed_up %>%
+  dplyr::filter(
+    rand == base::max(vec_rand),
+    n_cores == n_cores_max
+  ) %>%
+  dplyr::pull(relative_time)
+```
+
+The times were measured on `r benchmark_os` with `r benchmark_r_version` and `r n_cores_available` available cores; they depend on the computer and on its load at the time.
+With `r base::min(vec_rand)` runs, `r n_cores_max` cores needed `r base::round(100 * relative_time_small)` % of the single-core time.
+With `r base::max(vec_rand)` runs, they needed `r base::round(100 * relative_time_large)` %.
+Adding cores shortens the time less than proportionally, because starting the workers and collecting their results do not get faster with more cores.
+
+In practice:
+
+- For quick checks with few runs, the default `use_parallel = FALSE` saves little time compared with several cores.
+- For final estimates with hundreds or thousands of runs, use several cores.
+- More cores give diminishing returns; leave some cores free for other work on a shared computer.
+
+## Choosing `use_parallel`
+
+`use_parallel = TRUE` uses all cores available to the R session.
+`parallelly::availableCores()` respects the cores allocated to a job by an HPC scheduler (for example SLURM, PBS, or SGE), the limits of a container, and the option `mc.cores`, so RRatepol does not start more workers than the session may use.
+To see how many cores `use_parallel = TRUE` would use, run:
+
+```{r available-cores, eval=FALSE}
+parallelly::availableCores()
+```
+
+A number, such as `use_parallel = 4`, sets the number of cores explicitly.
+This is useful on a shared computer, or to keep the number of cores fixed for reproducible results (see the next section).
+If only one core is available, `use_parallel = TRUE` runs on a single core without starting a cluster.
+
+## Reproducible parallel results
+
+`estimate_roc()` seeds the random-number streams of the workers from the random-number generator of the main R session.
+Calling `set.seed()` before `estimate_roc()` therefore makes parallel results reproducible, as long as the number of cores and the `silent` setting stay the same.
+The `silent` setting matters because, with progress output shown, the runs are handed to the workers in several rounds instead of one, so the runs reach the workers in a different order.
+
+```{r reproducibility, message=FALSE, warning=FALSE}
+list_roc_parallel <-
+  purrr::map(
+    .x = 1:2,
+    .f = ~ {
+      base::set.seed(900723)
+
+      RRatepol::estimate_roc(
+        data_source_community =
+          purrr::chuck(example_data, "pollen_data", 1),
+        data_source_age =
+          purrr::chuck(example_data, "sample_age", 1),
+        age_uncertainty =
+          purrr::chuck(example_data, "age_uncertainty", 1),
+        smooth_method = "shep",
+        working_units = "MW",
+        bin_size = 500,
+        number_of_shifts = 5,
+        standardise = TRUE,
+        n_individuals = 150,
+        rand = 10,
+        use_parallel = 2,
+        silent = TRUE
+      )
+    }
+  )
+
+base::identical(
+  purrr::chuck(list_roc_parallel, 1),
+  purrr::chuck(list_roc_parallel, 2)
+)
+```
+
+Parallel results differ from single-core results with the same seed, and results on 2 cores differ from those on 4 cores, because the runs draw from different random-number streams.
+Both are valid sets of randomisation runs, and the differences between their summaries become smaller as `rand` grows.
+For results that others should reproduce exactly, report the seed, `rand`, the number of cores, and the `silent` setting, and set `use_parallel` to a number rather than `TRUE`.
+
+## Memory
+
+Each worker is a separate R process that loads RRatepol and receives its own copy of the data for the runs it computes.
+Memory use therefore grows with the number of cores.
+For large records or many cores, check the memory available to the session (on an HPC cluster, the memory requested for the job) before increasing `use_parallel`.
+
+## Running RRatepol on an HPC cluster
+
+The cluster that `estimate_roc()` starts runs on one computer.
+On an HPC cluster, this means one node: request several cores on a single node for one job.
+The examples below use the SLURM scheduler; the directives differ for other schedulers, and the module names, partitions, and resource limits depend on the site.
+
+### One record on one node
+
+An R script `estimate_roc_record.R`:
+
+```{r hpc-single-script, eval=FALSE}
+library(RRatepol)
+
+base::set.seed(900723)
+
+data_roc <-
+  RRatepol::estimate_roc(
+    data_source_community =
+      purrr::chuck(example_data, "pollen_data", 1),
+    data_source_age =
+      purrr::chuck(example_data, "sample_age", 1),
+    age_uncertainty =
+      purrr::chuck(example_data, "age_uncertainty", 1),
+    smooth_method = "shep",
+    working_units = "MW",
+    bin_size = 500,
+    number_of_shifts = 5,
+    standardise = TRUE,
+    n_individuals = 150,
+    rand = 10000,
+    use_parallel = TRUE,
+    silent = TRUE
+  )
+
+base::saveRDS(
+  object = data_roc,
+  file = "roc_record_1.rds"
+)
+```
+
+A job script `estimate_roc_record.sh`, submitted with `sbatch estimate_roc_record.sh`:
+
+```{bash hpc-single-job, eval=FALSE}
+#!/bin/bash
+#SBATCH --job-name=rratepol
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=8G
+#SBATCH --time=02:00:00
+
+# Load R as provided on your cluster
+module load R
+
+Rscript estimate_roc_record.R
+```
+
+`--cpus-per-task` sets the number of cores of the job, and `use_parallel = TRUE` uses exactly these cores.
+Adjust the memory and time requests to your data and the rules of your cluster.
+
+### Many records with a job array
+
+For many records, it is usually more efficient to run one record per job on a single core and let the scheduler run many jobs at the same time.
+A job array starts the same script many times, each with a different task number.
+
+An R script `estimate_roc_array.R` that selects the record by the task number:
+
+```{r hpc-array-script, eval=FALSE}
+library(RRatepol)
+
+index_record <-
+  base::as.integer(base::Sys.getenv("SLURM_ARRAY_TASK_ID"))
+
+base::set.seed(900723)
+
+data_roc <-
+  RRatepol::estimate_roc(
+    data_source_community =
+      purrr::chuck(example_data, "pollen_data", index_record),
+    data_source_age =
+      purrr::chuck(example_data, "sample_age", index_record),
+    age_uncertainty =
+      purrr::chuck(example_data, "age_uncertainty", index_record),
+    smooth_method = "shep",
+    working_units = "MW",
+    bin_size = 500,
+    number_of_shifts = 5,
+    standardise = TRUE,
+    n_individuals = 150,
+    rand = 10000,
+    use_parallel = FALSE,
+    silent = TRUE
+  )
+
+base::saveRDS(
+  object = data_roc,
+  file = base::paste0("roc_record_", index_record, ".rds")
+)
+```
+
+A job script `estimate_roc_array.sh` with one task per record of `example_data`:
+
+```{bash hpc-array-job, eval=FALSE}
+#!/bin/bash
+#SBATCH --job-name=rratepol-array
+#SBATCH --array=1-4
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=2G
+#SBATCH --time=08:00:00
+
+module load R
+
+Rscript estimate_roc_array.R
+```
+
+With your own data, set `--array` to the number of records and read each record from a file in the R script.
+Each task uses the same seed; because the tasks process different records, the results do not depend on each other.
+If single jobs take too long, combine both approaches: a job array with a few cores per task and `use_parallel = TRUE`.
