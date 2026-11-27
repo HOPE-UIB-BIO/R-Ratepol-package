@@ -17,7 +17,11 @@ run_iteration(
 )
 }
 \arguments{
-\item{data_source_run}{\code{list} with \code{data} and \code{bins} prepared by \code{\link[=prepare_data]{prepare_data()}}.}
+\item{data_source_run}{\code{list} with \code{data} and \code{bins} prepared by \code{\link[=prepare_data]{prepare_data()}}, and
+optionally \code{rng_stream}, a random-number stream from
+\code{\link[=util_make_rng_streams]{util_make_rng_streams()}}. If \code{rng_stream} is present, it is set
+before any random draw, so the run gives the same result wherever it
+is computed. Without it, the run draws from the current generator.}
 
 \item{bin_selection}{\code{character}. Rule for selecting one level from each bin.
 \itemize{

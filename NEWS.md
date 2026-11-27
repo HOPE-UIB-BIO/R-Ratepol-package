@@ -11,7 +11,8 @@
 
 ## Reproducible parallel results
 
-- `estimate_roc()`: worker random-number streams are now seeded from the main session, so `set.seed()` before `estimate_roc()` makes parallel results reproducible for the same number of cores (#118). Parallel results differ from a single-core run with the same seed. Calls with `use_parallel` above 1 that previously ran on a single core therefore give different randomisation results than before. Single-core results (`use_parallel = FALSE` or `1`) are unchanged.
+- `estimate_roc()`: each randomisation run now has its own random-number stream, created from the main session's generator (#126). `set.seed()` before `estimate_roc()` therefore gives identical results for any value of `use_parallel` (single core or any number of cores) and of `silent`. Previously, parallel workers were not seeded, so parallel results could not be reproduced at all.
+- **Randomised results change.** For the same seed, every call that uses randomisation (`rand`, `bin_selection = "random"`, or `standardise = TRUE`) gives different values than in RRatepol 1.3.0, also on a single core. The age sequences drawn from `age_uncertainty` are unchanged; the random draws inside each run (bin selection and rarefaction to `n_individuals`) differ. The differences are those between two sets of randomisation runs: summaries move within their randomisation variability, not systematically. To reproduce results of an earlier version, install that version (for example `remotes::install_version("RRatepol", "1.3.0")`).
 
 # RRatepol 1.3.0
 
