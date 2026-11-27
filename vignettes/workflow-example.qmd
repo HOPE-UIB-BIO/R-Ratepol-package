@@ -252,7 +252,8 @@ Here we use the the prepared data to estimate the rate of vegetation change.
 We will be using the *Chi-squared coefficient* as the dissimilarity coefficient (works best for pollen data, `dissimilarity_coefficient` = `"chisq"`), and `time_standardisation` == 500 (this means that all ROC values are 'change per 500 yr').
 We will add smoothing of the pollen data using `smooth_method` = `"shep"` (i.e. *Shepard's 5-term filter*).
 Finally, we will use the method of the "*binning with the mowing window*" (`working_units` = `"MW"`).
-This is again a toy example for a quick computation and we would recommend increasing the *set_randomisations* to 10.000 for any real estimation. 
+This is again a toy example for a quick computation and we would recommend increasing the *set_randomisations* to 10.000 for any real estimation.
+With many randomisations, `use_parallel` spreads the runs over several cores; see [Parallel computation and HPC](parallel-computation.html).
 
 ```{r roc, results='hide', warning=FALSE, message=FALSE}
 set_randomisations <- 100 # increase to 10e3

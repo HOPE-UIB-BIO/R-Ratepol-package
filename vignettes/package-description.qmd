@@ -80,7 +80,7 @@ Assemblage data are converted to proportions before dissimilarity is computed by
 
 ## Randomisation
 
-Because both age estimates and assemblage counts carry statistical uncertainty, `estimate_roc()` can be run many times (`rand`) and results summarised across runs (Birks & Gordon, 1985). Two sources of uncertainty can be propagated independently or together.
+Because both age estimates and assemblage counts carry statistical uncertainty, `estimate_roc()` can be run many times (`rand`) and results summarised across runs (Birks & Gordon, 1985). Two sources of uncertainty can be propagated independently or together. The runs can be spread over several cores with `use_parallel`; see [Parallel computation and HPC](parallel-computation.html).
 
 ### Age-model uncertainty
 

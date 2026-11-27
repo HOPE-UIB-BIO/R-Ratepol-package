@@ -148,7 +148,7 @@ RRatepol::plot_roc(
 #### Example 2
 
 Now try to standardise pollen data in each sample to a maximum of 150 pollen grains and use age uncertainties from *age-depth model*.
-Process will be repeated 1000 times on multiple cores using parallel computation.
+Process will be repeated 1000 times on multiple cores using parallel computation (see [Parallel computation and HPC](https://hope-uib-bio.github.io/R-Ratepol-package/articles/parallel-computation.html) for when and how to use `use_parallel`).
 This will produce error *wrapper* showing 95th percent quantile.
 
 ```{r sequence 2, results=FALSE, warning=FALSE}

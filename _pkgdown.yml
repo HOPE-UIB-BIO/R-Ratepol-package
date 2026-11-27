@@ -30,6 +30,7 @@ articles:
   contents:
   - package-description
   - workflow-example
+  - parallel-computation
 
 search:
   exclude:

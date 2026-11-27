@@ -18,7 +18,9 @@
 ^Meta$
 ^vignettes/package-description\.qmd$
 ^vignettes/workflow-example\.qmd$
+^vignettes/parallel-computation\.qmd$
 ^vignettes/.*_files$
+^vignettes/.*_cache$
 ^vignettes/\.quarto$
 ^tools$
 ^\.ai$
