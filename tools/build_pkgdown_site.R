@@ -49,10 +49,16 @@ build_pkgdown_site <- function() {
       full.names = FALSE
     )
 
+  # pkgdown also renders root-level Markdown files; the agent instructions
+  #    are not pages of the site.
   vec_drop_pages <-
-    setdiff(
-      tools::file_path_sans_ext(vec_github_md),
-      vec_keep_github_pages
+    c(
+      setdiff(
+        tools::file_path_sans_ext(vec_github_md),
+        vec_keep_github_pages
+      ),
+      "AGENTS",
+      "CLAUDE"
     )
 
   if (length(vec_drop_pages) > 0L) {
