@@ -117,7 +117,11 @@ skip randomisation and use a single deterministic run.}
 \item{use_parallel}{Controls parallel computation of randomisation runs.
 \itemize{
 \item \code{FALSE} (default) - single core only.
-\item \code{TRUE} - number of cores detected automatically.
+\item \code{TRUE} - all cores available to the R session, as reported by
+\code{\link[parallelly:availableCores]{parallelly::availableCores()}}. This respects the cores allocated to a
+job by an HPC scheduler (for example SLURM), container limits, and the
+option \code{mc.cores}. If only one core is available, runs on a single
+core.
 \item A positive \code{numeric} - use that many cores. \code{1} is the same as
 \code{FALSE}.
 }

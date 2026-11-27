@@ -702,3 +702,71 @@ testthat::test_that(
     )
   }
 )
+
+# ================================================================ #
+# 6. Session settings                                              #
+# ================================================================ #
+
+testthat::test_that(
+  "estimate_roc() keeps the user's progress-bar setting",
+  {
+    list_pb_before <-
+      pbapply::pboptions(type = "txt")
+
+    res <-
+      estimate_roc(
+        data_source_community =
+          purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+        data_source_age =
+          purrr::chuck(RRatepol::example_data, "sample_age", 1),
+        smooth_method = "none",
+        working_units = "levels",
+        rand = NULL,
+        use_parallel = FALSE,
+        silent = TRUE
+      )
+
+    type_after <-
+      purrr::chuck(pbapply::pboptions(), "type")
+
+    pbapply::pboptions(list_pb_before)
+
+    testthat::expect_identical(type_after, "txt")
+  }
+)
+
+testthat::test_that(
+  "estimate_roc() restores the progress-bar setting after an error",
+  {
+    testthat::local_mocked_bindings(
+      run_iteration = function(...) {
+        base::stop("mocked run failure")
+      }
+    )
+
+    list_pb_before <-
+      pbapply::pboptions(type = "txt")
+
+    testthat::expect_error(
+      estimate_roc(
+        data_source_community =
+          purrr::chuck(RRatepol::example_data, "pollen_data", 1),
+        data_source_age =
+          purrr::chuck(RRatepol::example_data, "sample_age", 1),
+        smooth_method = "none",
+        working_units = "levels",
+        rand = NULL,
+        use_parallel = FALSE,
+        silent = TRUE
+      ),
+      "mocked run failure"
+    )
+
+    type_after <-
+      purrr::chuck(pbapply::pboptions(), "type")
+
+    pbapply::pboptions(list_pb_before)
+
+    testthat::expect_identical(type_after, "txt")
+  }
+)

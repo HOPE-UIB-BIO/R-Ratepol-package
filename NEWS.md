@@ -3,6 +3,11 @@
 ## Bug fixes
 
 - `estimate_roc()`: a numeric `use_parallel` (for example `use_parallel = 4`) now runs on that many cores; previously it silently ran on a single core (#118). Parallel workers no longer load `tidyverse`, which is not a dependency, so parallel runs no longer fail where it is not installed. Negative `use_parallel` values now give an informative error, and the cluster is stopped also when an iteration fails.
+- `estimate_roc()` no longer changes the progress-bar settings of `pbapply` for the rest of the session. Previously it set them to a timer after every call and, with `silent = TRUE`, left progress bars switched off when a run failed. The user's settings are now restored after every call (#121).
+
+## Counting available cores
+
+- `estimate_roc()`: `use_parallel = TRUE` now uses the cores available to the R session, as reported by `parallelly::availableCores()`, instead of all cores of the machine from `parallel::detectCores()` (#121). On an HPC node, in a container, or with the option `mc.cores` set, it no longer starts more workers than the job is allowed to use, and it no longer fails where the number of cores cannot be detected. With a single available core it runs without a cluster. Because parallel results depend on the number of workers, seeded results with `use_parallel = TRUE` on such machines can differ from earlier versions. `parallelly` is a new dependency.
 
 ## Reproducible parallel results
 

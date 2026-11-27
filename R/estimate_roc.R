@@ -92,7 +92,11 @@
 #' Controls parallel computation of randomisation runs.
 #' \itemize{
 #' \item `FALSE` (default) - single core only.
-#' \item `TRUE` - number of cores detected automatically.
+#' \item `TRUE` - all cores available to the R session, as reported by
+#' [parallelly::availableCores()]. This respects the cores allocated to a
+#' job by an HPC scheduler (for example SLURM), container limits, and the
+#' option `mc.cores`. If only one core is available, runs on a single
+#' core.
 #' \item A positive `numeric` - use that many cores. `1` is the same as
 #' `FALSE`.
 #' }
@@ -630,12 +634,16 @@ estimate_roc <- function(
     cl <- NULL
   }
 
-  pbapply::pboptions(type = "timer")
+  # Restore the user's progress-bar settings also when an iteration errors
+  pbapply_setting <-
+    pbapply::pboptions(
+      type = base::ifelse(isTRUE(silent), "none", "timer")
+    )
 
-  if (isTRUE(silent)) {
-    pbapply_setting <-
-      pbapply::pboptions(type = "none")
-  }
+  on.exit(
+    pbapply::pboptions(pbapply_setting),
+    add = TRUE
+  )
 
   # run the estimation with progress bar
   result_list <-
@@ -652,10 +660,6 @@ estimate_roc <- function(
       verbose = verbose,
       silent = silent
     )
-
-  if (isTRUE(silent)) {
-    pbapply::pboptions(pbapply_setting)
-  }
 
   gc(verbose = FALSE)
 

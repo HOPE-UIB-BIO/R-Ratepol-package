@@ -24,6 +24,7 @@ Imports:
     methods,
     mgcv,
     parallel,
+    parallelly,
     pbapply,
     purrr,
     rlang,
@@ -67,4 +68,4 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.1.1
