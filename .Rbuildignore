@@ -21,3 +21,6 @@
 ^vignettes/.*_files$
 ^vignettes/\.quarto$
 ^tools$
+^\.ai$
+^AGENTS\.md$
+^CLAUDE\.md$
