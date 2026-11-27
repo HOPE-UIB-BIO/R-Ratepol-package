@@ -24,6 +24,7 @@ Imports:
     methods,
     mgcv,
     parallel,
+    parallelly,
     pbapply,
     purrr,
     rlang,
