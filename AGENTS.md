@@ -34,6 +34,7 @@ Run from the package root in a fresh R session (for example `Rscript -e "devtool
 | Regenerate `man/` and `NAMESPACE` | `devtools::document()` |
 | Run one test file | `devtools::load_all()`, then `testthat::test_file("tests/testthat/test-<function_name>.R")` |
 | Run the full test suite | `devtools::test()` |
+| Run the opt-in parallel timing test (about 25 s) | `Sys.setenv(RRATEPOL_TEST_TIMING = "true")`, then `testthat::test_file("tests/testthat/test-estimate_roc.R")` |
 | Run R CMD check | `devtools::check()` |
 | Render the README | `quarto render README.qmd` |
 | Build the website into `docs/` | `Rscript tools/build_pkgdown_site.R` |
