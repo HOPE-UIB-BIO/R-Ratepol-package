@@ -15,7 +15,7 @@ Before suggesting, writing, or reviewing a commit message, read `.ai/commit-mess
 - `master` holds released work.
 - Work for the next release collects on a version branch named after the version (for example `1.3.0`).
 - Branch features and fixes from the active version branch, never from another feature branch. Name branches after the problem (`add_chi2_method`, `issue60`).
-- Feature branches return to the version branch through a pull request, squash-merged. When the release is ready, the version branch is merged into `master`.
+- Feature branches return to the version branch through a pull request, squash-merged. When the release is ready, the version branch is merged into `master`, then tagged `v<version>` and published as a GitHub release.
 - Delete merged branches only when the user asks.
 
 ## Releases
